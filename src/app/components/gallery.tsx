@@ -1,15 +1,27 @@
 // Provide module declarations for PNG imports to satisfy TypeScript
+// @ts-ignore - wildcard module declaration for PNG imports
 declare module "*.png" { const value: string; export default value }
 
 import React from "react";
 import svgPaths from "../../imports/Frame28-1/svg-507rsgd0a0";
 import Nav from "../../imports/Nav/index";
-import imgImage14 from "../../imports/Frame28-1/13080b4795fd0ccbe725b61298f65577a198e84f.png";
-import imgImage18 from "../../imports/Frame28-1/b6cb69d93159764d9138d35c046c9a5205c45338.png";
-import imgImage15 from "../../imports/Frame28-1/4220d400525c50945c5ca0ef50b76d513a3cec9d.png";
 // The build may not always include every image file. Attempt to require the
 // image at runtime and fall back to an empty string if it's missing so TypeScript
 // and the bundler won't fail the build.
+let imgImage14: string = "";
+try {
+  // @ts-ignore - allow dynamic require; file may be absent in some environments
+  imgImage14 = require("../../imports/Frame28-1/13080b4795fd0ccbe725b61298f65577a198e84f.png");
+} catch (e) {
+  imgImage14 = "";
+}
+let imgImage15: string = "";
+try {
+  // @ts-ignore - allow dynamic require; file may be absent in some environments
+  imgImage15 = require("../../imports/Frame28-1/4220d400525c50945c5ca0ef50b76d513a3cec9d.png");
+} catch (e) {
+  imgImage15 = "";
+}
 let imgImage16: string = "";
 try {
   // @ts-ignore - allow dynamic require; file may be absent in some environments
@@ -17,7 +29,20 @@ try {
 } catch (e) {
   imgImage16 = "";
 }
-import imgImage17 from "../../imports/Frame28-1/f2e30c0a264a39aae9ecc96a919006cbd7df2106.png";
+let imgImage18: string = "";
+try {
+  // @ts-ignore - allow dynamic require; file may be absent in some environments
+  imgImage18 = require("../../imports/Frame28-1/b6cb69d93159764d9138d35c046c9a5205c45338.png");
+} catch (e) {
+  imgImage18 = "";
+}
+let imgImage17: string = "";
+try {
+  // @ts-ignore - allow dynamic require; file may be absent in some environments
+  imgImage17 = require("../../imports/Frame28-1/f2e30c0a264a39aae9ecc96a919006cbd7df2106.png");
+} catch (e) {
+  imgImage17 = "";
+}
 
 interface SvgPaths {
   [key: string]: string;
@@ -327,4 +352,32 @@ export function GalleryPage({ onBack }: GalleryPageProps): ReactElement {
       position: "relative",
     }}>
       <div style={{
-        opacity: fade
+        opacity: fadeIn ? 1 : 0,
+        transform: fadeIn ? "scale(1)" : "scale(0.98)",
+        transition: "opacity 0.9s cubic-bezier(0.4, 0, 0.2, 1) 0.1s, transform 0.9s cubic-bezier(0.4, 0, 0.2, 1) 0.1s",
+      }}>
+        <div style={{ width: "100%", height: DESIGN_HEIGHT * scale, overflow: "hidden" }}>
+          <div style={{
+            width: DESIGN_WIDTH, height: DESIGN_HEIGHT,
+            transform: `scale(${scale})`, transformOrigin: "top left",
+          }}>
+            <GalleryCanvas />
+          </div>
+        </div>
+      </div>
+
+      {/* Live interactive nav */}
+      <div style={{
+        position: "fixed", top: 0, left: 0, width: "100%",
+        height: NAV_H * scale, zIndex: 100, overflow: "visible",
+      }}>
+        <div style={{
+          width: DESIGN_WIDTH, height: NAV_H,
+          transform: `scale(${scale})`, transformOrigin: "top left",
+        }}>
+          <Nav />
+        </div>
+      </div>
+    </div>
+  );
+}
