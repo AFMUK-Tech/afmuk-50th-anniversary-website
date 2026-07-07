@@ -37,7 +37,7 @@ export function Fireworks({
 }) {
   const canvasRef    = useRef<HTMLCanvasElement>(null);
   const activeRef    = useRef(active);
-  const rafRef       = useRef<number>();
+  const rafRef       = useRef<number | undefined>(undefined);
   const rocketsRef   = useRef<Rocket[]>([]);
   const lastLaunch   = useRef(0);
   const pendingExtra = useRef<number | null>(null);
