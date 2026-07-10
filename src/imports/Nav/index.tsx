@@ -87,7 +87,9 @@ export default function Nav() {
 
               {/* Departement */}
               <div className="content-stretch flex gap-[8px] items-center cursor-pointer hover:opacity-60 transition-opacity">
-                <p className="font-['Inter:Regular',sans-serif] font-normal leading-[18.144px] not-italic text-[#38362d] text-[15.778px] tracking-[-0.2367px] whitespace-nowrap">Departement</p>
+                <p className="font-['Inter:Regular',sans-serif] font-normal leading-[18.144px] not-italic text-[#38362d] text-[15.778px] tracking-[-0.2367px] whitespace-nowrap cursor-pointer hover:opacity-60 transition-opacity" onClick={() => {
+                window.location.hash = "#department";
+              }}>Department</p>
                 <div className="flex items-center justify-center size-[24px]">
                   <div className="-rotate-90 flex-none size-[24px]">
                     <svg className="block size-full" fill="none" viewBox="0 0 24 24">

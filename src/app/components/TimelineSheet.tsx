@@ -3,14 +3,15 @@ import { TimelineSection, TIMELINE_DATA } from "./sections";
 
 const TIMELINE_VIS_H = 782;
 const TIMELINE_STEPS = TIMELINE_DATA.length;
+const MIN_SCALE = 0.26;
 
 export function TimelineSheet() {
   const [open, setOpen] = useState(window.location.hash === "#timeline");
   const [activeIdx, setActiveIdx] = useState(0);
   const [vw, setVw] = useState(window.innerWidth);
 
-  const scale = Math.min(vw / 1440, 1);
-  const sheetH = TIMELINE_VIS_H * scale + 60; // +60 for controls
+  const scale = Math.max(Math.min(vw / 1440, 1), MIN_SCALE);
+  const sheetH = TIMELINE_VIS_H * scale + 76; // +76 for controls + safe-area
 
   // Listen for hash changes to open/close
   useEffect(() => {
@@ -30,20 +31,28 @@ export function TimelineSheet() {
   useEffect(() => {
     const update = () => setVw(window.innerWidth);
     window.addEventListener("resize", update);
-    return () => window.removeEventListener("resize", update);
+    window.addEventListener("orientationchange", update);
+    return () => {
+      window.removeEventListener("resize", update);
+      window.removeEventListener("orientationchange", update);
+    };
   }, []);
 
   // Escape key to close
   useEffect(() => {
     if (!open) return;
-    const handler = (e: KeyboardEvent) => { if (e.key === "Escape") close(); };
+    const handler = (e: KeyboardEvent) => { 
+      if (e.key === "Escape") close(); 
+    };
     document.addEventListener("keydown", handler);
     return () => document.removeEventListener("keydown", handler);
   }, [open]);
 
   const close = () => {
+    // Only remove the hash if it's the timeline hash, but don't navigate away
     if (window.location.hash === "#timeline") {
-      window.location.hash = "";
+      // Use replaceState to remove hash without triggering navigation
+      window.history.replaceState(null, '', window.location.pathname + window.location.search);
     }
     setOpen(false);
   };
@@ -52,6 +61,8 @@ export function TimelineSheet() {
 
   const prev = () => setActiveIdx(i => Math.max(0, i - 1));
   const next = () => setActiveIdx(i => Math.min(TIMELINE_STEPS - 1, i + 1));
+
+  const isNarrow = vw < 420;
 
   return (
     <>
@@ -74,11 +85,13 @@ export function TimelineSheet() {
       <div style={{
         position: "fixed", bottom: 0, left: 0, right: 0,
         height: sheetH,
+        maxHeight: "92vh",
         zIndex: 1001,
         background: "#0f1421",
         borderRadius: "20px 20px 0 0",
         boxShadow: "0 -8px 48px rgba(0,0,0,0.4)",
         overflow: "hidden",
+        paddingBottom: "env(safe-area-inset-bottom)",
         animation: "tlSlideUp 0.38s cubic-bezier(0.32,0.72,0,1)",
       }}>
 
@@ -89,7 +102,7 @@ export function TimelineSheet() {
           background: "rgba(255,255,255,0.25)", zIndex: 10,
         }} />
 
-        {/* Close button */}
+        {/* Close button - now just closes without navigation */}
         <button
           onClick={close}
           style={{
@@ -98,8 +111,22 @@ export function TimelineSheet() {
             borderRadius: "50%", width: 36, height: 36,
             display: "flex", alignItems: "center", justifyContent: "center",
             cursor: "pointer", color: "#fff", fontSize: 16, lineHeight: 1,
+            transition: "all 0.2s ease",
           }}
-        >✕</button>
+          onMouseEnter={(e) => {
+            e.currentTarget.style.background = "rgba(255,255,255,0.2)";
+            e.currentTarget.style.transform = "scale(1.05)";
+          }}
+          onMouseLeave={(e) => {
+            e.currentTarget.style.background = "rgba(255,255,255,0.1)";
+            e.currentTarget.style.transform = "scale(1)";
+          }}
+        >
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round">
+            <line x1="18" y1="6" x2="6" y2="18" />
+            <line x1="6" y1="6" x2="18" y2="18" />
+          </svg>
+        </button>
 
         {/* Timeline canvas */}
         <div style={{
@@ -114,9 +141,9 @@ export function TimelineSheet() {
 
         {/* Prev / Next controls */}
         <div style={{
-          position: "absolute", bottom: 16, left: "50%",
+          position: "absolute", bottom: "max(16px, env(safe-area-inset-bottom))", left: "50%",
           transform: "translateX(-50%)",
-          display: "flex", gap: 16, alignItems: "center",
+          display: "flex", gap: isNarrow ? 10 : 16, alignItems: "center",
           zIndex: 10,
         }}>
           <button
@@ -124,11 +151,21 @@ export function TimelineSheet() {
             style={{
               background: "rgba(255,255,255,0.1)",
               border: "1px solid rgba(255,255,255,0.25)",
-              borderRadius: 8, padding: "8px 24px", color: "#fff",
-              fontFamily: "'Inter', sans-serif", fontSize: 14,
+              borderRadius: 8, padding: isNarrow ? "8px 14px" : "8px 24px", color: "#fff",
+              fontFamily: "'Inter', sans-serif", fontSize: isNarrow ? 12 : 14,
               cursor: activeIdx === 0 ? "default" : "pointer",
               opacity: activeIdx === 0 ? 0.4 : 1,
-              transition: "opacity 0.2s",
+              transition: "all 0.2s ease",
+            }}
+            onMouseEnter={(e) => {
+              if (activeIdx !== 0) {
+                e.currentTarget.style.background = "rgba(255,255,255,0.2)";
+                e.currentTarget.style.transform = "scale(1.02)";
+              }
+            }}
+            onMouseLeave={(e) => {
+              e.currentTarget.style.background = "rgba(255,255,255,0.1)";
+              e.currentTarget.style.transform = "scale(1)";
             }}
           >← Prev</button>
 
@@ -145,11 +182,21 @@ export function TimelineSheet() {
             style={{
               background: "rgba(255,255,255,0.1)",
               border: "1px solid rgba(255,255,255,0.25)",
-              borderRadius: 8, padding: "8px 24px", color: "#fff",
-              fontFamily: "'Inter', sans-serif", fontSize: 14,
+              borderRadius: 8, padding: isNarrow ? "8px 14px" : "8px 24px", color: "#fff",
+              fontFamily: "'Inter', sans-serif", fontSize: isNarrow ? 12 : 14,
               cursor: activeIdx === TIMELINE_STEPS - 1 ? "default" : "pointer",
               opacity: activeIdx === TIMELINE_STEPS - 1 ? 0.4 : 1,
-              transition: "opacity 0.2s",
+              transition: "all 0.2s ease",
+            }}
+            onMouseEnter={(e) => {
+              if (activeIdx !== TIMELINE_STEPS - 1) {
+                e.currentTarget.style.background = "rgba(255,255,255,0.2)";
+                e.currentTarget.style.transform = "scale(1.02)";
+              }
+            }}
+            onMouseLeave={(e) => {
+              e.currentTarget.style.background = "rgba(255,255,255,0.1)";
+              e.currentTarget.style.transform = "scale(1)";
             }}
           >Next →</button>
         </div>

@@ -11,16 +11,34 @@ const DESIGN_WIDTH  = 1440;
 const DESIGN_HEIGHT = 1920;
 const NAV_H = 80;
 
-function ScaledBranchPage({ children, onBack }: { children: React.ReactNode; onBack: () => void }) {
-  const [scale, setScale] = useState(window.innerWidth / DESIGN_WIDTH);
-  const [fadeIn, setFadeIn] = useState(false);
+// Keep the scaled canvas from blowing up on ultra-wide monitors and from
+// shrinking into unreadable text on very narrow phones.
+const MIN_SCALE = 0.32;
+const MAX_SCALE = 1.15;
+
+function useClampedScale() {
+  const [scale, setScale] = useState(() =>
+    Math.min(Math.max(window.innerWidth / DESIGN_WIDTH, MIN_SCALE), MAX_SCALE)
+  );
 
   useEffect(() => {
-    const update = () => setScale(window.innerWidth / DESIGN_WIDTH);
+    const update = () =>
+      setScale(Math.min(Math.max(window.innerWidth / DESIGN_WIDTH, MIN_SCALE), MAX_SCALE));
     update();
     window.addEventListener("resize", update);
-    return () => window.removeEventListener("resize", update);
+    window.addEventListener("orientationchange", update);
+    return () => {
+      window.removeEventListener("resize", update);
+      window.removeEventListener("orientationchange", update);
+    };
   }, []);
+
+  return scale;
+}
+
+function ScaledBranchPage({ children, onBack }: { children: React.ReactNode; onBack: () => void }) {
+  const scale = useClampedScale();
+  const [fadeIn, setFadeIn] = useState(false);
 
   useEffect(() => {
     // Trigger fade-in animation
@@ -30,10 +48,10 @@ function ScaledBranchPage({ children, onBack }: { children: React.ReactNode; onB
   }, []);
 
   return (
-    <div style={{ 
-      width: "100%", 
-      minHeight: "100vh", 
-      background: "#f4f1ea", 
+    <div style={{
+      width: "100%",
+      minHeight: "100vh",
+      background: "#f4f1ea",
       position: "relative",
     }}>
       <div style={{
@@ -45,8 +63,8 @@ function ScaledBranchPage({ children, onBack }: { children: React.ReactNode; onB
           onClick={onBack}
           style={{
             position: "fixed",
-            top: 16,
-            right: 24,
+            top: "max(16px, env(safe-area-inset-top))",
+            right: "max(16px, env(safe-area-inset-right))",
             zIndex: 300,
             background: "#192441",
             color: "#fff",
@@ -61,16 +79,26 @@ function ScaledBranchPage({ children, onBack }: { children: React.ReactNode; onB
         >
           ← Back
         </button>
-        <div style={{ width: "100%", height: DESIGN_HEIGHT * scale, overflow: "hidden" }}>
-          <div
-            style={{
-              width: DESIGN_WIDTH,
-              height: DESIGN_HEIGHT,
-              transform: `scale(${scale})`,
-              transformOrigin: "top left",
-            }}
-          >
-            {children}
+        {/* Center the scaled canvas horizontally so extra width on wide
+            viewports (once MAX_SCALE caps the design) doesn't leave the
+            page lopsided. */}
+        <div style={{
+          width: "100%",
+          display: "flex",
+          justifyContent: "center",
+          overflowX: "hidden",
+        }}>
+          <div style={{ width: DESIGN_WIDTH * scale, height: DESIGN_HEIGHT * scale, overflow: "hidden" }}>
+            <div
+              style={{
+                width: DESIGN_WIDTH,
+                height: DESIGN_HEIGHT,
+                transform: `scale(${scale})`,
+                transformOrigin: "top left",
+              }}
+            >
+              {children}
+            </div>
           </div>
         </div>
       </div>
@@ -79,10 +107,11 @@ function ScaledBranchPage({ children, onBack }: { children: React.ReactNode; onB
       <div style={{
         position: "fixed", top: 0, left: 0, width: "100%",
         height: NAV_H * scale, zIndex: 100, overflow: "visible",
+        display: "flex", justifyContent: "center",
       }}>
         <div style={{
           width: DESIGN_WIDTH, height: NAV_H,
-          transform: `scale(${scale})`, transformOrigin: "top left",
+          transform: `scale(${scale})`, transformOrigin: "top center",
         }}>
           <Nav />
         </div>
@@ -115,7 +144,10 @@ function PlaceholderBranchPage({ city, onBack }: { city: string; onBack: () => v
         <button
           onClick={onBack}
           style={{
-            position: "fixed", top: 16, right: 24, zIndex: 300,
+            position: "fixed",
+            top: "max(16px, env(safe-area-inset-top))",
+            right: "max(16px, env(safe-area-inset-right))",
+            zIndex: 300,
             background: "#192441", color: "#fff", border: "none", borderRadius: 6,
             padding: "8px 18px", fontSize: 13, cursor: "pointer", letterSpacing: "0.04em",
           }}
@@ -123,10 +155,10 @@ function PlaceholderBranchPage({ city, onBack }: { city: string; onBack: () => v
           ← Back
         </button>
         <div style={{ textAlign: "center", maxWidth: 560, padding: "0 24px" }}>
-          <p style={{ fontSize: 12, letterSpacing: "0.18em", textTransform: "uppercase", color: "#8b7f6a", marginBottom: 16 }}>
+          <p style={{ fontSize: "clamp(11px, 2.2vw, 12px)", letterSpacing: "0.18em", textTransform: "uppercase", color: "#8b7f6a", marginBottom: 16 }}>
             AFM UK — Branch
           </p>
-          <h1 style={{ fontFamily: "'CRONDE', serif", fontSize: "clamp(48px, 8vw, 96px)", color: "#192441", lineHeight: 1, marginBottom: 48 }}>
+          <h1 style={{ fontFamily: "'CRONDE', serif", fontSize: "clamp(40px, 8vw, 96px)", color: "#192441", lineHeight: 1, marginBottom: 48 }}>
             {city}
           </h1>
           <p style={{ fontSize: 14, color: "#aaa", fontStyle: "italic" }}>Full branch page coming soon.</p>
