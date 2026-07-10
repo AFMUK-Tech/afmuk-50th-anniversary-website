@@ -1,48 +1,16 @@
 // Provide module declarations for PNG imports to satisfy TypeScript
-// @ts-ignore - wildcard module declaration for PNG imports
 declare module "*.png" { const value: string; export default value }
 
 import React from "react";
 import svgPaths from "../../imports/Frame28-1/svg-507rsgd0a0";
 import Nav from "../../imports/Nav/index";
-// The build may not always include every image file. Attempt to require the
-// image at runtime and fall back to an empty string if it's missing so TypeScript
-// and the bundler won't fail the build.
-let imgImage14: string = "";
-try {
-  // @ts-ignore - allow dynamic require; file may be absent in some environments
-  imgImage14 = require("../../imports/Frame28-1/13080b4795fd0ccbe725b61298f65577a198e84f.png");
-} catch (e) {
-  imgImage14 = "";
-}
-let imgImage15: string = "";
-try {
-  // @ts-ignore - allow dynamic require; file may be absent in some environments
-  imgImage15 = require("../../imports/Frame28-1/4220d400525c50945c5ca0ef50b76d513a3cec9d.png");
-} catch (e) {
-  imgImage15 = "";
-}
-let imgImage16: string = "";
-try {
-  // @ts-ignore - allow dynamic require; file may be absent in some environments
-  imgImage16 = require("../../imports/Frame28-1/f5b7af79a4a605ff9cc0d053e532afee9d16cbd7.png");
-} catch (e) {
-  imgImage16 = "";
-}
-let imgImage18: string = "";
-try {
-  // @ts-ignore - allow dynamic require; file may be absent in some environments
-  imgImage18 = require("../../imports/Frame28-1/b6cb69d93159764d9138d35c046c9a5205c45338.png");
-} catch (e) {
-  imgImage18 = "";
-}
-let imgImage17: string = "";
-try {
-  // @ts-ignore - allow dynamic require; file may be absent in some environments
-  imgImage17 = require("../../imports/Frame28-1/f2e30c0a264a39aae9ecc96a919006cbd7df2106.png");
-} catch (e) {
-  imgImage17 = "";
-}
+
+// Static imports
+import image14 from "../../imports/Frame28-1/13080b4795fd0ccbe725b61298f65577a198e84f.png";
+import image15 from "../../imports/Frame28-1/4220d400525c50945c5ca0ef50b76d513a3cec9d.png";
+import image16 from "../../imports/Frame28-1/f5b7af79a4a605ff9cc0d053e532afee9d16cbd7.png";
+import image17 from "../../imports/Frame28-1/f2e30c0a264a39aae9ecc96a919006cbd7df2106.png";
+import image18 from "../../imports/Frame28-1/b6cb69d93159764d9138d35c046c9a5205c45338.png";
 
 interface SvgPaths {
   [key: string]: string;
@@ -52,13 +20,10 @@ const _svgPaths = svgPaths as unknown as SvgPaths;
 
 import type { ReactElement } from "react";
 
-
-const DESIGN_WIDTH  = 1440;
+const DESIGN_WIDTH = 1440;
 const DESIGN_HEIGHT = 1000;
 const NAV_H = 80;
 
-// Each slide: which image goes in each of the 5 card slots
-// Slots: center (straight), topRight (+20°), left (-30°), centerLeft (-20°), right (+30°)
 interface Slide {
   label: string;
   center: string;
@@ -69,14 +34,13 @@ interface Slide {
 }
 
 const SLIDES: Slide[] = [
-  { label: "Wales Camp Meeting 2019",   center: imgImage17, topRight: imgImage14, left: imgImage18, centerLeft: imgImage15, right: imgImage16 },
-  { label: "Golden Jubilee 2023",        center: imgImage14, topRight: imgImage16, left: imgImage15, centerLeft: imgImage17, right: imgImage18 },
-  { label: "Annual Convention 2018",     center: imgImage15, topRight: imgImage18, left: imgImage17, centerLeft: imgImage16, right: imgImage14 },
-  { label: "Camp Meeting Memories",      center: imgImage16, topRight: imgImage15, left: imgImage14, centerLeft: imgImage18, right: imgImage17 },
-  { label: "AFM UK Gathering 2020",      center: imgImage18, topRight: imgImage17, left: imgImage16, centerLeft: imgImage14, right: imgImage15 },
+  { label: "Wales Camp Meeting 2019", center: image17, topRight: image14, left: image18, centerLeft: image15, right: image16 },
+  { label: "Golden Jubilee 2023", center: image14, topRight: image16, left: image15, centerLeft: image17, right: image18 },
+  { label: "Annual Convention 2018", center: image15, topRight: image18, left: image17, centerLeft: image16, right: image14 },
+  { label: "Camp Meeting Memories", center: image16, topRight: image15, left: image14, centerLeft: image18, right: image17 },
+  { label: "AFM UK Gathering 2020", center: image18, topRight: image17, left: image16, centerLeft: image14, right: image15 },
 ];
 
-// Polaroid card image slot — the inner image container from Figma
 interface CardImgProps {
   src: string;
   isCenter: boolean;
@@ -86,10 +50,12 @@ function CardImg({ src, isCenter }: CardImgProps): ReactElement {
   return (
     <img
       src={src}
-      alt=""
+      alt="Gallery image"
       style={{
-        position: "absolute", inset: 0,
-        width: "100%", height: "100%",
+        position: "absolute",
+        inset: 0,
+        width: "100%",
+        height: "100%",
         objectFit: "cover",
         pointerEvents: "none",
         filter: isCenter ? "none" : "grayscale(100%)",
@@ -114,42 +80,55 @@ function GalleryCanvas(): ReactElement {
       <div className="absolute inset-[0_6.81%_3.06%_6.81%]">
         <svg className="absolute block inset-0 size-full" fill="none" preserveAspectRatio="none" viewBox="0 0 1244 947.143">
           <g opacity="0.2">
-            <path d={svgPaths.p37e8bf00} fill="#949494" />
-            <path d={svgPaths.p393c3f00} fill="#949494" />
-            <path d={svgPaths.p23e19200} fill="#949494" />
-            <path d={svgPaths.p14e19df0} fill="#949494" />
-            <path d={svgPaths.pc527900}  fill="#949494" />
-            <path d={svgPaths.p225f3400} fill="#949494" />
-            <path d={svgPaths.p14b90000} fill="#949494" />
-            <path d={svgPaths.p39cbce70} fill="#949494" />
-            <path d={svgPaths.p3dca9000} fill="#949494" />
-            <path d={svgPaths.p329cd300} fill="#949494" />
-            <path d={svgPaths.p25ff8f0}  fill="#949494" />
-            <path d={svgPaths.p31b0d680} fill="#949494" />
+            <path d={_svgPaths.p37e8bf00} fill="#949494" />
+            <path d={_svgPaths.p393c3f00} fill="#949494" />
+            <path d={_svgPaths.p23e19200} fill="#949494" />
+            <path d={_svgPaths.p14e19df0} fill="#949494" />
+            <path d={_svgPaths.pc527900} fill="#949494" />
+            <path d={_svgPaths.p225f3400} fill="#949494" />
+            <path d={_svgPaths.p14b90000} fill="#949494" />
+            <path d={_svgPaths.p39cbce70} fill="#949494" />
+            <path d={_svgPaths.p3dca9000} fill="#949494" />
+            <path d={_svgPaths.p329cd300} fill="#949494" />
+            <path d={_svgPaths.p25ff8f0} fill="#949494" />
+            <path d={_svgPaths.p31b0d680} fill="#949494" />
           </g>
         </svg>
       </div>
 
       {/* Title */}
       <div className="-translate-x-1/2 -translate-y-1/2 absolute flex flex-col font-['CRONDE:Regular',sans-serif] justify-center leading-[0] not-italic text-[#0f1421] text-[88px] text-center"
-        style={{ left: 692, top: 238, width: 550 }}>
+        style={{
+          left: '48.06%',
+          top: '23.8%',
+          width: '38.19%',
+          fontSize: 'clamp(32px, 6.11vw, 88px)',
+        }}>
         <p className="leading-[normal]">Our pictures over the years</p>
       </div>
 
       {/* Frame14 — card container */}
-      <div style={{ position: "absolute", height: 578, left: -89, top: 369, width: 1631.549 }}>
+      <div style={{
+        position: "absolute",
+        height: 578,
+        left: -89,
+        top: 369,
+        width: 1631.549,
+        transform: 'scale(var(--gallery-scale, 1))',
+        transformOrigin: 'top left',
+      }}>
 
         {/* Frame9 — center card, straight */}
         <button
           onClick={() => { window.location.hash = "#pictures"; }}
           className="absolute bg-white overflow-clip shadow-[0px_0px_10.355px_0px_rgba(0,0,0,0.07)] border-0 p-0 cursor-pointer"
-          style={{ 
-            left: 689.65, 
-            top: 0, 
-            width: 242.003, 
-            paddingTop: 9.005, 
-            paddingLeft: 9.005, 
-            paddingRight: 9.005, 
+          style={{
+            left: 689.65,
+            top: 0,
+            width: 242.003,
+            paddingTop: 9.005,
+            paddingLeft: 9.005,
+            paddingRight: 9.005,
             paddingBottom: 36.019,
             transition: "all 1.2s cubic-bezier(0.25, 0.1, 0.25, 1), transform 0.2s ease",
           }}
@@ -166,10 +145,10 @@ function GalleryCanvas(): ReactElement {
         </button>
 
         {/* Frame1 — top-right, rotate +20° */}
-        <div className="absolute flex items-center justify-center" style={{ 
-          height: 323.928, 
-          left: 1012.32, 
-          top: 49, 
+        <div className="absolute flex items-center justify-center" style={{
+          height: 323.928,
+          left: 1012.32,
+          top: 49,
           width: 315.183,
           transition: "all 1.2s cubic-bezier(0.25, 0.1, 0.25, 1)",
         }}>
@@ -188,10 +167,10 @@ function GalleryCanvas(): ReactElement {
         </div>
 
         {/* Frame4 — left, rotate -30° */}
-        <div className="absolute flex items-center justify-center" style={{ 
-          height: 343.254, 
-          left: 0, 
-          top: 191, 
+        <div className="absolute flex items-center justify-center" style={{
+          height: 343.254,
+          left: 0,
+          top: 191,
           width: 337.898,
           transition: "all 1.2s cubic-bezier(0.25, 0.1, 0.25, 1)",
         }}>
@@ -210,10 +189,10 @@ function GalleryCanvas(): ReactElement {
         </div>
 
         {/* Frame5 — center-left, rotate -20° */}
-        <div className="absolute flex items-center justify-center" style={{ 
-          height: 323.928, 
-          left: 301, 
-          top: 49, 
+        <div className="absolute flex items-center justify-center" style={{
+          height: 323.928,
+          left: 301,
+          top: 49,
           width: 315.183,
           transition: "all 1.2s cubic-bezier(0.25, 0.1, 0.25, 1)",
         }}>
@@ -232,10 +211,10 @@ function GalleryCanvas(): ReactElement {
         </div>
 
         {/* Frame7 — right, rotate +30° */}
-        <div className="absolute flex items-center justify-center" style={{ 
-          height: 343.254, 
-          left: 1293.65, 
-          top: 191, 
+        <div className="absolute flex items-center justify-center" style={{
+          height: 343.254,
+          left: 1293.65,
+          top: 191,
           width: 337.898,
           transition: "all 1.2s cubic-bezier(0.25, 0.1, 0.25, 1)",
         }}>
@@ -253,34 +232,35 @@ function GalleryCanvas(): ReactElement {
           </div>
         </div>
 
-        {/* Frame11 — Label text (moved up) */}
+        {/* Frame11 — Label text */}
         <div className="-translate-x-1/2 absolute flex items-center justify-center"
           style={{ left: "calc(50% - 6.27px)", top: 453 }}>
-          <div className="flex flex-col font-['Futura_PT:Book',sans-serif] justify-center not-italic text-[#0f1421] text-[40px] text-center whitespace-nowrap" 
-            style={{ 
+          <div className="flex flex-col font-['Futura_PT:Book',sans-serif] justify-center not-italic text-[#0f1421] text-[40px] text-center whitespace-nowrap"
+            style={{
               lineHeight: 0,
               transition: "opacity 0.8s cubic-bezier(0.25, 0.1, 0.25, 1)",
+              fontSize: 'clamp(20px, 2.78vw, 40px)',
             }}>
             <p style={{ lineHeight: "normal" }}>{slide.label}</p>
           </div>
         </div>
 
-        {/* Navigation controls — arrows + dots together */}
+        {/* Navigation controls */}
         <div className="-translate-x-1/2 absolute flex gap-[20px] items-center justify-center"
           style={{ left: "calc(50% - 6.27px)", top: 566 }}>
           <button
             onClick={prev}
-            style={{ 
-              background: "none", 
-              border: "none", 
-              padding: 0, 
+            style={{
+              background: "none",
+              border: "none",
+              padding: 0,
               cursor: "pointer",
               transition: "opacity 0.3s ease, transform 0.2s ease",
             }}
             onMouseEnter={(e) => e.currentTarget.style.transform = "scale(1.1)"}
             onMouseLeave={(e) => e.currentTarget.style.transform = "scale(1)"}
           >
-            <svg width="48" height="48" viewBox="0 0 48 48" fill="none">
+            <svg width="48" height="48" viewBox="0 0 48 48" fill="none" style={{ width: 'clamp(32px, 3.33vw, 48px)', height: 'clamp(32px, 3.33vw, 48px)' }}>
               <path d="M30 12L18 24L30 36" stroke="black" strokeLinecap="round" strokeLinejoin="round" strokeWidth="3" />
             </svg>
           </button>
@@ -291,7 +271,11 @@ function GalleryCanvas(): ReactElement {
                 key={i}
                 onClick={() => setActive(i)}
                 style={{
-                  width: 12, height: 12, borderRadius: "50%", border: "none", padding: 0,
+                  width: 'clamp(8px, 0.83vw, 12px)',
+                  height: 'clamp(8px, 0.83vw, 12px)',
+                  borderRadius: "50%",
+                  border: "none",
+                  padding: 0,
                   background: i === active ? "#192441" : "#D8D8D8",
                   cursor: "pointer",
                   transition: "background 0.8s cubic-bezier(0.25, 0.1, 0.25, 1), transform 0.3s ease",
@@ -304,17 +288,17 @@ function GalleryCanvas(): ReactElement {
 
           <button
             onClick={next}
-            style={{ 
-              background: "none", 
-              border: "none", 
-              padding: 0, 
+            style={{
+              background: "none",
+              border: "none",
+              padding: 0,
               cursor: "pointer",
               transition: "opacity 0.3s ease, transform 0.2s ease",
             }}
             onMouseEnter={(e) => e.currentTarget.style.transform = "scale(1.1)"}
             onMouseLeave={(e) => e.currentTarget.style.transform = "scale(1)"}
           >
-            <svg width="48" height="48" viewBox="0 0 48 48" fill="none">
+            <svg width="48" height="48" viewBox="0 0 48 48" fill="none" style={{ width: 'clamp(32px, 3.33vw, 48px)', height: 'clamp(32px, 3.33vw, 48px)' }}>
               <path d="M30 12L18 24L30 36" stroke="black" strokeLinecap="round" strokeLinejoin="round" strokeWidth="3" transform="rotate(180 24 24)" />
             </svg>
           </button>
@@ -331,24 +315,26 @@ export function GalleryPage({ onBack }: GalleryPageProps): ReactElement {
   const [fadeIn, setFadeIn] = React.useState<boolean>(false);
 
   React.useEffect(() => {
-    const update = () => setScale(window.innerWidth / DESIGN_WIDTH);
+    const update = () => {
+      const newScale = window.innerWidth / DESIGN_WIDTH;
+      setScale(Math.min(Math.max(newScale, 0.3), 1.2));
+    };
     update();
     window.addEventListener("resize", update);
     return () => window.removeEventListener("resize", update);
   }, []);
 
   React.useEffect(() => {
-    // Trigger fade-in animation
     requestAnimationFrame(() => {
       setFadeIn(true);
     });
   }, []);
 
   return (
-    <div style={{ 
-      width: "100%", 
-      minHeight: "100vh", 
-      background: "#fcf9f2", 
+    <div style={{
+      width: "100%",
+      minHeight: "100vh",
+      background: "#fcf9f2",
       position: "relative",
     }}>
       <div style={{
@@ -356,24 +342,37 @@ export function GalleryPage({ onBack }: GalleryPageProps): ReactElement {
         transform: fadeIn ? "scale(1)" : "scale(0.98)",
         transition: "opacity 0.9s cubic-bezier(0.4, 0, 0.2, 1) 0.1s, transform 0.9s cubic-bezier(0.4, 0, 0.2, 1) 0.1s",
       }}>
-        <div style={{ width: "100%", height: DESIGN_HEIGHT * scale, overflow: "hidden" }}>
+        <div style={{
+          width: "100%",
+          height: DESIGN_HEIGHT * scale,
+          overflow: "hidden",
+        }}>
           <div style={{
-            width: DESIGN_WIDTH, height: DESIGN_HEIGHT,
-            transform: `scale(${scale})`, transformOrigin: "top left",
+            width: DESIGN_WIDTH,
+            height: DESIGN_HEIGHT,
+            transform: `scale(${scale})`,
+            transformOrigin: "top left",
           }}>
             <GalleryCanvas />
           </div>
         </div>
       </div>
 
-      {/* Live interactive nav */}
+      {/* Navigation */}
       <div style={{
-        position: "fixed", top: 0, left: 0, width: "100%",
-        height: NAV_H * scale, zIndex: 100, overflow: "visible",
+        position: "fixed",
+        top: 0,
+        left: 0,
+        width: "100%",
+        height: NAV_H * Math.min(scale, 1),
+        zIndex: 100,
+        overflow: "visible",
       }}>
         <div style={{
-          width: DESIGN_WIDTH, height: NAV_H,
-          transform: `scale(${scale})`, transformOrigin: "top left",
+          width: DESIGN_WIDTH,
+          height: NAV_H,
+          transform: `scale(${Math.min(scale, 1)})`,
+          transformOrigin: "top left",
         }}>
           <Nav />
         </div>

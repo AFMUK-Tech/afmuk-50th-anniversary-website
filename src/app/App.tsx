@@ -11,6 +11,7 @@ import MobileNav from "./components/MobileNav";
 import MobileTimeline from "./components/MobileTimeline";
 import MobileGallery from "./components/MobileGallery";
 import { GalleryPage } from "./components/gallery";
+import { DepartmentPage } from "./components/department";
 import { BranchPage } from "./components/BranchPage";
 import { FounderPage } from "./components/FounderPage";
 import { TimelineSheet } from "./components/TimelineSheet";
@@ -61,11 +62,12 @@ function ScaledBlock({
 }
 
 export default function App() {
-  const [page, setPage] = useState<"home" | "gallery" | "pictures" | "founder" | BranchSlug>(() => {
+  const [page, setPage] = useState<"home" | "gallery" | "pictures" | "founder" | "department" | BranchSlug>(() => {
     const h = window.location.hash.replace("#", "") as string;
     if (h === "gallery") return "gallery";
     if (h === "pictures") return "pictures";
     if (h === "founder") return "founder";
+    if (h === "department") return "department";
     if (h === "timeline") return "home"; // sheet handles itself
     if ((OTHER_BRANCHES as readonly string[]).includes(h)) return h as BranchSlug;
     return "home";
@@ -90,6 +92,7 @@ export default function App() {
       else if (h === "gallery") setPage("gallery");
       else if (h === "pictures") setPage("pictures");
       else if (h === "founder") setPage("founder");
+      else if (h === "department") setPage("department");
       else if ((OTHER_BRANCHES as readonly string[]).includes(h)) setPage(h as BranchSlug);
       else {
         setPage("home");
@@ -237,6 +240,10 @@ export default function App() {
 
   if (page === "founder") {
     return <><FounderPage onBack={navigateHome} /><TimelineSheet /></>;
+  }
+
+  if (page === "department") {
+    return <><DepartmentPage onBack={navigateHome} /><TimelineSheet /></>;
   }
 
   if ((OTHER_BRANCHES as readonly string[]).includes(page)) {
