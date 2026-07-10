@@ -140,6 +140,14 @@ export default function MobileNav() {
                 )}
               </div>
 
+              {/* Department */}
+              <button
+                onClick={() => handleNavClick("#department")}
+                className="text-left px-4 py-3 hover:bg-gray-100 rounded-lg transition-colors font-['Poppins:400',sans-serif] text-sm"
+              >
+                Department
+              </button>
+
               {/* Gallery */}
               <button
                 onClick={() => handleNavClick("#gallery")}
