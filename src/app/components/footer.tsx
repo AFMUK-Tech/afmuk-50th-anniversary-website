@@ -17,18 +17,26 @@ export function Footer() {
             th Anniversary
           </div>
           <div style={{ fontFamily: "'Futura PT', sans-serif", fontSize: 13, color: "#D9C7A8", opacity: 0.5, marginTop: 4 }}>
-            AFM Western Europe · 1976 – 2026
+            AFC UK & Western Europe · 1976 – 2026
           </div>
         </div>
 
         {/* ── Nav + CTA ───────────────────────────────────────────────── */}
         <div className="flex flex-col items-center gap-6 md:gap-4 md:items-end">
           <div className="flex flex-wrap justify-center gap-6 md:gap-12 items-center">
-            {["Stories", "Photos", "Timeline"].map(label => (
-              <span key={label} style={{
-                fontFamily: "'Futura PT', sans-serif", fontSize: 15,
-                color: "white", opacity: 0.75, cursor: "pointer", letterSpacing: "0.02em",
-              }}>
+            {[
+              { label: "Stories", hash: "#watch" },
+              { label: "Gallery", hash: "#gallery" },
+              { label: "Timeline", hash: "#timeline" },
+            ].map(({ label, hash }) => (
+              <span
+                key={label}
+                onClick={() => { window.location.hash = hash; }}
+                style={{
+                  fontFamily: "'Futura PT', sans-serif", fontSize: 15,
+                  color: "white", opacity: 0.75, cursor: "pointer", letterSpacing: "0.02em",
+                }}
+              >
                 {label}
               </span>
             ))}
@@ -42,7 +50,7 @@ export function Footer() {
             color: "#D9C7A8", letterSpacing: "0.04em", cursor: "pointer",
             whiteSpace: "nowrap",
           }}>
-            AFM UK
+            AFC UK
           </div>
         </div>
       </div>
@@ -74,7 +82,7 @@ export function Footer() {
             fontFamily: "'Futura PT', sans-serif", fontSize: 12,
             color: "white", opacity: 0.35, letterSpacing: "0.03em",
           }}>
-            © 2026 Apostolic Faith Mission Western Europe. All rights reserved.
+            © 2026 Apostolic Faith Church — UK & Western Europe. All rights reserved.
           </span>
           <span style={{
             fontFamily: "'Futura PT', sans-serif", fontSize: 12,

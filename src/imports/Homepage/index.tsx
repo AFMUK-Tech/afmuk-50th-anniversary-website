@@ -1,13 +1,17 @@
 import svgPaths from "./svg-ryk8ue9wk8";
+import MobileTimeline from "../../app/components/MobileTimeline"; // adjust path to match your folder structure
+/* ---------------------------------------------------------------
+ * IMAGE IMPORTS
+ * ---------------------------------------------------------------
+ * Existing assets (from your original file) — keep these paths as-is
+ * if the files still live in the same folder.
+ */
 import img1998 from "./5a015c837cc63a1e3afec59a04ef46d449dad5cf.png";
 import imgImage13 from "./e81c2816bfc1af01bf28989def6b833cd0126703.png";
 import imgImage12 from "./00906276d94a619afd9053d491e72ee53b2c84f7.png";
 import imgContainer from "./00d5e033bbebac30ecfdda76a8b34cee926f16de.png";
-import imgImage1 from "./0f8a3c8fd5f3b15d7f224c591876d33827e7c776.png";
 import imgContainer1 from "./e616f666c01d8e532adf17336a5b7576e91684e5.png";
-import imgImage8 from "./3a8be516144b02ca05177fe3dd5d45cfd2484a87.png";
 import imgContainer2 from "./6071875ce23155069c81f3bdc40cd667fe0ec200.png";
-import imgImage11 from "./8342e6cea9f36db12564231fe9f8262a9126ccd2.png";
 import imgImage3 from "./00d5e033bbebac30ecfdda76a8b34cee926f16de.png";
 import imgImage9 from "./689a77beb788ca8a3f1ba0fab8bd0ba4ac88fa5a.png";
 import imgImage16 from "./d060be9ce61288ad16074db37bfbb70d4d8416b7.png";
@@ -19,1199 +23,546 @@ import img51 from "./8873fd3b316d2dfee9ed04e7d802995942646918.png";
 import img91 from "./968c2920f880959ab3393716584f0e350964c423.png";
 import imgImage from "./9ec56a815db13e6f5f4c4f51dc8c89bded734cf2.png";
 
-function Frame2() {
+/**
+ * NEW ASSETS — these are the pieces the mobile screenshot shows that
+ * weren't in the previous version of the file: the black-and-white
+ * photo-collage strip on the very first screen, and the gold
+ * "50th Anniversary" badge/seal on the second screen.
+ *
+ * Swap these paths for your real exported files (same names/format as
+ * the rest of the figma export, e.g. "./<hash>.png").
+ */
+import imgPhotoStrip1 from "./photo-strip-1.png";
+import imgPhotoStrip2 from "./photo-strip-2.png";
+import imgPhotoStrip3 from "./photo-strip-3.png";
+import imgAnniversaryBadge from "./anniversary-badge.png";
+
+/* ---------------------------------- Nav ---------------------------------- */
+
+interface NavLinkProps {
+  children: React.ReactNode;
+}
+
+function NavLink({ children }: NavLinkProps) {
   return (
-    <div className="-translate-x-1/2 [word-break:break-word] absolute content-stretch flex flex-col gap-[34px] items-center justify-center leading-[0] left-1/2 not-italic text-[#0f1421] text-center top-[341px] w-[734px]">
-      <div className="flex flex-col font-['CRONDE:Regular',sans-serif] justify-center relative shrink-0 text-[96px] w-[550px]">
-        <p className="leading-[normal]">Praise God With US!</p>
-      </div>
-      <div className="flex flex-col font-['Futura_PT:Book',sans-serif] justify-center relative shrink-0 text-[24px] w-[601px]">
-        <p className="leading-[normal]">{`Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. `}</p>
-      </div>
-    </div>
+    <a
+      href="#"
+      className="font-['Inter:Regular',sans-serif] font-normal text-[#38362d] text-[14px] lg:text-[15.778px] tracking-[-0.2367px] whitespace-nowrap hover:text-[#192441] transition-colors"
+    >
+      {children}
+    </a>
   );
 }
 
-function Hero() {
+function ChevronDown() {
   return (
-    <div className="bg-[#fcf9f2] h-[787px] relative shrink-0 w-[1440px]" data-name="Hero">
-      <div className="absolute inset-[-12.96%_14.58%_-16.65%_14.58%]" data-name="Vector">
-        <svg className="absolute block inset-0 size-full" fill="none" preserveAspectRatio="none" viewBox="0 0 1020 1020">
-          <g id="Vector" opacity="0.2">
-            <path d={svgPaths.p1560df80} fill="var(--fill-0, #949494)" />
-            <path d={svgPaths.p3970d30} fill="var(--fill-0, #949494)" />
-            <path d={svgPaths.pe9985f0} fill="var(--fill-0, #949494)" />
-            <path d={svgPaths.p3a584970} fill="var(--fill-0, #949494)" />
-            <path d={svgPaths.p618ec00} fill="var(--fill-0, #949494)" />
-            <path d={svgPaths.p205d2500} fill="var(--fill-0, #949494)" />
-            <path d={svgPaths.p15a41e00} fill="var(--fill-0, #949494)" />
-            <path d={svgPaths.p31c04900} fill="var(--fill-0, #949494)" />
-            <path d={svgPaths.p3dba9d00} fill="var(--fill-0, #949494)" />
-            <path d={svgPaths.p1f23f680} fill="var(--fill-0, #949494)" />
-            <path d={svgPaths.p3d550f00} fill="var(--fill-0, #949494)" />
-            <path d={svgPaths.p21ab5e00} fill="var(--fill-0, #949494)" />
-          </g>
-        </svg>
-      </div>
-      <div className="-translate-x-1/2 -translate-y-1/2 [word-break:break-word] absolute flex flex-col font-['CRONDE:Regular',sans-serif] justify-center leading-[0] left-[719.5px] not-italic text-[#d9c7a8] text-[0px] text-center top-[-102px] w-[799px]">
-        <p className="leading-[normal] mb-0 text-[15px]">Golden</p>
-        <p className="leading-[normal] text-[15px] text-white">Jubilee</p>
-      </div>
-      <div className="-translate-x-1/2 -translate-y-1/2 [word-break:break-word] absolute flex flex-col font-['Futura_PT:Book',sans-serif] justify-center leading-[0] left-[720px] not-italic text-[24px] text-center text-white top-[-102px] w-[596px] whitespace-pre-wrap">
-        <p className="leading-[normal] mb-0">
-          {`"One generation shall praise thy works to another, and shall declare thy mighty acts."`}
-          <br aria-hidden />
-          <br aria-hidden />
-        </p>
-        <p className="leading-[normal]">— Psalm 145:4</p>
-      </div>
-      <div className="-translate-x-1/2 absolute h-[109px] left-[calc(50%+0.5px)] top-[166px] w-[337px]" data-name="1 998">
-        <div className="absolute inset-0 overflow-hidden pointer-events-none">
-          <img alt="" className="absolute h-[443.28%] left-[-22.15%] max-w-none top-[-172.98%] w-[143.62%]" src={img1998} />
+    <svg className="size-[16px] lg:size-[24px]" fill="none" viewBox="0 0 24 24">
+      <path
+        d="M15 6L9 12L15 18"
+        stroke="black"
+        strokeLinecap="round"
+        strokeLinejoin="round"
+        strokeWidth="1.5"
+        transform="rotate(-90 12 12)"
+      />
+    </svg>
+  );
+}
+
+function NavBar() {
+  return (
+    <div className="sticky top-0 z-50 bg-white w-full">
+      <div className="mx-auto flex h-[63px] max-w-[1440px] items-center justify-between gap-4 px-4 sm:px-6 lg:px-[18.933px]">
+        <a href="#" className="relative h-[36px] w-[70px] shrink-0 overflow-hidden sm:h-[39px] sm:w-[90px]">
+          <img alt="Logo" className="absolute left-[-15%] top-[-40%] h-[190%] w-[190%] max-w-none object-cover" src={imgImage} />
+        </a>
+
+        <div className="hidden items-center gap-6 lg:flex lg:gap-[25.244px]">
+          <NavLink>Founder</NavLink>
+          <div className="flex items-center gap-2">
+            <NavLink>Branches</NavLink>
+            <ChevronDown />
+          </div>
+          <div className="flex items-center gap-2">
+            <NavLink>Departement</NavLink>
+            <ChevronDown />
+          </div>
+          <NavLink>Timeline</NavLink>
+          <NavLink>Shop</NavLink>
         </div>
-      </div>
-      <Frame2 />
-    </div>
-  );
-}
 
-function Frame1() {
-  return (
-    <div className="h-[280.784px] relative shrink-0 w-[399.84px]">
-      <div className="overflow-clip relative rounded-[inherit] size-full">
-        <div className="absolute h-[492px] left-[-156px] top-[-124px] w-[738px]" data-name="image 12">
-          <img alt="" className="absolute inset-0 max-w-none object-cover pointer-events-none size-full" src={imgImage12} />
-        </div>
+        <a href="#" className="shrink-0 rounded-full bg-[#192441] px-4 py-2 text-[10px] tracking-[0.05px] text-white sm:text-[10.729px] lg:px-[18.933px]">
+          AFM UK
+        </a>
       </div>
-      <div aria-hidden className="absolute border-[4.948px] border-solid border-white inset-0 pointer-events-none" />
-    </div>
-  );
-}
 
-function Frame3() {
-  return (
-    <div className="[word-break:break-word] content-stretch flex flex-col gap-[34px] items-start leading-[0] not-italic relative shrink-0 text-white w-[734px]">
-      <div className="flex flex-col font-['CRONDE:Regular',sans-serif] justify-center min-w-full relative shrink-0 text-[48px] w-[min-content]">
-        <p className="leading-[normal]">Where it all started</p>
-      </div>
-      <div className="flex flex-col font-['Futura_PT:Book',sans-serif] justify-center relative shrink-0 text-[24px] w-[601px]">
-        <p className="leading-[normal]">Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut</p>
-      </div>
-      <div className="flex flex-col font-['Futura_PT:Book',sans-serif] justify-center relative shrink-0 text-[24px] w-[601px]">
-        <p className="[text-underline-position:from-font] decoration-from-font decoration-solid leading-[normal] underline">{`Read Full Timeline `}</p>
+      <div className="flex items-center gap-5 overflow-x-auto px-4 pb-3 lg:hidden">
+        <NavLink>Founder</NavLink>
+        <NavLink>Branches</NavLink>
+        <NavLink>Departement</NavLink>
+        <NavLink>Timeline</NavLink>
+        <NavLink>Shop</NavLink>
       </div>
     </div>
   );
 }
 
-function Frame13() {
-  return (
-    <div className="-translate-x-1/2 absolute content-stretch flex gap-[62px] items-center left-1/2 top-[217px] w-[1096px]">
-      <Frame1 />
-      <Frame3 />
-    </div>
-  );
+/* ------------------------------- Watermark -------------------------------- */
+
+interface VectorWatermarkProps {
+  className?: string;
 }
 
-function Intro() {
+function VectorWatermark({ className = "" }: VectorWatermarkProps) {
   return (
-    <div className="bg-[#0f1421] h-[722px] overflow-clip relative shrink-0 w-full" data-name="intro">
-      <div className="absolute h-[1105px] left-[-128px] top-[-44px] w-[1658px]" data-name="image 13">
-        <img alt="" className="absolute inset-0 max-w-none object-cover pointer-events-none size-full" src={imgImage13} />
-      </div>
-      <div className="-translate-y-1/2 absolute bg-[#172037] h-[938px] left-[-190px] mix-blend-multiply top-[calc(50%+64px)] w-[1739px]" />
-      <div className="-translate-x-1/2 -translate-y-1/2 [word-break:break-word] absolute flex flex-col font-['CRONDE:Regular',sans-serif] justify-center leading-[0] left-[719.5px] not-italic text-[#d9c7a8] text-[0px] text-center top-[-102px] w-[799px]">
-        <p className="leading-[normal] mb-0 text-[15px]">Golden</p>
-        <p className="leading-[normal] text-[15px] text-white">Jubilee</p>
-      </div>
-      <div className="-translate-x-1/2 -translate-y-1/2 [word-break:break-word] absolute flex flex-col font-['Futura_PT:Book',sans-serif] justify-center leading-[0] left-[720px] not-italic text-[24px] text-center text-white top-[-102px] w-[596px] whitespace-pre-wrap">
-        <p className="leading-[normal] mb-0">
-          {`"One generation shall praise thy works to another, and shall declare thy mighty acts."`}
-          <br aria-hidden />
-          <br aria-hidden />
-        </p>
-        <p className="leading-[normal]">— Psalm 145:4</p>
-      </div>
-      <Frame13 />
-    </div>
-  );
-}
-
-function Frame24() {
-  return (
-    <div className="-translate-x-1/2 absolute left-1/2 size-[160px] top-[224px]">
-      <svg className="absolute block inset-0 size-full" fill="none" preserveAspectRatio="none" viewBox="0 0 160 160">
-        <g id="Frame 44">
-          <rect fill="var(--fill-0, white)" fillOpacity="0.5" height="160" rx="80" width="160" />
-          <path d={svgPaths.p19b47680} fill="var(--fill-0, #1F2349)" id="Polygon 1" opacity="0.7" />
+    <div className={`pointer-events-none absolute inset-0 flex items-center justify-center opacity-20 ${className}`}>
+      <svg className="h-[140%] w-[140%] max-w-none sm:h-full sm:w-full" fill="none" preserveAspectRatio="xMidYMid slice" viewBox="0 0 1020 1020">
+        <g opacity={1}>
+          <path d={svgPaths.p1560df80} fill="#949494" />
+          <path d={svgPaths.p3970d30} fill="#949494" />
+          <path d={svgPaths.pe9985f0} fill="#949494" />
+          <path d={svgPaths.p3a584970} fill="#949494" />
+          <path d={svgPaths.p618ec00} fill="#949494" />
+          <path d={svgPaths.p205d2500} fill="#949494" />
+          <path d={svgPaths.p15a41e00} fill="#949494" />
+          <path d={svgPaths.p31c04900} fill="#949494" />
+          <path d={svgPaths.p3dba9d00} fill="#949494" />
+          <path d={svgPaths.p1f23f680} fill="#949494" />
+          <path d={svgPaths.p3d550f00} fill="#949494" />
+          <path d={svgPaths.p21ab5e00} fill="#949494" />
         </g>
       </svg>
     </div>
   );
 }
 
-function Frame23() {
+/* --------------------------------- Eyebrow --------------------------------- */
+
+function JubileeEyebrow() {
   return (
-    <div className="bg-black h-[579px] relative shrink-0 w-[1442px]">
-      <div className="absolute h-[579px] left-0 top-0 w-[1442px]" data-name="image 12">
-        <div className="absolute inset-0 overflow-hidden pointer-events-none">
-          <img alt="" className="absolute h-[166.05%] left-[-0.06%] max-w-none top-[-27%] w-[100.02%]" src={imgImage12} />
-        </div>
-      </div>
-      <Frame24 />
+    <div className="flex flex-col items-center gap-1 text-center">
+      <p className="font-['CRONDE:Regular',sans-serif] text-[16px] leading-none text-[#d9c7a8] sm:text-[15px] lg:text-[15px]">Golden</p>
+      <p className="font-['CRONDE:Regular',sans-serif] text-[16px] leading-none text-white sm:text-[15px] lg:text-[15px]">Jubilee</p>
+      <p className="mt-5 max-w-[94vw] font-['Futura_PT:Book',sans-serif] text-[20px] leading-[1.5] text-white sm:max-w-[500px] sm:text-[22px] lg:max-w-[596px] lg:text-[24px]">
+        "One generation shall praise thy works to another, and shall declare thy mighty acts."
+        <br />
+        <br />
+        — Psalm 145:4
+      </p>
     </div>
   );
 }
 
-function Paragraph() {
-  return (
-    <div className="opacity-45 relative shrink-0 w-full" data-name="Paragraph">
-      <div className="bg-clip-padding border-0 border-[transparent] border-solid content-stretch flex flex-col items-center relative size-full">
-        <p className="[word-break:break-word] font-['Futura_PT:Book',sans-serif] leading-[14.2px] not-italic relative shrink-0 text-[#192441] text-[9.467px] text-center tracking-[2.0827px] uppercase whitespace-nowrap">Stories of Ministry</p>
-      </div>
-    </div>
-  );
-}
+/* ============================================================
+ * SCREEN 1 — Quote hero with B&W photo-collage strip
+ * ============================================================ */
 
-function Heading() {
-  return (
-    <div className="h-[65.778px] relative shrink-0 w-[536.445px]" data-name="Heading 2">
-      <div className="bg-clip-padding border-0 border-[transparent] border-solid content-stretch flex flex-col items-center pt-[15.778px] relative size-full">
-        <p className="[word-break:break-word] font-['CRONDE:Regular',sans-serif] leading-[49.416px] not-italic relative shrink-0 text-[#192441] text-[45.756px] text-center whitespace-nowrap">Voices of the Journey</p>
-      </div>
-    </div>
-  );
-}
+function QuoteHero() {
+  const photos: string[] = [imgPhotoStrip1, imgPhotoStrip2, imgPhotoStrip3];
 
-function Paragraph1() {
   return (
-    <div className="content-stretch flex flex-col items-center opacity-55 relative shrink-0 w-full" data-name="Paragraph">
-      <p className="[word-break:break-word] font-['Futura_PT:Book',sans-serif] leading-[23.43px] not-italic relative shrink-0 text-[#192441] text-[14.2px] text-center whitespace-nowrap">Across five decades, the Gospel has transformed lives throughout Western Europe.</p>
-    </div>
-  );
-}
+    <div className="relative flex w-full flex-col items-center justify-center overflow-hidden bg-[#0f1421] px-6 py-20 text-center sm:py-28">
+      <div className="relative z-10 flex w-full max-w-[560px] flex-col items-center gap-10 sm:gap-14">
+        <p className="font-['Futura_PT:Book',sans-serif] text-[56px] italic leading-[1.5] text-white sm:text-[28px] lg:text-[32px]">
+          "One generation shall praise thy works to another, and shall declare thy mighty acts."
+        </p>
+        <p className="font-['Futura_PT:Book',sans-serif] text-[16px] tracking-[1px] text-[#d9c7a8] sm:text-[16px]">
+          — Psalm 145:4
+        </p>
 
-function ParagraphMargin() {
-  return (
-    <div className="relative shrink-0 w-full" data-name="Paragraph (margin)">
-      <div className="bg-clip-padding border-0 border-[transparent] border-solid content-stretch flex flex-col items-start pt-[17.356px] relative size-full">
-        <Paragraph1 />
-      </div>
-    </div>
-  );
-}
-
-function Container() {
-  return (
-    <div className="content-stretch flex flex-col items-center justify-center relative shrink-0 w-[536.445px]" data-name="Container">
-      <Paragraph />
-      <Heading />
-      <ParagraphMargin />
-    </div>
-  );
-}
-
-function Container3() {
-  return (
-    <div className="h-[170.4px] relative rounded-[2.367px] shrink-0 w-[292.678px]" data-name="Container">
-      <img alt="" className="absolute bg-clip-padding border-0 border-[transparent] border-solid inset-0 max-w-none object-cover pointer-events-none rounded-[2.367px] size-full" src={imgContainer} />
-      <div className="bg-clip-padding border-0 border-[transparent] border-solid overflow-clip relative rounded-[inherit] size-full">
-        <div className="absolute h-[605px] left-[-419.67px] top-[-218px] w-[911px]" data-name="image 1">
-          <img alt="" className="absolute inset-0 max-w-none object-cover pointer-events-none size-full" src={imgImage1} />
+        {/* Collage strip of three overlapping/rotated black-and-white photos */}
+        <div className="relative mt-4 flex h-[70px] w-full max-w-[280px] items-center justify-center sm:h-[90px] sm:max-w-[360px]">
+          <div className="absolute left-[0%] h-[64px] w-[90px] -rotate-6 overflow-hidden rounded-[2px] shadow-lg sm:h-[80px] sm:w-[110px]">
+            <img alt="" className="h-full w-full object-cover grayscale" src={photos[0]} />
+          </div>
+          <div className="absolute z-10 h-[64px] w-[90px] overflow-hidden rounded-[2px] shadow-lg sm:h-[80px] sm:w-[110px]">
+            <img alt="" className="h-full w-full object-cover grayscale" src={photos[1]} />
+          </div>
+          <div className="absolute right-[0%] h-[64px] w-[90px] rotate-6 overflow-hidden rounded-[2px] shadow-lg sm:h-[80px] sm:w-[110px]">
+            <img alt="" className="h-full w-full object-cover grayscale" src={photos[2]} />
+          </div>
         </div>
       </div>
     </div>
   );
 }
 
-function Paragraph2() {
-  return (
-    <div className="content-stretch flex flex-col h-[14.2px] items-start opacity-45 relative shrink-0 w-full" data-name="Paragraph">
-      <p className="[word-break:break-word] font-['Futura_PT:Book',sans-serif] leading-[14.2px] not-italic relative shrink-0 text-[#192441] text-[9.467px] tracking-[1.3253px] whitespace-nowrap">1971</p>
-    </div>
-  );
-}
+/* ============================================================
+ * SCREEN 2 — Anniversary badge splash
+ * ============================================================ */
 
-function ParagraphMargin1() {
+function AnniversarySplash() {
   return (
-    <div className="relative shrink-0 w-full" data-name="Paragraph (margin)">
-      <div className="bg-clip-padding border-0 border-[transparent] border-solid content-stretch flex flex-col items-start pb-[6.311px] pt-[14.2px] relative size-full">
-        <Paragraph2 />
+    <div className="relative flex w-full flex-col items-center justify-center overflow-hidden bg-[#0f1421] px-6 py-20 text-center sm:py-28">
+      <div className="flex w-full max-w-[420px] flex-col items-center gap-6">
+        <img
+          alt="AFM Western Europe 50th Anniversary, 1976 to 2026"
+          className="h-auto w-full max-w-[240px] object-contain sm:max-w-[300px] lg:max-w-[340px]"
+          src={imgAnniversaryBadge}
+        />
       </div>
     </div>
   );
 }
 
-function Heading1() {
+/* ============================================================
+ * SCREEN 3 — "Praise God With Us" hero
+ * ============================================================ */
+
+function Hero() {
   return (
-    <div className="h-[29.978px] relative shrink-0 w-[292.415px]" data-name="Heading 3">
-      <div className="bg-clip-padding border-0 border-[transparent] border-solid content-stretch flex flex-col items-start pb-[7.889px] relative size-full">
-        <p className="[word-break:break-word] font-['CRONDE:Regular',sans-serif] leading-[21.694px] not-italic relative shrink-0 text-[#192441] text-[17.356px] whitespace-nowrap">A Church Planted in Amsterdam</p>
+    <div className="relative w-full overflow-hidden bg-[#fcf9f2] py-16 sm:py-20 lg:py-28" data-name="Hero">
+      <VectorWatermark />
+      <div className="relative mx-auto flex w-full max-w-[900px] flex-col items-center gap-6 px-4 text-center sm:gap-8 sm:px-8 lg:gap-[34px]">
+        <div className="relative h-[60px] w-[190px] sm:h-[85px] sm:w-[270px] lg:h-[109px] lg:w-[337px]">
+          <div className="absolute inset-0 overflow-hidden">
+            <img alt="" className="absolute left-[-22.15%] top-[-172.98%] h-[443.28%] w-[143.62%] max-w-none" src={img1998} />
+          </div>
+        </div>
+
+        <h1 className="font-['CRONDE:Regular',sans-serif] text-[#0f1421] text-[42px] leading-tight sm:text-[64px] lg:text-[96px]">
+          Praise God With US!
+        </h1>
+        <p className="max-w-[601px] font-['Futura_PT:Book',sans-serif] text-[16px] text-[#0f1421] sm:text-[20px] lg:text-[24px]">
+          Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.
+        </p>
       </div>
     </div>
   );
 }
 
-function Paragraph3() {
-  return (
-    <div className="opacity-60 relative shrink-0 w-full" data-name="Paragraph">
-      <div className="bg-clip-padding border-0 border-[transparent] border-solid content-stretch flex flex-col items-start relative size-full">
-        <p className="[word-break:break-word] font-['Futura_PT:Book',sans-serif] leading-[20.117px] not-italic relative shrink-0 text-[#192441] text-[14px] w-[292.678px]">From a small gathering of six believers, a thriving congregation emerged that continues to shape the city today.</p>
-      </div>
-    </div>
-  );
-}
+/* ============================================================
+ * SCREEN 4 — "Where it all started" + video
+ * ============================================================ */
 
-function Container2() {
+function Intro() {
   return (
-    <div className="flex-[371_0_0] h-full min-w-px relative" data-name="Container">
-      <div className="bg-clip-padding border-0 border-[transparent] border-solid content-stretch flex flex-col items-start relative size-full">
-        <Container3 />
-        <ParagraphMargin1 />
-        <Heading1 />
-        <Paragraph3 />
+    <div className="relative w-full overflow-hidden bg-[#0f1421] py-16 sm:py-20 lg:py-28" data-name="intro">
+      <div className="absolute inset-0">
+        <img alt="" className="h-full w-full object-cover" src={imgImage13} />
+        <div className="absolute inset-0 bg-[#172037] mix-blend-multiply" />
       </div>
-    </div>
-  );
-}
 
-function Container5() {
-  return (
-    <div className="h-[170.4px] relative rounded-[2.367px] shrink-0 w-[292.678px]" data-name="Container">
-      <img alt="" className="absolute bg-clip-padding border-0 border-[transparent] border-solid inset-0 max-w-none object-cover pointer-events-none rounded-[2.367px] size-full" src={imgContainer1} />
-      <div className="bg-clip-padding border-0 border-[transparent] border-solid overflow-clip relative rounded-[inherit] size-full">
-        <div className="-translate-x-1/2 -translate-y-1/2 absolute h-[267px] left-[calc(50%-0.13px)] top-[calc(50%+22.3px)] w-[400.598px]" data-name="image 8">
-          <img alt="" className="absolute inset-0 max-w-none object-cover pointer-events-none size-full" src={imgImage8} />
+      <div className="relative mx-auto flex w-full max-w-[1096px] flex-col items-center gap-8 px-4 sm:px-8 lg:flex-row lg:items-center lg:gap-[62px]">
+        <div className="w-full max-w-[400px] shrink-0 overflow-hidden border-[4.948px] border-white sm:max-w-[450px] lg:w-[400px]">
+          <div className="relative aspect-[399/281] w-full overflow-hidden">
+            <img alt="" className="absolute -left-[40%] -top-[45%] w-[190%] max-w-none object-cover" src={imgImage12} />
+          </div>
+        </div>
+
+        <div className="flex w-full flex-col items-start gap-4 text-white sm:gap-6 lg:max-w-[601px] lg:gap-[34px]">
+          <h2 className="font-['CRONDE:Regular',sans-serif] text-[30px] leading-tight sm:text-[38px] lg:text-[48px]">
+            Where it all started
+          </h2>
+          <p className="font-['Futura_PT:Book',sans-serif] text-[15px] leading-relaxed sm:text-[18px] lg:text-[24px]">
+            Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna
+            aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut
+          </p>
+          <p className="font-['Futura_PT:Book',sans-serif] text-[15px] underline sm:text-[18px] lg:text-[24px]">
+            Read Full Timeline
+          </p>
         </div>
       </div>
     </div>
   );
 }
 
-function Paragraph4() {
+function VideoBanner() {
   return (
-    <div className="content-stretch flex flex-col h-[14.2px] items-start opacity-45 relative shrink-0 w-full" data-name="Paragraph">
-      <p className="[word-break:break-word] font-['Futura_PT:Book',sans-serif] leading-[14.2px] not-italic relative shrink-0 text-[#192441] text-[9.467px] tracking-[1.3253px] whitespace-nowrap">1987</p>
+    <div className="relative aspect-video w-full overflow-hidden bg-black sm:aspect-[21/9]">
+      <img alt="" className="h-full w-full object-cover" src={imgImage12} />
+      <button
+        type="button"
+        aria-label="Play video"
+        className="absolute left-1/2 top-1/2 flex size-[80px] -translate-x-1/2 -translate-y-1/2 items-center justify-center rounded-full bg-white/50 transition hover:bg-white/70 sm:size-[120px] lg:size-[160px]"
+      >
+        <svg className="h-[30%] w-[30%] fill-[#1F2349] opacity-70" viewBox="0 0 24 24">
+          <path d="M8 5v14l11-7z" />
+        </svg>
+      </button>
     </div>
   );
 }
 
-function ParagraphMargin2() {
+/* ============================================================
+ * SCREEN 5 — "Voices of the Journey" story cards
+ * ============================================================ */
+
+interface StoryCardProps {
+  img: string;
+  year: string;
+  title: string;
+  body: string;
+  imgClass?: string;
+}
+
+function StoryCard({ img, year, title, body, imgClass = "" }: StoryCardProps) {
   return (
-    <div className="relative shrink-0 w-full" data-name="Paragraph (margin)">
-      <div className="bg-clip-padding border-0 border-[transparent] border-solid content-stretch flex flex-col items-start pb-[6.311px] pt-[14.2px] relative size-full">
-        <Paragraph4 />
+    <div className="flex w-full max-w-[380px] flex-col items-start sm:max-w-none">
+      <div className="relative aspect-[292/170] w-full overflow-hidden rounded-[3px]">
+        <img alt="" className={`absolute inset-0 h-full w-full object-cover ${imgClass}`} src={img} />
       </div>
-    </div>
-  );
-}
-
-function Heading2() {
-  return (
-    <div className="h-[29.978px] relative shrink-0 w-[292.415px]" data-name="Heading 3">
-      <div className="bg-clip-padding border-0 border-[transparent] border-solid content-stretch flex flex-col items-start pb-[7.889px] relative size-full">
-        <p className="[word-break:break-word] font-['CRONDE:Regular',sans-serif] leading-[21.694px] not-italic relative shrink-0 text-[#192441] text-[17.356px] whitespace-nowrap">The European Leadership Summit</p>
-      </div>
-    </div>
-  );
-}
-
-function Paragraph5() {
-  return (
-    <div className="opacity-60 relative shrink-0 w-full" data-name="Paragraph">
-      <div className="bg-clip-padding border-0 border-[transparent] border-solid content-stretch flex flex-col items-start relative size-full">
-        <p className="[word-break:break-word] font-['Futura_PT:Book',sans-serif] leading-[20.117px] not-italic relative shrink-0 text-[#192441] text-[14px] w-[292.678px]">{`In 1987, pastors from twelve nations gathered for the first time, forging bonds that would define the mission's next chapter.`}</p>
-      </div>
-    </div>
-  );
-}
-
-function Container4() {
-  return (
-    <div className="flex-[371_0_0] h-full min-w-px relative" data-name="Container">
-      <div className="bg-clip-padding border-0 border-[transparent] border-solid content-stretch flex flex-col items-start relative size-full">
-        <Container5 />
-        <ParagraphMargin2 />
-        <Heading2 />
-        <Paragraph5 />
-      </div>
-    </div>
-  );
-}
-
-function Container7() {
-  return (
-    <div className="h-[170.4px] relative rounded-[2.367px] shrink-0 w-[292.678px]" data-name="Container">
-      <img alt="" className="absolute bg-clip-padding border-0 border-[transparent] border-solid inset-0 max-w-none object-cover pointer-events-none rounded-[2.367px] size-full" src={imgContainer2} />
-      <div className="bg-clip-padding border-0 border-[transparent] border-solid overflow-clip relative rounded-[inherit] size-full">
-        <div className="-translate-x-1/2 -translate-y-1/2 absolute h-[215px] left-[calc(50%-0.26px)] top-[calc(50%+0.3px)] w-[322px]" data-name="image 11">
-          <img alt="" className="absolute inset-0 max-w-none object-cover pointer-events-none size-full" src={imgImage11} />
-        </div>
-      </div>
-    </div>
-  );
-}
-
-function Paragraph6() {
-  return (
-    <div className="content-stretch flex flex-col h-[14.2px] items-start opacity-45 relative shrink-0 w-full" data-name="Paragraph">
-      <p className="[word-break:break-word] font-['Futura_PT:Book',sans-serif] leading-[14.2px] not-italic relative shrink-0 text-[#192441] text-[9.467px] tracking-[1.3253px] whitespace-nowrap">2007</p>
-    </div>
-  );
-}
-
-function ParagraphMargin3() {
-  return (
-    <div className="relative shrink-0 w-full" data-name="Paragraph (margin)">
-      <div className="bg-clip-padding border-0 border-[transparent] border-solid content-stretch flex flex-col items-start pb-[6.311px] pt-[14.2px] relative size-full">
-        <Paragraph6 />
-      </div>
-    </div>
-  );
-}
-
-function Heading3() {
-  return (
-    <div className="h-[29.978px] relative shrink-0 w-[292.415px]" data-name="Heading 3">
-      <div className="bg-clip-padding border-0 border-[transparent] border-solid content-stretch flex flex-col items-start pb-[7.889px] relative size-full">
-        <p className="[word-break:break-word] font-['CRONDE:Regular',sans-serif] leading-[21.694px] not-italic relative shrink-0 text-[#192441] text-[17.356px] whitespace-nowrap">50 Years of Youth Ministry</p>
-      </div>
-    </div>
-  );
-}
-
-function Paragraph7() {
-  return (
-    <div className="opacity-60 relative shrink-0 w-full" data-name="Paragraph">
-      <div className="bg-clip-padding border-0 border-[transparent] border-solid content-stretch flex flex-col items-start relative size-full">
-        <p className="[word-break:break-word] font-['Futura_PT:Book',sans-serif] leading-[20.117px] not-italic relative shrink-0 text-[#192441] text-[14px] w-[292.678px]">Young people have always been at the heart of AFM Western Europe — the next generation carrying the torch of faithful witness.</p>
-      </div>
-    </div>
-  );
-}
-
-function Container6() {
-  return (
-    <div className="flex-[371_0_0] h-full min-w-px relative" data-name="Container">
-      <div className="bg-clip-padding border-0 border-[transparent] border-solid content-stretch flex flex-col items-start relative size-full">
-        <Container7 />
-        <ParagraphMargin3 />
-        <Heading3 />
-        <Paragraph7 />
-      </div>
-    </div>
-  );
-}
-
-function Container1() {
-  return (
-    <div className="content-stretch flex gap-[34.711px] h-[295.044px] items-center justify-center relative shrink-0 w-[946.667px]" data-name="Container">
-      <Container2 />
-      <Container4 />
-      <Container6 />
-    </div>
-  );
-}
-
-function Container8() {
-  return (
-    <div className="bg-[#192441] content-stretch flex flex-col items-center justify-center px-[28.4px] py-[11.044px] relative rounded-[66.267px] shrink-0 w-[130.167px]" data-name="Container">
-      <p className="[word-break:break-word] font-['Futura_PT:Book',sans-serif] leading-[16.567px] not-italic relative shrink-0 text-[11.044px] text-white tracking-[0.4418px] whitespace-nowrap">View All Stories</p>
-    </div>
-  );
-}
-
-function StoriesSection() {
-  return (
-    <div className="bg-[#fcf9f2] relative shrink-0 w-full" data-name="StoriesSection">
-      <div className="flex flex-col items-center overflow-clip rounded-[inherit] size-full">
-        <div className="content-stretch flex flex-col gap-[72px] items-center px-[95px] py-[47px] relative size-full">
-          <Container />
-          <Container1 />
-          <Container8 />
-        </div>
-      </div>
+      <p className="mt-4 font-['Futura_PT:Book',sans-serif] text-[10px] uppercase tracking-[1.3px] text-[#192441] opacity-45">
+        {year}
+      </p>
+      <h3 className="mt-2 font-['CRONDE:Regular',sans-serif] text-[17px] text-[#192441] sm:text-[18px]">{title}</h3>
+      <p className="mt-2 font-['Futura_PT:Book',sans-serif] text-[14px] leading-relaxed text-[#192441] opacity-60">{body}</p>
     </div>
   );
 }
 
 function StorySection() {
   return (
-    <div className="bg-white h-[742px] relative shrink-0 w-full" data-name="Story section">
-      <div className="flex flex-col items-center justify-center overflow-clip rounded-[inherit] size-full">
-        <div className="content-stretch flex flex-col items-center justify-center p-[16px] relative size-full">
-          <StoriesSection />
+    <div className="w-full bg-white py-12 sm:py-16 lg:py-20">
+      <div className="mx-auto flex w-full max-w-[1100px] flex-col items-center gap-10 px-4 sm:gap-14 sm:px-8 lg:gap-[72px]">
+        <div className="flex flex-col items-center gap-3 text-center">
+          <p className="font-['Futura_PT:Book',sans-serif] text-[9px] uppercase tracking-[2px] text-[#192441] opacity-45">
+            Stories of Ministry
+          </p>
+          <h2 className="font-['CRONDE:Regular',sans-serif] text-[30px] text-[#192441] sm:text-[38px] lg:text-[45.756px]">
+            Voices of the Journey
+          </h2>
+          <p className="max-w-[500px] font-['Futura_PT:Book',sans-serif] text-[13px] text-[#192441] opacity-55 sm:text-[14.2px]">
+            Across five decades, the Gospel has transformed lives throughout Western Europe.
+          </p>
         </div>
+
+        <div className="grid w-full grid-cols-1 place-items-center gap-10 sm:grid-cols-2 sm:place-items-stretch lg:grid-cols-3 lg:gap-[34.711px]">
+          <StoryCard
+            img={imgContainer}
+            imgClass="scale-[2.5] -translate-x-[10%] -translate-y-[8%]"
+            year="1971"
+            title="A Church Planted in Amsterdam"
+            body="From a small gathering of six believers, a thriving congregation emerged that continues to shape the city today."
+          />
+          <StoryCard
+            img={imgContainer1}
+            imgClass="scale-[1.4]"
+            year="1987"
+            title="The European Leadership Summit"
+            body="In 1987, pastors from twelve nations gathered for the first time, forging bonds that would define the mission's next chapter."
+          />
+          <StoryCard
+            img={imgContainer2}
+            imgClass="scale-[1.1]"
+            year="2007"
+            title="50 Years of Youth Ministry"
+            body="Young people have always been at the heart of AFM Western Europe — the next generation carrying the torch of faithful witness."
+          />
+        </div>
+
+        <button type="button" className="rounded-full bg-[#192441] px-6 py-3 font-['Futura_PT:Book',sans-serif] text-[12px] tracking-[0.4px] text-white sm:text-[13px]">
+          View All Stories
+        </button>
       </div>
     </div>
   );
 }
 
-function Frame4() {
-  return (
-    <div className="absolute h-[1017px] left-0 top-[-21px] w-[1442px]">
-      <div className="absolute h-[1017px] left-[-83px] top-0 w-[1525.873px]" data-name="image 3">
-        <img alt="" className="absolute inset-0 max-w-none object-cover pointer-events-none size-full" src={imgImage3} />
-      </div>
-      <div className="-translate-y-1/2 absolute bg-[#172037] h-[938px] left-[-190px] mix-blend-multiply top-[calc(50%-69.5px)] w-[1739px]" />
-    </div>
-  );
-}
+/* ============================================================
+ * Extra section (not one of the 6 screenshot frames, but present
+ * in the source design as a later scroll position) — concentric
+ * ring / vertical timeline. Kept so no content is lost.
+ * ============================================================ */
 
-function Group() {
+function TimelineHero() {
   return (
-    <div className="-translate-x-1/2 absolute contents left-[calc(50%+0.5px)] size-[659px] top-[515px]">
-      <div className="absolute flex items-center justify-center left-[487.71px] size-[465.353px] top-[611.94px]">
-        <div className="-rotate-90 flex-none">
-          <div className="relative size-[465.353px]">
-            <svg className="absolute block inset-0 size-full" fill="none" preserveAspectRatio="none" viewBox="0 0 465.353 465.353">
-              <circle cx="232.677" cy="232.677" fill="var(--fill-0, black)" fillOpacity="0.2" id="Ellipse 2" r="232.273" stroke="var(--stroke-0, #D9C7A8)" strokeWidth="0.80661" />
-            </svg>
-          </div>
-        </div>
+    <div className="relative w-full overflow-hidden bg-[#0f1421] py-16 sm:py-20 lg:py-28" data-name="Hero">
+      <div className="absolute inset-0">
+        <img alt="" className="h-full w-full object-cover" src={imgImage3} />
+        <div className="absolute inset-0 bg-[#172037] mix-blend-multiply" />
       </div>
-      <div className="absolute flex items-center justify-center left-[391px] size-[659px] top-[515px]">
-        <div className="-rotate-90 flex-none">
-          <div className="relative size-[659px]">
-            <svg className="absolute block inset-0 size-full" fill="none" preserveAspectRatio="none" viewBox="0 0 659 659">
-              <circle cx="329.5" cy="329.5" id="Ellipse 3" r="329.097" stroke="var(--stroke-0, #D9C7A8)" strokeWidth="0.80661" />
-            </svg>
-          </div>
-        </div>
-      </div>
-      <div className="-translate-x-1/2 -translate-y-1/2 [word-break:break-word] absolute flex flex-col font-['CRONDE:Regular',sans-serif] justify-center leading-[0] left-[calc(50%-259.1px)] not-italic text-[#d9c7a8] text-[24px] text-center top-[736.26px] whitespace-nowrap">
-        <p className="leading-[normal]">1957</p>
-      </div>
-    </div>
-  );
-}
 
-function Group1() {
-  return (
-    <div className="absolute contents left-[391px] size-[659px] top-[515px]">
-      <Group />
-      <div className="-translate-x-1/2 -translate-y-1/2 absolute flex h-[40.919px] items-center justify-center left-[calc(50%-168.92px)] top-[623.14px] w-[47.873px]">
-        <div className="flex-none rotate-30">
-          <div className="[word-break:break-word] flex flex-col font-['CRONDE:Regular',sans-serif] justify-center leading-[0] not-italic relative text-[#d9c7a8] text-[24px] text-center whitespace-nowrap">
-            <p className="leading-[normal]">1967</p>
-          </div>
-        </div>
-      </div>
-      <div className="-translate-x-1/2 -translate-y-1/2 [word-break:break-word] absolute flex flex-col font-['CRONDE:Regular',sans-serif] justify-center leading-[0] left-[calc(50%+0.5px)] not-italic text-[48px] text-center text-white top-[571.24px] whitespace-nowrap">
-        <p className="leading-[normal]">1997</p>
-      </div>
-      <div className="-translate-x-1/2 -translate-y-1/2 absolute flex h-[42.155px] items-center justify-center left-[calc(50%+183.45px)] top-[639.49px] w-[49.584px]">
-        <div className="flex-none rotate-[-30.51deg]">
-          <div className="[word-break:break-word] flex flex-col font-['CRONDE:Regular',sans-serif] justify-center leading-[0] not-italic relative text-[#d9c7a8] text-[24px] text-center whitespace-nowrap">
-            <p className="leading-[normal]">2001</p>
-          </div>
-        </div>
-      </div>
-      <div className="-translate-x-1/2 -translate-y-1/2 [word-break:break-word] absolute flex flex-col font-['CRONDE:Regular',sans-serif] justify-center leading-[0] left-[calc(50%+263.39px)] not-italic text-[#d9c7a8] text-[24px] text-center top-[742.52px] whitespace-nowrap">
-        <p className="leading-[normal]">2014</p>
-      </div>
-    </div>
-  );
-}
+      <div className="relative mx-auto flex w-full max-w-[900px] flex-col items-center px-4 text-center">
+        <JubileeEyebrow />
 
-function Hero1() {
-  return (
-    <div className="bg-[#0f1421] h-[782px] overflow-clip relative shrink-0 w-[1440px]" data-name="Hero">
-      <Frame4 />
-      <div className="-translate-x-1/2 -translate-y-1/2 [word-break:break-word] absolute flex flex-col font-['CRONDE:Regular',sans-serif] justify-center leading-[0] left-[719.5px] not-italic text-[#d9c7a8] text-[0px] text-center top-[-297px] w-[799px]">
-        <p className="leading-[normal] mb-0 text-[15px]">Golden</p>
-        <p className="leading-[normal] text-[15px] text-white">Jubilee</p>
-      </div>
-      <div className="-translate-x-1/2 -translate-y-1/2 [word-break:break-word] absolute flex flex-col font-['Futura_PT:Book',sans-serif] justify-center leading-[0] left-[720px] not-italic text-[24px] text-center text-white top-[-297px] w-[596px] whitespace-pre-wrap">
-        <p className="leading-[normal] mb-0">
-          {`"One generation shall praise thy works to another, and shall declare thy mighty acts."`}
-          <br aria-hidden />
-          <br aria-hidden />
+        <h2 className="mt-10 font-['CRONDE:Regular',sans-serif] text-[32px] text-white sm:mt-14 sm:text-[40px] lg:mt-16 lg:text-[48px]">
+          Loreum Ipsum
+        </h2>
+        <p className="mt-6 max-w-[770px] font-['Futura_PT:Book',sans-serif] text-[15px] leading-relaxed text-white sm:text-[17px] lg:mt-8 lg:text-[20px]">
+          Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna
+          aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.
+          Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur
+          sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
         </p>
-        <p className="leading-[normal]">— Psalm 145:4</p>
+
+        {/* Desktop/tablet: concentric ring */}
+        <div className="relative mt-12 hidden h-[420px] w-[420px] items-center justify-center sm:mt-16 sm:flex lg:h-[600px] lg:w-[600px]">
+          <div className="absolute size-[70%] rounded-full border border-[#d9c7a8]/40 bg-black/20" />
+          <div className="absolute size-full rounded-full border border-[#d9c7a8]/60" />
+          <span className="absolute -left-2 top-[15%] font-['CRONDE:Regular',sans-serif] text-[16px] text-[#d9c7a8] sm:text-[20px] lg:text-[24px]">
+            1957
+          </span>
+          <span className="absolute left-[8%] top-[38%] rotate-[30deg] font-['CRONDE:Regular',sans-serif] text-[16px] text-[#d9c7a8] sm:text-[20px] lg:text-[24px]">
+            1967
+          </span>
+          <span className="absolute font-['CRONDE:Regular',sans-serif] text-[32px] text-white sm:text-[40px] lg:text-[48px]">
+            1997
+          </span>
+          <span className="absolute right-[8%] top-[42%] rotate-[-30deg] font-['CRONDE:Regular',sans-serif] text-[16px] text-[#d9c7a8] sm:text-[20px] lg:text-[24px]">
+            2001
+          </span>
+          <span className="absolute -right-2 top-[18%] font-['CRONDE:Regular',sans-serif] text-[16px] text-[#d9c7a8] sm:text-[20px] lg:text-[24px]">
+            2014
+          </span>
+        </div>
       </div>
-      <div className="-translate-x-1/2 -translate-y-1/2 [word-break:break-word] absolute flex flex-col font-['CRONDE:Regular',sans-serif] justify-center leading-[0] left-[calc(50%+7.5px)] not-italic text-[48px] text-center text-white top-[202px] whitespace-nowrap">
-        <p className="leading-[normal]">Loreum Ipsum</p>
+
+      {/* Mobile: full accordion timeline, full width so it isn't squeezed into the 900px text column above */}
+      <div className="mt-12 w-full sm:hidden">
+        <MobileTimeline activeYearIndex={0} />
       </div>
-      <div className="-translate-x-1/2 -translate-y-1/2 [word-break:break-word] absolute flex flex-col font-['Futura_PT:Book',sans-serif] justify-center leading-[0] left-[calc(50%+14px)] not-italic text-[20px] text-center text-white top-[337px] w-[770px]">
-        <p className="leading-[normal]">Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>
+    </div>
+  );
+}
+/* ============================================================
+ * SCREEN 6 — "50 Years Of God's Faithful Ministry" gallery
+ * ============================================================ */
+
+interface PolaroidPhotoProps {
+  img: string;
+  className: string;
+  rotate?: string;
+}
+
+function PolaroidPhoto({ img, className, rotate = "" }: PolaroidPhotoProps) {
+  return (
+    <div className={`absolute hidden overflow-hidden bg-white p-2 pb-8 shadow-[0px_4px_4.2px_0px_rgba(0,0,0,0.07)] lg:block ${rotate} ${className}`}>
+      <div className="h-[188px] w-[199px] overflow-hidden">
+        <img alt="" className="h-full w-full object-cover" src={img} />
       </div>
-      <Group1 />
     </div>
   );
 }
 
-function Frame6() {
-  return (
-    <div className="h-[188px] overflow-clip relative shrink-0 w-[199px]">
-      <div className="absolute h-[269px] left-[-73px] top-[-31px] w-[404px]" data-name="image 9">
-        <img alt="" className="absolute inset-0 max-w-none object-cover pointer-events-none size-full" src={imgImage9} />
-      </div>
-    </div>
-  );
-}
+function GallerySection() {
+  const photos: string[] = [imgImage9, imgImage16, imgImage14, imgImage18, imgImage17, imgImage15];
 
-function Frame5() {
   return (
-    <div className="absolute bg-white content-stretch flex flex-col items-start left-[74px] overflow-clip pb-[32px] pt-[8px] px-[8px] shadow-[0px_4px_4.2px_0px_rgba(0,0,0,0.07)] top-[113px] w-[215px]">
-      <Frame6 />
-    </div>
-  );
-}
+    <div className="relative w-full overflow-hidden bg-[#fcf9f2] py-16 sm:py-20 lg:py-28" data-name="gallery">
+      <VectorWatermark />
 
-function Frame7() {
-  return (
-    <div className="h-[188px] overflow-clip relative shrink-0 w-[199px]">
-      <div className="absolute flex h-[214.018px] items-center justify-center left-[-109.29px] top-[-17.28px] w-[318.494px]">
-        <div className="flex-none rotate-[-0.57deg]">
-          <div className="h-[210.896px] relative w-[316.422px]" data-name="image 16">
-            <img alt="" className="absolute inset-0 max-w-none object-cover pointer-events-none size-full" src={imgImage16} />
+      <div className="relative mx-auto flex w-full max-w-[900px] flex-col items-center px-4 text-center">
+        {/* Small circular logo mark, matching the top of screen 6 */}
+        <div className="relative size-[56px] sm:size-[64px]" data-name="mark">
+          <div className="absolute inset-0 overflow-hidden rounded-full">
+            <img alt="" className="h-full w-full object-cover" src={img51} />
           </div>
         </div>
-      </div>
-    </div>
-  );
-}
 
-function Frame9() {
-  return (
-    <div className="absolute flex h-[244.998px] items-center justify-center left-[108.94px] top-[503.5px] w-[233.118px]">
-      <div className="flex-none rotate-[4.74deg]">
-        <div className="bg-white content-stretch flex flex-col items-start overflow-clip pb-[32px] pt-[8px] px-[8px] relative shadow-[0px_4px_4.2px_0px_rgba(0,0,0,0.07)] w-[215px]">
-          <Frame7 />
+        <h2 className="mt-6 font-['CRONDE:Regular',sans-serif] text-[36px] leading-tight text-[#192441] sm:mt-8 sm:text-[48px] lg:text-[72px]">
+          50 Years
+          <br />
+          Of God&apos;s Faithful Ministry
+        </h2>
+
+        <button
+          type="button"
+          className="mt-8 w-full max-w-[280px] rounded-[2px] bg-[#192441] px-6 py-3 font-['Futura_PT:Book',sans-serif] text-[15px] text-white sm:mt-10 sm:w-auto lg:text-[16px]"
+        >
+          View Full Gallery
+        </button>
+
+        {/* Photo grid — 2 cols on mobile, matching screen 6, scaling up on larger screens */}
+        <div className="relative mt-10 grid w-full grid-cols-2 gap-3 sm:mt-14 sm:grid-cols-3 sm:gap-4 lg:mt-16 lg:hidden">
+          {photos.map((p, i) => (
+            <div key={i} className="aspect-square overflow-hidden bg-white p-1.5 shadow-[0px_4px_4.2px_0px_rgba(0,0,0,0.07)]">
+              <img alt="" className="h-full w-full object-cover" src={p} />
+            </div>
+          ))}
+        </div>
+
+        {/* Scattered polaroid layout, desktop/large screens only */}
+        <div className="relative mt-16 hidden h-[420px] w-full lg:block">
+          <PolaroidPhoto img={photos[0]} className="left-[2%] top-0" />
+          <PolaroidPhoto img={photos[1]} className="left-[20%] top-[52%]" rotate="rotate-[5deg]" />
+          <PolaroidPhoto img={photos[2]} className="right-[2%] top-[35%]" />
+          <PolaroidPhoto img={photos[3]} className="right-[6%] top-0" rotate="rotate-[21deg]" />
+          <PolaroidPhoto img={photos[4]} className="left-[38%] top-[38%]" rotate="rotate-[-14deg]" />
+          <PolaroidPhoto img={photos[5]} className="right-[10%] top-[8%]" rotate="rotate-[14deg]" />
         </div>
       </div>
     </div>
   );
 }
 
-function Frame10() {
-  return (
-    <div className="h-[188px] overflow-clip relative shrink-0 w-[199px]">
-      <div className="absolute flex h-[520px] items-center justify-center left-[-324px] top-[-132px] w-[780px]">
-        <div className="-scale-y-100 flex-none rotate-180">
-          <div className="h-[520px] relative w-[780px]" data-name="image 14">
-            <img alt="" className="absolute inset-0 max-w-none object-cover pointer-events-none size-full" src={imgImage14} />
-          </div>
-        </div>
-      </div>
-    </div>
-  );
-}
-
-function Frame8() {
-  return (
-    <div className="absolute bg-white content-stretch flex flex-col items-start left-[1093px] overflow-clip pb-[32px] pt-[8px] px-[8px] shadow-[0px_4px_4.2px_0px_rgba(0,0,0,0.07)] top-[316px] w-[215px]">
-      <Frame10 />
-    </div>
-  );
-}
-
-function Frame14() {
-  return (
-    <div className="h-[188px] overflow-clip relative shrink-0 w-[199px]">
-      <div className="absolute flex h-[464.704px] items-center justify-center left-[-169.71px] top-[-220.24px] w-[624.021px]">
-        <div className="flex-none rotate-[8.82deg]">
-          <div className="h-[381.429px] relative w-[572.283px]" data-name="image 18">
-            <img alt="" className="absolute inset-0 max-w-none object-cover pointer-events-none size-full" src={imgImage18} />
-          </div>
-        </div>
-      </div>
-    </div>
-  );
-}
-
-function Frame11() {
-  return (
-    <div className="absolute flex h-[289.163px] items-center justify-center left-[1079px] top-[468px] w-[281.581px]">
-      <div className="flex-none rotate-[20.65deg]">
-        <div className="bg-white content-stretch flex flex-col items-start overflow-clip pb-[32px] pt-[8px] px-[8px] relative shadow-[0px_4px_4.2px_0px_rgba(0,0,0,0.07)] w-[215px]">
-          <Frame14 />
-        </div>
-      </div>
-    </div>
-  );
-}
-
-function Frame16() {
-  return (
-    <div className="h-[188px] overflow-clip relative shrink-0 w-[199px]">
-      <div className="absolute flex h-[282.256px] items-center justify-center left-[-140.99px] top-[7.1px] w-[414.765px]">
-        <div className="flex-none rotate-[-1.45deg]">
-          <div className="h-[272px] relative w-[408px]" data-name="image 17">
-            <img alt="" className="absolute inset-0 max-w-none object-cover pointer-events-none size-full" src={imgImage17} />
-          </div>
-        </div>
-      </div>
-    </div>
-  );
-}
-
-function Frame15() {
-  return (
-    <div className="absolute flex h-[272.02px] items-center justify-center left-[102.33px] top-[280.35px] w-[262.426px]">
-      <div className="flex-none rotate-[-13.55deg]">
-        <div className="bg-white content-stretch flex flex-col items-start overflow-clip pb-[32px] pt-[8px] px-[8px] relative shadow-[0px_0px_9.2px_0px_rgba(0,0,0,0.07)] w-[215px]">
-          <Frame16 />
-        </div>
-      </div>
-    </div>
-  );
-}
-
-function Frame20() {
-  return (
-    <div className="h-[188px] overflow-clip relative shrink-0 w-[199px]">
-      <div className="-translate-x-1/2 absolute flex h-[221.627px] items-center justify-center left-[calc(50%+3.06px)] top-[-6.39px] w-[326.937px]">
-        <div className="flex-none rotate-[1.19deg]">
-          <div className="h-[214.976px] relative w-[322.542px]" data-name="image 15">
-            <img alt="" className="absolute inset-0 max-w-none object-cover pointer-events-none size-full" src={imgImage15} />
-          </div>
-        </div>
-      </div>
-    </div>
-  );
-}
-
-function Frame17() {
-  return (
-    <div className="absolute flex h-[272.731px] items-center justify-center left-[1078px] top-[76px] w-[263.21px]">
-      <div className="flex-none rotate-[13.81deg]">
-        <div className="bg-white content-stretch flex flex-col items-start overflow-clip pb-[32px] pt-[8px] px-[8px] relative shadow-[0px_4px_4.2px_0px_rgba(0,0,0,0.07)] w-[215px]">
-          <Frame20 />
-        </div>
-      </div>
-    </div>
-  );
-}
-
-function Frame21() {
-  return (
-    <div className="absolute bg-[#192441] content-stretch flex h-[42px] items-center justify-center left-[603px] p-[12px] rounded-[2px] top-[601px] w-[235px]">
-      <div className="[word-break:break-word] flex flex-col font-['Futura_PT:Book',sans-serif] justify-center leading-[0] not-italic relative shrink-0 text-[16px] text-center text-white whitespace-nowrap">
-        <p className="leading-[normal]">View Full Gallery</p>
-      </div>
-    </div>
-  );
-}
-
-function Hero2() {
-  return (
-    <div className="bg-[#fcf9f2] h-[816px] overflow-clip relative shrink-0 w-[1440px]" data-name="Hero">
-      <div className="absolute inset-[-12.5%_14.58%]" data-name="Vector">
-        <svg className="absolute block inset-0 size-full" fill="none" preserveAspectRatio="none" viewBox="0 0 1020 1020">
-          <g id="Vector" opacity="0.2">
-            <path d={svgPaths.p1560df80} fill="var(--fill-0, #949494)" />
-            <path d={svgPaths.p3970d30} fill="var(--fill-0, #949494)" />
-            <path d={svgPaths.pe9985f0} fill="var(--fill-0, #949494)" />
-            <path d={svgPaths.p3a584970} fill="var(--fill-0, #949494)" />
-            <path d={svgPaths.p618ec00} fill="var(--fill-0, #949494)" />
-            <path d={svgPaths.p205d2500} fill="var(--fill-0, #949494)" />
-            <path d={svgPaths.p15a41e00} fill="var(--fill-0, #949494)" />
-            <path d={svgPaths.p31c04900} fill="var(--fill-0, #949494)" />
-            <path d={svgPaths.p3dba9d00} fill="var(--fill-0, #949494)" />
-            <path d={svgPaths.p1f23f680} fill="var(--fill-0, #949494)" />
-            <path d={svgPaths.p3d550f00} fill="var(--fill-0, #949494)" />
-            <path d={svgPaths.p21ab5e00} fill="var(--fill-0, #949494)" />
-          </g>
-        </svg>
-      </div>
-      <div className="-translate-x-1/2 -translate-y-1/2 [word-break:break-word] absolute flex flex-col font-['CRONDE:Regular',sans-serif] justify-center leading-[0] left-[719.5px] not-italic text-[#d9c7a8] text-[0px] text-center top-[-102px] w-[799px]">
-        <p className="leading-[normal] mb-0 text-[15px]">Golden</p>
-        <p className="leading-[normal] text-[15px] text-white">Jubilee</p>
-      </div>
-      <div className="-translate-x-1/2 -translate-y-1/2 [word-break:break-word] absolute flex flex-col font-['Futura_PT:Book',sans-serif] justify-center leading-[0] left-[720px] not-italic text-[24px] text-center text-white top-[-102px] w-[596px] whitespace-pre-wrap">
-        <p className="leading-[normal] mb-0">
-          {`"One generation shall praise thy works to another, and shall declare thy mighty acts."`}
-          <br aria-hidden />
-          <br aria-hidden />
-        </p>
-        <p className="leading-[normal]">— Psalm 145:4</p>
-      </div>
-      <Frame5 />
-      <Frame9 />
-      <Frame8 />
-      <Frame11 />
-      <Frame15 />
-      <Frame17 />
-      <div className="-translate-x-1/2 -translate-y-1/2 [word-break:break-word] absolute flex flex-col font-['CRONDE:Regular',sans-serif] justify-center leading-[0] left-[calc(50%+0.5px)] not-italic text-[#192441] text-[72px] text-center top-[416.5px] w-[525px]">
-        <p className="leading-[normal]">
-          Years
-          <br aria-hidden />
-          {`Of God's Faithful Ministry`}
-        </p>
-      </div>
-      <Frame21 />
-      <div className="absolute left-[640px] size-[172px] top-[113px]" data-name="5 1">
-        <div className="absolute inset-0 overflow-hidden pointer-events-none">
-          <img alt="" className="absolute left-[-35.58%] max-w-none size-[171.15%] top-[-35.58%]" src={img51} />
-        </div>
-      </div>
-    </div>
-  );
-}
-
-function Container9() {
-  return (
-    <div className="absolute bg-[rgba(217,199,168,0.12)] border-[0.789px] border-[rgba(217,199,168,0.3)] border-solid h-[37.078px] right-[94.86px] rounded-[66.267px] top-[47.33px] w-[85.2px]" data-name="Container">
-      <p className="[word-break:break-word] absolute font-['Futura_PT:Book',sans-serif] leading-[16.567px] left-[21.9px] not-italic text-[#d9c7a8] text-[11.044px] top-[9.66px] tracking-[0.4418px] whitespace-nowrap">AFM UK</p>
-    </div>
-  );
-}
-
-function Text() {
-  return (
-    <div className="h-[18.933px] opacity-75 relative shrink-0 w-[34.711px]" data-name="Text">
-      <div className="bg-clip-padding border-0 border-[transparent] border-solid relative size-full">
-        <p className="[word-break:break-word] absolute font-['Futura_PT:Book',sans-serif] leading-[18.933px] left-[0.11px] not-italic text-[12.622px] text-white top-[0.2px] tracking-[0.2524px] whitespace-nowrap">Stories</p>
-      </div>
-    </div>
-  );
-}
-
-function Text1() {
-  return (
-    <div className="h-[18.933px] opacity-75 relative shrink-0 w-[33.133px]" data-name="Text">
-      <div className="bg-clip-padding border-0 border-[transparent] border-solid relative size-full">
-        <p className="[word-break:break-word] absolute font-['Futura_PT:Book',sans-serif] leading-[18.933px] left-[-0.13px] not-italic text-[12.622px] text-white top-[0.2px] tracking-[0.2524px] whitespace-nowrap">Photos</p>
-      </div>
-    </div>
-  );
-}
-
-function Text2() {
-  return (
-    <div className="h-[18.933px] opacity-75 relative shrink-0 w-[41.811px]" data-name="Text">
-      <div className="bg-clip-padding border-0 border-[transparent] border-solid relative size-full">
-        <p className="[word-break:break-word] absolute font-['Futura_PT:Book',sans-serif] leading-[18.933px] left-[-0.09px] not-italic text-[12.622px] text-white top-[0.2px] tracking-[0.2524px] whitespace-nowrap">Timeline</p>
-      </div>
-    </div>
-  );
-}
-
-function Container10() {
-  return (
-    <div className="content-stretch flex gap-[37.867px] items-center relative shrink-0" data-name="Container">
-      <Text />
-      <Text1 />
-      <Text2 />
-    </div>
-  );
-}
-
-function Paragraph8() {
-  return (
-    <div className="opacity-80 relative shrink-0 w-full" data-name="Paragraph">
-      <div className="bg-clip-padding border-0 border-[transparent] border-solid content-stretch flex flex-col items-center relative size-full">
-        <div className="[word-break:break-word] font-['Futura_PT:Book',sans-serif] leading-[0] not-italic relative shrink-0 text-[#d9c7a8] text-[14.989px] text-center whitespace-nowrap">
-          <p className="leading-[24.732px] mb-0">{`"One generation shall praise thy works to another,`}</p>
-          <p className="leading-[24.732px]">{`and shall declare thy mighty acts."`}</p>
-        </div>
-      </div>
-    </div>
-  );
-}
-
-function Paragraph9() {
-  return (
-    <div className="content-stretch flex flex-col items-center opacity-50 relative shrink-0 w-full" data-name="Paragraph">
-      <p className="[word-break:break-word] font-['Futura_PT:Book',sans-serif] leading-[15.383px] not-italic relative shrink-0 text-[#d9c7a8] text-[10.256px] text-center tracking-[0.6153px] whitespace-nowrap">— Psalm 145:4</p>
-    </div>
-  );
-}
-
-function ParagraphMargin4() {
-  return (
-    <div className="relative shrink-0 w-full" data-name="Paragraph (margin)">
-      <div className="bg-clip-padding border-0 border-[transparent] border-solid content-stretch flex flex-col items-start pt-[11.044px] relative size-full">
-        <Paragraph9 />
-      </div>
-    </div>
-  );
-}
-
-function Container11() {
-  return (
-    <div className="content-stretch flex flex-col items-start relative shrink-0 w-full" data-name="Container">
-      <Paragraph8 />
-      <ParagraphMargin4 />
-    </div>
-  );
-}
-
-function Frame22() {
-  return (
-    <div className="-translate-x-1/2 -translate-y-1/2 absolute content-stretch flex flex-col gap-[74px] items-center left-1/2 top-[calc(50%-31.71px)] w-[536.445px]">
-      <Container10 />
-      <Container11 />
-    </div>
-  );
-}
-
-function Container13() {
-  return <div className="bg-[#d9c7a8] h-[0.789px] opacity-12 relative shrink-0 w-full" data-name="Container" />;
-}
-
-function Text3() {
-  return (
-    <div className="h-[14.2px] opacity-35 relative shrink-0 w-[268.222px]" data-name="Text">
-      <div className="bg-clip-padding border-0 border-[transparent] border-solid relative size-full">
-        <p className="[word-break:break-word] absolute font-['Futura_PT:Book',sans-serif] leading-[14.2px] left-[0.1px] not-italic text-[9.467px] text-white top-[-0.2px] tracking-[0.284px] whitespace-nowrap">© 2026 Apostolic Faith Mission Western Europe. All rights reserved.</p>
-      </div>
-    </div>
-  );
-}
-
-function Text4() {
-  return (
-    <div className="h-[14.2px] opacity-40 relative shrink-0 w-[155.411px]" data-name="Text">
-      <div className="bg-clip-padding border-0 border-[transparent] border-solid relative size-full">
-        <p className="[word-break:break-word] absolute font-['Futura_PT:Book',sans-serif] leading-[14.2px] left-[-0.19px] not-italic text-[#d9c7a8] text-[9.467px] top-[-0.2px] tracking-[0.284px] whitespace-nowrap">Celebrating 50 years of faithful ministry</p>
-      </div>
-    </div>
-  );
-}
-
-function Container14() {
-  return (
-    <div className="content-stretch flex items-center justify-between relative shrink-0 w-full" data-name="Container">
-      <Text3 />
-      <Text4 />
-    </div>
-  );
-}
-
-function ContainerMargin() {
-  return (
-    <div className="relative shrink-0 w-full" data-name="Container (margin)">
-      <div className="bg-clip-padding border-0 border-[transparent] border-solid content-stretch flex flex-col items-center pt-[18.933px] relative size-full">
-        <Container14 />
-      </div>
-    </div>
-  );
-}
-
-function Container12() {
-  return (
-    <div className="absolute content-stretch flex flex-col items-start left-[94.67px] right-[94.67px] top-[269.01px]" data-name="Container">
-      <Container13 />
-      <ContainerMargin />
-    </div>
-  );
-}
-
-function Footer1() {
-  return (
-    <div className="bg-[#192441] h-[347px] overflow-clip relative shrink-0 w-[1440px]" data-name="Footer">
-      <div className="absolute h-[145px] left-[95px] top-[44px] w-[160px]" data-name="9 1">
-        <div className="absolute inset-0 overflow-hidden pointer-events-none">
-          <img alt="" className="absolute h-[180.02%] left-[-31.85%] max-w-none top-[-39.79%] w-[163.14%]" src={img91} />
-        </div>
-      </div>
-      <Container9 />
-      <Frame22 />
-      <Container12 />
-    </div>
-  );
-}
+/* ---------------------------------- Footer ---------------------------------- */
 
 function Footer() {
   return (
-    <div className="bg-[#192441] content-stretch flex flex-col h-[379px] items-center justify-center overflow-clip relative shrink-0 w-full" data-name="footer">
-      <Footer1 />
-    </div>
-  );
-}
+    <footer className="w-full bg-[#192441] py-12 sm:py-16 lg:py-20" data-name="footer">
+      <div className="mx-auto flex w-full max-w-[1100px] flex-col items-center gap-10 px-4 sm:px-8 lg:gap-[72px]">
+        <div className="flex w-full flex-col items-center gap-6 sm:flex-row sm:justify-between">
+          <div className="relative h-[100px] w-[110px] shrink-0 overflow-hidden sm:h-[120px] sm:w-[132px] lg:h-[145px] lg:w-[160px]">
+            <img alt="" className="absolute left-[-32%] top-[-40%] h-[180%] w-[163%] max-w-none object-cover" src={img91} />
+          </div>
+          <span className="rounded-full border border-[#d9c7a8]/30 bg-[#d9c7a8]/10 px-5 py-2 font-['Futura_PT:Book',sans-serif] text-[11px] tracking-[0.4px] text-[#d9c7a8]">
+            AFM UK
+          </span>
+        </div>
 
-function Frame18() {
-  return (
-    <div className="content-stretch flex flex-col items-center relative shrink-0 w-full">
-      <Intro />
-      <Frame23 />
-      <StorySection />
-      <Hero1 />
-      <Hero2 />
-      <Footer />
-    </div>
-  );
-}
+        <div className="flex flex-col items-center gap-4 text-center sm:gap-6">
+          <div className="flex flex-wrap items-center justify-center gap-5 opacity-75 sm:gap-8 lg:gap-[37.867px]">
+            <span className="font-['Futura_PT:Book',sans-serif] text-[12px] tracking-[0.25px] text-white sm:text-[12.622px]">Stories</span>
+            <span className="font-['Futura_PT:Book',sans-serif] text-[12px] tracking-[0.25px] text-white sm:text-[12.622px]">Photos</span>
+            <span className="font-['Futura_PT:Book',sans-serif] text-[12px] tracking-[0.25px] text-white sm:text-[12.622px]">Timeline</span>
+          </div>
 
-function Frame19() {
-  return (
-    <div className="absolute content-stretch flex flex-col items-start left-0 top-0 w-[1440px]">
-      <Hero />
-      <Frame18 />
-    </div>
-  );
-}
+          <div className="flex flex-col items-center gap-4 opacity-80">
+            <p className="font-['Futura_PT:Book',sans-serif] text-[13px] leading-relaxed text-[#d9c7a8] sm:text-[14.989px]">
+              "One generation shall praise thy works to another,
+              <br />
+              and shall declare thy mighty acts."
+            </p>
+            <p className="font-['Futura_PT:Book',sans-serif] text-[9px] tracking-[0.6px] text-[#d9c7a8] opacity-50 sm:text-[10.256px]">
+              — Psalm 145:4
+            </p>
+          </div>
+        </div>
 
-function Image() {
-  return (
-    <div className="absolute left-[-28.87px] size-[187.756px] top-[-75.73px]" data-name="Image">
-      <img alt="" className="absolute inset-0 max-w-none object-cover pointer-events-none size-full" src={imgImage} />
-    </div>
-  );
-}
-
-function Container16() {
-  return (
-    <div className="h-[39.444px] relative shrink-0 w-[129.378px]" data-name="Container">
-      <div className="bg-clip-padding border-0 border-[transparent] border-solid overflow-clip relative rounded-[inherit] size-full">
-        <Image />
-      </div>
-    </div>
-  );
-}
-
-function LinkAncestryHomeMargin() {
-  return (
-    <div className="min-w-[129.37779235839844px] relative shrink-0 w-[387.345px]" data-name="LinkAncestryHomeMargin">
-      <div className="bg-clip-padding border-0 border-[transparent] border-solid content-stretch flex flex-col items-center min-w-[inherit] pr-[257.671px] relative size-full">
-        <Container16 />
-      </div>
-    </div>
-  );
-}
-
-function Container17() {
-  return (
-    <div className="relative shrink-0" data-name="Container1">
-      <div className="bg-clip-padding border-0 border-[transparent] border-solid content-stretch flex flex-col items-start relative size-full">
-        <p className="[word-break:break-word] font-['Inter:Regular',sans-serif] font-normal leading-[18.144px] not-italic relative shrink-0 text-[#38362d] text-[15.778px] tracking-[-0.2367px] whitespace-nowrap">Founder</p>
-      </div>
-    </div>
-  );
-}
-
-function LinkAbout() {
-  return (
-    <div className="relative shrink-0" data-name="LinkAbout">
-      <div className="bg-clip-padding border-0 border-[transparent] border-solid content-stretch flex flex-col items-center relative size-full">
-        <Container17 />
-      </div>
-    </div>
-  );
-}
-
-function Container19() {
-  return (
-    <div className="relative shrink-0" data-name="Container1">
-      <div className="bg-clip-padding border-0 border-[transparent] border-solid content-stretch flex flex-col items-start relative size-full">
-        <p className="[word-break:break-word] font-['Inter:Regular',sans-serif] font-normal leading-[18.144px] not-italic relative shrink-0 text-[#38362d] text-[15.778px] tracking-[-0.2367px] whitespace-nowrap">Branches</p>
-      </div>
-    </div>
-  );
-}
-
-function LinkAbout1() {
-  return (
-    <div className="relative shrink-0" data-name="LinkAbout">
-      <div className="bg-clip-padding border-0 border-[transparent] border-solid content-stretch flex flex-col items-center relative size-full">
-        <Container19 />
-      </div>
-    </div>
-  );
-}
-
-function MynauiChevronLeft() {
-  return (
-    <div className="flex items-center justify-center relative shrink-0 size-[24px]">
-      <div className="-rotate-90 flex-none">
-        <div className="relative size-[24px]" data-name="mynaui:chevron-left">
-          <svg className="absolute block inset-0 size-full" fill="none" preserveAspectRatio="none" viewBox="0 0 24 24">
-            <g id="mynaui:chevron-left">
-              <path d="M15 6L9 12L15 18" id="Vector" stroke="var(--stroke-0, black)" strokeLinecap="round" strokeLinejoin="round" strokeWidth="1.5" />
-            </g>
-          </svg>
+        <div className="w-full border-t border-[#d9c7a8]/10 pt-5">
+          <div className="flex flex-col items-center gap-2 sm:flex-row sm:items-center sm:justify-between sm:gap-4">
+            <p className="text-center font-['Futura_PT:Book',sans-serif] text-[9px] tracking-[0.28px] text-white opacity-35 sm:text-[9.467px]">
+              © 2026 Apostolic Faith Mission Western Europe. All rights reserved.
+            </p>
+            <p className="text-center font-['Futura_PT:Book',sans-serif] text-[9px] tracking-[0.28px] text-[#d9c7a8] opacity-40 sm:text-[9.467px]">
+              Celebrating 50 years of faithful ministry
+            </p>
+          </div>
         </div>
       </div>
-    </div>
+    </footer>
   );
 }
 
-function Container18() {
-  return (
-    <div className="relative shrink-0" data-name="Container5">
-      <div className="bg-clip-padding border-0 border-[transparent] border-solid content-stretch flex gap-[8px] items-center relative size-full">
-        <LinkAbout1 />
-        <MynauiChevronLeft />
-      </div>
-    </div>
-  );
-}
-
-function Link250Stories() {
-  return (
-    <div className="relative shrink-0" data-name="Link250Stories">
-      <div className="bg-clip-padding border-0 border-[transparent] border-solid content-stretch flex items-start justify-center relative size-full">
-        <Container18 />
-      </div>
-    </div>
-  );
-}
-
-function MynauiChevronLeft1() {
-  return (
-    <div className="flex items-center justify-center relative shrink-0 size-[24px]">
-      <div className="-rotate-90 flex-none">
-        <div className="relative size-[24px]" data-name="mynaui:chevron-left">
-          <svg className="absolute block inset-0 size-full" fill="none" preserveAspectRatio="none" viewBox="0 0 24 24">
-            <g id="mynaui:chevron-left">
-              <path d="M15 6L9 12L15 18" id="Vector" stroke="var(--stroke-0, black)" strokeLinecap="round" strokeLinejoin="round" strokeWidth="1.5" />
-            </g>
-          </svg>
-        </div>
-      </div>
-    </div>
-  );
-}
-
-function Container20() {
-  return (
-    <div className="relative shrink-0" data-name="Container5">
-      <div className="bg-clip-padding border-0 border-[transparent] border-solid content-stretch flex gap-[8px] items-center relative size-full">
-        <p className="[word-break:break-word] font-['Inter:Regular',sans-serif] font-normal leading-[18.144px] not-italic relative shrink-0 text-[#38362d] text-[15.778px] tracking-[-0.2367px] whitespace-nowrap">Departement</p>
-        <MynauiChevronLeft1 />
-      </div>
-    </div>
-  );
-}
-
-function Link250Stories1() {
-  return (
-    <div className="relative shrink-0" data-name="Link250Stories">
-      <div className="bg-clip-padding border-0 border-[transparent] border-solid content-stretch flex items-start justify-center relative size-full">
-        <Container20 />
-      </div>
-    </div>
-  );
-}
-
-function Container21() {
-  return (
-    <div className="relative shrink-0" data-name="Container5">
-      <div className="bg-clip-padding border-0 border-[transparent] border-solid content-stretch flex items-center relative size-full">
-        <p className="[word-break:break-word] font-['Inter:Regular',sans-serif] font-normal leading-[18.144px] not-italic relative shrink-0 text-[#38362d] text-[15.778px] tracking-[-0.2367px] whitespace-nowrap">Timeline</p>
-      </div>
-    </div>
-  );
-}
-
-function Link250Stories2() {
-  return (
-    <div className="relative shrink-0" data-name="Link250Stories">
-      <div className="bg-clip-padding border-0 border-[transparent] border-solid content-stretch flex items-start justify-center relative size-full">
-        <Container21 />
-      </div>
-    </div>
-  );
-}
-
-function Container22() {
-  return (
-    <div className="relative shrink-0" data-name="Container3">
-      <div className="bg-clip-padding border-0 border-[transparent] border-solid content-stretch flex flex-col items-start relative size-full">
-        <p className="[word-break:break-word] font-['Inter:Regular',sans-serif] font-normal leading-[18.144px] not-italic relative shrink-0 text-[#38362d] text-[15.778px] tracking-[-0.2367px] whitespace-nowrap">Shop</p>
-      </div>
-    </div>
-  );
-}
-
-function LinkRecordGallery() {
-  return (
-    <div className="relative shrink-0" data-name="LinkRecordGallery">
-      <div className="bg-clip-padding border-0 border-[transparent] border-solid content-stretch flex flex-col items-center relative size-full">
-        <Container22 />
-      </div>
-    </div>
-  );
-}
-
-function Frame() {
-  return (
-    <div className="relative shrink-0" data-name="Frame">
-      <div className="bg-clip-padding border-0 border-[transparent] border-solid content-stretch flex gap-[25.244px] items-center relative size-full">
-        <LinkAbout />
-        <Link250Stories />
-        <Link250Stories1 />
-        <Link250Stories2 />
-        <LinkRecordGallery />
-      </div>
-    </div>
-  );
-}
-
-function Container23() {
-  return (
-    <div className="relative shrink-0" data-name="Container">
-      <div className="bg-clip-padding border-0 border-[transparent] border-solid content-stretch flex flex-col items-center relative size-full">
-        <p className="[word-break:break-word] font-['Inter:Regular',sans-serif] font-normal leading-[13.253px] not-italic relative shrink-0 text-[10.729px] text-center text-white tracking-[0.0552px] whitespace-nowrap">AFM UK</p>
-      </div>
-    </div>
-  );
-}
-
-function Link() {
-  return (
-    <div className="bg-[#192441] h-[37.867px] relative rounded-[66.267px] shrink-0" data-name="Link">
-      <div className="bg-clip-padding border-0 border-[transparent] border-solid content-stretch flex items-center justify-center px-[18.933px] relative size-full">
-        <Container23 />
-      </div>
-    </div>
-  );
-}
-
-function LinkMargin() {
-  return (
-    <div className="h-[37.867px] min-w-[116.33746337890625px] relative shrink-0 w-[373.933px]" data-name="LinkMargin">
-      <div className="bg-clip-padding border-0 border-[transparent] border-solid content-stretch flex flex-col items-center min-w-[inherit] pl-[257.671px] relative size-full">
-        <Link />
-      </div>
-    </div>
-  );
-}
-
-function Container15() {
-  return (
-    <div className="absolute bg-white content-stretch flex h-[63px] items-center justify-between left-0 px-[18.933px] top-0 w-[1440px]" data-name="Container">
-      <LinkAncestryHomeMargin />
-      <Frame />
-      <LinkMargin />
-    </div>
-  );
-}
-
-function ContainerTransform() {
-  return (
-    <div className="h-[80px] relative shrink-0 w-[1440px]" data-name="Container (transform)">
-      <div className="bg-clip-padding border-0 border-[transparent] border-solid content-stretch flex flex-col items-start relative size-full">
-        <Container15 />
-      </div>
-    </div>
-  );
-}
-
-function App() {
-  return (
-    <div className="absolute content-stretch flex flex-col items-start left-0 overflow-clip top-0 w-[1440px]" data-name="App">
-      <ContainerTransform />
-    </div>
-  );
-}
-
-function Frame12() {
-  return (
-    <div className="absolute bg-white h-[4807px] left-0 overflow-clip top-0 w-[1440px]">
-      <Frame19 />
-      <App />
-    </div>
-  );
-}
-
+/* ---------------------------------- Page ---------------------------------- */
+/*
+ * Section order now follows the 6 mobile screens from your screenshot,
+ * left to right:
+ *   1. QuoteHero        — dark quote + photo collage strip
+ *   2. AnniversarySplash — gold "50th Anniversary" badge
+ *   3. Hero              — "Praise God With US!"
+ *   4. Intro + VideoBanner — "Where it all started" + video
+ *   5. StorySection      — "Voices of the Journey"
+ *   6. GallerySection    — "50 Years Of God's Faithful Ministry"
+ *
+ * TimelineHero is kept after these because it exists in the original
+ * source file (concentric-ring timeline) but wasn't one of the 6
+ * captured frames — remove it if it isn't actually part of this page.
+ */
 export default function Homepage() {
   return (
-    <div className="relative size-full" data-name="Homepage">
-      <Frame12 />
+    <div className="relative flex min-h-screen w-full flex-col bg-white" data-name="Homepage">
+      <NavBar />
+      <QuoteHero />
+      <AnniversarySplash />
+      <Hero />
+      <Intro />
+      <VideoBanner />
+      <StorySection />
+      <GallerySection />
+      <TimelineHero />
+      <Footer />
     </div>
   );
 }

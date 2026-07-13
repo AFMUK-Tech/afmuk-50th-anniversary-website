@@ -1,8 +1,10 @@
+// imports/Aberdeen/index.tsx
 import svgPaths from "./svg-xoo8ojazud";
 import imgImage from "./9ec56a815db13e6f5f4c4f51dc8c89bded734cf2.png";
 import imgAberdeenTransparentBackground1 from "./250940384216929a07c94530901961290fae6608.png";
 import img31601 from "./8eec26372dc289f1420f275f253783f21274540d.png";
 import imgImage12 from "./00906276d94a619afd9053d491e72ee53b2c84f7.png";
+import type { ReactElement } from "react";
 
 function Image() {
   return (
@@ -297,7 +299,7 @@ function Frame9() {
         <p className="leading-[normal]">Address</p>
       </div>
       <div className="flex flex-col font-['Futura_PT:Book',sans-serif] justify-center relative shrink-0">
-        <p className="leading-[normal]">21 pekam road North London</p>
+        <p className="leading-[normal]">Kingswells Parish Church, Aberdeen, Scotland</p>
       </div>
     </div>
   );
@@ -334,10 +336,10 @@ function Frame11() {
   return (
     <div className="[word-break:break-word] content-stretch flex flex-col gap-[32px] items-start leading-[0] not-italic relative shrink-0 text-[#38362d] w-[770px]">
       <div className="flex flex-col font-['CRONDE:Regular',sans-serif] justify-center relative shrink-0 text-[48px] w-full">
-        <p className="leading-[normal]">Loreum Ipsum</p>
+        <p className="leading-[normal]">Twenty-Six Years to a Permanent Home</p>
       </div>
       <div className="flex flex-col font-['Futura_PT:Book',sans-serif] justify-center relative shrink-0 text-[24px] w-full">
-        <p className="leading-[normal]">Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>
+        <p className="leading-[normal]">In 1998, God called one family — the Ainas — to carry the Gospel to Scotland virtually alone. For twenty-six years and nine rented venues, the congregation kept faith. On 12 June 2024, Kingswells Parish Church was acquired as Aberdeen's first permanent home. Rev Matthew Ibukun, leading since 2010, was ordained pastor, and on 4 August 2024 the building was dedicated before 196 brethren from across Western Europe.</p>
       </div>
     </div>
   );
@@ -454,7 +456,9 @@ function Frame15() {
   );
 }
 
-export default function Aberdeen() {
+/* ---------- Desktop canvas — unchanged, this is what ScaledBranchPage scales ---------- */
+
+export default function Aberdeen(): ReactElement {
   return (
     <div className="bg-[#f4f1ea] relative size-full" data-name="ABERDEEN">
       <div className="absolute inset-[0_6.81%_39.32%_6.81%]" data-name="Vector">
@@ -491,6 +495,125 @@ export default function Aberdeen() {
       <Frame5 />
       <Frame17 />
       <Frame15 />
+    </div>
+  );
+}
+
+/* ---------- Mobile layout — natural single-column flow, no nav/back button (parent owns those) ---------- */
+
+export function AberdeenMobile(): ReactElement {
+  return (
+    <div style={{ width: "100%", background: "#f4f1ea", position: "relative" }}>
+      {/* Golden Jubilee quote banner */}
+      <div style={{ background: "#192441", padding: "28px 20px" }}>
+        <p
+          className="font-['CRONDE:Regular',sans-serif]"
+          style={{ margin: 0, color: "#d9c7a8", fontSize: 13, letterSpacing: 1, textAlign: "center" }}
+        >
+          Golden <span style={{ color: "#ffffff" }}>Jubilee</span>
+        </p>
+        <p
+          className="font-['Futura_PT:Book',sans-serif]"
+          style={{ margin: "14px 0 0", color: "#ffffff", fontSize: 15, lineHeight: 1.6, textAlign: "center" }}
+        >
+          "One generation shall praise thy works to another, and shall declare thy mighty acts."
+        </p>
+        <p
+          className="font-['Futura_PT:Book',sans-serif]"
+          style={{ margin: "10px 0 0", color: "#ffffff", fontSize: 13, textAlign: "center" }}
+        >
+          — Psalm 145:4
+        </p>
+      </div>
+
+      <div style={{ padding: "0 20px" }}>
+        {/* Branch header */}
+        <div style={{ display: "flex", alignItems: "center", gap: 14, marginTop: 32 }}>
+          <div style={{ width: 64, height: 64, flexShrink: 0, overflow: "hidden", borderRadius: "50%" }}>
+            <img
+              alt=""
+              src={imgAberdeenTransparentBackground1}
+              style={{ width: "100%", height: "100%", objectFit: "cover" }}
+            />
+          </div>
+          <div>
+            <p className="font-['Futura_PT:Book',sans-serif]" style={{ margin: 0, color: "#949494", fontSize: 14 }}>
+              Branch
+            </p>
+            <p
+              className="font-['CRONDE:Regular',sans-serif] capitalize"
+              style={{ margin: 0, color: "#38362d", fontSize: 32, lineHeight: 1.1 }}
+            >
+              ABERDEEN
+            </p>
+          </div>
+        </div>
+
+        {/* Address */}
+        <div style={{ marginTop: 24 }}>
+          <p className="font-['Futura_PT:Heavy',sans-serif]" style={{ margin: 0, color: "#38362d", fontSize: 15 }}>
+            Address
+          </p>
+          <p
+            className="font-['Futura_PT:Book',sans-serif]"
+            style={{ margin: "4px 0 0", color: "#38362d", fontSize: 14.5, lineHeight: 1.5 }}
+          >
+            Kingswells Parish Church, Aberdeen, Scotland
+          </p>
+        </div>
+      </div>
+
+      {/* Hero background photo */}
+      <div style={{ width: "100%", height: 200, overflow: "hidden", marginTop: 32 }}>
+        <img alt="" src={img31601} style={{ width: "100%", height: "100%", objectFit: "cover" }} />
+      </div>
+
+      <div style={{ padding: "32px 20px 48px" }}>
+        <h2
+          className="font-['CRONDE:Regular',sans-serif]"
+          style={{ margin: 0, color: "#38362d", fontSize: 26, lineHeight: 1.3 }}
+        >
+          Twenty-Six Years to a Permanent Home
+        </h2>
+        <p
+          className="font-['Futura_PT:Book',sans-serif]"
+          style={{ margin: "16px 0 0", color: "#38362d", fontSize: 15, lineHeight: 1.7 }}
+        >
+          In 1998, God called one family — the Ainas — to carry the Gospel to Scotland virtually alone. For
+          twenty-six years and nine rented venues, the congregation kept faith. On 12 June 2024, Kingswells Parish
+          Church was acquired as Aberdeen's first permanent home. Rev Matthew Ibukun, leading since 2010, was
+          ordained pastor, and on 4 August 2024 the building was dedicated before 196 brethren from across Western
+          Europe.
+        </p>
+
+        {/* Photo gallery — horizontal scroll on mobile */}
+        <div
+          style={{
+            display: "flex",
+            gap: 12,
+            overflowX: "auto",
+            marginTop: 28,
+            paddingBottom: 8,
+            WebkitOverflowScrolling: "touch",
+          }}
+        >
+          {[imgImage12, imgImage12, imgImage12].map((src, i) => (
+            <div
+              key={i}
+              style={{
+                flex: "0 0 auto",
+                width: 220,
+                height: 165,
+                overflow: "hidden",
+                background: "#ffffff",
+                padding: 6,
+              }}
+            >
+              <img alt="" src={src} style={{ width: "100%", height: "100%", objectFit: "cover" }} />
+            </div>
+          ))}
+        </div>
+      </div>
     </div>
   );
 }

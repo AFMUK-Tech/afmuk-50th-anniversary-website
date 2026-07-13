@@ -297,7 +297,7 @@ function Frame9() {
         <p className="leading-[normal]">Address</p>
       </div>
       <div className="flex flex-col font-['Futura_PT:Book',sans-serif] justify-center relative shrink-0">
-        <p className="leading-[normal]">21 pekam road North London</p>
+        <p className="leading-[normal]">Birmingham, West Midlands — home of the David Academy</p>
       </div>
     </div>
   );
@@ -334,10 +334,10 @@ function Frame11() {
   return (
     <div className="[word-break:break-word] content-stretch flex flex-col gap-[32px] items-start leading-[0] not-italic relative shrink-0 text-[#38362d] w-[770px]">
       <div className="flex flex-col font-['CRONDE:Regular',sans-serif] justify-center relative shrink-0 text-[48px] w-full">
-        <p className="leading-[normal]">Loreum Ipsum</p>
+        <p className="leading-[normal]">Home to the David Academy</p>
       </div>
       <div className="flex flex-col font-['Futura_PT:Book',sans-serif] justify-center relative shrink-0 text-[24px] w-full">
-        <p className="leading-[normal]">Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>
+        <p className="leading-[normal]">Birmingham's story began in September 2002 with a small Bible study led by Sister Eunice Bolade. God provided a permanent home in 2010, dedicated the following February. Today it is the largest AFC facility in Western Europe, averaging around 110 worshippers weekly under Bro Lazarus Simbanegavi. In April 2026, the church launched the David Academy, a music education initiative for ages four to forty, led by Principal Bro Ebenezer Amusa.</p>
       </div>
     </div>
   );

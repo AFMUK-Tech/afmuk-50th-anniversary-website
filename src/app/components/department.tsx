@@ -1,9 +1,10 @@
-import React from "react";
+import { useEffect, useState } from "react";
 import type { ReactElement } from "react";
 import Nav from "../../imports/Nav/index";
+import MobileNav from "./MobileNav";
 
 const DESIGN_WIDTH = 1440;
-const DESIGN_HEIGHT = 980;
+const DESIGN_HEIGHT = 1120;
 const NAV_H = 80;
 
 interface DepartmentCard {
@@ -13,82 +14,51 @@ interface DepartmentCard {
 
 const DEPARTMENT_CARDS: DepartmentCard[] = [
   {
-    title: "50 Years of Youth Ministry",
+    title: "Music & the David Academy",
     description:
-      "Young people have always been at the heart of AFM Western Europe — the next generation carrying the torch of faithful witness.",
+      "From a single organ in the earliest Peckham services to Birmingham's David Academy, launched April 2026 — training musicians aged four to forty in the spirit of consecrated service.",
   },
   {
-    title: "50 Years of Youth Ministry",
+    title: "Choir & Orchestra",
     description:
-      "Young people have always been at the heart of AFM Western Europe — the next generation carrying the torch of faithful witness.",
+      "Carrying the Gospel to audiences a sermon alone might never reach — from Italy's Christmas Concerts to annual concerts across Peckham, Bexley, Manchester, Birmingham, and Aberdeen.",
   },
   {
-    title: "50 Years of Youth Ministry",
+    title: "Sunday School & Elementary",
     description:
-      "Young people have always been at the heart of AFM Western Europe — the next generation carrying the torch of faithful witness.",
+      "Every branch runs its own children's department on a shared UK-wide calendar — because the children God has added to this church are part of it today, not just tomorrow.",
   },
   {
-    title: "50 Years of Youth Ministry",
+    title: "Youth Ministry",
     description:
-      "Young people have always been at the heart of AFM Western Europe — the next generation carrying the torch of faithful witness.",
+      "Born in 2004 as a single May bank holiday camp, Youth Camp now draws 240 young people from across the UK, Western Europe, and beyond each year.",
   },
   {
-    title: "50 Years of Youth Ministry",
+    title: "Ushering",
     description:
-      "Young people have always been at the heart of AFM Western Europe — the next generation carrying the torch of faithful witness.",
+      "Serving since Howbury Mission in the early 1980s — the quiet ministry of arranging chairs, welcoming strangers, and making room for one more.",
   },
   {
-    title: "50 Years of Youth Ministry",
+    title: "Welfare",
     description:
-      "Young people have always been at the heart of AFM Western Europe — the next generation carrying the torch of faithful witness.",
+      "Twenty-five years of turning faith into action — God's Love Day, Health Awareness Month, and the Jehovah Jireh Food Outreach, which supported over sixty-five families in 2025.",
   },
 ];
 
-function CrestIcon(): ReactElement {
+function CrestIcon({ size = 90 }: { size?: number }): ReactElement {
+  const h = (size * 104) / 90;
   return (
-    <svg
-      width="90"
-      height="104"
-      viewBox="0 0 90 104"
-      fill="none"
-      xmlns="http://www.w3.org/2000/svg"
-      style={{ display: "block" }}
-    >
-      {/* Arched banner */}
-      <path
-        d="M8 20 C 20 6, 70 6, 82 20"
-        stroke="#192441"
-        strokeWidth="1.4"
-        fill="none"
-      />
-      <text
-        x="45"
-        y="16"
-        textAnchor="middle"
-        fontSize="8"
-        fontFamily="Futura PT, sans-serif"
-        letterSpacing="1"
-        fill="#192441"
-      >
-        MANCHESTER
+    <svg width={size} height={h} viewBox="0 0 90 104" fill="none" xmlns="http://www.w3.org/2000/svg" style={{ display: "block" }}>
+      <path d="M8 20 C 20 6, 70 6, 82 20" stroke="#192441" strokeWidth="1.4" fill="none" />
+      <text x="45" y="16" textAnchor="middle" fontSize="8" fontFamily="Futura PT, sans-serif" letterSpacing="1" fill="#192441">
+        AFC 1976
       </text>
-
-      {/* Shield outline */}
-      <path
-        d="M18 24 H72 V58 C72 78, 56 92, 45 98 C34 92, 18 78, 18 58 Z"
-        stroke="#192441"
-        strokeWidth="1.6"
-        fill="none"
-      />
-
-      {/* Inner globe */}
+      <path d="M18 24 H72 V58 C72 78, 56 92, 45 98 C34 92, 18 78, 18 58 Z" stroke="#192441" strokeWidth="1.6" fill="none" />
       <circle cx="45" cy="44" r="13" stroke="#192441" strokeWidth="1.1" fill="none" />
       <ellipse cx="45" cy="44" rx="6" ry="13" stroke="#192441" strokeWidth="0.8" fill="none" />
       <line x1="32" y1="44" x2="58" y2="44" stroke="#192441" strokeWidth="0.8" />
       <line x1="34" y1="37" x2="56" y2="37" stroke="#192441" strokeWidth="0.6" />
       <line x1="34" y1="51" x2="56" y2="51" stroke="#192441" strokeWidth="0.6" />
-
-      {/* Tower / building base */}
       <g transform="translate(0,60)">
         <path d="M38 0 L45 -8 L52 0 V22 H38 Z" stroke="#192441" strokeWidth="1.1" fill="none" />
         <line x1="41" y1="4" x2="41" y2="18" stroke="#192441" strokeWidth="0.7" />
@@ -126,26 +96,11 @@ function DepartmentCardView({ card }: { card: DepartmentCard }): ReactElement {
       </div>
       <h3
         className="font-['Futura_PT:Book',sans-serif]"
-        style={{
-          margin: 0,
-          marginBottom: 14,
-          fontSize: "clamp(16px, 1.39vw, 20px)",
-          fontWeight: 500,
-          color: "#0f1421",
-          lineHeight: "normal",
-        }}
+        style={{ margin: 0, marginBottom: 14, fontSize: "clamp(16px, 1.39vw, 20px)", fontWeight: 500, color: "#0f1421", lineHeight: "normal" }}
       >
         {card.title}
       </h3>
-      <p
-        style={{
-          margin: 0,
-          fontSize: "clamp(11px, 0.83vw, 12px)",
-          lineHeight: 1.6,
-          color: "#6b6b6b",
-          fontFamily: "Futura PT, sans-serif",
-        }}
-      >
+      <p style={{ margin: 0, fontSize: "clamp(11px, 0.83vw, 12px)", lineHeight: 1.6, color: "#6b6b6b", fontFamily: "Futura PT, sans-serif" }}>
         {card.description}
       </p>
     </div>
@@ -154,19 +109,9 @@ function DepartmentCardView({ card }: { card: DepartmentCard }): ReactElement {
 
 function DepartmentWatermark(): ReactElement {
   return (
-    <svg
-      className="absolute inset-0"
-      style={{ width: "100%", height: "100%", zIndex: 0, pointerEvents: "none" }}
-      xmlns="http://www.w3.org/2000/svg"
-    >
+    <svg className="absolute inset-0" style={{ width: "100%", height: "100%", zIndex: 0, pointerEvents: "none" }} xmlns="http://www.w3.org/2000/svg">
       <defs>
-        <pattern
-          id="departmentDiagGrid"
-          width="110"
-          height="110"
-          patternUnits="userSpaceOnUse"
-          patternTransform="rotate(12)"
-        >
+        <pattern id="departmentDiagGrid" width="110" height="110" patternUnits="userSpaceOnUse" patternTransform="rotate(12)">
           <line x1="0" y1="0" x2="0" y2="110" stroke="#d9d3c2" strokeWidth="1" />
           <line x1="0" y1="0" x2="110" y2="0" stroke="#d9d3c2" strokeWidth="1" />
         </pattern>
@@ -176,47 +121,31 @@ function DepartmentWatermark(): ReactElement {
   );
 }
 
+/* ---------- Desktop / tablet canvas (fixed-width, scaled) ---------- */
+
 function DepartmentCanvas(): ReactElement {
   return (
-    <div
-      className="bg-[#fcf9f2] relative"
-      style={{ width: DESIGN_WIDTH, height: DESIGN_HEIGHT, overflow: "hidden" }}
-    >
+    <div style={{ width: "100%", minHeight: "100vh", background: "#fcf9f2", position: "relative" }}>
       <DepartmentWatermark />
 
       {/* Title */}
       <div
         className="-translate-x-1/2 absolute flex flex-col font-['CRONDE:Regular',sans-serif] justify-center leading-[0] not-italic text-[#0f1421] text-center"
-        style={{
-          left: "50%",
-          top: 68,
-          width: "60%",
-          fontSize: "clamp(36px, 4.44vw, 64px)",
-        }}
+        style={{ left: "50%", top: 68, width: "60%", fontSize: "clamp(36px, 4.44vw, 64px)" }}
       >
-        <p className="leading-[normal]">Department</p>
+        <p className="leading-[normal]">Departments & Ministries</p>
       </div>
 
       {/* Description paragraph */}
       <div
         className="-translate-x-1/2 absolute font-['Futura_PT:Book',sans-serif] text-center"
-        style={{
-          left: "50%",
-          top: 148,
-          width: "58%",
-          fontSize: "clamp(13px, 1.11vw, 16px)",
-          lineHeight: 1.7,
-          color: "#3b3b3b",
-        }}
+        style={{ left: "50%", top: 148, width: "58%", fontSize: "clamp(13px, 1.11vw, 16px)", lineHeight: 1.7, color: "#3b3b3b" }}
       >
         <p style={{ margin: 0 }}>
-          Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do
-          eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim
-          ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut
-          aliquip ex ea commodo consequat. Duis aute irure dolor in
-          reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla
-          pariatur. Excepteur sint occaecat cupidatat non proident, sunt in
-          culpa qui officia deserunt mollit anim id est laborum.
+          Every ministry below is drawn from our fifty-year history — from a
+          single organ in the earliest Peckham services to a national Youth
+          Camp drawing 240 people a year. Whatever your gifting, there is a
+          place to serve.
         </p>
       </div>
 
@@ -241,89 +170,107 @@ function DepartmentCanvas(): ReactElement {
   );
 }
 
-interface DepartmentPageProps {
-  onBack?: () => void;
+/* ---------- Mobile layout (natural sizing, single column, no scale transform) ---------- */
+
+function DepartmentMobile(): ReactElement {
+  return (
+    <div style={{ width: "100%", background: "#fcf9f2", position: "relative", paddingTop: 96, paddingBottom: 48 }}>
+      <div style={{ position: "relative", padding: "0 20px" }}>
+        <h1
+          className="font-['CRONDE:Regular',sans-serif]"
+          style={{ margin: 0, marginBottom: 12, fontSize: 30, color: "#0f1421", textAlign: "center", lineHeight: 1.15 }}
+        >
+          Departments & Ministries
+        </h1>
+        <p
+          className="font-['Futura_PT:Book',sans-serif]"
+          style={{ margin: "0 auto 28px", maxWidth: 480, fontSize: 14, lineHeight: 1.7, color: "#3b3b3b", textAlign: "center" }}
+        >
+          Every ministry below is drawn from our fifty-year history — from a
+          single organ in the earliest Peckham services to a national Youth
+          Camp drawing 240 people a year. Whatever your gifting, there is a
+          place to serve.
+        </p>
+
+        <div style={{ display: "flex", flexDirection: "column", gap: 20 }}>
+          {DEPARTMENT_CARDS.map((card, i) => (
+            <div
+              key={i}
+              style={{
+                background: "#ffffff",
+                boxShadow: "0px 2px 10px 0px rgba(0,0,0,0.06)",
+                padding: "24px 20px",
+                display: "flex",
+                flexDirection: "column",
+                alignItems: "center",
+                textAlign: "center",
+              }}
+            >
+              <div style={{ marginBottom: 16 }}>
+                <CrestIcon size={64} />
+              </div>
+              <h3
+                className="font-['Futura_PT:Book',sans-serif]"
+                style={{ margin: 0, marginBottom: 10, fontSize: 17, fontWeight: 500, color: "#0f1421", lineHeight: 1.3 }}
+              >
+                {card.title}
+              </h3>
+              <p style={{ margin: 0, fontSize: 13.5, lineHeight: 1.6, color: "#6b6b6b", fontFamily: "Futura PT, sans-serif" }}>
+                {card.description}
+              </p>
+            </div>
+          ))}
+        </div>
+      </div>
+    </div>
+  );
 }
 
-export function DepartmentPage(_props: DepartmentPageProps = {}): ReactElement {
-  const [scale, setScale] = React.useState<number>(window.innerWidth / DESIGN_WIDTH);
-  const [fadeIn, setFadeIn] = React.useState<boolean>(false);
+export function DepartmentPage({ onBack }: { onBack?: () => void } = {}): ReactElement {
+  const [isMobile, setIsMobile] = useState(
+    typeof window !== "undefined" ? window.innerWidth < 768 : false
+  );
+  const [fadeIn, setFadeIn] = useState(false);
+  const [scale, setScale] = useState<number>(
+    typeof window !== "undefined" ? window.innerWidth / DESIGN_WIDTH : 1
+  );
 
-  React.useEffect(() => {
+  useEffect(() => {
     const update = () => {
-      const newScale = window.innerWidth / DESIGN_WIDTH;
-      setScale(Math.min(Math.max(newScale, 0.3), 1.2));
+      setIsMobile(window.innerWidth < 768);
+      setScale(Math.min(Math.max(window.innerWidth / DESIGN_WIDTH, 0.3), 1.2));
     };
     update();
     window.addEventListener("resize", update);
     return () => window.removeEventListener("resize", update);
   }, []);
 
-  React.useEffect(() => {
-    requestAnimationFrame(() => {
-      setFadeIn(true);
-    });
+  useEffect(() => {
+    requestAnimationFrame(() => setFadeIn(true));
   }, []);
 
   return (
-    <div
-      style={{
-        width: "100%",
-        minHeight: "100vh",
-        background: "#fcf9f2",
-        position: "relative",
-      }}
-    >
+    <div style={{ width: "100%", minHeight: "100vh", background: "#fcf9f2", position: "relative" }}>
+      <div style={{ position: "fixed", top: 0, left: 0, width: "100%", zIndex: 100, height: isMobile ? "auto" : NAV_H }}>
+        {isMobile ? <MobileNav /> : <Nav />}
+      </div>
+
       <div
         style={{
           opacity: fadeIn ? 1 : 0,
           transform: fadeIn ? "scale(1)" : "scale(0.98)",
-          transition:
-            "opacity 0.9s cubic-bezier(0.4, 0, 0.2, 1) 0.1s, transform 0.9s cubic-bezier(0.4, 0, 0.2, 1) 0.1s",
+          transition: "opacity 0.9s cubic-bezier(0.4, 0, 0.2, 1) 0.1s, transform 0.9s cubic-bezier(0.4, 0, 0.2, 1) 0.1s",
         }}
       >
-        <div
-          style={{
-            width: "100%",
-            height: DESIGN_HEIGHT * scale,
-            overflow: "hidden",
-          }}
-        >
-          <div
-            style={{
-              width: DESIGN_WIDTH,
-              height: DESIGN_HEIGHT,
-              transform: `scale(${scale})`,
-              transformOrigin: "top left",
-            }}
-          >
-            <DepartmentCanvas />
+        {isMobile ? (
+          <DepartmentMobile />
+        ) : (
+          <div style={{ width: "100%", height: DESIGN_HEIGHT * scale, overflow: "hidden" }}>
+            <div style={{ width: DESIGN_WIDTH, height: DESIGN_HEIGHT, transform: `scale(${scale})`, transformOrigin: "top left" }}>
+              <DepartmentCanvas />
+            </div>
           </div>
-        </div>
-      </div>
-
-      {/* Navigation */}
-      <div
-        style={{
-          position: "fixed",
-          top: 0,
-          left: 0,
-          width: "100%",
-          height: NAV_H * Math.min(scale, 1),
-          zIndex: 100,
-          overflow: "visible",
-        }}
-      >
-        <div
-          style={{
-            width: DESIGN_WIDTH,
-            height: NAV_H,
-            transform: `scale(${Math.min(scale, 1)})`,
-            transformOrigin: "top left",
-          }}
-        >
-          <Nav />
-        </div>
+        )}
       </div>
     </div>
   );

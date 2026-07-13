@@ -2,12 +2,24 @@ import { useState, useEffect, useRef } from "react";
 import img34159 from "./9ec56a815db13e6f5f4c4f51dc8c89bded734cf2.png";
 
 const BRANCHES = [
-  { label: "Manchester", slug: "manchester" },
-  { label: "Bexley",     slug: "bexley" },
-  { label: "Peckham",    slug: "peckham" },
-  { label: "Cranfield",  slug: "cranfield" },
-  { label: "Birmingham", slug: "birmingham" },
-  { label: "Aberdeen",   slug: "aberdeen" },
+  { label: "Peckham",           slug: "peckham" },
+  { label: "Bexley",            slug: "bexley" },
+  { label: "Bristol & Cardiff", slug: "bristol" },
+  { label: "Aberdeen",          slug: "aberdeen" },
+  { label: "Glasgow & Paisley", slug: "glasgow" },
+  { label: "Edinburgh",         slug: "edinburgh" },
+  { label: "Cranfield",         slug: "cranfield" },
+  { label: "Birmingham",        slug: "birmingham" },
+  { label: "Manchester",        slug: "manchester" },
+  { label: "Leicester",         slug: "leicester" },
+  { label: "Coventry",          slug: "coventry" },
+  { label: "Sussex",            slug: "sussex" },
+  { label: "Ireland — Dublin & Belfast", slug: "ireland" },
+  { label: "Germany",           slug: "germany" },
+  { label: "France",            slug: "france" },
+  { label: "Italy",             slug: "italy" },
+  { label: "Denmark",           slug: "denmark" },
+  { label: "Spain",             slug: "spain" },
 ];
 
 export default function Nav() {
@@ -69,14 +81,14 @@ export default function Nav() {
 
                 {/* Dropdown panel */}
                 {branchOpen && (
-                  <div className="absolute top-full left-0 mt-[8px] bg-white rounded-[8px] shadow-[0_4px_24px_rgba(0,0,0,0.10)] py-[12px] min-w-[160px] z-50">
+                  <div className="absolute top-full left-0 mt-[8px] bg-white rounded-[8px] shadow-[0_4px_24px_rgba(0,0,0,0.10)] py-[10px] px-[6px] min-w-[420px] max-h-[70vh] overflow-y-auto z-50 grid grid-cols-2 gap-x-[4px]">
                     {BRANCHES.map(({ label, slug }) => (
                       <div
                         key={slug}
-                        className="relative shrink-0 w-full cursor-pointer hover:bg-[#f5f2eb] transition-colors"
+                        className="relative shrink-0 cursor-pointer hover:bg-[#f5f2eb] transition-colors rounded-[6px]"
                         onClick={() => { window.location.hash = `#${slug}`; setBranchOpen(false); }}
                       >
-                        <div className="content-stretch flex items-center p-[12px] relative size-full">
+                        <div className="content-stretch flex items-center p-[10px] relative size-full">
                           <p className="font-['Inter:Regular',sans-serif] font-normal leading-[18.144px] not-italic text-[#38362d] text-[14px] tracking-[-0.2367px] whitespace-nowrap">{label}</p>
                         </div>
                       </div>
@@ -109,14 +121,23 @@ export default function Nav() {
                 onClick={() => { window.location.hash = "#gallery"; }}
               >Gallery</p>
 
-              <p className="font-['Inter:Regular',sans-serif] font-normal leading-[18.144px] not-italic text-[#38362d] text-[15.778px] tracking-[-0.2367px] whitespace-nowrap cursor-pointer hover:opacity-60 transition-opacity">Shop</p>
+              {/* Watch & Listen */}
+              <p
+                className="font-['Inter:Regular',sans-serif] font-normal leading-[18.144px] not-italic text-[#38362d] text-[15.778px] tracking-[-0.2367px] whitespace-nowrap cursor-pointer hover:opacity-60 transition-opacity"
+                onClick={() => { window.location.hash = "#watch"; }}
+              >Watch & Listen</p>
+
+              <p
+                className="font-['Inter:Regular',sans-serif] font-normal leading-[18.144px] not-italic text-[#38362d] text-[15.778px] tracking-[-0.2367px] whitespace-nowrap cursor-pointer hover:opacity-60 transition-opacity"
+                onClick={() => { window.location.hash = "#shop"; }}
+              >Shop</p>
             </div>
 
-            {/* AFM UK button */}
+            {/* AFC UK button */}
             <div className="h-[37.867px] min-w-[116.338px] relative shrink-0 w-[373.933px]">
               <div className="content-stretch flex flex-col items-center min-w-[inherit] pl-[257.671px] relative size-full">
                 <div className="bg-[#192441] content-stretch flex h-[37.867px] items-center justify-center px-[18.933px] relative rounded-[66.267px] shrink-0 cursor-pointer">
-                  <p className="font-['Inter:Regular',sans-serif] font-normal leading-[13.253px] not-italic text-[10.729px] text-center text-white tracking-[0.0552px] whitespace-nowrap">AFM UK</p>
+                  <p className="font-['Inter:Regular',sans-serif] font-normal leading-[13.253px] not-italic text-[10.729px] text-center text-white tracking-[0.0552px] whitespace-nowrap">AFC UK</p>
                 </div>
               </div>
             </div>

@@ -16,8 +16,14 @@ import { BranchPage } from "./components/BranchPage";
 import { FounderPage } from "./components/FounderPage";
 import { TimelineSheet } from "./components/TimelineSheet";
 import PicturesPage from "../imports/PicturesPage/index";
+import { TestimoniesPage } from "./components/TestimoniesPage";
+import { ShopPage } from "./components/ShopPage";
 
-const OTHER_BRANCHES = ["manchester", "bexley", "peckham", "cranfield", "birmingham", "aberdeen"] as const;
+const OTHER_BRANCHES = [
+  "manchester", "bexley", "peckham", "cranfield", "birmingham", "aberdeen",
+  "bristol", "glasgow", "edinburgh", "coventry", "sussex", "leicester", "ireland",
+  "germany", "france", "italy", "denmark", "spain",
+] as const;
 type BranchSlug = typeof OTHER_BRANCHES[number];
 
 const DESIGN_WIDTH      = 1440;
@@ -62,12 +68,14 @@ function ScaledBlock({
 }
 
 export default function App() {
-  const [page, setPage] = useState<"home" | "gallery" | "pictures" | "founder" | "department" | BranchSlug>(() => {
+  const [page, setPage] = useState<"home" | "gallery" | "pictures" | "founder" | "department" | "watch" | "shop" | BranchSlug>(() => {
     const h = window.location.hash.replace("#", "") as string;
     if (h === "gallery") return "gallery";
     if (h === "pictures") return "pictures";
     if (h === "founder") return "founder";
     if (h === "department") return "department";
+    if (h === "watch") return "watch";
+    if (h === "shop") return "shop";
     if (h === "timeline") return "home"; // sheet handles itself
     if ((OTHER_BRANCHES as readonly string[]).includes(h)) return h as BranchSlug;
     return "home";
@@ -93,6 +101,8 @@ export default function App() {
       else if (h === "pictures") setPage("pictures");
       else if (h === "founder") setPage("founder");
       else if (h === "department") setPage("department");
+      else if (h === "watch") setPage("watch");
+      else if (h === "shop") setPage("shop");
       else if ((OTHER_BRANCHES as readonly string[]).includes(h)) setPage(h as BranchSlug);
       else {
         setPage("home");
@@ -244,6 +254,14 @@ export default function App() {
 
   if (page === "department") {
     return <><DepartmentPage onBack={navigateHome} /><TimelineSheet /></>;
+  }
+
+  if (page === "watch") {
+    return <><TestimoniesPage onBack={navigateHome} /><TimelineSheet /></>;
+  }
+
+  if (page === "shop") {
+    return <><ShopPage onBack={navigateHome} /><TimelineSheet /></>;
   }
 
   if ((OTHER_BRANCHES as readonly string[]).includes(page)) {

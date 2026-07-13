@@ -11,7 +11,7 @@ const IMAGES = [
   { src: imgImage14, label: "Golden Jubilee 2023" },
   { src: imgImage15, label: "Annual Convention 2018" },
   { src: imgImage16, label: "Camp Meeting Memories" },
-  { src: imgImage18, label: "AFM UK Gathering 2020" },
+  { src: imgImage18, label: "AFC UK Gathering 2020" },
 ];
 
 export default function MobileGallery() {

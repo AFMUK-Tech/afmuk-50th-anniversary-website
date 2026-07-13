@@ -3,12 +3,24 @@ import { Menu, X } from "lucide-react";
 import img34159 from "../../imports/Nav/9ec56a815db13e6f5f4c4f51dc8c89bded734cf2.png";
 
 const BRANCHES = [
-  { label: "Manchester", slug: "manchester" },
-  { label: "Bexley", slug: "bexley" },
   { label: "Peckham", slug: "peckham" },
+  { label: "Bexley", slug: "bexley" },
+  { label: "Bristol & Cardiff", slug: "bristol" },
+  { label: "Aberdeen", slug: "aberdeen" },
+  { label: "Glasgow & Paisley", slug: "glasgow" },
+  { label: "Edinburgh", slug: "edinburgh" },
   { label: "Cranfield", slug: "cranfield" },
   { label: "Birmingham", slug: "birmingham" },
-  { label: "Aberdeen", slug: "aberdeen" },
+  { label: "Manchester", slug: "manchester" },
+  { label: "Leicester", slug: "leicester" },
+  { label: "Coventry", slug: "coventry" },
+  { label: "Sussex", slug: "sussex" },
+  { label: "Ireland — Dublin & Belfast", slug: "ireland" },
+  { label: "Germany", slug: "germany" },
+  { label: "France", slug: "france" },
+  { label: "Italy", slug: "italy" },
+  { label: "Denmark", slug: "denmark" },
+  { label: "Spain", slug: "spain" },
 ];
 
 export default function MobileNav() {
@@ -156,6 +168,14 @@ export default function MobileNav() {
                 Gallery
               </button>
 
+              {/* Watch & Listen */}
+              <button
+                onClick={() => handleNavClick("#watch")}
+                className="text-left px-4 py-3 hover:bg-gray-100 rounded-lg transition-colors font-['Poppins:400',sans-serif] text-sm"
+              >
+                Watch & Listen
+              </button>
+
               {/* Founder */}
               <button
                 onClick={() => handleNavClick("#founder")}
@@ -163,13 +183,21 @@ export default function MobileNav() {
               >
                 Founder
               </button>
+
+              {/* Shop */}
+              <button
+                onClick={() => handleNavClick("#shop")}
+                className="text-left px-4 py-3 hover:bg-gray-100 rounded-lg transition-colors font-['Poppins:400',sans-serif] text-sm"
+              >
+                Shop
+              </button>
             </div>
           </div>
 
           {/* Menu Footer */}
           <div className="p-4 border-t bg-gray-50">
             <p className="text-xs text-gray-600 text-center font-['Poppins:400',sans-serif]">
-              AFM UK & Ireland
+              Apostolic Faith Church — UK & Western Europe
             </p>
           </div>
         </div>

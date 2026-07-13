@@ -297,7 +297,7 @@ function Frame9() {
         <p className="leading-[normal]">Address</p>
       </div>
       <div className="flex flex-col font-['Futura_PT:Book',sans-serif] justify-center relative shrink-0">
-        <p className="leading-[normal]">21 pekam road North London</p>
+        <p className="leading-[normal]">95 Fenham Road, Peckham, London SE15</p>
       </div>
     </div>
   );
@@ -334,10 +334,10 @@ function Frame11() {
   return (
     <div className="[word-break:break-word] content-stretch flex flex-col gap-[32px] items-start leading-[0] not-italic relative shrink-0 text-[#38362d] w-[770px]">
       <div className="flex flex-col font-['CRONDE:Regular',sans-serif] justify-center relative shrink-0 text-[48px] w-full">
-        <p className="leading-[normal]">Loreum Ipsum</p>
+        <p className="leading-[normal]">The First Home God Gave Us</p>
       </div>
       <div className="flex flex-col font-['Futura_PT:Book',sans-serif] justify-center relative shrink-0 text-[24px] w-full">
-        <p className="leading-[normal]">Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>
+        <p className="leading-[normal]">From the first Sunday school lesson in a Brixton lounge in 1976, the fellowship settled at 95 Fenham Road, Peckham, in 1982 — the UK's first dedicated Apostolic Faith building, and the only one for eighteen years. In 2022, twenty-six members were released to help plant Cranfield. The 2024 Christmas Concert drew 226 people, and in 2025 eight young people were baptised at the Annual Camp Meeting.</p>
       </div>
     </div>
   );

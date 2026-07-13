@@ -1,9 +1,9 @@
-// Provide module declarations for PNG imports to satisfy TypeScript
-declare module "*.png" { const value: string; export default value }
-
-import React from "react";
+// gallery.tsx
+import { useEffect, useState } from "react";
+import type { ReactElement } from "react";
 import svgPaths from "../../imports/Frame28-1/svg-507rsgd0a0";
 import Nav from "../../imports/Nav/index";
+import MobileNav from "./MobileNav";
 
 // Static imports
 import image14 from "../../imports/Frame28-1/13080b4795fd0ccbe725b61298f65577a198e84f.png";
@@ -15,10 +15,7 @@ import image18 from "../../imports/Frame28-1/b6cb69d93159764d9138d35c046c9a5205c
 interface SvgPaths {
   [key: string]: string;
 }
-
 const _svgPaths = svgPaths as unknown as SvgPaths;
-
-import type { ReactElement } from "react";
 
 const DESIGN_WIDTH = 1440;
 const DESIGN_HEIGHT = 1000;
@@ -35,10 +32,10 @@ interface Slide {
 
 const SLIDES: Slide[] = [
   { label: "Wales Camp Meeting 2019", center: image17, topRight: image14, left: image18, centerLeft: image15, right: image16 },
-  { label: "Golden Jubilee 2023", center: image14, topRight: image16, left: image15, centerLeft: image17, right: image18 },
+  { label: "Golden Jubilee 2026", center: image14, topRight: image16, left: image15, centerLeft: image17, right: image18 },
   { label: "Annual Convention 2018", center: image15, topRight: image18, left: image17, centerLeft: image16, right: image14 },
   { label: "Camp Meeting Memories", center: image16, topRight: image15, left: image14, centerLeft: image18, right: image17 },
-  { label: "AFM UK Gathering 2020", center: image18, topRight: image17, left: image16, centerLeft: image14, right: image15 },
+  { label: "AFC UK Gathering 2020", center: image18, topRight: image17, left: image16, centerLeft: image14, right: image15 },
 ];
 
 interface CardImgProps {
@@ -65,8 +62,10 @@ function CardImg({ src, isCenter }: CardImgProps): ReactElement {
   );
 }
 
+/* ---------- Desktop / tablet canvas (fixed-width, scaled) ---------- */
+
 function GalleryCanvas(): ReactElement {
-  const [active, setActive] = React.useState<number>(0);
+  const [active, setActive] = useState<number>(0);
   const slide = SLIDES[active];
   const total = SLIDES.length;
 
@@ -74,8 +73,7 @@ function GalleryCanvas(): ReactElement {
   const next = () => setActive(i => (i + 1) % total);
 
   return (
-    <div className="bg-[#fcf9f2] relative" style={{ width: DESIGN_WIDTH, height: DESIGN_HEIGHT }}>
-
+    <div style={{ width: "100%", minHeight: "100vh", background: "#fcf9f2", position: "relative" }}>
       {/* SVG watermark */}
       <div className="absolute inset-[0_6.81%_3.06%_6.81%]">
         <svg className="absolute block inset-0 size-full" fill="none" preserveAspectRatio="none" viewBox="0 0 1244 947.143">
@@ -97,30 +95,38 @@ function GalleryCanvas(): ReactElement {
       </div>
 
       {/* Title */}
-      <div className="-translate-x-1/2 -translate-y-1/2 absolute flex flex-col font-['CRONDE:Regular',sans-serif] justify-center leading-[0] not-italic text-[#0f1421] text-[88px] text-center"
-        style={{
-          left: '48.06%',
-          top: '23.8%',
-          width: '38.19%',
-          fontSize: 'clamp(32px, 6.11vw, 88px)',
-        }}>
-        <p className="leading-[normal]">Our pictures over the years</p>
-      </div>
+<div
+  className="-translate-x-1/2 -translate-y-1/2 absolute flex flex-col font-['CRONDE:Regular',sans-serif] justify-center leading-[0] not-italic text-[#0f1421] text-center"
+  style={{
+    left: "50%",
+    top: "23.8%",
+    width: "70%",
+    maxWidth: 900,
+    fontSize: "clamp(32px, 6.11vw, 88px)",
+    whiteSpace: "normal",
+    wordBreak: "break-word",
+  }}
+>
+  <p className="leading-[normal]">Our pictures over the years</p>
+</div>
 
       {/* Frame14 — card container */}
-      <div style={{
-        position: "absolute",
-        height: 578,
-        left: -89,
-        top: 369,
-        width: 1631.549,
-        transform: 'scale(var(--gallery-scale, 1))',
-        transformOrigin: 'top left',
-      }}>
-
+      <div
+        style={{
+          position: "absolute",
+          height: 578,
+          left: -89,
+          top: 369,
+          width: 1631.549,
+          transform: "scale(var(--gallery-scale, 1))",
+          transformOrigin: "top left",
+        }}
+      >
         {/* Frame9 — center card, straight */}
         <button
-          onClick={() => { window.location.hash = "#pictures"; }}
+          onClick={() => {
+            window.location.hash = "#pictures";
+          }}
           className="absolute bg-white overflow-clip shadow-[0px_0px_10.355px_0px_rgba(0,0,0,0.07)] border-0 p-0 cursor-pointer"
           style={{
             left: 689.65,
@@ -132,8 +138,8 @@ function GalleryCanvas(): ReactElement {
             paddingBottom: 36.019,
             transition: "all 1.2s cubic-bezier(0.25, 0.1, 0.25, 1), transform 0.2s ease",
           }}
-          onMouseEnter={(e) => e.currentTarget.style.transform = "scale(1.05)"}
-          onMouseLeave={(e) => e.currentTarget.style.transform = "scale(1)"}
+          onMouseEnter={(e) => (e.currentTarget.style.transform = "scale(1.05)")}
+          onMouseLeave={(e) => (e.currentTarget.style.transform = "scale(1)")}
         >
           <div className="overflow-clip relative" style={{ height: 211.612, width: 223.993 }}>
             <div className="absolute flex items-center justify-center" style={{ height: 329.368, left: -158.98, top: -3.71, width: 484.105 }}>
@@ -145,16 +151,21 @@ function GalleryCanvas(): ReactElement {
         </button>
 
         {/* Frame1 — top-right, rotate +20° */}
-        <div className="absolute flex items-center justify-center" style={{
-          height: 323.928,
-          left: 1012.32,
-          top: 49,
-          width: 315.183,
-          transition: "all 1.2s cubic-bezier(0.25, 0.1, 0.25, 1)",
-        }}>
+        <div
+          className="absolute flex items-center justify-center"
+          style={{
+            height: 323.928,
+            left: 1012.32,
+            top: 49,
+            width: 315.183,
+            transition: "all 1.2s cubic-bezier(0.25, 0.1, 0.25, 1)",
+          }}
+        >
           <div style={{ transform: "rotate(20deg)" }}>
-            <div className="bg-white overflow-clip shadow-[0px_4.502px_4.727px_0px_rgba(0,0,0,0.07)]"
-              style={{ width: 242.003, paddingTop: 9.005, paddingLeft: 9.005, paddingRight: 9.005, paddingBottom: 36.019 }}>
+            <div
+              className="bg-white overflow-clip shadow-[0px_4.502px_4.727px_0px_rgba(0,0,0,0.07)]"
+              style={{ width: 242.003, paddingTop: 9.005, paddingLeft: 9.005, paddingRight: 9.005, paddingBottom: 36.019 }}
+            >
               <div className="overflow-clip relative" style={{ height: 211.612, width: 223.993 }}>
                 <div className="absolute flex items-center justify-center" style={{ height: 585.238, left: -364.8, top: -148.58, width: 878.071 }}>
                   <div style={{ transform: "rotate(180deg) scaleY(-1)", position: "relative", height: 585.238, width: 878.071 }}>
@@ -167,16 +178,21 @@ function GalleryCanvas(): ReactElement {
         </div>
 
         {/* Frame4 — left, rotate -30° */}
-        <div className="absolute flex items-center justify-center" style={{
-          height: 343.254,
-          left: 0,
-          top: 191,
-          width: 337.898,
-          transition: "all 1.2s cubic-bezier(0.25, 0.1, 0.25, 1)",
-        }}>
+        <div
+          className="absolute flex items-center justify-center"
+          style={{
+            height: 343.254,
+            left: 0,
+            top: 191,
+            width: 337.898,
+            transition: "all 1.2s cubic-bezier(0.25, 0.1, 0.25, 1)",
+          }}
+        >
           <div style={{ transform: "rotate(-30deg)" }}>
-            <div className="bg-white overflow-clip shadow-[0px_4.502px_4.727px_0px_rgba(0,0,0,0.07)]"
-              style={{ width: 242.003, paddingTop: 9.005, paddingLeft: 9.005, paddingRight: 9.005, paddingBottom: 36.019 }}>
+            <div
+              className="bg-white overflow-clip shadow-[0px_4.502px_4.727px_0px_rgba(0,0,0,0.07)]"
+              style={{ width: 242.003, paddingTop: 9.005, paddingLeft: 9.005, paddingRight: 9.005, paddingBottom: 36.019 }}
+            >
               <div className="overflow-clip relative" style={{ height: 211.612, width: 223.993 }}>
                 <div className="absolute flex items-center justify-center" style={{ height: 523.068, left: -191.03, top: -247.91, width: 702.395 }}>
                   <div style={{ transform: "rotate(8.82deg)", position: "relative", height: 429.334, width: 644.159 }}>
@@ -189,16 +205,21 @@ function GalleryCanvas(): ReactElement {
         </div>
 
         {/* Frame5 — center-left, rotate -20° */}
-        <div className="absolute flex items-center justify-center" style={{
-          height: 323.928,
-          left: 301,
-          top: 49,
-          width: 315.183,
-          transition: "all 1.2s cubic-bezier(0.25, 0.1, 0.25, 1)",
-        }}>
+        <div
+          className="absolute flex items-center justify-center"
+          style={{
+            height: 323.928,
+            left: 301,
+            top: 49,
+            width: 315.183,
+            transition: "all 1.2s cubic-bezier(0.25, 0.1, 0.25, 1)",
+          }}
+        >
           <div style={{ transform: "rotate(-20deg)" }}>
-            <div className="bg-white overflow-clip shadow-[0px_4.502px_4.727px_0px_rgba(0,0,0,0.07)]"
-              style={{ width: 242.003, paddingTop: 9.005, paddingLeft: 9.005, paddingRight: 9.005, paddingBottom: 36.019 }}>
+            <div
+              className="bg-white overflow-clip shadow-[0px_4.502px_4.727px_0px_rgba(0,0,0,0.07)]"
+              style={{ width: 242.003, paddingTop: 9.005, paddingLeft: 9.005, paddingRight: 9.005, paddingBottom: 36.019 }}
+            >
               <div className="overflow-clip relative" style={{ height: 211.612, width: 223.993 }}>
                 <div className="-translate-x-1/2 absolute flex items-center justify-center" style={{ height: 249.462, left: "calc(50% + 3.45px)", top: -7.19, width: 367.998 }}>
                   <div style={{ transform: "rotate(1.19deg)", position: "relative", height: 241.976, width: 363.052 }}>
@@ -211,16 +232,21 @@ function GalleryCanvas(): ReactElement {
         </div>
 
         {/* Frame7 — right, rotate +30° */}
-        <div className="absolute flex items-center justify-center" style={{
-          height: 343.254,
-          left: 1293.65,
-          top: 191,
-          width: 337.898,
-          transition: "all 1.2s cubic-bezier(0.25, 0.1, 0.25, 1)",
-        }}>
+        <div
+          className="absolute flex items-center justify-center"
+          style={{
+            height: 343.254,
+            left: 1293.65,
+            top: 191,
+            width: 337.898,
+            transition: "all 1.2s cubic-bezier(0.25, 0.1, 0.25, 1)",
+          }}
+        >
           <div style={{ transform: "rotate(30deg)" }}>
-            <div className="bg-white overflow-clip shadow-[0px_4.502px_4.727px_0px_rgba(0,0,0,0.07)]"
-              style={{ width: 242.003, paddingTop: 9.005, paddingLeft: 9.005, paddingRight: 9.005, paddingBottom: 36.019 }}>
+            <div
+              className="bg-white overflow-clip shadow-[0px_4.502px_4.727px_0px_rgba(0,0,0,0.07)]"
+              style={{ width: 242.003, paddingTop: 9.005, paddingLeft: 9.005, paddingRight: 9.005, paddingBottom: 36.019 }}
+            >
               <div className="overflow-clip relative" style={{ height: 211.612, width: 223.993 }}>
                 <div className="absolute flex items-center justify-center" style={{ height: 240.898, left: -123.02, top: -19.45, width: 358.495 }}>
                   <div style={{ transform: "rotate(-0.57deg)", position: "relative", height: 237.384, width: 356.163 }}>
@@ -233,21 +259,21 @@ function GalleryCanvas(): ReactElement {
         </div>
 
         {/* Frame11 — Label text */}
-        <div className="-translate-x-1/2 absolute flex items-center justify-center"
-          style={{ left: "calc(50% - 6.27px)", top: 453 }}>
-          <div className="flex flex-col font-['Futura_PT:Book',sans-serif] justify-center not-italic text-[#0f1421] text-[40px] text-center whitespace-nowrap"
+        <div className="-translate-x-1/2 absolute flex items-center justify-center" style={{ left: "calc(50% - 6.27px)", top: 453 }}>
+          <div
+            className="flex flex-col font-['Futura_PT:Book',sans-serif] justify-center not-italic text-[#0f1421] text-[40px] text-center whitespace-nowrap"
             style={{
               lineHeight: 0,
               transition: "opacity 0.8s cubic-bezier(0.25, 0.1, 0.25, 1)",
-              fontSize: 'clamp(20px, 2.78vw, 40px)',
-            }}>
+              fontSize: "clamp(20px, 2.78vw, 40px)",
+            }}
+          >
             <p style={{ lineHeight: "normal" }}>{slide.label}</p>
           </div>
         </div>
 
         {/* Navigation controls */}
-        <div className="-translate-x-1/2 absolute flex gap-[20px] items-center justify-center"
-          style={{ left: "calc(50% - 6.27px)", top: 566 }}>
+        <div className="-translate-x-1/2 absolute flex gap-[20px] items-center justify-center" style={{ left: "calc(50% - 6.27px)", top: 566 }}>
           <button
             onClick={prev}
             style={{
@@ -257,10 +283,10 @@ function GalleryCanvas(): ReactElement {
               cursor: "pointer",
               transition: "opacity 0.3s ease, transform 0.2s ease",
             }}
-            onMouseEnter={(e) => e.currentTarget.style.transform = "scale(1.1)"}
-            onMouseLeave={(e) => e.currentTarget.style.transform = "scale(1)"}
+            onMouseEnter={(e) => (e.currentTarget.style.transform = "scale(1.1)")}
+            onMouseLeave={(e) => (e.currentTarget.style.transform = "scale(1)")}
           >
-            <svg width="48" height="48" viewBox="0 0 48 48" fill="none" style={{ width: 'clamp(32px, 3.33vw, 48px)', height: 'clamp(32px, 3.33vw, 48px)' }}>
+            <svg width="48" height="48" viewBox="0 0 48 48" fill="none" style={{ width: "clamp(32px, 3.33vw, 48px)", height: "clamp(32px, 3.33vw, 48px)" }}>
               <path d="M30 12L18 24L30 36" stroke="black" strokeLinecap="round" strokeLinejoin="round" strokeWidth="3" />
             </svg>
           </button>
@@ -271,8 +297,8 @@ function GalleryCanvas(): ReactElement {
                 key={i}
                 onClick={() => setActive(i)}
                 style={{
-                  width: 'clamp(8px, 0.83vw, 12px)',
-                  height: 'clamp(8px, 0.83vw, 12px)',
+                  width: "clamp(8px, 0.83vw, 12px)",
+                  height: "clamp(8px, 0.83vw, 12px)",
                   borderRadius: "50%",
                   border: "none",
                   padding: 0,
@@ -280,8 +306,8 @@ function GalleryCanvas(): ReactElement {
                   cursor: "pointer",
                   transition: "background 0.8s cubic-bezier(0.25, 0.1, 0.25, 1), transform 0.3s ease",
                 }}
-                onMouseEnter={(e) => e.currentTarget.style.transform = "scale(1.3)"}
-                onMouseLeave={(e) => e.currentTarget.style.transform = "scale(1)"}
+                onMouseEnter={(e) => (e.currentTarget.style.transform = "scale(1.3)")}
+                onMouseLeave={(e) => (e.currentTarget.style.transform = "scale(1)")}
               />
             ))}
           </div>
@@ -295,10 +321,10 @@ function GalleryCanvas(): ReactElement {
               cursor: "pointer",
               transition: "opacity 0.3s ease, transform 0.2s ease",
             }}
-            onMouseEnter={(e) => e.currentTarget.style.transform = "scale(1.1)"}
-            onMouseLeave={(e) => e.currentTarget.style.transform = "scale(1)"}
+            onMouseEnter={(e) => (e.currentTarget.style.transform = "scale(1.1)")}
+            onMouseLeave={(e) => (e.currentTarget.style.transform = "scale(1)")}
           >
-            <svg width="48" height="48" viewBox="0 0 48 48" fill="none" style={{ width: 'clamp(32px, 3.33vw, 48px)', height: 'clamp(32px, 3.33vw, 48px)' }}>
+            <svg width="48" height="48" viewBox="0 0 48 48" fill="none" style={{ width: "clamp(32px, 3.33vw, 48px)", height: "clamp(32px, 3.33vw, 48px)" }}>
               <path d="M30 12L18 24L30 36" stroke="black" strokeLinecap="round" strokeLinejoin="round" strokeWidth="3" transform="rotate(180 24 24)" />
             </svg>
           </button>
@@ -308,75 +334,143 @@ function GalleryCanvas(): ReactElement {
   );
 }
 
-interface GalleryPageProps { onBack: () => void }
+/* ---------- Mobile layout (natural sizing, single card, no scale transform) ---------- */
 
-export function GalleryPage({ onBack }: GalleryPageProps): ReactElement {
-  const [scale, setScale] = React.useState<number>(window.innerWidth / DESIGN_WIDTH);
-  const [fadeIn, setFadeIn] = React.useState<boolean>(false);
+function GalleryMobile(): ReactElement {
+  const [active, setActive] = useState<number>(0);
+  const slide = SLIDES[active];
+  const total = SLIDES.length;
 
-  React.useEffect(() => {
+  const prev = () => setActive(i => (i - 1 + total) % total);
+  const next = () => setActive(i => (i + 1) % total);
+
+  return (
+    <div style={{ width: "100%", background: "#fcf9f2", position: "relative", paddingTop: 96, paddingBottom: 48 }}>
+      <div style={{ padding: "0 20px", display: "flex", flexDirection: "column", alignItems: "center" }}>
+        <h1
+          className="font-['CRONDE:Regular',sans-serif]"
+          style={{ margin: 0, marginBottom: 24, fontSize: 30, color: "#0f1421", textAlign: "center", lineHeight: 1.15 }}
+        >
+          Our pictures over the years
+        </h1>
+
+        <button
+          onClick={() => {
+            window.location.hash = "#pictures";
+          }}
+          className="bg-white overflow-clip shadow-[0px_2px_10px_0px_rgba(0,0,0,0.08)] border-0 cursor-pointer"
+          style={{
+            width: "100%",
+            maxWidth: 320,
+            padding: "10px 10px 24px",
+            display: "block",
+          }}
+        >
+          <div style={{ position: "relative", width: "100%", aspectRatio: "1 / 0.9", overflow: "hidden" }}>
+            <CardImg src={slide.center} isCenter={true} />
+          </div>
+        </button>
+
+        <p
+          className="font-['Futura_PT:Book',sans-serif]"
+          style={{ margin: "20px 0 0", fontSize: 17, color: "#0f1421", textAlign: "center" }}
+        >
+          {slide.label}
+        </p>
+
+        <div style={{ display: "flex", alignItems: "center", gap: 16, marginTop: 20 }}>
+          <button
+            onClick={prev}
+            aria-label="Previous"
+            style={{ background: "none", border: "none", padding: 8, cursor: "pointer" }}
+          >
+            <svg width="28" height="28" viewBox="0 0 48 48" fill="none">
+              <path d="M30 12L18 24L30 36" stroke="black" strokeLinecap="round" strokeLinejoin="round" strokeWidth="3" />
+            </svg>
+          </button>
+
+          <div style={{ display: "flex", alignItems: "center", gap: 8 }}>
+            {SLIDES.map((_, i) => (
+              <button
+                key={i}
+                onClick={() => setActive(i)}
+                aria-label={`Go to slide ${i + 1}`}
+                style={{
+                  width: 8,
+                  height: 8,
+                  borderRadius: "50%",
+                  border: "none",
+                  padding: 0,
+                  background: i === active ? "#192441" : "#D8D8D8",
+                  cursor: "pointer",
+                }}
+              />
+            ))}
+          </div>
+
+          <button
+            onClick={next}
+            aria-label="Next"
+            style={{ background: "none", border: "none", padding: 8, cursor: "pointer" }}
+          >
+            <svg width="28" height="28" viewBox="0 0 48 48" fill="none">
+              <path d="M30 12L18 24L30 36" stroke="black" strokeLinecap="round" strokeLinejoin="round" strokeWidth="3" transform="rotate(180 24 24)" />
+            </svg>
+          </button>
+        </div>
+      </div>
+    </div>
+  );
+}
+
+export function GalleryPage({ onBack }: { onBack?: () => void } = {}): ReactElement {
+  const [isMobile, setIsMobile] = useState(
+    typeof window !== "undefined" ? window.innerWidth < 768 : false
+  );
+  const [fadeIn, setFadeIn] = useState(false);
+  const [scale, setScale] = useState<number>(
+    typeof window !== "undefined" ? window.innerWidth / DESIGN_WIDTH : 1
+  );
+
+  useEffect(() => {
     const update = () => {
-      const newScale = window.innerWidth / DESIGN_WIDTH;
-      setScale(Math.min(Math.max(newScale, 0.3), 1.2));
+      setIsMobile(window.innerWidth < 768);
+      setScale(Math.min(Math.max(window.innerWidth / DESIGN_WIDTH, 0.3), 1.2));
     };
     update();
     window.addEventListener("resize", update);
     return () => window.removeEventListener("resize", update);
   }, []);
 
-  React.useEffect(() => {
-    requestAnimationFrame(() => {
-      setFadeIn(true);
-    });
+  useEffect(() => {
+    requestAnimationFrame(() => setFadeIn(true));
   }, []);
 
   return (
-    <div style={{
-      width: "100%",
-      minHeight: "100vh",
-      background: "#fcf9f2",
-      position: "relative",
-    }}>
-      <div style={{
-        opacity: fadeIn ? 1 : 0,
-        transform: fadeIn ? "scale(1)" : "scale(0.98)",
-        transition: "opacity 0.9s cubic-bezier(0.4, 0, 0.2, 1) 0.1s, transform 0.9s cubic-bezier(0.4, 0, 0.2, 1) 0.1s",
-      }}>
-        <div style={{
-          width: "100%",
-          height: DESIGN_HEIGHT * scale,
-          overflow: "hidden",
-        }}>
-          <div style={{
-            width: DESIGN_WIDTH,
-            height: DESIGN_HEIGHT,
-            transform: `scale(${scale})`,
-            transformOrigin: "top left",
-          }}>
-            <GalleryCanvas />
-          </div>
-        </div>
+    <div style={{ width: "100%", minHeight: "100vh", background: "#fcf9f2", position: "relative" }}>
+      <div style={{ position: "fixed", top: 0, left: 0, width: "100%", zIndex: 100, height: isMobile ? "auto" : NAV_H }}>
+        {isMobile ? <MobileNav /> : <Nav />}
       </div>
 
-      {/* Navigation */}
-      <div style={{
-        position: "fixed",
-        top: 0,
-        left: 0,
-        width: "100%",
-        height: NAV_H * Math.min(scale, 1),
-        zIndex: 100,
-        overflow: "visible",
-      }}>
-        <div style={{
-          width: DESIGN_WIDTH,
-          height: NAV_H,
-          transform: `scale(${Math.min(scale, 1)})`,
-          transformOrigin: "top left",
-        }}>
-          <Nav />
-        </div>
+      <div
+        style={{
+          opacity: fadeIn ? 1 : 0,
+          transform: fadeIn ? "scale(1)" : "scale(0.98)",
+          transition: "opacity 0.9s cubic-bezier(0.4, 0, 0.2, 1) 0.1s, transform 0.9s cubic-bezier(0.4, 0, 0.2, 1) 0.1s",
+        }}
+      >
+        {isMobile ? (
+          <GalleryMobile />
+        ) : (
+          <div style={{ width: "100%", height: DESIGN_HEIGHT * scale, overflow: "hidden" }}>
+            <div style={{ width: DESIGN_WIDTH, height: DESIGN_HEIGHT, transform: `scale(${scale})`, transformOrigin: "top left" }}>
+              <GalleryCanvas />
+            </div>
+          </div>
+        )}
       </div>
     </div>
   );
 }
+
+export default GalleryPage;

@@ -26,22 +26,47 @@ import imgDreamyColorfulSmokeClouds2 from "../../imports/Frame19/9f5fd2117b550f8
 
 // ─── Timeline data ────────────────────────────────────────────────────────────
 
-export const TIMELINE_DATA = [
-  { year: 1957, title: "The Beginning",         text: "The Apostolic Faith Mission was established in Western Europe, carrying the Gospel to a post-war generation hungry for hope and spiritual renewal.", bgImage: "https://images.unsplash.com/photo-1614247262109-b20b6834cab9?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHx2aW50YWdlJTIwY2h1cmNoJTIwY29uZ3JlZ2F0aW9uJTIwMTk1MHN8ZW58MXx8fHwxNzgzMzU0NTgxfDA&ixlib=rb-4.1.0&q=80&w=1080&utm_source=figma&utm_medium=referral" },
-  { year: 1962, title: "Taking Root",            text: "Small congregations formed across key cities, with faithful workers planting seeds of faith that would bear fruit for decades to come.", bgImage: "https://images.unsplash.com/photo-1438232992991-995b7058bbb3?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHxjaHVyY2glMjBnYXRoZXJpbmclMjB3b3JzaGlwJTIwMTk2MHN8ZW58MXx8fHwxNzgzMzU0NTgyfDA&ixlib=rb-4.1.0&q=80&w=1080&utm_source=figma&utm_medium=referral" },
-  { year: 1967, title: "A Decade of Growth",     text: "Ten years of ministry produced visible fruit — thriving local churches, youth movements, and a growing body of committed believers across the continent.", bgImage: "https://images.unsplash.com/photo-1609234656388-0ff363383899?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHxzcGlyaXR1YWwlMjByZXZpZGlhbJTIwcHJheWVyJTIwbWVldGluZ3xlbnwxfHx8fDE3ODMzNTQ1ODJ8MA&ixlib=rb-4.1.0&q=80&w=1080&utm_source=figma&utm_medium=referral" },
-  { year: 1972, title: "Expanding the Vision",   text: "New outreach territories were opened, and the mission embraced a broader mandate to serve communities beyond its original geographic footprint.", bgImage: "https://images.unsplash.com/photo-1642307062789-65540354b12d?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHxjaHVyY2glMjBidWlsZGluZyUyMGNvbW11bml0eSUyMGdhdGhlcmluZ3xlbnwxfHx8fDE3ODMzNTQ1ODN8MA&ixlib=rb-4.1.0&q=80&w=1080&utm_source=figma&utm_medium=referral" },
-  { year: 1977, title: "Spirit-Led Revival",     text: "A season of spiritual renewal swept through congregations, marked by powerful prayer gatherings and an outpouring of faith across the region.", bgImage: "https://images.unsplash.com/photo-1438232992991-995b7058bbb3?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHxmYWl0aCUyMGNlbGVicmF0aW9uJTIwd29yc2hpcCUyMGhhbmRzfGVufDF8fHx8MTc4MzM1NDU4M3ww&ixlib=rb-4.1.0&q=80&w=1080&utm_source=figma&utm_medium=referral" },
-  { year: 1982, title: "Building Foundations",   text: "Church buildings were established, leadership training programmes formalised, and the infrastructure for long-term ministry was strengthened.", bgImage: "https://images.unsplash.com/photo-1532190795157-3f983fb7fa3b?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHxjaHVyY2glMjBtaW5pc3RyeSUyMGxlYWRlcnNoaXAlMjB0cmFpbmluZ3xlbnwxfHx8fDE3ODMzNTQ1ODV8MA&ixlib=rb-4.1.0&q=80&w=1080&utm_source=figma&utm_medium=referral" },
-  { year: 1987, title: "Raising Leaders",        text: "A new generation of pastors and ministers emerged from within the mission, equipped to carry the work forward with fresh vision and dedication.", bgImage: "https://images.unsplash.com/photo-1760992003987-efc5259bcfbf?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHxjb21tdW5pdHklMjBzZXJ2aWNlJTIwaGVscGluZyUyMHBlb3BsZXxlbnwxfHx8fDE3ODMzNTQ1ODV8MA&ixlib=rb-4.1.0&q=80&w=1080&utm_source=figma&utm_medium=referral" },
-  { year: 1992, title: "Community & Service",    text: "The mission broadened its reach through community development, meeting both spiritual and practical needs in underserved areas across Europe.", bgImage: "https://images.unsplash.com/photo-1622598453695-4fbaf151aadc?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHxjaHVyY2glMjBhbm5pdmVyc2FyeSUyMGNlbGVicmF0aW9uJTIwcGVvcGxlfGVufDF8fHx8MTc4MzM1NDU4NXww&ixlib=rb-4.1.0&q=80&w=1080&utm_source=figma&utm_medium=referral" },
-  { year: 1997, title: "Forty Years Faithful",   text: "Celebrating four decades of ministry — a testament to God's faithfulness and the enduring power of the Gospel in the hearts of His people.", bgImage: "https://images.unsplash.com/photo-1522158637959-30385a09e0da?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHxtb2Rlcm4lMjBjaHVyY2glMjB3b3JzaGlwJTIwdGVjaG5vbG9neXxlbnwxfHx8fDE3ODMzNTQ1ODV8MA&ixlib=rb-4.1.0&q=80&w=1080&utm_source=figma&utm_medium=referral" },
-  { year: 2002, title: "Into the New Millennium",text: "Embracing new technologies and methods, the mission expanded its reach while remaining rooted in its founding values of prayer and proclamation.", bgImage: "https://images.unsplash.com/photo-1521574778337-d962ef81733d?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHx5b3V0aCUyMGNodXJjaCUyMG1pbmlzdHJ5JTIweY9uclMwJTIwcmVhY2h8ZW58MXx8fHwxNzgzMzU0NTg1fDA&ixlib=rb-4.1.0&q=80&w=1080&utm_source=figma&utm_medium=referral" },
-  { year: 2007, title: "Fifty Years of Impact",  text: "Half a century of presence in Western Europe, with hundreds of lives transformed and congregations standing as beacons of light across the continent.", bgImage: "https://images.unsplash.com/photo-1763735134124-b1bb75f5386e?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHxjaHVyY2glMjBjb25ncmVnYXRpb24lMjBkaXZlcnNlJTIwY29tbXVuaXR5fGVufDF8fHx8MTc4MzM1NDU4Nnww&ixlib=rb-4.1.0&q=80&w=1080&utm_source=figma&utm_medium=referral" },
-  { year: 2012, title: "Generational Renewal",   text: "A new wave of young leaders stepped into ministry, bringing creativity, passion, and a fresh expression of timeless faith to a new generation.", bgImage: "https://images.unsplash.com/photo-1552600552-4d7c157e7db8?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHxzcGlyaXR1YWwlMjBob3BlJTIwbGlnaHQlMjBjaHVyY2h8ZW58MXx8fHwxNzgzMzU0NTg3fDA&ixlib=rb-4.1.0&q=80&w=1080&utm_source=figma&utm_medium=referral" },
-  { year: 2017, title: "Sixty Years of Grace",   text: "Six decades of unbroken ministry — a living testimony to the grace of God and the faithfulness of those who answered the call to serve.", bgImage: "https://images.unsplash.com/photo-1684700746521-b625346ed912?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHxjaHVyY2glMjBtaXNzaW9uJTIwb3V0cmVhY2glMjBldXJvcGV8ZW58MXx8fHwxNzgzMzU0NTg3fDA&ixlib=rb-4.1.0&q=80&w=1080&utm_source=figma&utm_medium=referral" },
-  { year: 2022, title: "A Golden Jubilee",        text: "Marking sixty-five years of Apostolic ministry in Western Europe — honouring the past, celebrating the present, and stepping boldly into the future.", bgImage: "https://images.unsplash.com/photo-1707831853477-545a84511e57?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHxjZWxlYnJhdGlvbiUyMGNodXJjaCUyMGdvbGRlbiUyMGFubml2ZXJzYXJ5fGVufDF8fHx8MTc4MzM1NDU5MXww&ixlib=rb-4.1.0&q=80&w=1080&utm_source=figma&utm_medium=referral" },
+const TL_IMAGES = [
+  "https://images.unsplash.com/photo-1614247262109-b20b6834cab9?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHx2aW50YWdlJTIwY2h1cmNoJTIwY29uZ3JlZ2F0aW9uJTIwMTk1MHN8ZW58MXx8fHwxNzgzMzU0NTgxfDA&ixlib=rb-4.1.0&q=80&w=1080&utm_source=figma&utm_medium=referral",
+  "https://images.unsplash.com/photo-1438232992991-995b7058bbb3?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHxjaHVyY2glMjBnYXRoZXJpbmclMjB3b3JzaGlwJTIwMTk2MHN8ZW58MXx8fHwxNzgzMzU0NTgyfDA&ixlib=rb-4.1.0&q=80&w=1080&utm_source=figma&utm_medium=referral",
+  "https://images.unsplash.com/photo-1609234656388-0ff363383899?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHxzcGlyaXR1YWwlMjByZXZpZGlhbJTIwcHJheWVyJTIwbWVldGluZ3xlbnwxfHx8fDE3ODMzNTQ1ODJ8MA&ixlib=rb-4.1.0&q=80&w=1080&utm_source=figma&utm_medium=referral",
+  "https://images.unsplash.com/photo-1642307062789-65540354b12d?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHxjaHVyY2glMjBidWlsZGluZyUyMGNvbW11bml0eSUyMGdhdGhlcmluZ3xlbnwxfHx8fDE3ODMzNTQ1ODN8MA&ixlib=rb-4.1.0&q=80&w=1080&utm_source=figma&utm_medium=referral",
+  "https://images.unsplash.com/photo-1438232992991-995b7058bbb3?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHxmYWl0aCUyMGNlbGVicmF0aW9uJTIwd29yc2hpcCUyMGhhbmRzfGVufDF8fHx8MTc4MzM1NDU4M3ww&ixlib=rb-4.1.0&q=80&w=1080&utm_source=figma&utm_medium=referral",
+  "https://images.unsplash.com/photo-1532190795157-3f983fb7fa3b?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHxjaHVyY2glMjBtaW5pc3RyeSUyMGxlYWRlcnNoaXAlMjB0cmFpbmluZ3xlbnwxfHx8fDE3ODMzNTQ1ODV8MA&ixlib=rb-4.1.0&q=80&w=1080&utm_source=figma&utm_medium=referral",
+  "https://images.unsplash.com/photo-1760992003987-efc5259bcfbf?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHxjb21tdW5pdHklMjBzZXJ2aWNlJTIwaGVscGluZyUyMHBlb3BsZXxlbnwxfHx8fDE3ODMzNTQ1ODV8MA&ixlib=rb-4.1.0&q=80&w=1080&utm_source=figma&utm_medium=referral",
+  "https://images.unsplash.com/photo-1622598453695-4fbaf151aadc?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHxjaHVyY2glMjBhbm5pdmVyc2FyeSUyMGNlbGVicmF0aW9uJTIwcGVvcGxlfGVufDF8fHx8MTc4MzM1NDU4NXww&ixlib=rb-4.1.0&q=80&w=1080&utm_source=figma&utm_medium=referral",
+  "https://images.unsplash.com/photo-1522158637959-30385a09e0da?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHxtb2Rlcm4lMjBjaHVyY2glMjB3b3JzaGlwJTIwdGVjaG5vbG9neXxlbnwxfHx8fDE3ODMzNTQ1ODV8MA&ixlib=rb-4.1.0&q=80&w=1080&utm_source=figma&utm_medium=referral",
+  "https://images.unsplash.com/photo-1521574778337-d962ef81733d?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHx5b3V0aCUyMGNodXJjaCUyMG1pbmlzdHJ5JTIweY9uclMwJTIwcmVhY2h8ZW58MXx8fHwxNzgzMzU0NTg1fDA&ixlib=rb-4.1.0&q=80&w=1080&utm_source=figma&utm_medium=referral",
+  "https://images.unsplash.com/photo-1763735134124-b1bb75f5386e?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHxjaHVyY2glMjBjb25ncmVnYXRpb24lMjBkaXZlcnNlJTIwY29tbXVuaXR5fGVufDF8fHx8MTc4MzM1NDU4Nnww&ixlib=rb-4.1.0&q=80&w=1080&utm_source=figma&utm_medium=referral",
+  "https://images.unsplash.com/photo-1552600552-4d7c157e7db8?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHxzcGlyaXR1YWwlMjBob3BlJTIwbGlnaHQlMjBjaHVyY2h8ZW58MXx8fHwxNzgzMzU0NTg3fDA&ixlib=rb-4.1.0&q=80&w=1080&utm_source=figma&utm_medium=referral",
+  "https://images.unsplash.com/photo-1684700746521-b625346ed912?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHxjaHVyY2glMjBtaXNzaW9uJTIwb3V0cmVhY2glMjBldXJvcGV8ZW58MXx8fHwxNzgzMzU0NTg3fDA&ixlib=rb-4.1.0&q=80&w=1080&utm_source=figma&utm_medium=referral",
+  "https://images.unsplash.com/photo-1707831853477-545a84511e57?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHxjZWxlYnJhdGlvbiUyMGNodXJjaCUyMGdvbGRlbiUyMGFubml2ZXJzYXJ5fGVufDF8fHx8MTc4MzM1NDU5MXww&ixlib=rb-4.1.0&q=80&w=1080&utm_source=figma&utm_medium=referral",
 ];
+
+export const TIMELINE_DATA = [
+  { year: 1976, title: "The First Sunday School",     text: "The first Apostolic Faith Sunday school meeting in the UK is held in a Brixton lounge, 18 Doverfield Road — three believers present, including Brother Shuaibu Adeoye." },
+  { year: 1976, title: "A Fellowship on the Move",     text: "The young fellowship moves to Kintyre Court, Brixton, then to 10 Waller Road, New Cross, as attendance grows." },
+  { year: 1979, title: "The First UK Pastor",          text: "Brother Victor Okusanya is ordained in Lagos and becomes the UK's first pastor." },
+  { year: 1982, title: "A Building of Our Own",        text: "The congregation settles at 95 Fenham Road, Peckham — the UK's first dedicated Apostolic Faith church building." },
+  { year: 2000, title: "A New Pastor Installed",       text: "Rev Victor Okusanya retires after 24 years; Brother Isaac Adigun is installed as UK pastor, 30 April 2000. The Welfare Ministry is founded under Sister Stella Adigun." },
+  { year: 2001, title: "The First Camp Meeting",       text: "The first UK Camp Meeting is held, beginning an annual tradition of gathering, prayer, and renewal." },
+  { year: 2002, title: "Music as Evangelism",          text: "The first Italy Christmas Concert is held in Treviglio — the start of a lasting musical evangelism tradition." },
+  { year: 2003, title: "A New Work in Birmingham",     text: "The Apostolic Faith work begins in Birmingham, later home to the largest AFC facility in Western Europe." },
+  { year: 2004, title: "Youth Camp Begins",            text: "The first Youth Camp is held, over the May bank holiday weekend — a tradition that continues every year since." },
+  { year: 2005, title: "A Fellowship in Spain",        text: "The Spain fellowship begins in Murcia, gathered by Brother Yaya Bobo and Brother Femi's family." },
+  { year: 2006, title: "Ireland's First Seed",         text: "The Dublin, Ireland house fellowship begins, following the Adeyemi family's relocation from London." },
+  { year: 2007, title: "Bexley & Bristol Begin",       text: "The Bexley and Bristol works both begin — Bexley from a newspaper advert, Bristol from believers meeting in each other's homes." },
+  { year: 2010, title: "Germany, Manchester & Birmingham", text: "The Germany work begins in Walldorf; Birmingham and Manchester churches are purchased as permanent homes." },
+  { year: 2011, title: "Three Churches Dedicated",     text: "Bexley, Manchester, and Birmingham churches are dedicated, each gaining its own Elementary Department." },
+  { year: 2015, title: "Denmark Re-Established",       text: "The Copenhagen, Denmark fellowship is re-established, beginning a story of faithfulness through years alone." },
+  { year: 2016, title: "Glasgow's Travelodge Beginning", text: "The Glasgow fellowship begins, meeting in a rented Travelodge conference room." },
+  { year: 2017, title: "Edinburgh & Coventry Begin",   text: "Edinburgh fellowship and Coventry congregation both begin; the Midlands work is restructured into Birmingham, Coventry, and Leicester." },
+  { year: 2021, title: "Faithful Through COVID-19",    text: "Churches across the UK and Western Europe move to online and hybrid worship, and find new ways to stay connected." },
+  { year: 2023, title: "Cranfield Dedicated",          text: "Cranfield Church is dedicated (15 October); Germany and Denmark each secure their first permanent worship venues; Leicester re-establishes as an independent congregation." },
+  { year: 2024, title: "Aberdeen's Permanent Home",    text: "Aberdeen's Kingswells Parish Church is dedicated (4 August) after 26 years without a permanent home." },
+  { year: 2025, title: "Rededication & New Beginnings", text: "Bexley Headquarters is formally rededicated after redevelopment (September); Sister Patricia Sossa is ordained pastor in France; Ireland is registered as a Charity in the Republic of Ireland (December)." },
+  { year: 2026, title: "Golden Jubilee",               text: "The David Academy launches in Birmingham (April); the Italy church relaunches after eight years' dormancy; the first Mainland Europe Grand Maiden Mini-Camp Meeting is held in Lucca; the church marks its Golden Jubilee." },
+].map((entry, i) => ({ ...entry, bgImage: TL_IMAGES[i % TL_IMAGES.length] }));
 
 // ─── Section 1: Opening hero ──────────────────────────────────────────────────
 
@@ -153,7 +178,7 @@ export function Section1({ scrollProgress = 0 }: { scrollProgress?: number }) {
       >
         <img
           src={logoImg}
-          alt="50th Anniversary — AFM Western Europe"
+          alt="50th Anniversary — AFC UK & Western Europe"
           className="w-[90%] max-w-[620px] h-auto"
         />
       </div>
@@ -415,7 +440,9 @@ export function PreTimelineSection() {
           </div>
         </div>
         <div className="-translate-y-1/2 [word-break:break-word] absolute flex flex-col font-['Futura_PT:Book',sans-serif] justify-center leading-[0] left-[353px] not-italic text-[#080d1a] text-[24px] top-[526.5px] w-[734px]">
-          
+          <p className="leading-[normal]">
+            Welcome to the story of the Apostolic Faith Church in the United Kingdom and Western Europe — fifty years of prayer, preaching, and publishing the Gospel, from a lounge in Brixton in 1976 to more than thirty churches and groups across Britain and mainland Europe today.
+          </p>
         </div>
       </div>
       {/* Dark image + text overlay */}
@@ -440,10 +467,10 @@ export function PreTimelineSection() {
           </div>
           <div className="[word-break:break-word] content-stretch flex flex-col gap-[34px] items-start leading-[0] not-italic relative shrink-0 text-white w-[734px]">
             <div className="flex flex-col font-['CRONDE:Regular',sans-serif] justify-center min-w-full relative shrink-0 text-[48px] w-[min-content]">
-              <p className="leading-[normal]">Loreum Ipsum</p>
+              <p className="leading-[normal]">Fifty Years of God's Faithfulness</p>
             </div>
             <div className="flex flex-col font-['Futura_PT:Book',sans-serif] justify-center relative shrink-0 text-[24px] w-[601px]">
-              <p className="leading-[normal]">Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut</p>
+              <p className="leading-[normal]">On 11 April 1976, Brother Victor Okusanya gathered three believers for the first Sunday school lesson in a Brixton lounge. Fifty years on, from Scotland to seven countries across mainland Europe: Pray, Preach, Publish.</p>
             </div>
           </div>
         </div>
@@ -663,21 +690,21 @@ export function PostTimelineSection() {
 const STORIES = [
   {
     img: imgImage3,
-    title: "A Church Planted in Amsterdam",
-    text: "From a small gathering of six believers, a thriving congregation emerged that continues to shape the city today.",
-    tag: "1971",
+    title: "Only Three of Us Were Present",
+    text: "On 11 April 1976, Brother Shuaibu Adeoye, Brother Victor Okusanya, and Sister Comfort Martins held the very first Apostolic Faith Sunday school lesson in the UK, in a Brixton lounge.",
+    tag: "1976",
   },
   {
     img: imgContainer1,
-    title: "The European Leadership Summit",
-    text: "In 1987, pastors from twelve nations gathered for the first time, forging bonds that would define the mission's next chapter.",
-    tag: "1987",
+    title: "Dami's Story — A Testimony of Faithfulness",
+    text: "In July 2022, a Birmingham Church family watched God turn a medical emergency no one expected their daughter to survive into a full and lasting recovery.",
+    tag: "2022",
   },
   {
     img: imgContainer2,
-    title: "50 Years of Youth Ministry",
-    text: "Young people have always been at the heart of AFM Western Europe — the next generation carrying the torch of faithful witness.",
-    tag: "2007",
+    title: "Fifty Years of Testimonies",
+    text: "Healing, provision, restored families, and lives turned toward Christ — real stories gathered from across our branches over five decades of ministry.",
+    tag: "1976–2026",
   },
 ];
 
@@ -728,7 +755,10 @@ export function StoriesSection() {
 
       {/* CTA */}
       <div className="pb-12 md:pb-[60px] flex justify-center">
-        <div className="bg-[#192441] text-white font-['Futura_PT',sans-serif] text-[13px] md:text-[14px] tracking-wide py-3 md:py-3.5 px-8 md:px-9 rounded-full cursor-pointer whitespace-nowrap">
+        <div
+          onClick={() => { window.location.hash = "#watch"; }}
+          className="bg-[#192441] text-white font-['Futura_PT',sans-serif] text-[13px] md:text-[14px] tracking-wide py-3 md:py-3.5 px-8 md:px-9 rounded-full cursor-pointer whitespace-nowrap"
+        >
           View All Stories
         </div>
       </div>
