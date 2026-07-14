@@ -163,7 +163,7 @@ function QuoteHero() {
   return (
     <div className="relative flex w-full flex-col items-center justify-center overflow-hidden bg-[#0f1421] px-6 py-20 text-center sm:py-28">
       <div className="relative z-10 flex w-full max-w-[560px] flex-col items-center gap-10 sm:gap-14">
-        <p className="font-['Futura_PT:Book',sans-serif] text-[56px] italic leading-[1.5] text-white sm:text-[28px] lg:text-[32px]">
+        <p className="font-['Futura_PT:Book',sans-serif] text-[26px] italic leading-[1.5] text-white sm:text-[28px] lg:text-[32px]">
           "One generation shall praise thy works to another, and shall declare thy mighty acts."
         </p>
         <p className="font-['Futura_PT:Book',sans-serif] text-[16px] tracking-[1px] text-[#d9c7a8] sm:text-[16px]">

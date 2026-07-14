@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import {
   Section1,
   StoriesSection,
@@ -8,7 +8,6 @@ import {
 import { Footer } from "./components/footer";
 import Nav from "../imports/Nav/index";
 import MobileNav from "./components/MobileNav";
-import MobileTimeline from "./components/MobileTimeline";
 import MobileGallery from "./components/MobileGallery";
 import { GalleryPage } from "./components/gallery";
 import { DepartmentPage } from "./components/department";
@@ -32,9 +31,14 @@ const P1_END            = 0.5;
 const S1_SCROLL_H       = Math.round(S1_HEIGHT * 1.5); // 1465
 
 const NAV_H             = 80;
-const PRE_H             = 1359;
 
-const STORIES_VIS_H     = 900;
+// PRE_H covers the combined "intro" block rendered by PreTimelineSection:
+//   Praise-God-With-Us hero (900) + Where-it-all-started (722) + Video (860)
+// Keep this in sync with PRE_H_TOTAL exported from sections.tsx if you tweak
+// any of those three sub-section heights.
+const PRE_H              = 2482;
+
+const STORIES_VIS_H     = 200;
 const STORIES_DWELL_H   = 600;
 
 const TIMELINE_VIS_H    = 782;
@@ -62,6 +66,62 @@ function ScaledBlock({
     <div style={{ height: height * scale, overflow: "hidden", width: "100%" }}>
       <div style={{ width: DESIGN_WIDTH, height, transform: `scale(${scale})`, transformOrigin: "top left" }}>
         {children}
+      </div>
+    </div>
+  );
+}
+
+function MobileTimelineViewer() {
+  const [idx, setIdx] = useState(0);
+  const touchStartX = useRef<number | null>(null);
+  const total = TIMELINE_DATA.length;
+
+  const goTo = (next: number) => {
+    setIdx(Math.min(Math.max(next, 0), total - 1));
+  };
+
+  const onTouchStart = (e: React.TouchEvent) => {
+    touchStartX.current = e.touches[0]?.clientX ?? null;
+  };
+  const onTouchEnd = (e: React.TouchEvent) => {
+    if (touchStartX.current === null) return;
+    const dx = (e.changedTouches[0]?.clientX ?? touchStartX.current) - touchStartX.current;
+    if (Math.abs(dx) > 40) {
+      if (dx < 0) goTo(idx + 1); // swipe left -> next
+      else goTo(idx - 1);        // swipe right -> prev
+    }
+    touchStartX.current = null;
+  };
+
+  return (
+    <div
+      id="timeline"
+      className="relative w-full"
+      onTouchStart={onTouchStart}
+      onTouchEnd={onTouchEnd}
+    >
+      <TimelineSection activeYearIndex={idx} transitionProgress={0} />
+
+      {/* Prev / next controls */}
+      <div className="absolute inset-x-0 bottom-6 flex items-center justify-center gap-6 z-10 pointer-events-none">
+        <button
+          type="button"
+          onClick={() => goTo(idx - 1)}
+          disabled={idx === 0}
+          aria-label="Previous year"
+          className="pointer-events-auto size-11 rounded-full bg-white/10 border border-white/30 text-white text-xl flex items-center justify-center disabled:opacity-25 backdrop-blur-sm"
+        >
+          ‹
+        </button>
+        <button
+          type="button"
+          onClick={() => goTo(idx + 1)}
+          disabled={idx === total - 1}
+          aria-label="Next year"
+          className="pointer-events-auto size-11 rounded-full bg-white/10 border border-white/30 text-white text-xl flex items-center justify-center disabled:opacity-25 backdrop-blur-sm"
+        >
+          ›
+        </button>
       </div>
     </div>
   );
@@ -138,6 +198,11 @@ export default function App() {
   }, []);
 
   useEffect(() => {
+    // The pinned-canvas scroll rig below is desktop-only math. Skip the
+    // listener entirely on mobile/tablet — there's nothing for it to drive
+    // there, and it would just do wasted work on every scroll event.
+    if (device !== 'desktop') return;
+
     const s1End      = S1_SCROLL_H * scale;
     const preEnd     = s1End + PRE_H * scale;
     const storiesEnd = preEnd + STORIES_DWELL_H * scale;
@@ -155,7 +220,7 @@ export default function App() {
       const rawS1 = sy / s1End;
       setS1Progress(Number.isFinite(rawS1) ? Math.min(Math.max(rawS1, 0), 1) : 0);
 
-      // PreTimeline
+      // PreTimeline (Praise-God hero + Where-it-started + Video, one sliding block)
       setPreY(sy <= s1End ? 0 : Math.max(-(PRE_H * scale), -(sy - s1End)));
 
       // Stories
@@ -206,7 +271,7 @@ export default function App() {
     window.addEventListener("scroll", onScroll, { passive: true });
     onScroll();
     return () => window.removeEventListener("scroll", onScroll);
-  }, [scale, vh]);
+  }, [scale, vh, device]);
 
   const safeProgress   = Number.isFinite(s1Progress) ? s1Progress : 0;
   const phase1         = Math.min(safeProgress / P1_END, 1);
@@ -268,6 +333,62 @@ export default function App() {
     return <><BranchPage branch={page} onBack={navigateHome} /><TimelineSheet /></>;
   }
 
+  // ─────────────────────────────────────────────────────────────────────────
+  // MOBILE / TABLET home page: natural document flow, no scroll-jacking.
+  //
+  // The desktop experience below pins each section to `position: fixed` and
+  // drives it with `translateY` computed from precise pixel scroll-budgets,
+  // all rendered inside a `width: 1440px; transform: scale(vw/1440)` canvas.
+  // That works for a fixed 1440-design desktop layout, but it actively
+  // breaks mobile: every Tailwind responsive class inside gets visually
+  // shrunk by the scale factor (≈0.26 on a 375px phone) instead of actually
+  // reflowing, and the fixed scroll-budget heights don't match natural
+  // content height once markup switches to a stacked mobile layout. That's
+  // why the hero ("One generation shall praise…") and fireworks screens
+  // looked broken on mobile even though they carried responsive classes.
+  //
+  // Fix: on mobile/tablet, skip the pinned rig entirely and render each
+  // section in normal flow, letting each component's own responsive/mobile
+  // markup do the work at its real, un-scaled size. The timeline uses
+  // MobileTimelineViewer, which reuses TimelineSection's own mobile design
+  // (rather than a separate MobileTimeline component) so it looks and works
+  // the same way as the desktop timeline, just swipe/tap-driven instead of
+  // scroll-driven.
+  // ─────────────────────────────────────────────────────────────────────────
+  if (device === 'mobile' || device === 'tablet') {
+    return (
+      <div className="w-full bg-[#fcf9f2] overflow-x-hidden">
+        <TimelineSheet />
+        <MobileNav />
+
+        {/* Hero — static (no scroll-driven fade/curtain-lift on mobile,
+            that choreography exists to coordinate with the pinned rig
+            below it, which no longer applies here). */}
+        <Section1 scrollProgress={0} />
+
+        <PreTimelineSection />
+        <StoriesSection />
+
+        <MobileTimelineViewer />
+
+        <MobileGallery />
+
+        {/*
+          NOTE: Footer wasn't provided in this pass, so it's rendered here
+          at its natural width rather than inside the 1440px-canvas
+          ScaledBlock the desktop layout uses (that scaling would shrink any
+          responsive classes inside Footer the same way it broke Section1).
+          Share components/footer.tsx if it needs its own mobile-specific
+          pass beyond the logo-sizing fix already applied.
+        */}
+        <Footer />
+      </div>
+    );
+  }
+
+  // ─────────────────────────────────────────────────────────────────────────
+  // DESKTOP home page: pinned-canvas scrollytelling (unchanged)
+  // ─────────────────────────────────────────────────────────────────────────
   return (
     <div className="w-full bg-[#fcf9f2]">
       <TimelineSheet />
@@ -276,7 +397,9 @@ export default function App() {
        * Document scroll budget (in order)
        * ────────────────────────────────
        * S1_SCROLL_H × scale      hero phase-1 + curtain lift
-       * PRE_H × scale            pre-timeline scrolls off
+       * PRE_H × scale            intro block scrolls off (Praise-God hero +
+       *                          Where-it-started + Video, all one sliding
+       *                          unit — see PreTimelineSection)
        * STORIES_DWELL_H × scale  stories visible
        * vh                       timeline slides in / stories slides out (push)
        * TIMELINE_SCROLL_H×scale  year-by-year dial
@@ -311,15 +434,9 @@ export default function App() {
           transition: "opacity 1.2s cubic-bezier(0.4, 0, 0.2, 1), transform 1.2s cubic-bezier(0.4, 0, 0.2, 1)",
           pointerEvents: galleryY === 0 ? "auto" : "none",
         }}>
-          {device === 'mobile' || device === 'tablet' ? (
-            <div style={{ width: '100%', height: '100vh' }}>
-              <MobileGallery />
-            </div>
-          ) : (
-            <div style={{ width: DESIGN_WIDTH, height: POST_H, transform: `scale(${scale})`, transformOrigin: "top left" }}>
-              <PostTimelineSection />
-            </div>
-          )}
+          <div style={{ width: DESIGN_WIDTH, height: POST_H, transform: `scale(${scale})`, transformOrigin: "top left" }}>
+            <PostTimelineSection />
+          </div>
         </div>
       </div>
 
@@ -342,7 +459,7 @@ export default function App() {
         </div>
       </div>
 
-      {/* z:5 — PreTimeline */}
+      {/* z:5 — Intro block (Praise-God hero + Where-it-started + Video) */}
       <div style={{
         position: "fixed", top: 0, left: 0, width: "100%",
         height: PRE_H * scale, zIndex: 5, overflow: "hidden",
@@ -386,18 +503,14 @@ export default function App() {
       {/* z:20 — Nav */}
       <div style={{
         position: "fixed", top: 0, left: 0, width: "100%",
-        height: device === 'mobile' ? 'auto' : NAV_H * scale, zIndex: 100, overflow: "visible",
-        opacity: device === 'mobile' ? 1 : navOpacity, 
-        transform: device === 'mobile' ? 'none' : `translateY(${navTranslateY}px)`,
-        pointerEvents: device === 'mobile' ? 'auto' : (phase2 > 0.5 ? "auto" : "none"),
+        height: NAV_H * scale, zIndex: 100, overflow: "visible",
+        opacity: navOpacity,
+        transform: `translateY(${navTranslateY}px)`,
+        pointerEvents: phase2 > 0.5 ? "auto" : "none",
       }}>
-        {device === 'mobile' ? (
-          <MobileNav />
-        ) : (
-          <div style={{ width: DESIGN_WIDTH, height: NAV_H, transform: `scale(${scale})`, transformOrigin: "top left", position: "relative" }}>
-            <Nav />
-          </div>
-        )}
+        <div style={{ width: DESIGN_WIDTH, height: NAV_H, transform: `scale(${scale})`, transformOrigin: "top left", position: "relative" }}>
+          <Nav />
+        </div>
       </div>
 
       {/* z:50 — Timeline */}
@@ -411,28 +524,18 @@ export default function App() {
           transform: fadeIn ? "scale(1)" : "scale(0.98)",
           transition: "opacity 0.9s cubic-bezier(0.4, 0, 0.2, 1), transform 0.9s cubic-bezier(0.4, 0, 0.2, 1)",
         }}>
-          {device === 'mobile' || device === 'tablet' ? (
-            <div style={{
-              position: "absolute",
-              inset: 0,
-              pointerEvents: timelineY === 0 ? "auto" : "none",
-            }}>
-              <MobileTimeline activeYearIndex={activeYearIndex} />
-            </div>
-          ) : (
-            <div style={{
-              position: "absolute",
-              top: tlOffsetY, left: tlOffsetX,
-              width: DESIGN_WIDTH, height: TIMELINE_VIS_H,
-              transform: `scale(${tlScale})`, transformOrigin: "top left",
-              pointerEvents: timelineY === 0 ? "auto" : "none",
-            }}>
-              <TimelineSection
-                activeYearIndex={activeYearIndex}
-                transitionProgress={0}
-              />
-            </div>
-          )}
+          <div style={{
+            position: "absolute",
+            top: tlOffsetY, left: tlOffsetX,
+            width: DESIGN_WIDTH, height: TIMELINE_VIS_H,
+            transform: `scale(${tlScale})`, transformOrigin: "top left",
+            pointerEvents: timelineY === 0 ? "auto" : "none",
+          }}>
+            <TimelineSection
+              activeYearIndex={activeYearIndex}
+              transitionProgress={0}
+            />
+          </div>
         </div>
       </div>
 

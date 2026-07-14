@@ -130,7 +130,7 @@ function DepartmentCanvas(): ReactElement {
 
       {/* Title */}
       <div
-        className="-translate-x-1/2 absolute flex flex-col font-['CRONDE:Regular',sans-serif] justify-center leading-[0] not-italic text-[#0f1421] text-center"
+        className="-translate-x-1/2 absolute mt-10 flex flex-col font-['CRONDE:Regular'] justify-center leading-[0] not-italic text-[#0f1421] text-center"
         style={{ left: "50%", top: 68, width: "60%", fontSize: "clamp(36px, 4.44vw, 64px)" }}
       >
         <p className="leading-[normal]">Departments & Ministries</p>
@@ -138,7 +138,7 @@ function DepartmentCanvas(): ReactElement {
 
       {/* Description paragraph */}
       <div
-        className="-translate-x-1/2 absolute font-['Futura_PT:Book',sans-serif] text-center"
+        className="-translate-x-1/2 absolute mt-10 font-['Futura_PT:Book',sans-serif] text-center"
         style={{ left: "50%", top: 148, width: "58%", fontSize: "clamp(13px, 1.11vw, 16px)", lineHeight: 1.7, color: "#3b3b3b" }}
       >
         <p style={{ margin: 0 }}>
