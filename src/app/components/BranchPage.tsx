@@ -6,17 +6,25 @@ import Bexley from "../../imports/Bexley/index";
 import Peckham from "../../imports/Peckham/index";
 import Cranfield from "../../imports/Cranfield/index";
 import Birmingham from "../../imports/Birmingham/index";
-import Aberdeen, { AberdeenMobile } from "../../imports/Aberdeen/index";
-import { BranchGeneric } from "./BranchGeneric";
-import { BRANCH_CONTENT } from "../data/branchContent";
+import Aberdeen from "../../imports/Aberdeen/index";
+import Italy from "../../imports/Italy/index";
+import Germany from "../../imports/Germany/index";
+import Sussex from "../../imports/Sussex/index";
+import Conventry from "../../imports/Conventry/index";
+import Demark from "../../imports/Demark/index";
+import Edinburgh from "../../imports/Edinburgh/index";
+import France from "../../imports/France/index";
+import Ireland from "../../imports/Ireland/index";
+import Glasgow from "../../imports/Glasgow/index";
+import Leicester from "../../imports/Leicester/index";
+import Spain from "../../imports/Spain/index";
+import Bristol from "../../imports/Bristol/index";
 
 const DESIGN_WIDTH  = 1440;
 const DESIGN_HEIGHT = 1920;
 const NAV_H = 80;
 const MOBILE_BREAKPOINT = 768;
 
-// Keep the scaled canvas from blowing up on ultra-wide monitors and from
-// shrinking into unreadable text on very narrow phones.
 const MIN_SCALE = 0.32;
 const MAX_SCALE = 1.15;
 
@@ -57,33 +65,9 @@ function useIsMobile() {
   return isMobile;
 }
 
-function BackButton({ onBack, offsetTop }: { onBack: () => void; offsetTop: string }) {
-  return (
-    <button
-      onClick={onBack}
-      style={{
-        position: "fixed",
-        top: offsetTop,
-        right: "max(16px, env(safe-area-inset-right))",
-        zIndex: 300,
-        background: "#192441",
-        color: "#fff",
-        border: "none",
-        borderRadius: 6,
-        padding: "8px 18px",
-        fontFamily: "'Inter', sans-serif",
-        fontSize: 13,
-        cursor: "pointer",
-        letterSpacing: "0.04em",
-      }}
-    >
-      ← Back
-    </button>
-  );
-}
-
 function ScaledBranchPage({ children, onBack }: { children: React.ReactNode; onBack: () => void }) {
   const scale = useClampedScale();
+  const isMobile = useIsMobile();
   const [fadeIn, setFadeIn] = useState(false);
 
   useEffect(() => {
@@ -91,6 +75,7 @@ function ScaledBranchPage({ children, onBack }: { children: React.ReactNode; onB
       setFadeIn(true);
     });
   }, []);
+  const mobileNavClearance = 96;
 
   return (
     <div style={{
@@ -104,22 +89,25 @@ function ScaledBranchPage({ children, onBack }: { children: React.ReactNode; onB
         transform: fadeIn ? "scale(1)" : "scale(0.98)",
         transition: "opacity 0.9s cubic-bezier(0.4, 0, 0.2, 1) 0.1s, transform 0.9s cubic-bezier(0.4, 0, 0.2, 1) 0.1s",
       }}>
-        <BackButton onBack={onBack} offsetTop="max(16px, env(safe-area-inset-top))" />
-        {/* Center the scaled canvas horizontally so extra width on wide
-            viewports (once MAX_SCALE caps the design) doesn't leave the
-            page lopsided. */}
         <div style={{
           width: "100%",
           display: "flex",
           justifyContent: "center",
           overflowX: "hidden",
+          paddingTop: isMobile ? mobileNavClearance : 0,
         }}>
-          <div style={{ width: DESIGN_WIDTH * scale, height: DESIGN_HEIGHT * scale, overflow: "hidden" }}>
+          <div style={{
+            width: DESIGN_WIDTH * scale,
+            height: isMobile ? (DESIGN_HEIGHT - NAV_H) * scale : DESIGN_HEIGHT * scale,
+            overflow: "hidden",
+          }}>
             <div
               style={{
                 width: DESIGN_WIDTH,
                 height: DESIGN_HEIGHT,
-                transform: `scale(${scale})`,
+                transform: isMobile
+                  ? `translateY(-${NAV_H}px) scale(${scale})`
+                  : `scale(${scale})`,
                 transformOrigin: "top left",
               }}
             >
@@ -129,44 +117,44 @@ function ScaledBranchPage({ children, onBack }: { children: React.ReactNode; onB
         </div>
       </div>
 
-      {/* Live interactive nav overlaying the static one baked into the design */}
-      <div style={{
-        position: "fixed", top: 0, left: 0, width: "100%",
-        height: NAV_H * scale, zIndex: 100, overflow: "visible",
-        display: "flex", justifyContent: "center",
-      }}>
-        <div style={{
-          width: DESIGN_WIDTH, height: NAV_H,
-          transform: `scale(${scale})`, transformOrigin: "top center",
-        }}>
-          <Nav />
+      {isMobile ? (
+        <div style={{ position: "fixed", top: 0, left: 0, width: "100%", zIndex: 100 }}>
+          <MobileNav />
         </div>
-      </div>
+      ) : (
+        <div style={{
+          position: "fixed", top: 0, left: 0, width: "100%",
+          height: NAV_H * scale, zIndex: 100, overflow: "visible",
+          display: "flex", justifyContent: "center",
+        }}>
+          <div style={{
+            width: DESIGN_WIDTH, height: NAV_H,
+            transform: `scale(${scale})`, transformOrigin: "top center",
+          }}>
+            <Nav />
+          </div>
+        </div>
+      )}
     </div>
   );
 }
 
-// Natural single-column flow for branches that have a real mobile layout —
-// no fixed-width canvas, no scale transform, MobileNav instead of the
-// desktop Nav baked into the design.
 function MobileBranchPage({ children, onBack }: { children: React.ReactNode; onBack: () => void }) {
   const [fadeIn, setFadeIn] = useState(false);
+  const isMobile = useIsMobile();
 
   useEffect(() => {
     requestAnimationFrame(() => setFadeIn(true));
   }, []);
 
   return (
-    <div style={{ width: "100%", minHeight: "100vh", background: "#f4f1ea", position: "relative" }}>
-      <div style={{ position: "fixed", top: 0, left: 0, width: "100%", zIndex: 100 }}>
-        <MobileNav />
+    <div style={{ width: "100%", minHeight: "100vh", background: "#fcf9f2", position: "relative" }}>
+      <div style={{ position: "fixed", top: 0, left: 0, width: "100%", zIndex: 100, height: isMobile ? "auto" : NAV_H }}>
+        {isMobile ? <MobileNav /> : <Nav />}
       </div>
-
-      <BackButton onBack={onBack} offsetTop="calc(72px + max(12px, env(safe-area-inset-top)))" />
 
       <div
         style={{
-          paddingTop: 96,
           opacity: fadeIn ? 1 : 0,
           transform: fadeIn ? "scale(1)" : "scale(0.98)",
           transition: "opacity 0.9s cubic-bezier(0.4, 0, 0.2, 1) 0.1s, transform 0.9s cubic-bezier(0.4, 0, 0.2, 1) 0.1s",
@@ -178,9 +166,6 @@ function MobileBranchPage({ children, onBack }: { children: React.ReactNode; onB
   );
 }
 
-// Picks scaled-desktop vs natural-mobile based on viewport width. Branches
-// without a Mobile component yet keep the old scaled-only behavior so
-// nothing regresses while mobile layouts are added incrementally.
 function ResponsiveBranchPage({
   onBack,
   Canvas,
@@ -227,7 +212,6 @@ function PlaceholderBranchPage({ city, onBack }: { city: string; onBack: () => v
         transform: fadeIn ? "scale(1)" : "scale(0.98)",
         transition: "opacity 0.9s cubic-bezier(0.4, 0, 0.2, 1) 0.1s, transform 0.9s cubic-bezier(0.4, 0, 0.2, 1) 0.1s",
       }}>
-        <BackButton onBack={onBack} offsetTop="max(16px, env(safe-area-inset-top))" />
         <div style={{ textAlign: "center", maxWidth: 560, padding: "0 24px" }}>
           <p style={{ fontSize: "clamp(11px, 2.2vw, 12px)", letterSpacing: "0.18em", textTransform: "uppercase", color: "#8b7f6a", marginBottom: 16 }}>
             AFC UK & Western Europe — Branch
@@ -244,28 +228,59 @@ function PlaceholderBranchPage({ city, onBack }: { city: string; onBack: () => v
 
 export function BranchPage({ branch, onBack }: { branch: string; onBack: () => void }) {
   if (branch === "manchester") {
-    return <ScaledBranchPage onBack={onBack}><Manchester /></ScaledBranchPage>;
+    return <ResponsiveBranchPage onBack={onBack} Canvas={Manchester} Mobile={Manchester} />;
   }
   if (branch === "bexley") {
-    return <ScaledBranchPage onBack={onBack}><Bexley /></ScaledBranchPage>;
+    return <ResponsiveBranchPage onBack={onBack} Canvas={Manchester} Mobile={Bexley} />;
   }
   if (branch === "peckham") {
-    return <ScaledBranchPage onBack={onBack}><Peckham /></ScaledBranchPage>;
+    return <ResponsiveBranchPage onBack={onBack} Canvas={Manchester} Mobile={Peckham} />;
   }
   if (branch === "cranfield") {
-    return <ScaledBranchPage onBack={onBack}><Cranfield /></ScaledBranchPage>;
+    return <ResponsiveBranchPage onBack={onBack} Canvas={Manchester} Mobile={Cranfield} />;
   }
   if (branch === "birmingham") {
-    return <ScaledBranchPage onBack={onBack}><Birmingham /></ScaledBranchPage>;
+    return <ResponsiveBranchPage onBack={onBack} Canvas={Manchester} Mobile={Birmingham} />;
   }
-  if (branch === "aberdeen") {
-    return <ResponsiveBranchPage onBack={onBack} Canvas={Aberdeen} Mobile={AberdeenMobile} />;
+ if (branch === "aberdeen") {
+    return <ResponsiveBranchPage onBack={onBack} Canvas={Manchester} Mobile={Aberdeen} />;
   }
-
-  if (BRANCH_CONTENT[branch]) {
-    return <BranchGeneric branch={BRANCH_CONTENT[branch]} onBack={onBack} />;
+  if (branch === "italy") {
+    return <ResponsiveBranchPage onBack={onBack} Canvas={Manchester} Mobile={Italy} />;
   }
-
-  const cityName = branch.charAt(0).toUpperCase() + branch.slice(1);
-  return <PlaceholderBranchPage city={cityName} onBack={onBack} />;
+  if (branch === "germany") {
+    return <ResponsiveBranchPage onBack={onBack} Canvas={Manchester} Mobile={Germany} />;
+  }
+  if (branch === "sussex") {
+    return <ResponsiveBranchPage onBack={onBack} Canvas={Manchester} Mobile={Sussex} />;
+  }
+  if (branch === "conventry") {
+    return <ResponsiveBranchPage onBack={onBack} Canvas={Manchester} Mobile={Conventry} />;
+  }
+  if (branch === "demark") {
+    return <ResponsiveBranchPage onBack={onBack} Canvas={Manchester} Mobile={Demark} />;
+  }
+  if (branch === "edinburgh") {
+    return <ResponsiveBranchPage onBack={onBack} Canvas={Manchester} Mobile={Edinburgh} />;
+  }
+  if (branch === "france") {
+    return <ResponsiveBranchPage onBack={onBack} Canvas={Manchester} Mobile={France} />;
+  }
+  if (branch === "ireland") {
+    return <ResponsiveBranchPage onBack={onBack} Canvas={Manchester} Mobile={Ireland} />;
+  }
+  if (branch === "glasgow") {
+    return <ResponsiveBranchPage onBack={onBack} Canvas={Manchester} Mobile={Glasgow} />;
+  }
+  if (branch === "liecester") {
+    return <ResponsiveBranchPage onBack={onBack} Canvas={Manchester} Mobile={Leicester} />;
+  }
+  if (branch === "spain") {
+    return <ResponsiveBranchPage onBack={onBack} Canvas={Manchester} Mobile={Spain} />;
+  }
+   if (branch === "bristol") {
+    return <ResponsiveBranchPage onBack={onBack} Canvas={Manchester} Mobile={Bristol} />;
+  }
+  
+  return <PlaceholderBranchPage city={branch} onBack={onBack} />;
 }

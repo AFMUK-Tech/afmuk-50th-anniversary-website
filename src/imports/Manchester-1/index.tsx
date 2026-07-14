@@ -1,496 +1,290 @@
+import { useEffect, useRef, useState } from "react";
 import svgPaths from "./svg-qle47qowmk";
-import imgImage from "./9ec56a815db13e6f5f4c4f51dc8c89bded734cf2.png";
-import img132 from "./6289e65571dab6c414b3b1e11ca90d8fc1b7d1fe.png";
-import img21496614681 from "./4986cb0ca9480b3dc025830e0fd805d9e9f8b29c.png";
-import imgImage12 from "./00906276d94a619afd9053d491e72ee53b2c84f7.png";
+// Removed imgLogo as it's handled by the parent nav now
+import imgCrest from "./6289e65571dab6c414b3b1e11ca90d8fc1b7d1fe.png";
+import imgHero from "./4986cb0ca9480b3dc025830e0fd805d9e9f8b29c.png";
+import imgGallery from "./00906276d94a619afd9053d491e72ee53b2c84f7.png";
 
-function Image() {
+const GALLERY_IMAGES = [imgGallery, imgGallery, imgGallery];
+const BRANCH_ADDRESS = "21 pekam road North London";
+
+/* --------------------------------- Icons -------------------------------- */
+
+function ChevronIcon({ className = "" }: { className?: string }) {
   return (
-    <div className="absolute left-[-28.87px] size-[187.756px] top-[-75.73px]" data-name="Image">
-      <img alt="" className="absolute inset-0 max-w-none object-cover pointer-events-none size-full" src={imgImage} />
-    </div>
+    <svg viewBox="0 0 24 24" fill="none" className={className} aria-hidden="true">
+      <path
+        d="M15 6L9 12L15 18"
+        stroke="currentColor"
+        strokeLinecap="round"
+        strokeLinejoin="round"
+        strokeWidth="1.5"
+      />
+    </svg>
   );
 }
 
-function Container1() {
-  return (
-    <div className="h-[39.444px] relative shrink-0 w-[129.378px]" data-name="Container">
-      <div className="bg-clip-padding border-0 border-[transparent] border-solid overflow-clip relative rounded-[inherit] size-full">
-        <Image />
-      </div>
-    </div>
-  );
-}
+/* ------------------------------ Branch title ------------------------------ */
 
-function LinkAncestryHomeMargin() {
+function BranchTitle() {
   return (
-    <div className="min-w-[129.37779235839844px] relative shrink-0 w-[387.345px]" data-name="LinkAncestryHomeMargin">
-      <div className="bg-clip-padding border-0 border-[transparent] border-solid content-stretch flex flex-col items-center min-w-[inherit] pr-[257.671px] relative size-full">
-        <Container1 />
-      </div>
-    </div>
-  );
-}
-
-function Container2() {
-  return (
-    <div className="relative shrink-0" data-name="Container1">
-      <div className="bg-clip-padding border-0 border-[transparent] border-solid content-stretch flex flex-col items-start relative size-full">
-        <p className="[word-break:break-word] font-['Inter:Regular',sans-serif] font-normal leading-[18.144px] not-italic relative shrink-0 text-[#38362d] text-[15.778px] tracking-[-0.2367px] whitespace-nowrap">Founder</p>
-      </div>
-    </div>
-  );
-}
-
-function LinkAbout() {
-  return (
-    <div className="relative shrink-0" data-name="LinkAbout">
-      <div className="bg-clip-padding border-0 border-[transparent] border-solid content-stretch flex flex-col items-center relative size-full">
-        <Container2 />
-      </div>
-    </div>
-  );
-}
-
-function Container3() {
-  return (
-    <div className="relative shrink-0" data-name="Container1">
-      <div className="bg-clip-padding border-0 border-[transparent] border-solid content-stretch flex flex-col items-start relative size-full">
-        <p className="[word-break:break-word] font-['Inter:Regular',sans-serif] font-normal leading-[18.144px] not-italic relative shrink-0 text-[#38362d] text-[15.778px] tracking-[-0.2367px] whitespace-nowrap">Branches</p>
-      </div>
-    </div>
-  );
-}
-
-function LinkAbout1() {
-  return (
-    <div className="relative shrink-0" data-name="LinkAbout">
-      <div className="bg-clip-padding border-0 border-[transparent] border-solid content-stretch flex flex-col items-center relative size-full">
-        <Container3 />
-      </div>
-    </div>
-  );
-}
-
-function MynauiChevronLeft() {
-  return (
-    <div className="flex items-center justify-center relative shrink-0 size-[24px]">
-      <div className="-rotate-90 flex-none">
-        <div className="relative size-[24px]" data-name="mynaui:chevron-left">
-          <svg className="absolute block inset-0 size-full" fill="none" preserveAspectRatio="none" viewBox="0 0 24 24">
-            <g id="mynaui:chevron-left">
-              <path d="M15 6L9 12L15 18" id="Vector" stroke="var(--stroke-0, black)" strokeLinecap="round" strokeLinejoin="round" strokeWidth="1.5" />
-            </g>
-          </svg>
+    <div className="mx-auto flex w-full max-w-[1096px] flex-col items-center gap-6 px-4 py-8 text-center sm:py-12 md:flex-row md:items-center md:justify-between md:text-left lg:py-16">
+      <div className="mt-10 flex flex-col items-center gap-3 md:flex-row md:items-center md:gap-4">
+        <img
+          src={imgCrest}
+          alt="Manchester branch crest"
+          className="size-50 sm:object-contain object-cover sm:size-20 md:size-24 lg:size-[200px]"
+        />
+        <div className="flex flex-col items-center gap-1 sm:gap-2 md:items-start mt-[-50px] md:mt-0">
+          <p className="font-['Futura_PT:Book',sans-serif] text-lg text-[#949494] sm:text-xl lg:text-2xl">
+            Branch
+          </p>
+          <h1 className="font-['CRONDE:Regular',sans-serif] text-4xl leading-none text-[#38362d] sm:text-5xl lg:text-[64px]">
+            Manchester
+          </h1>
         </div>
       </div>
-    </div>
-  );
-}
 
-function Container5() {
-  return (
-    <div className="relative shrink-0" data-name="Container5">
-      <div className="bg-clip-padding border-0 border-[transparent] border-solid content-stretch flex gap-[8px] items-center relative size-full">
-        <LinkAbout1 />
-        <MynauiChevronLeft />
+      <div className="hidden flex-col items-center gap-1 sm:gap-2 md:flex md:items-end md:text-right">
+        <p className="font-['Futura_PT:Heavy',sans-serif] text-lg text-[#38362d] sm:text-xl lg:text-2xl">
+          Address
+        </p>
+        <p className="font-['Futura_PT:Book',sans-serif] text-base leading-7 text-[#38362d] sm:text-lg lg:text-[18px] lg:leading-[32px]">
+          {BRANCH_ADDRESS}
+        </p>
       </div>
     </div>
   );
 }
 
-function Link250Stories() {
+/* -------------------------------- Hero image ------------------------------ */
+
+function HeroImage() {
   return (
-    <div className="relative shrink-0" data-name="Link250Stories">
-      <div className="bg-clip-padding border-0 border-[transparent] border-solid content-stretch flex items-start justify-center relative size-full">
-        <Container5 />
-      </div>
+    <div className="relative h-[220px] w-full overflow-hidden sm:h-[340px] md:h-[400px] lg:h-[579px]">
+      <img
+        src={imgHero}
+        alt="Manchester church building exterior"
+        className="absolute inset-0 h-full w-full object-cover object-[center_35%]"
+      />
     </div>
   );
 }
 
-function MynauiChevronLeft1() {
-  return (
-    <div className="flex items-center justify-center relative shrink-0 size-[24px]">
-      <div className="-rotate-90 flex-none">
-        <div className="relative size-[24px]" data-name="mynaui:chevron-left">
-          <svg className="absolute block inset-0 size-full" fill="none" preserveAspectRatio="none" viewBox="0 0 24 24">
-            <g id="mynaui:chevron-left">
-              <path d="M15 6L9 12L15 18" id="Vector" stroke="var(--stroke-0, black)" strokeLinecap="round" strokeLinejoin="round" strokeWidth="1.5" />
-            </g>
-          </svg>
-        </div>
-      </div>
-    </div>
-  );
-}
+/* ------------------------------ Background art ----------------------------- */
 
-function Container6() {
+function BackgroundPattern() {
   return (
-    <div className="relative shrink-0" data-name="Container5">
-      <div className="bg-clip-padding border-0 border-[transparent] border-solid content-stretch flex gap-[8px] items-center relative size-full">
-        <p className="[word-break:break-word] font-['Inter:Regular',sans-serif] font-normal leading-[18.144px] not-italic relative shrink-0 text-[#38362d] text-[15.778px] tracking-[-0.2367px] whitespace-nowrap">Departement</p>
-        <MynauiChevronLeft1 />
-      </div>
-    </div>
-  );
-}
-
-function Link250Stories1() {
-  return (
-    <div className="relative shrink-0" data-name="Link250Stories">
-      <div className="bg-clip-padding border-0 border-[transparent] border-solid content-stretch flex items-start justify-center relative size-full">
-        <Container6 />
-      </div>
-    </div>
-  );
-}
-
-function Container7() {
-  return (
-    <div className="relative shrink-0" data-name="Container5">
-      <div className="bg-clip-padding border-0 border-[transparent] border-solid content-stretch flex items-center relative size-full">
-        <p className="[word-break:break-word] font-['Inter:Regular',sans-serif] font-normal leading-[18.144px] not-italic relative shrink-0 text-[#38362d] text-[15.778px] tracking-[-0.2367px] whitespace-nowrap">Timeline</p>
-      </div>
-    </div>
-  );
-}
-
-function Link250Stories2() {
-  return (
-    <div className="relative shrink-0" data-name="Link250Stories">
-      <div className="bg-clip-padding border-0 border-[transparent] border-solid content-stretch flex items-start justify-center relative size-full">
-        <Container7 />
-      </div>
-    </div>
-  );
-}
-
-function Container4() {
-  return (
-    <div className="relative shrink-0" data-name="Container3">
-      <div className="bg-clip-padding border-0 border-[transparent] border-solid content-stretch flex flex-col items-start relative size-full">
-        <p className="[word-break:break-word] font-['Inter:Regular',sans-serif] font-normal leading-[18.144px] not-italic relative shrink-0 text-[#38362d] text-[15.778px] tracking-[-0.2367px] whitespace-nowrap">Shop</p>
-      </div>
-    </div>
-  );
-}
-
-function LinkRecordGallery() {
-  return (
-    <div className="relative shrink-0" data-name="LinkRecordGallery">
-      <div className="bg-clip-padding border-0 border-[transparent] border-solid content-stretch flex flex-col items-center relative size-full">
-        <Container4 />
-      </div>
-    </div>
-  );
-}
-
-function Frame() {
-  return (
-    <div className="relative shrink-0" data-name="Frame">
-      <div className="bg-clip-padding border-0 border-[transparent] border-solid content-stretch flex gap-[25.244px] items-center relative size-full">
-        <LinkAbout />
-        <Link250Stories />
-        <Link250Stories1 />
-        <Link250Stories2 />
-        <LinkRecordGallery />
-      </div>
-    </div>
-  );
-}
-
-function Container8() {
-  return (
-    <div className="relative shrink-0" data-name="Container">
-      <div className="bg-clip-padding border-0 border-[transparent] border-solid content-stretch flex flex-col items-center relative size-full">
-        <p className="[word-break:break-word] font-['Inter:Regular',sans-serif] font-normal leading-[13.253px] not-italic relative shrink-0 text-[10.729px] text-center text-white tracking-[0.0552px] whitespace-nowrap">AFM UK</p>
-      </div>
-    </div>
-  );
-}
-
-function Link() {
-  return (
-    <div className="bg-[#192441] h-[37.867px] relative rounded-[66.267px] shrink-0" data-name="Link">
-      <div className="bg-clip-padding border-0 border-[transparent] border-solid content-stretch flex items-center justify-center px-[18.933px] relative size-full">
-        <Container8 />
-      </div>
-    </div>
-  );
-}
-
-function LinkMargin() {
-  return (
-    <div className="h-[37.867px] min-w-[116.33746337890625px] relative shrink-0 w-[373.933px]" data-name="LinkMargin">
-      <div className="bg-clip-padding border-0 border-[transparent] border-solid content-stretch flex flex-col items-center min-w-[inherit] pl-[257.671px] relative size-full">
-        <Link />
-      </div>
-    </div>
-  );
-}
-
-function Container() {
-  return (
-    <div className="absolute bg-white content-stretch flex h-[63px] items-center justify-between left-0 px-[18.933px] top-0 w-[1440px]" data-name="Container">
-      <LinkAncestryHomeMargin />
-      <Frame />
-      <LinkMargin />
-    </div>
-  );
-}
-
-function ContainerTransform() {
-  return (
-    <div className="h-[80px] relative shrink-0 w-[1440px]" data-name="Container (transform)">
-      <div className="bg-clip-padding border-0 border-[transparent] border-solid content-stretch flex flex-col items-start relative size-full">
-        <Container />
-      </div>
-    </div>
-  );
-}
-
-function App() {
-  return (
-    <div className="absolute content-stretch flex flex-col items-start left-0 overflow-clip top-0 w-[1440px]" data-name="App">
-      <ContainerTransform />
-    </div>
-  );
-}
-
-function Frame16() {
-  return (
-    <div className="overflow-clip relative shrink-0 size-[120px]">
-      <div className="-translate-x-1/2 -translate-y-1/2 absolute left-[calc(50%+0.01px)] size-[220.59px] top-[calc(50%+0.01px)]" data-name="13 2">
-        <img alt="" className="absolute inset-0 max-w-none object-cover pointer-events-none size-full" src={img132} />
-      </div>
-    </div>
-  );
-}
-
-function Frame10() {
-  return (
-    <div className="[word-break:break-word] content-stretch flex flex-col gap-[8px] items-start justify-center leading-[0] not-italic relative shrink-0 whitespace-nowrap">
-      <div className="flex flex-col font-['Futura_PT:Book',sans-serif] justify-center relative shrink-0 text-[#949494] text-[24px]">
-        <p className="leading-[normal]">Branch</p>
-      </div>
-      <div className="flex flex-col font-['CRONDE:Regular',sans-serif] justify-center relative shrink-0 text-[#38362d] text-[64px]">
-        <p className="leading-[normal]">Manchester</p>
-      </div>
-    </div>
-  );
-}
-
-function Frame14() {
-  return (
-    <div className="content-stretch flex gap-[12px] items-center relative shrink-0 w-[540px]">
-      <Frame16 />
-      <Frame10 />
-    </div>
-  );
-}
-
-function Frame9() {
-  return (
-    <div className="[word-break:break-word] content-stretch flex flex-col gap-[8px] items-start justify-center leading-[0] not-italic relative shrink-0 text-[#38362d] text-[24px] whitespace-nowrap">
-      <div className="flex flex-col font-['Futura_PT:Heavy',sans-serif] justify-center relative shrink-0 text-center">
-        <p className="leading-[normal]">Address</p>
-      </div>
-      <div className="flex flex-col font-['Futura_PT:Book',sans-serif] justify-center relative shrink-0">
-        <p className="leading-[normal]">Manchester, Greater Manchester</p>
-      </div>
-    </div>
-  );
-}
-
-function Frame3() {
-  return (
-    <div className="content-stretch flex items-center justify-between relative shrink-0 w-full">
-      <Frame14 />
-      <Frame9 />
-    </div>
-  );
-}
-
-function Frame5() {
-  return (
-    <div className="-translate-x-1/2 absolute content-stretch flex flex-col items-center justify-center left-1/2 top-[208px] w-[1096px]">
-      <Frame3 />
-    </div>
-  );
-}
-
-function Frame17() {
-  return (
-    <div className="absolute h-[579px] left-0 overflow-clip top-[371px] w-[1442px]">
-      <div className="absolute h-[2219px] left-[-37px] top-[-741px] w-[1479px]" data-name="2149661468 1">
-        <img alt="" className="absolute inset-0 max-w-none object-cover pointer-events-none size-full" src={img21496614681} />
-      </div>
-    </div>
-  );
-}
-
-function Frame11() {
-  return (
-    <div className="[word-break:break-word] content-stretch flex flex-col gap-[32px] items-start leading-[0] not-italic relative shrink-0 text-[#38362d] w-[770px]">
-      <div className="flex flex-col font-['CRONDE:Regular',sans-serif] justify-center relative shrink-0 text-[48px] w-full">
-        <p className="leading-[normal]">A Food Bank That Became a Doorway</p>
-      </div>
-      <div className="flex flex-col font-['Futura_PT:Book',sans-serif] justify-center relative shrink-0 text-[24px] w-full">
-        <p className="leading-[normal]">Since Brother Toyin Emitola became pastor in January 2018, Manchester's weekly attendance has grown from around thirty to a consistent 150–180. Through the pandemic, the church renovated its building; since then, Christmas has become a season of community outreach — carol visits, litter-picking, and a hot chocolate stand outside the church door. A food bank has grown from that same spirit of hospitality, becoming a clear doorway for newcomers.</p>
-      </div>
-    </div>
-  );
-}
-
-function MynauiChevronLeft2() {
-  return (
-    <div className="relative shrink-0 size-[48px]" data-name="mynaui:chevron-left">
-      <svg className="absolute block inset-0 size-full" fill="none" preserveAspectRatio="none" viewBox="0 0 48 48">
-        <g id="mynaui:chevron-left">
-          <path d="M30 12L18 24L30 36" id="Vector" stroke="var(--stroke-0, black)" strokeLinecap="round" strokeLinejoin="round" strokeWidth="3" />
+    <div
+      aria-hidden="true"
+      className="pointer-events-none absolute inset-x-[6.81%] top-0 bottom-[15%] opacity-20"
+    >
+      <svg className="h-full w-full" fill="none" preserveAspectRatio="none" viewBox="0 0 1244 1142">
+        <g>
+          <path d={svgPaths.p1d9a8400} fill="#949494" />
+          <path d={svgPaths.p56bbc40} fill="#949494" />
+          <path d={svgPaths.p35f8ee80} fill="#949494" />
+          <path d={svgPaths.p3de18b80} fill="#949494" />
+          <path d={svgPaths.p85df300} fill="#949494" />
+          <path d={svgPaths.p2733e000} fill="#949494" />
+          <path d={svgPaths.p3d407f00} fill="#949494" />
+          <path d={svgPaths.pd613700} fill="#949494" />
+          <path d={svgPaths.p9c00100} fill="#949494" />
+          <path d={svgPaths.p1e936c00} fill="#949494" />
+          <path d={svgPaths.p2315e700} fill="#949494" />
+          <path d={svgPaths.p36f7a300} fill="#949494" />
         </g>
       </svg>
     </div>
   );
 }
 
-function Frame1() {
+/* --------------------------- Address + Lorem Ipsum -------------------------- */
+
+function AddressListItem() {
   return (
-    <div className="h-[240px] overflow-clip relative shrink-0 w-[320px]">
-      <div className="absolute h-[492px] left-[-156px] top-[-124px] w-[738px]" data-name="image 12">
-        <img alt="" className="absolute inset-0 max-w-none object-cover pointer-events-none size-full" src={imgImage12} />
-      </div>
+    <div className="flex flex-col gap-1">
+      <p className="font-['Futura_PT:Heavy',sans-serif] text-sm text-[#38362d]">Address</p>
+      <p className="font-['Futura_PT:Book',sans-serif] text-sm leading-6 text-[#38362d]">
+        {BRANCH_ADDRESS}
+      </p>
     </div>
   );
 }
 
-function Frame8() {
+function StorySection() {
   return (
-    <div className="bg-white content-stretch flex flex-col items-start justify-center pb-[32px] pt-[8px] px-[8px] relative shrink-0">
-      <Frame1 />
-    </div>
-  );
-}
+    <section className="relative bg-[#f4f1ea] px-4 py-14 sm:px-6 sm:py-20 lg:px-0 lg:py-24">
+      <BackgroundPattern />
+      
+      <div className="relative mx-auto flex max-w-[1096px] flex-col md:flex-row md:gap-12 lg:gap-16">
+        
+        <div className="hidden shrink-0 flex-col gap-6 md:order-1 md:flex md:w-[160px] lg:w-[180px]">
+          <AddressListItem />
+          <AddressListItem />
+          <AddressListItem />
+          <AddressListItem />
+        </div>
 
-function Frame2() {
-  return (
-    <div className="h-[240px] overflow-clip relative shrink-0 w-[320px]">
-      <div className="absolute h-[492px] left-[-156px] top-[-124px] w-[738px]" data-name="image 12">
-        <img alt="" className="absolute inset-0 max-w-none object-cover pointer-events-none size-full" src={imgImage12} />
-      </div>
-    </div>
-  );
-}
+        <div className="order-1 flex flex-col md:order-2 md:flex-1">
+          
+          <div className="mb-10 flex flex-col gap-5 sm:gap-6 md:mb-0">
+            <h2 className="font-['CRONDE:Regular',sans-serif] text-3xl text-[#38362d] sm:text-4xl lg:text-[48px]">
+             A Food Bank That Became a Doorway
+            </h2>
+            <p className="font-['Futura_PT:Book',sans-serif] text-base leading-7 text-[#38362d] sm:text-[18px] sm:leading-[32px]">
+              Since Brother Toyin Emitola became pastor in January 2018, Manchester's weekly attendance has grown from around thirty to a consistent 150–180. 
+              Through the pandemic, the church renovated its building; since then, Christmas has become a season of community outreach — carol visits, litter-picking, and a hot chocolate stand outside the church door. 
+              A food bank has grown from that same spirit of hospitality, becoming a clear doorway for newcomers.
+            </p>
+          </div>
 
-function Frame7() {
-  return (
-    <div className="bg-white content-stretch flex flex-col items-start justify-center pb-[32px] pt-[8px] px-[8px] relative shrink-0">
-      <Frame2 />
-    </div>
-  );
-}
+          <div className="mt-6 flex flex-col gap-6 pt-6 border-t border-[#e5e1d6] md:hidden">
+             <AddressListItem />
+             <AddressListItem />
+             <AddressListItem />
+             <AddressListItem />
+          </div>
 
-function Frame4() {
-  return (
-    <div className="h-[240px] overflow-clip relative shrink-0 w-[320px]">
-      <div className="absolute h-[492px] left-[-156px] top-[-124px] w-[738px]" data-name="image 12">
-        <img alt="" className="absolute inset-0 max-w-none object-cover pointer-events-none size-full" src={imgImage12} />
-      </div>
-    </div>
-  );
-}
-
-function Frame6() {
-  return (
-    <div className="bg-white content-stretch flex flex-col items-start justify-center pb-[32px] pt-[8px] px-[8px] relative shrink-0">
-      <Frame4 />
-    </div>
-  );
-}
-
-function Frame12() {
-  return (
-    <div className="content-stretch flex gap-[12px] items-center relative shrink-0">
-      <Frame8 />
-      <Frame7 />
-      <Frame6 />
-    </div>
-  );
-}
-
-function MynauiChevronLeft3() {
-  return (
-    <div className="flex items-center justify-center relative shrink-0">
-      <div className="-scale-y-100 flex-none rotate-180">
-        <div className="relative size-[48px]" data-name="mynaui:chevron-left">
-          <svg className="absolute block inset-0 size-full" fill="none" preserveAspectRatio="none" viewBox="0 0 48 48">
-            <g id="mynaui:chevron-left">
-              <path d="M30 12L18 24L30 36" id="Vector" stroke="var(--stroke-0, black)" strokeLinecap="round" strokeLinejoin="round" strokeWidth="3" />
-            </g>
-          </svg>
         </div>
       </div>
-    </div>
+    </section>
   );
 }
 
-function Frame13() {
+/* --------------------------------- Gallery --------------------------------- */
+
+function Gallery() {
+  const scrollerRef = useRef<HTMLDivElement>(null);
+  const [activeIndex, setActiveIndex] = useState(0);
+
+  const scrollToIndex = (index: number) => {
+    const el = scrollerRef.current;
+    if (!el) return;
+    const clamped = Math.max(0, Math.min(index, GALLERY_IMAGES.length - 1));
+    const card = el.children[clamped] as HTMLElement | undefined;
+    if (card) {
+      el.scrollTo({ left: card.offsetLeft, behavior: "smooth" });
+    }
+  };
+
+  const scrollByCard = (direction: 1 | -1) => {
+    scrollToIndex(activeIndex + direction);
+  };
+
+  useEffect(() => {
+    const el = scrollerRef.current;
+    if (!el) return;
+
+    const handleScroll = () => {
+      const cards = Array.from(el.children) as HTMLElement[];
+      let closest = 0;
+      let closestDistance = Infinity;
+      cards.forEach((card, i) => {
+        const distance = Math.abs(card.offsetLeft - el.scrollLeft);
+        if (distance < closestDistance) {
+          closestDistance = distance;
+          closest = i;
+        }
+      });
+      setActiveIndex(closest);
+    };
+
+    el.addEventListener("scroll", handleScroll, { passive: true });
+    return () => el.removeEventListener("scroll", handleScroll);
+  }, []);
+
   return (
-    <div className="content-stretch flex gap-[45px] items-center relative shrink-0 w-full">
-      <MynauiChevronLeft2 />
-      <Frame12 />
-      <MynauiChevronLeft3 />
-    </div>
+    <section className="relative bg-[#f4f1ea] px-4 pb-14 sm:px-6 sm:pb-20 lg:px-0 lg:pb-24">
+      <div className="mx-auto flex max-w-[1290px] items-center gap-3 sm:gap-6 lg:gap-[45px]">
+        <button
+          type="button"
+          onClick={() => scrollByCard(-1)}
+          aria-label="Previous photos"
+          className="hidden shrink-0 items-center justify-center text-[#38362d] transition-opacity hover:opacity-70 lg:flex"
+        >
+          <ChevronIcon className="size-8 lg:size-12" />
+        </button>
+
+        <div
+          ref={scrollerRef}
+          className="flex flex-1 snap-x snap-mandatory gap-3 overflow-x-auto scroll-smooth py-2 [-ms-overflow-style:none] [scrollbar-width:none] [&::-webkit-scrollbar]:hidden sm:gap-4"
+        >
+          {GALLERY_IMAGES.map((src, i) => (
+            <div
+              key={i}
+              className="w-[85%] shrink-0 snap-start bg-white p-2 pb-6 sm:w-[46%] md:w-[31%] lg:w-[320px]"
+            >
+              <div className="h-[170px] w-full overflow-hidden sm:h-[210px] lg:h-[240px]">
+                <img
+                  src={src}
+                  alt="Manchester congregation gathered together"
+                  className="h-full w-full object-cover"
+                />
+              </div>
+            </div>
+          ))}
+        </div>
+
+        <button
+          type="button"
+          onClick={() => scrollByCard(1)}
+          aria-label="Next photos"
+          className="hidden shrink-0 items-center justify-center text-[#38362d] transition-opacity hover:opacity-70 lg:flex"
+        >
+          <ChevronIcon className="size-8 rotate-180 lg:size-12" />
+        </button>
+      </div>
+
+      {/* Resized Dots to be smaller */}
+      <div className="mt-6 flex items-center justify-center gap-4 lg:hidden">
+        <button
+          type="button"
+          onClick={() => scrollByCard(-1)}
+          aria-label="Previous photos"
+          className="text-[#38362d]"
+        >
+          <ChevronIcon className="size-5" />
+        </button>
+
+        <div className="flex items-center gap-1.5">
+          {GALLERY_IMAGES.map((_, i) => (
+            <button
+              key={i}
+              type="button"
+              onClick={() => scrollToIndex(i)}
+              aria-label={`Go to photo ${i + 1}`}
+              aria-current={activeIndex === i}
+              className={`h-1.5 rounded-full transition-all ${
+                activeIndex === i ? "w-4 bg-[#192441]" : "w-1.5 bg-[#c9c4b4]"
+              }`}
+            />
+          ))}
+        </div>
+
+        <button
+          type="button"
+          onClick={() => scrollByCard(1)}
+          aria-label="Next photos"
+          className="text-[#38362d]"
+        >
+          <ChevronIcon className="size-5 rotate-180" />
+        </button>
+      </div>
+    </section>
   );
 }
 
-function Frame15() {
-  return (
-    <div className="absolute content-stretch flex flex-col gap-[80px] items-center left-[84px] top-[1038px] w-[1290px]">
-      <Frame11 />
-      <Frame13 />
-    </div>
-  );
-}
+/* --------------------------------- Manchester -------------------------------- */
 
 export default function Manchester() {
   return (
-    <div className="bg-[#f4f1ea] relative size-full" data-name="Manchester">
-      <div className="absolute inset-[0_6.81%_39.32%_6.81%]" data-name="Vector">
-        <svg className="absolute block inset-0 size-full" fill="none" preserveAspectRatio="none" viewBox="0 0 1244 1142">
-          <g id="Vector" opacity="0.2">
-            <path d={svgPaths.p1d9a8400} fill="var(--fill-0, #949494)" />
-            <path d={svgPaths.p56bbc40} fill="var(--fill-0, #949494)" />
-            <path d={svgPaths.p35f8ee80} fill="var(--fill-0, #949494)" />
-            <path d={svgPaths.p3de18b80} fill="var(--fill-0, #949494)" />
-            <path d={svgPaths.p85df300} fill="var(--fill-0, #949494)" />
-            <path d={svgPaths.p2733e000} fill="var(--fill-0, #949494)" />
-            <path d={svgPaths.p3d407f00} fill="var(--fill-0, #949494)" />
-            <path d={svgPaths.pd613700} fill="var(--fill-0, #949494)" />
-            <path d={svgPaths.p9c00100} fill="var(--fill-0, #949494)" />
-            <path d={svgPaths.p1e936c00} fill="var(--fill-0, #949494)" />
-            <path d={svgPaths.p2315e700} fill="var(--fill-0, #949494)" />
-            <path d={svgPaths.p36f7a300} fill="var(--fill-0, #949494)" />
-          </g>
-        </svg>
-      </div>
-      <div className="-translate-x-1/2 -translate-y-1/2 [word-break:break-word] absolute flex flex-col font-['CRONDE:Regular',sans-serif] justify-center leading-[0] left-[719.5px] not-italic text-[#d9c7a8] text-[0px] text-center top-[-102px] w-[799px]">
-        <p className="leading-[normal] mb-0 text-[15px]">Golden</p>
-        <p className="leading-[normal] text-[15px] text-white">Jubilee</p>
-      </div>
-      <div className="-translate-x-1/2 -translate-y-1/2 [word-break:break-word] absolute flex flex-col font-['Futura_PT:Book',sans-serif] justify-center leading-[0] left-[720px] not-italic text-[24px] text-center text-white top-[-102px] w-[596px] whitespace-pre-wrap">
-        <p className="leading-[normal] mb-0">
-          {`"One generation shall praise thy works to another, and shall declare thy mighty acts."`}
-          <br aria-hidden />
-          <br aria-hidden />
-        </p>
-        <p className="leading-[normal]">— Psalm 145:4</p>
-      </div>
-      <App />
-      <Frame5 />
-      <Frame17 />
-      <Frame15 />
+    <div className="w-full bg-[#f4f1ea]">
+      {/* REMOVED THE INTERNAL HEADER COMPLETELY HERE */}
+      <BranchTitle />
+      <HeroImage />
+      <StorySection />
+      <Gallery />
     </div>
   );
 }
