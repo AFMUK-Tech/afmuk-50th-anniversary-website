@@ -1,9 +1,11 @@
-import React, { useEffect, useRef, useState } from "react";
+import React, { useEffect, useLayoutEffect, useRef, useState } from "react";
 import {
   Section1,
   StoriesSection,
   PreTimelineSection, TimelineSection, PostTimelineSection,
   TIMELINE_DATA,
+  PRE_H_TOTAL,
+  STORIES_MIN_H,
 } from "./components/sections";
 import { Footer } from "./components/footer";
 import Nav from "../imports/Nav/index";
@@ -33,12 +35,15 @@ const S1_SCROLL_H       = Math.round(S1_HEIGHT * 1.5); // 1465
 const NAV_H             = 80;
 
 // PRE_H covers the combined "intro" block rendered by PreTimelineSection:
-//   Praise-God-With-Us hero (900) + Where-it-all-started (722) + Video (860)
-// Keep this in sync with PRE_H_TOTAL exported from sections.tsx if you tweak
-// any of those three sub-section heights.
-const PRE_H              = 2482;
+//   Praise-God-With-Us hero + Where-it-all-started + Video.
+// Imported directly from sections.tsx (PRE_H_TOTAL) instead of a hand-copied
+// literal, so it can never silently drift out of sync again.
+const PRE_H              = PRE_H_TOTAL;
 
-const STORIES_VIS_H     = 200;
+// StoriesSection's real content height, imported from sections.tsx instead
+// of a stale hardcoded literal (previously 200, causing the "Voices of the
+// Journey" clipping bug).
+const STORIES_VIS_H     = STORIES_MIN_H;
 const STORIES_DWELL_H   = 600;
 
 const TIMELINE_VIS_H    = 782;
@@ -56,6 +61,15 @@ const BREAKPOINTS = {
   mobile: 768,
   tablet: 1024,
 };
+
+// Cap how far the 1440px design canvas is allowed to scale UP.
+// Without this, on any monitor wider than 1440px (1920, 2560, etc.)
+// `scale` exceeds 1, and every scaled block — including the navbar
+// (NAV_H * scale) — grows past its intended size. That's why the
+// navbar height looked different on every screen. Capping at 1 means
+// the canvas still shrinks to fit narrower windows, but never grows
+// past its native 1440px design size.
+const MAX_SCALE = 1;
 
 type DeviceType = 'mobile' | 'tablet' | 'desktop';
 
@@ -183,9 +197,14 @@ export default function App() {
     });
   }, []);
 
+  useLayoutEffect(() => {
+    window.scrollTo(0, 0);
+  }, [page]);
+
   useEffect(() => {
     const update = () => {
-      setScale(window.innerWidth / DESIGN_WIDTH);
+      const rawScale = window.innerWidth / DESIGN_WIDTH;
+      setScale(Math.min(rawScale, MAX_SCALE));
       setVw(window.innerWidth);
       setVh(window.innerHeight);
       if (window.innerWidth < BREAKPOINTS.mobile) setDevice('mobile');
@@ -198,9 +217,6 @@ export default function App() {
   }, []);
 
   useEffect(() => {
-    // The pinned-canvas scroll rig below is desktop-only math. Skip the
-    // listener entirely on mobile/tablet — there's nothing for it to drive
-    // there, and it would just do wasted work on every scroll event.
     if (device !== 'desktop') return;
 
     const s1End      = S1_SCROLL_H * scale;
@@ -280,7 +296,27 @@ export default function App() {
 
   const navOpacity    = phase2;
   const navTranslateY = (1 - phase2) * -NAV_H * scale;
-  const canvasTop     = Math.max(0, (vh - S1_HEIGHT * scale) / 2);
+
+  // FIX: Hero previously used `canvasTop = Math.max(0, (vh - S1_HEIGHT *
+  // scale) / 2)` — a "top: 0, clamp at zero" approach with NO fallback
+  // for when the canvas is actually taller than the viewport. On short
+  // viewports (e.g. a 1366x768 laptop window, ~660px of usable height after
+  // browser chrome), S1_HEIGHT*scale (≈927px at scale≈0.95) exceeds vh, so
+  // canvasTop clamped to 0 and the BOTTOM portion of the canvas — which is
+  // exactly where the vertically-centered "50th Anniversary" logo sits —
+  // got clipped by this block's `overflow: hidden`. This mirrors the same
+  // fit-to-viewport pattern already used for Stories/Timeline: shrink
+  // (Math.min, not Math.max — we want to shrink when TALLER than the
+  // viewport) so the whole hero canvas always fits inside `vh`, then
+  // center it both ways.
+  const heroFitScale  = (scale > 0 && vh > 0) ? Math.min(scale, vh / S1_HEIGHT) : scale;
+  const heroOffsetX   = (vw - DESIGN_WIDTH * heroFitScale) / 2;
+  const heroOffsetY   = Math.max(0, (vh - S1_HEIGHT * heroFitScale) / 2);
+
+  // Stories: same fit-to-viewport pattern (fixed earlier).
+  const storiesScale   = (scale > 0 && vh > 0) ? Math.min(scale, vh / STORIES_VIS_H) : scale;
+  const storiesOffsetX = (vw - DESIGN_WIDTH  * storiesScale) / 2;
+  const storiesOffsetY = Math.max(0, (vh - STORIES_VIS_H * storiesScale) / 2);
 
   const tlScale   = (scale > 0 && vh > 0) ? Math.max(scale, vh / TIMELINE_VIS_H) : scale;
   const tlOffsetX = (vw - DESIGN_WIDTH    * tlScale) / 2;
@@ -335,78 +371,29 @@ export default function App() {
 
   // ─────────────────────────────────────────────────────────────────────────
   // MOBILE / TABLET home page: natural document flow, no scroll-jacking.
-  //
-  // The desktop experience below pins each section to `position: fixed` and
-  // drives it with `translateY` computed from precise pixel scroll-budgets,
-  // all rendered inside a `width: 1440px; transform: scale(vw/1440)` canvas.
-  // That works for a fixed 1440-design desktop layout, but it actively
-  // breaks mobile: every Tailwind responsive class inside gets visually
-  // shrunk by the scale factor (≈0.26 on a 375px phone) instead of actually
-  // reflowing, and the fixed scroll-budget heights don't match natural
-  // content height once markup switches to a stacked mobile layout. That's
-  // why the hero ("One generation shall praise…") and fireworks screens
-  // looked broken on mobile even though they carried responsive classes.
-  //
-  // Fix: on mobile/tablet, skip the pinned rig entirely and render each
-  // section in normal flow, letting each component's own responsive/mobile
-  // markup do the work at its real, un-scaled size. The timeline uses
-  // MobileTimelineViewer, which reuses TimelineSection's own mobile design
-  // (rather than a separate MobileTimeline component) so it looks and works
-  // the same way as the desktop timeline, just swipe/tap-driven instead of
-  // scroll-driven.
   // ─────────────────────────────────────────────────────────────────────────
   if (device === 'mobile' || device === 'tablet') {
     return (
       <div className="w-full bg-[#fcf9f2] overflow-x-hidden">
         <TimelineSheet />
         <MobileNav />
-
-        {/* Hero — static (no scroll-driven fade/curtain-lift on mobile,
-            that choreography exists to coordinate with the pinned rig
-            below it, which no longer applies here). */}
         <Section1 scrollProgress={0} />
-
         <PreTimelineSection />
         <StoriesSection />
-
         <MobileTimelineViewer />
-
         <MobileGallery />
-
-        {/*
-          NOTE: Footer wasn't provided in this pass, so it's rendered here
-          at its natural width rather than inside the 1440px-canvas
-          ScaledBlock the desktop layout uses (that scaling would shrink any
-          responsive classes inside Footer the same way it broke Section1).
-          Share components/footer.tsx if it needs its own mobile-specific
-          pass beyond the logo-sizing fix already applied.
-        */}
         <Footer />
       </div>
     );
   }
 
   // ─────────────────────────────────────────────────────────────────────────
-  // DESKTOP home page: pinned-canvas scrollytelling (unchanged)
+  // DESKTOP home page: pinned-canvas scrollytelling
   // ─────────────────────────────────────────────────────────────────────────
   return (
     <div className="w-full bg-[#fcf9f2]">
       <TimelineSheet />
 
-      {/*
-       * Document scroll budget (in order)
-       * ────────────────────────────────
-       * S1_SCROLL_H × scale      hero phase-1 + curtain lift
-       * PRE_H × scale            intro block scrolls off (Praise-God hero +
-       *                          Where-it-started + Video, all one sliding
-       *                          unit — see PreTimelineSection)
-       * STORIES_DWELL_H × scale  stories visible
-       * vh                       timeline slides in / stories slides out (push)
-       * TIMELINE_SCROLL_H×scale  year-by-year dial
-       * vh                       timeline exits completely
-       * GALLERY_DWELL_H × scale  gallery locked visible
-       * vh                       gallery slides off; footer revealed
-       */}
       <div style={{ height: S1_SCROLL_H       * scale }} />
       <div style={{ height: PRE_H             * scale }} />
       <div style={{ height: STORIES_DWELL_H   * scale }} />
@@ -426,7 +413,6 @@ export default function App() {
         overflow: "hidden", background: "#fcf9f2",
         transform: `translateY(${galleryY}px)`,
         pointerEvents: "none",
-        transition: "transform 1.2s cubic-bezier(0.4, 0, 0.2, 1)",
       }}>
         <div style={{
           opacity: galleryOpacity,
@@ -453,7 +439,12 @@ export default function App() {
           transition: "opacity 0.9s cubic-bezier(0.4, 0, 0.2, 1), transform 0.9s cubic-bezier(0.4, 0, 0.2, 1)",
           pointerEvents: storiesY === 0 ? "auto" : "none",
         }}>
-          <div style={{ width: DESIGN_WIDTH, height: STORIES_VIS_H, transform: `scale(${scale})`, transformOrigin: "top left" }}>
+          <div style={{
+            position: "absolute",
+            top: storiesOffsetY, left: storiesOffsetX,
+            width: DESIGN_WIDTH, height: STORIES_VIS_H,
+            transform: `scale(${storiesScale})`, transformOrigin: "top left",
+          }}>
             <StoriesSection />
           </div>
         </div>
@@ -480,22 +471,30 @@ export default function App() {
         </div>
       </div>
 
-      {/* z:10 — Hero */}
+      {/* z:10 — Hero
+          FIX: now uses heroFitScale/heroOffsetX/heroOffsetY (fit-to-viewport
+          + centering, same pattern as Stories/Timeline) instead of a plain
+          width-only `scale` with a canvasTop that clamped to 0 on short
+          viewports. This is what was clipping the bottom of the "50th
+          Anniversary" logo. */}
       <div style={{
         position: "fixed", inset: 0, zIndex: 10, overflow: "hidden",
         backgroundImage: "linear-gradient(0.480792deg, rgb(25, 36, 65) 38.09%, rgb(1, 9, 25) 110.38%)",
         transform: `translateY(${heroTranslateY}px)`,
         pointerEvents: heroTranslateY <= -vh ? "none" : "auto",
       }}>
-        <div style={{ position: "absolute", top: canvasTop, left: 0, width: "100%", overflow: "hidden" }}>
+        <div style={{
+          opacity: fadeIn ? 1 : 0,
+          transform: fadeIn ? "scale(1)" : "scale(0.98)",
+          transition: "opacity 0.9s cubic-bezier(0.4, 0, 0.2, 1), transform 0.9s cubic-bezier(0.4, 0, 0.2, 1)",
+        }}>
           <div style={{
-            opacity: fadeIn ? 1 : 0,
-            transform: fadeIn ? "scale(1)" : "scale(0.98)",
-            transition: "opacity 0.9s cubic-bezier(0.4, 0, 0.2, 1), transform 0.9s cubic-bezier(0.4, 0, 0.2, 1)",
+            position: "absolute",
+            top: heroOffsetY, left: heroOffsetX,
+            width: DESIGN_WIDTH, height: S1_HEIGHT,
+            transform: `scale(${heroFitScale})`, transformOrigin: "top left",
           }}>
-            <div style={{ width: DESIGN_WIDTH, height: S1_HEIGHT, transform: `scale(${scale})`, transformOrigin: "top left" }}>
-              <Section1 scrollProgress={phase1} />
-            </div>
+            <Section1 scrollProgress={phase1} />
           </div>
         </div>
       </div>

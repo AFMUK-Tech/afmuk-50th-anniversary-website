@@ -62,14 +62,14 @@ export default function Nav() {
             {/* Nav links */}
             <div className="content-stretch flex gap-[25.244px] items-center relative shrink-0">
               <p
-                className="font-['Inter:Regular',sans-serif] font-normal leading-[18.144px] not-italic text-[#38362d] text-[15.778px] tracking-[-0.2367px] whitespace-nowrap cursor-pointer hover:opacity-60 transition-opacity"
+                className="font-['Futura_PT:Book',sans-serif] font-normal leading-[18.144px] not-italic text-[#38362d] text-[15.778px] tracking-[-0.2367px] whitespace-nowrap cursor-pointer hover:opacity-60 transition-opacity"
                 onClick={() => { window.location.hash = "#founder"; }}
               >Founder</p>
 
               {/* Branches dropdown */}
               <div className="relative" ref={dropdownRef}>
                 <div className="content-stretch flex gap-[8px] items-center cursor-pointer hover:opacity-60 transition-opacity" onClick={() => setBranchOpen(o => !o)}>
-                  <p className="font-['Inter:Regular',sans-serif] font-normal leading-[18.144px] not-italic text-[#38362d] text-[15.778px] tracking-[-0.2367px] whitespace-nowrap">Branches</p>
+                  <p className="font-['Futura_PT:Book',sans-serif] font-normal leading-[18.144px] not-italic text-[#38362d] text-[15.778px] tracking-[-0.2367px] whitespace-nowrap">Branches</p>
                   <div className="flex items-center justify-center size-[24px]">
                     <div className={`flex-none size-[24px] transition-transform duration-200 ${branchOpen ? "rotate-90" : "-rotate-90"}`}>
                       <svg className="block size-full" fill="none" viewBox="0 0 24 24">
@@ -89,7 +89,7 @@ export default function Nav() {
                         onClick={() => { window.location.hash = `#${slug}`; setBranchOpen(false); }}
                       >
                         <div className="content-stretch flex items-center p-[10px] relative size-full">
-                          <p className="font-['Inter:Regular',sans-serif] font-normal leading-[18.144px] not-italic text-[#38362d] text-[14px] tracking-[-0.2367px] whitespace-nowrap">{label}</p>
+                          <p className="font-['Futura_PT:Book',sans-serif] font-normal leading-[18.144px] not-italic text-[#38362d] text-[14px] tracking-[-0.2367px] whitespace-nowrap">{label}</p>
                         </div>
                       </div>
                     ))}
@@ -99,7 +99,7 @@ export default function Nav() {
 
               {/* Departement */}
               <div className="content-stretch flex gap-[8px] items-center cursor-pointer hover:opacity-60 transition-opacity">
-                <p className="font-['Inter:Regular',sans-serif] font-normal leading-[18.144px] not-italic text-[#38362d] text-[15.778px] tracking-[-0.2367px] whitespace-nowrap cursor-pointer hover:opacity-60 transition-opacity" onClick={() => {
+                <p className="font-['Futura_PT:Book',sans-serif] font-normal leading-[18.144px] not-italic text-[#38362d] text-[15.778px] tracking-[-0.2367px] whitespace-nowrap cursor-pointer hover:opacity-60 transition-opacity" onClick={() => {
                 window.location.hash = "#department";
               }}>Department</p>
                 <div className="flex items-center justify-center size-[24px]">
@@ -111,24 +111,24 @@ export default function Nav() {
                 </div>
               </div>
 
-              <p className="font-['Inter:Regular',sans-serif] font-normal leading-[18.144px] not-italic text-[#38362d] text-[15.778px] tracking-[-0.2367px] whitespace-nowrap cursor-pointer hover:opacity-60 transition-opacity" onClick={() => {
+              <p className="font-['Futura_PT:Book',sans-serif] font-normal leading-[18.144px] not-italic text-[#38362d] text-[15.778px] tracking-[-0.2367px] whitespace-nowrap cursor-pointer hover:opacity-60 transition-opacity" onClick={() => {
                 window.location.hash = "#timeline";
               }}>Timeline</p>
 
               {/* Gallery */}
               <p
-                className="font-['Inter:Regular',sans-serif] font-normal leading-[18.144px] not-italic text-[#38362d] text-[15.778px] tracking-[-0.2367px] whitespace-nowrap cursor-pointer hover:opacity-60 transition-opacity"
+                className="font-['Futura_PT:Book',sans-serif] font-normal leading-[18.144px] not-italic text-[#38362d] text-[15.778px] tracking-[-0.2367px] whitespace-nowrap cursor-pointer hover:opacity-60 transition-opacity"
                 onClick={() => { window.location.hash = "#gallery"; }}
               >Gallery</p>
 
               {/* Watch & Listen */}
               <p
-                className="font-['Inter:Regular',sans-serif] font-normal leading-[18.144px] not-italic text-[#38362d] text-[15.778px] tracking-[-0.2367px] whitespace-nowrap cursor-pointer hover:opacity-60 transition-opacity"
+                className="font-['Futura_PT:Book',sans-serif] font-normal leading-[18.144px] not-italic text-[#38362d] text-[15.778px] tracking-[-0.2367px] whitespace-nowrap cursor-pointer hover:opacity-60 transition-opacity"
                 onClick={() => { window.location.hash = "#watch"; }}
               >Watch & Listen</p>
 
               <p
-                className="font-['Inter:Regular',sans-serif] font-normal leading-[18.144px] not-italic text-[#38362d] text-[15.778px] tracking-[-0.2367px] whitespace-nowrap cursor-pointer hover:opacity-60 transition-opacity"
+                className="font-['Futura_PT:Book',sans-serif] font-normal leading-[18.144px] not-italic text-[#38362d] text-[15.778px] tracking-[-0.2367px] whitespace-nowrap cursor-pointer hover:opacity-60 transition-opacity"
                 onClick={() => { window.location.hash = "#shop"; }}
               >Shop</p>
             </div>
@@ -137,7 +137,7 @@ export default function Nav() {
             <div className="h-[37.867px] min-w-[116.338px] relative shrink-0 w-[373.933px]">
               <div className="content-stretch flex flex-col items-center min-w-[inherit] pl-[257.671px] relative size-full">
                 <div className="bg-[#192441] content-stretch flex h-[37.867px] items-center justify-center px-[18.933px] relative rounded-[66.267px] shrink-0 cursor-pointer">
-                  <p className="font-['Inter:Regular',sans-serif] font-normal leading-[13.253px] not-italic text-[10.729px] text-center text-white tracking-[0.0552px] whitespace-nowrap">AFC UK</p>
+                  <p className="font-['Futura_PT:Book',sans-serif] font-normal leading-[13.253px] not-italic text-[10.729px] text-center text-white tracking-[0.0552px] whitespace-nowrap">AFC UK</p>
                 </div>
               </div>
             </div>

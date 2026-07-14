@@ -2,6 +2,7 @@ import { useState } from "react";
 import { Menu, X } from "lucide-react";
 import img34159 from "../../imports/Nav/9ec56a815db13e6f5f4c4f51dc8c89bded734cf2.png";
 
+
 const BRANCHES = [
   { label: "Peckham", slug: "peckham" },
   { label: "Bexley", slug: "bexley" },
@@ -107,7 +108,7 @@ export default function MobileNav() {
               {/* Home */}
               <button
                 onClick={() => handleNavClick("")}
-                className="text-left px-4 py-3 hover:bg-gray-100 rounded-lg transition-colors font-['Poppins:400',sans-serif] text-sm"
+                className="text-left px-4 py-3 hover:bg-gray-100 rounded-lg transition-colors font-['Futura_PT:Book',sans-serif] text-sm"
               >
                 Home
               </button>
@@ -116,7 +117,7 @@ export default function MobileNav() {
               <div>
                 <button
                   onClick={() => setBranchOpen(!branchOpen)}
-                  className="w-full text-left px-4 py-3 hover:bg-gray-100 rounded-lg transition-colors font-['Poppins:400',sans-serif] text-sm flex items-center justify-between"
+                  className="w-full text-left px-4 py-3 hover:bg-gray-100 rounded-lg transition-colors font-['Futura_PT:Book',sans-serif] text-sm flex items-center justify-between"
                 >
                   <span>Branches</span>
                   <svg
@@ -143,7 +144,7 @@ export default function MobileNav() {
                       <button
                         key={branch.slug}
                         onClick={() => handleBranchClick(branch.slug)}
-                        className="w-full text-left px-4 py-2 hover:bg-gray-100 rounded-lg transition-colors font-['Poppins:400',sans-serif] text-sm text-gray-700"
+                        className="w-full text-left px-4 py-2 hover:bg-gray-100 rounded-lg transition-colors font-['Futura_PT:Book',sans-serif] text-sm text-gray-700"
                       >
                         {branch.label}
                       </button>
@@ -155,7 +156,7 @@ export default function MobileNav() {
               {/* Department */}
               <button
                 onClick={() => handleNavClick("#department")}
-                className="text-left px-4 py-3 hover:bg-gray-100 rounded-lg transition-colors font-['Poppins:400',sans-serif] text-sm"
+                className="text-left px-4 py-3 hover:bg-gray-100 rounded-lg transition-colors font-['Futura_PT:Book',sans-serif] text-sm"
               >
                 Department
               </button>
@@ -163,7 +164,7 @@ export default function MobileNav() {
               {/* Gallery */}
               <button
                 onClick={() => handleNavClick("#gallery")}
-                className="text-left px-4 py-3 hover:bg-gray-100 rounded-lg transition-colors font-['Poppins:400',sans-serif] text-sm"
+                className="text-left px-4 py-3 hover:bg-gray-100 rounded-lg transition-colors font-['Futura_PT:Book',sans-serif] text-sm"
               >
                 Gallery
               </button>
@@ -171,7 +172,7 @@ export default function MobileNav() {
               {/* Watch & Listen */}
               <button
                 onClick={() => handleNavClick("#watch")}
-                className="text-left px-4 py-3 hover:bg-gray-100 rounded-lg transition-colors font-['Poppins:400',sans-serif] text-sm"
+                className="text-left px-4 py-3 hover:bg-gray-100 rounded-lg transition-colors font-['Futura_PT:Book',sans-serif] text-sm"
               >
                 Watch & Listen
               </button>
@@ -179,7 +180,7 @@ export default function MobileNav() {
               {/* Founder */}
               <button
                 onClick={() => handleNavClick("#founder")}
-                className="text-left px-4 py-3 hover:bg-gray-100 rounded-lg transition-colors font-['Poppins:400',sans-serif] text-sm"
+                className="text-left px-4 py-3 hover:bg-gray-100 rounded-lg transition-colors font-['Futura_PT:Book',sans-serif] text-sm"
               >
                 Founder
               </button>
@@ -187,7 +188,7 @@ export default function MobileNav() {
               {/* Shop */}
               <button
                 onClick={() => handleNavClick("#shop")}
-                className="text-left px-4 py-3 hover:bg-gray-100 rounded-lg transition-colors font-['Poppins:400',sans-serif] text-sm"
+                className="text-left px-4 py-3 hover:bg-gray-100 rounded-lg transition-colors font-['Futura_PT:Book',sans-serif] text-sm"
               >
                 Shop
               </button>
@@ -196,7 +197,7 @@ export default function MobileNav() {
 
           {/* Menu Footer */}
           <div className="p-4 border-t bg-gray-50">
-            <p className="text-xs text-gray-600 text-center font-['Poppins:400',sans-serif]">
+            <p className="text-xs text-gray-600 text-center font-['Futura_PT:Book',sans-serif]">
               Apostolic Faith Church — UK & Western Europe
             </p>
           </div>

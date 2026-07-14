@@ -1,8 +1,6 @@
 import { useEffect, useRef, useState } from "react";
 import svgPaths from "./svg-qle47qowmk";
-// Removed imgLogo as it's handled by the parent nav now
 import imgCrest from "./6289e65571dab6c414b3b1e11ca90d8fc1b7d1fe.png";
-import imgHero from "./4986cb0ca9480b3dc025830e0fd805d9e9f8b29c.png";
 import imgGallery from "./00906276d94a619afd9053d491e72ee53b2c84f7.png";
 
 const GALLERY_IMAGES = [imgGallery, imgGallery, imgGallery];
@@ -30,26 +28,21 @@ function BranchTitle() {
   return (
     <div className="mx-auto flex w-full max-w-[1096px] flex-col items-center gap-6 px-4 py-8 text-center sm:py-12 md:flex-row md:items-center md:justify-between md:text-left lg:py-16">
       <div className="mt-10 flex flex-col items-center gap-3 md:flex-row md:items-center md:gap-4">
-        <img
-          src={imgCrest}
-          alt="Manchester branch crest"
-          className="size-50 sm:object-contain object-cover sm:size-20 md:size-24 lg:size-[200px]"
-        />
         <div className="flex flex-col items-center gap-1 sm:gap-2 md:items-start mt-[-50px] md:mt-0">
-          <p className="font-['Futura_PT:Book',sans-serif] text-lg text-[#949494] sm:text-xl lg:text-2xl">
-            Branch
+          <p className="font-['Futura_PT:Book'] text-lg text-[#949494] sm:text-xl lg:text-2xl">
+            Group
           </p>
-          <h1 className="font-['CRONDE:Regular',sans-serif] text-4xl leading-none text-[#38362d] sm:text-5xl lg:text-[64px]">
-            Manchester
+          <h1 className="font-['CRONDE:Regular'] text-4xl leading-none text-[#38362d] sm:text-5xl lg:text-[64px]">
+            France
           </h1>
         </div>
       </div>
 
       <div className="hidden flex-col items-center gap-1 sm:gap-2 md:flex md:items-end md:text-right">
-        <p className="font-['Futura_PT:Heavy',sans-serif] text-lg text-[#38362d] sm:text-xl lg:text-2xl">
+        <p className="font-['Futura_PT:Heavy'] text-lg text-[#38362d] sm:text-xl lg:text-2xl">
           Address
         </p>
-        <p className="font-['Futura_PT:Book',sans-serif] text-base leading-7 text-[#38362d] sm:text-lg lg:text-[18px] lg:leading-[32px]">
+        <p className="font-['Futura_PT:Book'] text-base leading-7 text-[#38362d] sm:text-lg lg:text-[18px] lg:leading-[32px]">
           {BRANCH_ADDRESS}
         </p>
       </div>
@@ -57,19 +50,6 @@ function BranchTitle() {
   );
 }
 
-/* -------------------------------- Hero image ------------------------------ */
-
-function HeroImage() {
-  return (
-    <div className="relative h-[220px] w-full overflow-hidden sm:h-[340px] md:h-[400px] lg:h-[579px]">
-      <img
-        src={imgHero}
-        alt="Manchester church building exterior"
-        className="absolute inset-0 h-full w-full object-cover object-[center_35%]"
-      />
-    </div>
-  );
-}
 
 /* ------------------------------ Background art ----------------------------- */
 
@@ -104,8 +84,8 @@ function BackgroundPattern() {
 function AddressListItem() {
   return (
     <div className="flex flex-col gap-1">
-      <p className="font-['Futura_PT:Heavy',sans-serif] text-sm text-[#38362d]">Address</p>
-      <p className="font-['Futura_PT:Book',sans-serif] text-sm leading-6 text-[#38362d]">
+      <p className="font-['Futura_PT:Heavy'] text-sm text-[#38362d]">Address</p>
+      <p className="font-['Futura_PT:Book'] text-sm leading-6 text-[#38362d]">
         {BRANCH_ADDRESS}
       </p>
     </div>
@@ -280,11 +260,9 @@ function Gallery() {
 export default function France() {
   return (
     <div className="w-full bg-[#f4f1ea]">
-      {/* REMOVED THE INTERNAL HEADER COMPLETELY HERE */}
       <BranchTitle />
-      <HeroImage />
-      <StorySection />
       <Gallery />
+      <StorySection />
     </div>
   );
 }

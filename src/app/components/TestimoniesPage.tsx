@@ -1,7 +1,5 @@
 import { useEffect, useState } from "react";
-import Nav from "../../imports/Nav/index";
-import MobileNav from "./MobileNav";
-
+import { SiteHeader, useIsMobile } from "./SiteHeader";
 const NAV_H = 80;
 
 interface Testimony {
@@ -49,17 +47,8 @@ const TESTIMONIES: Testimony[] = [
 ];
 
 export function TestimoniesPage({ onBack }: { onBack: () => void }) {
-  const [isMobile, setIsMobile] = useState(
-    typeof window !== "undefined" ? window.innerWidth < 768 : false
-  );
+  const isMobile = useIsMobile();
   const [fadeIn, setFadeIn] = useState(false);
-
-  useEffect(() => {
-    const update = () => setIsMobile(window.innerWidth < 768);
-    update();
-    window.addEventListener("resize", update);
-    return () => window.removeEventListener("resize", update);
-  }, []);
 
   useEffect(() => {
     requestAnimationFrame(() => setFadeIn(true));
@@ -67,9 +56,7 @@ export function TestimoniesPage({ onBack }: { onBack: () => void }) {
 
   return (
     <div style={{ width: "100%", minHeight: "100vh", background: "#fcf9f2", position: "relative" }}>
-      <div style={{ position: "fixed", top: 0, left: 0, width: "100%", zIndex: 100, height: isMobile ? "auto" : NAV_H }}>
-        {isMobile ? <MobileNav /> : <Nav />}
-      </div>
+      <SiteHeader />
 
       <div
         style={{
@@ -87,7 +74,7 @@ export function TestimoniesPage({ onBack }: { onBack: () => void }) {
             right: "max(16px, env(safe-area-inset-right))",
             zIndex: 90,
             background: "#192441", color: "#fff", border: "none", borderRadius: 6,
-            padding: "8px 18px", fontFamily: "'Inter', sans-serif", fontSize: 13,
+            padding: "8px 18px", fontFamily: "'Futura PT', sans-serif", fontSize: 13,
             cursor: "pointer", letterSpacing: "0.04em",
           }}
         >
