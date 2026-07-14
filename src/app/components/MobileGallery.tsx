@@ -11,7 +11,7 @@ const IMAGES = [
   { src: imgImage14, label: "Golden Jubilee 2023" },
   { src: imgImage15, label: "Annual Convention 2018" },
   { src: imgImage16, label: "Camp Meeting Memories" },
-  { src: imgImage18, label: "AFM UK Gathering 2020" },
+  { src: imgImage18, label: "AFC UK Gathering 2020" },
 ];
 
 export default function MobileGallery() {
@@ -38,12 +38,10 @@ export default function MobileGallery() {
 
   const handleTouchEnd = () => {
     if (touchStart - touchEnd > 75) {
-      // Swiped left
       handleNext();
     }
 
     if (touchStart - touchEnd < -75) {
-      // Swiped right
       handlePrev();
     }
   };
@@ -52,7 +50,6 @@ export default function MobileGallery() {
     setActiveIndex(index);
   };
 
-  // Auto-scroll on desktop only
   useEffect(() => {
     if (window.innerWidth >= 1024) {
       const interval = setInterval(() => {
@@ -66,10 +63,10 @@ export default function MobileGallery() {
     <div className="w-full h-full bg-[#fcf9f2] flex flex-col items-center justify-center py-8 sm:py-12">
       {/* Header */}
       <div className="text-center mb-6 sm:mb-10 px-4">
-        <h2 className="font-['CRONDE:Regular',sans-serif] text-[#0f1421] text-3xl sm:text-4xl md:text-5xl mb-3 sm:mb-4">
+        <h2 className="font-['CRONDE',sans-serif] text-[#0f1421] text-3xl sm:text-4xl md:text-5xl mb-3 sm:mb-4">
           Our pictures over the years
         </h2>
-        <p className="font-['Poppins:400',sans-serif] text-[#0f1421]/70 text-sm sm:text-base">
+        <p className="font-['Futura_PT',sans-serif] font-normal text-[#0f1421]/70 text-[18px] leading-[32px]">
           {IMAGES[activeIndex].label}
         </p>
       </div>
@@ -84,7 +81,7 @@ export default function MobileGallery() {
           onTouchMove={handleTouchMove}
           onTouchEnd={handleTouchEnd}
         >
-          <div className="bg-white shadow-2xl rounded-lg p-3 sm:p-4 mx-auto max-w-sm sm:max-w-md transition-transform duration-500 hover:scale-105">
+          <div className=" rounded-sm p-3 sm:p-4 mx-auto max-w-sm sm:max-w-md transition-transform duration-500 hover:scale-105">
             <div className="relative overflow-hidden rounded-md aspect-[4/5]">
               <img
                 src={IMAGES[activeIndex].src}
@@ -97,8 +94,8 @@ export default function MobileGallery() {
             </div>
 
             {/* Polaroid Caption */}
-            <div className="mt-3 text-center">
-              <p className="font-['Poppins:500',sans-serif] text-[#0f1421] text-xs sm:text-sm">
+            <div className="text-center mt-[-150px] sm:mt-[-16px]">
+              <p className="font-['Futura_PT',sans-serif] font-normal text-[#0f1421] text-[18px] leading-[32px]">
                 {IMAGES[activeIndex].label}
               </p>
             </div>
@@ -129,7 +126,7 @@ export default function MobileGallery() {
             className="bg-white/90 shadow-lg p-3 rounded-full transition-all active:scale-95"
             aria-label="Previous image"
           >
-            <ChevronLeft size={20} className="text-[#0f1421]" />
+            <ChevronLeft size={16} className="text-[#0f1421]" />
           </button>
 
           <button
@@ -137,7 +134,7 @@ export default function MobileGallery() {
             className="bg-white/90 shadow-lg p-3 rounded-full transition-all active:scale-95"
             aria-label="Next image"
           >
-            <ChevronRight size={20} className="text-[#0f1421]" />
+            <ChevronRight size={16} className="text-[#0f1421]" />
           </button>
         </div>
 
@@ -151,8 +148,8 @@ export default function MobileGallery() {
                 transition-all duration-300
                 ${
                   index === activeIndex
-                    ? "w-8 h-2 bg-[#0f1421]"
-                    : "w-2 h-2 bg-[#0f1421]/30 hover:bg-[#0f1421]/50"
+                    ? "w-6 h-1.5 bg-[#0f1421]"
+                    : "w-1.5 h-1.5 bg-[#0f1421]/30 hover:bg-[#0f1421]/50"
                 }
                 rounded-full
               `}
@@ -163,7 +160,7 @@ export default function MobileGallery() {
 
         {/* Swipe Hint (Mobile Only) */}
         <div className="sm:hidden text-center mt-4">
-          <p className="text-xs text-[#0f1421]/50 font-['Poppins:400',sans-serif]">
+          <p className="font-['Futura_PT',sans-serif] font-normal text-[#0f1421]/50 text-[18px] leading-[32px]">
             Swipe left or right to see more
           </p>
         </div>
@@ -174,7 +171,7 @@ export default function MobileGallery() {
             onClick={() => {
               window.location.hash = "#pictures";
             }}
-            className="bg-[#0f1421] text-white px-6 py-3 rounded-lg font-['Poppins:500',sans-serif] text-sm hover:bg-[#0f1421]/90 transition-colors shadow-lg"
+            className="bg-[#0f1421] text-white px-6 py-3 rounded-lg font-['Futura_PT',sans-serif] font-medium text-[18px] leading-[32px] hover:bg-[#0f1421]/90 transition-colors shadow-lg"
           >
             View Full Gallery
           </button>

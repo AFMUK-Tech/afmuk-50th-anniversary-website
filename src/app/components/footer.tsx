@@ -1,89 +1,94 @@
+import React from "react";
+
+// ── LOGO ─────────────────────────────────────────────────────────────────
+// Swap this for your real 50th-anniversary logo file — nothing else in this
+// component needs to change once you do.
+import logoImg from "../../imports/image.png";
+
+// Site-wide typography tokens (kept local so this file is drop-in on its
+// own — if you already export HEADER_FONT / BODY_COPY from sections.tsx,
+// feel free to import those instead and delete these two lines).
+const HEADER_FONT = "font-['CRONDE:Regular',sans-serif]";
+const BODY_COPY = "font-['Futura_PT:Book',sans-serif] text-[18px] leading-[32px]";
+
+const NAV_LINKS: { label: string; hash: string }[] = [
+  { label: "Stories",  hash: "watch" },
+  { label: "Photos",   hash: "gallery" },
+  { label: "Timeline", hash: "timeline" },
+];
+
+function go(hash: string) {
+  window.location.hash = hash;
+}
+
 export function Footer() {
   return (
-    <div
-      className="relative w-full overflow-clip px-6 sm:px-10 md:px-[120px] py-10 md:py-[60px]"
-      style={{ background: "#192441" }}
-    >
-      {/* Top gold rule */}
-      <div style={{ position: "absolute", top: 0, left: 0, right: 0, height: 1, background: "#D9C7A8", opacity: 0.35 }} />
+    <footer className="relative w-full bg-[#192441] overflow-hidden px-6 sm:px-10 md:px-16 pt-10 md:pt-12 pb-6 md:pb-8">
+      {/* ── Top row: logo · nav · CTA ─────────────────────────────────── */}
+      <div className="flex flex-col md:flex-row items-center md:items-start justify-between gap-8 md:gap-6">
+        {/* Logo */}
+        <a
+          href="#"
+          onClick={(e) => { e.preventDefault(); go(""); }}
+          className="shrink-0 order-1"
+          aria-label="Back to home"
+        >
+          <img
+            src={logoImg}
+            alt="AFM 50th Anniversary"
+            className="h-[36px] sm:h-[44px] md:h-[72px] w-[100px] sm:w-[120px] md:w-[200px] object-contain"
+          />
+        </a>
 
-      <div className="flex flex-col md:flex-row md:items-start md:justify-between gap-10 md:gap-6">
-        {/* ── Logo mark ───────────────────────────────────────────────── */}
-        <div className="text-center md:text-left">
-          <div style={{ fontFamily: "'CRONDE', sans-serif", fontSize: 56, color: "#D9C7A8", lineHeight: 1, opacity: 0.9 }} className="md:text-[72px]">
-            50
-          </div>
-          <div style={{ fontFamily: "'Futura PT', sans-serif", fontSize: 11, color: "#D9C7A8", letterSpacing: "0.18em", opacity: 0.6, marginTop: 6, textTransform: "uppercase" }}>
-            th Anniversary
-          </div>
-          <div style={{ fontFamily: "'Futura PT', sans-serif", fontSize: 13, color: "#D9C7A8", opacity: 0.5, marginTop: 4 }}>
-            AFM Western Europe · 1976 – 2026
-          </div>
-        </div>
+        {/* Nav links */}
+        <nav className="order-3 md:order-2 flex items-center gap-6 sm:gap-9 md:gap-10 md:pt-4 flex-wrap justify-center">
+          {NAV_LINKS.map((link) => (
+            <a
+              key={link.label}
+              href={`#${link.hash}`}
+              onClick={(e) => { e.preventDefault(); go(link.hash); }}
+              className="font-['Futura_PT:Book',sans-serif] text-[14px] tracking-[0.02em] text-white/85 hover:text-white transition-colors"
+            >
+              {link.label}
+            </a>
+          ))}
+        </nav>
 
-        {/* ── Nav + CTA ───────────────────────────────────────────────── */}
-        <div className="flex flex-col items-center gap-6 md:gap-4 md:items-end">
-          <div className="flex flex-wrap justify-center gap-6 md:gap-12 items-center">
-            {["Stories", "Photos", "Timeline"].map(label => (
-              <span key={label} style={{
-                fontFamily: "'Futura PT', sans-serif", fontSize: 15,
-                color: "white", opacity: 0.75, cursor: "pointer", letterSpacing: "0.02em",
-              }}>
-                {label}
-              </span>
-            ))}
-          </div>
-
-          <div style={{
-            background: "rgba(217,199,168,0.12)",
-            border: "1px solid rgba(217,199,168,0.3)",
-            borderRadius: 84, padding: "12px 28px",
-            fontFamily: "'Futura PT', sans-serif", fontSize: 14,
-            color: "#D9C7A8", letterSpacing: "0.04em", cursor: "pointer",
-            whiteSpace: "nowrap",
-          }}>
-            AFM UK
-          </div>
-        </div>
+        {/* CTA pill */}
+        <a
+          href="https://www.afm-uk.com"
+          target="_blank"
+          rel="noreferrer"
+          className="order-2 md:order-3 shrink-0 inline-flex items-center justify-center rounded-full border border-white/15 bg-white/[0.06] px-6 py-2.5 font-['Futura_PT:Book',sans-serif] text-[13px] tracking-[0.02em] text-white/90 hover:bg-white/[0.1] hover:border-white/25 transition-colors whitespace-nowrap"
+        >
+          AFM UK
+        </a>
       </div>
 
-      {/* ── Scripture quote ─────────────────────────────────────────────── */}
-      <div className="mx-auto text-center mt-10 md:mt-12 max-w-[680px] px-2">
-        <p style={{
-          fontFamily: "'Futura PT', 'Futura PT Book', sans-serif",
-          fontSize: 17,
-          fontStyle: "italic",
-          color: "#D9C7A8", lineHeight: 1.65, opacity: 0.8, margin: 0,
-        }} className="md:text-[19px]">
-          "One generation shall praise thy works to another,<br className="hidden sm:block" />
-          {" "}and shall declare thy mighty acts."
+      {/* ── Centered quote ────────────────────────────────────────────── */}
+      <div className="mt-10 md:mt-8 mx-auto max-w-[600px] text-center px-4">
+        <p className={`${BODY_COPY} text-[#D9C7A8]`} style={{ opacity: 0.9 }}>
+          {`"One generation shall praise thy works to another, and shall declare thy mighty acts."`}
         </p>
-        <p style={{
-          fontFamily: "'Futura PT', sans-serif", fontSize: 13,
-          color: "#D9C7A8", opacity: 0.5, marginTop: 14, letterSpacing: "0.06em",
-        }}>
+        <p className="font-['Futura_PT:Book',sans-serif] text-[13px] tracking-[0.04em] text-[#D9C7A8]/55 mt-2">
           — Psalm 145:4
         </p>
       </div>
 
-      {/* ── Bottom rule + copyright ──────────────────────────────────────── */}
-      <div className="mt-10 md:mt-14">
-        <div style={{ height: 1, background: "#D9C7A8", opacity: 0.12, marginBottom: 24 }} />
-        <div className="flex flex-col md:flex-row gap-3 md:gap-0 items-center justify-between text-center md:text-left">
-          <span style={{
-            fontFamily: "'Futura PT', sans-serif", fontSize: 12,
-            color: "white", opacity: 0.35, letterSpacing: "0.03em",
-          }}>
-            © 2026 Apostolic Faith Mission Western Europe. All rights reserved.
-          </span>
-          <span style={{
-            fontFamily: "'Futura PT', sans-serif", fontSize: 12,
-            color: "#D9C7A8", opacity: 0.4, letterSpacing: "0.03em",
-          }}>
-            Celebrating 50 years of faithful ministry
-          </span>
-        </div>
+      {/* ── Divider ───────────────────────────────────────────────────── */}
+      <div className="mt-10 md:mt-10 h-px w-full bg-white/10" />
+
+      {/* ── Bottom row: copyright · tagline ──────────────────────────── */}
+      <div className="mt-6 flex flex-col md:flex-row items-center justify-between gap-3 md:gap-0 text-center md:text-left">
+        <p className="font-['Futura_PT:Book',sans-serif] text-[12px] tracking-[0.02em] text-white/40">
+          © 2026 Apostolic Faith Mission Western Europe. All rights reserved.
+        </p>
+        <p className="font-['Futura_PT:Book',sans-serif] text-[12px] tracking-[0.02em] text-[#D9C7A8]/55">
+          Celebrating 50 years of faithful ministry
+        </p>
       </div>
-    </div>
+    </footer>
   );
 }
+
+export default Footer;

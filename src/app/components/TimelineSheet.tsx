@@ -1,15 +1,18 @@
 import { useState, useEffect } from "react";
 import { TimelineSection, TIMELINE_DATA } from "./sections";
+import MobileTimeline from "./MobileTimeline";
 
 const TIMELINE_VIS_H = 782;
 const TIMELINE_STEPS = TIMELINE_DATA.length;
 const MIN_SCALE = 0.26;
+const MOBILE_BREAKPOINT = 768;
 
 export function TimelineSheet() {
   const [open, setOpen] = useState(window.location.hash === "#timeline");
   const [activeIdx, setActiveIdx] = useState(0);
   const [vw, setVw] = useState(window.innerWidth);
 
+  const isMobile = vw < MOBILE_BREAKPOINT;
   const scale = Math.max(Math.min(vw / 1440, 1), MIN_SCALE);
   const sheetH = TIMELINE_VIS_H * scale + 76; // +76 for controls + safe-area
 
@@ -81,126 +84,170 @@ export function TimelineSheet() {
         }}
       />
 
-      {/* Sheet */}
-      <div style={{
-        position: "fixed", bottom: 0, left: 0, right: 0,
-        height: sheetH,
-        maxHeight: "92vh",
-        zIndex: 1001,
-        background: "#0f1421",
-        borderRadius: "20px 20px 0 0",
-        boxShadow: "0 -8px 48px rgba(0,0,0,0.4)",
-        overflow: "hidden",
-        paddingBottom: "env(safe-area-inset-bottom)",
-        animation: "tlSlideUp 0.38s cubic-bezier(0.32,0.72,0,1)",
-      }}>
-
-        {/* Drag handle */}
+      {isMobile ? (
+        /* ---------- Mobile: full-screen accordion timeline ---------- */
         <div style={{
-          position: "absolute", top: 10, left: "50%", transform: "translateX(-50%)",
-          width: 44, height: 4, borderRadius: 2,
-          background: "rgba(255,255,255,0.25)", zIndex: 10,
-        }} />
-
-        {/* Close button - now just closes without navigation */}
-        <button
-          onClick={close}
-          style={{
-            position: "absolute", top: 16, right: 20, zIndex: 10,
-            background: "rgba(255,255,255,0.1)", border: "1px solid rgba(255,255,255,0.2)",
-            borderRadius: "50%", width: 36, height: 36,
-            display: "flex", alignItems: "center", justifyContent: "center",
-            cursor: "pointer", color: "#fff", fontSize: 16, lineHeight: 1,
-            transition: "all 0.2s ease",
-          }}
-          onMouseEnter={(e) => {
-            e.currentTarget.style.background = "rgba(255,255,255,0.2)";
-            e.currentTarget.style.transform = "scale(1.05)";
-          }}
-          onMouseLeave={(e) => {
-            e.currentTarget.style.background = "rgba(255,255,255,0.1)";
-            e.currentTarget.style.transform = "scale(1)";
-          }}
-        >
-          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round">
-            <line x1="18" y1="6" x2="6" y2="18" />
-            <line x1="6" y1="6" x2="18" y2="18" />
-          </svg>
-        </button>
-
-        {/* Timeline canvas */}
-        <div style={{
-          position: "absolute", top: 0, left: "50%",
-          transform: `translateX(-50%) scale(${scale})`,
-          transformOrigin: "top center",
-          width: 1440, height: TIMELINE_VIS_H,
-          pointerEvents: "auto",
+          position: "fixed", inset: 0,
+          zIndex: 1001,
+          background: "#0f1421",
+          overflow: "hidden",
+          display: "flex",
+          flexDirection: "column",
+          animation: "tlSlideUp 0.38s cubic-bezier(0.32,0.72,0,1)",
         }}>
-          <TimelineSection activeYearIndex={activeIdx} transitionProgress={0} />
-        </div>
-
-        {/* Prev / Next controls */}
-        <div style={{
-          position: "absolute", bottom: "max(16px, env(safe-area-inset-bottom))", left: "50%",
-          transform: "translateX(-50%)",
-          display: "flex", gap: isNarrow ? 10 : 16, alignItems: "center",
-          zIndex: 10,
-        }}>
+          {/* Close button */}
           <button
-            onClick={prev} disabled={activeIdx === 0}
+            onClick={close}
             style={{
-              background: "rgba(255,255,255,0.1)",
-              border: "1px solid rgba(255,255,255,0.25)",
-              borderRadius: 8, padding: isNarrow ? "8px 14px" : "8px 24px", color: "#fff",
-              fontFamily: "'Inter', sans-serif", fontSize: isNarrow ? 12 : 14,
-              cursor: activeIdx === 0 ? "default" : "pointer",
-              opacity: activeIdx === 0 ? 0.4 : 1,
-              transition: "all 0.2s ease",
+              position: "absolute",
+              top: "max(16px, env(safe-area-inset-top))",
+              right: 20, zIndex: 10,
+              background: "rgba(255,255,255,0.1)", border: "1px solid rgba(255,255,255,0.2)",
+              borderRadius: "50%", width: 36, height: 36,
+              display: "flex", alignItems: "center", justifyContent: "center",
+              cursor: "pointer", color: "#fff", fontSize: 16, lineHeight: 1,
             }}
-            onMouseEnter={(e) => {
-              if (activeIdx !== 0) {
-                e.currentTarget.style.background = "rgba(255,255,255,0.2)";
-                e.currentTarget.style.transform = "scale(1.02)";
-              }
-            }}
-            onMouseLeave={(e) => {
-              e.currentTarget.style.background = "rgba(255,255,255,0.1)";
-              e.currentTarget.style.transform = "scale(1)";
-            }}
-          >← Prev</button>
+          >
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round">
+              <line x1="18" y1="6" x2="6" y2="18" />
+              <line x1="6" y1="6" x2="18" y2="18" />
+            </svg>
+          </button>
 
-          <span style={{
-            color: "rgba(255,255,255,0.5)",
-            fontFamily: "'Inter', sans-serif", fontSize: 13,
-            minWidth: 52, textAlign: "center",
+          {/* Accordion timeline, natural flow, scrolls internally */}
+          <div style={{
+            flex: 1,
+            overflow: "hidden",
+            paddingTop: "max(16px, env(safe-area-inset-top))",
           }}>
-            {activeIdx + 1} / {TIMELINE_STEPS}
-          </span>
+            <MobileTimeline
+              activeYearIndex={activeIdx}
+              onYearChange={setActiveIdx}
+            />
+          </div>
+        </div>
+      ) : (
+        /* ---------- Tablet / desktop: scaled canvas + Prev/Next controls ---------- */
+        <div style={{
+          position: "fixed", bottom: 0, left: 0, right: 0,
+          height: sheetH,
+          maxHeight: "92vh",
+          zIndex: 1001,
+          background: "#0f1421",
+          borderRadius: "20px 20px 0 0",
+          boxShadow: "0 -8px 48px rgba(0,0,0,0.4)",
+          overflow: "hidden",
+          paddingBottom: "env(safe-area-inset-bottom)",
+          animation: "tlSlideUp 0.38s cubic-bezier(0.32,0.72,0,1)",
+        }}>
 
+          {/* Drag handle */}
+          <div style={{
+            position: "absolute", top: 10, left: "50%", transform: "translateX(-50%)",
+            width: 44, height: 4, borderRadius: 2,
+            background: "rgba(255,255,255,0.25)", zIndex: 10,
+          }} />
+
+          {/* Close button */}
           <button
-            onClick={next} disabled={activeIdx === TIMELINE_STEPS - 1}
+            onClick={close}
             style={{
-              background: "rgba(255,255,255,0.1)",
-              border: "1px solid rgba(255,255,255,0.25)",
-              borderRadius: 8, padding: isNarrow ? "8px 14px" : "8px 24px", color: "#fff",
-              fontFamily: "'Inter', sans-serif", fontSize: isNarrow ? 12 : 14,
-              cursor: activeIdx === TIMELINE_STEPS - 1 ? "default" : "pointer",
-              opacity: activeIdx === TIMELINE_STEPS - 1 ? 0.4 : 1,
+              position: "absolute", top: 16, right: 20, zIndex: 10,
+              background: "rgba(255,255,255,0.1)", border: "1px solid rgba(255,255,255,0.2)",
+              borderRadius: "50%", width: 36, height: 36,
+              display: "flex", alignItems: "center", justifyContent: "center",
+              cursor: "pointer", color: "#fff", fontSize: 16, lineHeight: 1,
               transition: "all 0.2s ease",
             }}
             onMouseEnter={(e) => {
-              if (activeIdx !== TIMELINE_STEPS - 1) {
-                e.currentTarget.style.background = "rgba(255,255,255,0.2)";
-                e.currentTarget.style.transform = "scale(1.02)";
-              }
+              e.currentTarget.style.background = "rgba(255,255,255,0.2)";
+              e.currentTarget.style.transform = "scale(1.05)";
             }}
             onMouseLeave={(e) => {
               e.currentTarget.style.background = "rgba(255,255,255,0.1)";
               e.currentTarget.style.transform = "scale(1)";
             }}
-          >Next →</button>
+          >
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round">
+              <line x1="18" y1="6" x2="6" y2="18" />
+              <line x1="6" y1="6" x2="18" y2="18" />
+            </svg>
+          </button>
+
+          {/* Timeline canvas */}
+          <div style={{
+            position: "absolute", top: 0, left: "50%",
+            transform: `translateX(-50%) scale(${scale})`,
+            transformOrigin: "top center",
+            width: 1440, height: TIMELINE_VIS_H,
+            pointerEvents: "auto",
+          }}>
+            <TimelineSection activeYearIndex={activeIdx} transitionProgress={0} />
+          </div>
+
+          {/* Prev / Next controls */}
+          <div style={{
+            position: "absolute", bottom: "max(16px, env(safe-area-inset-bottom))", left: "50%",
+            transform: "translateX(-50%)",
+            display: "flex", gap: isNarrow ? 10 : 16, alignItems: "center",
+            zIndex: 10,
+          }}>
+            <button
+              onClick={prev} disabled={activeIdx === 0}
+              style={{
+                background: "rgba(255,255,255,0.1)",
+                border: "1px solid rgba(255,255,255,0.25)",
+                borderRadius: 8, padding: isNarrow ? "8px 14px" : "8px 24px", color: "#fff",
+                fontFamily: "'Inter', sans-serif", fontSize: isNarrow ? 12 : 14,
+                cursor: activeIdx === 0 ? "default" : "pointer",
+                opacity: activeIdx === 0 ? 0.4 : 1,
+                transition: "all 0.2s ease",
+              }}
+              onMouseEnter={(e) => {
+                if (activeIdx !== 0) {
+                  e.currentTarget.style.background = "rgba(255,255,255,0.2)";
+                  e.currentTarget.style.transform = "scale(1.02)";
+                }
+              }}
+              onMouseLeave={(e) => {
+                e.currentTarget.style.background = "rgba(255,255,255,0.1)";
+                e.currentTarget.style.transform = "scale(1)";
+              }}
+            >← Prev</button>
+
+            <span style={{
+              color: "rgba(255,255,255,0.5)",
+              fontFamily: "'Inter', sans-serif", fontSize: 13,
+              minWidth: 52, textAlign: "center",
+            }}>
+              {activeIdx + 1} / {TIMELINE_STEPS}
+            </span>
+
+            <button
+              onClick={next} disabled={activeIdx === TIMELINE_STEPS - 1}
+              style={{
+                background: "rgba(255,255,255,0.1)",
+                border: "1px solid rgba(255,255,255,0.25)",
+                borderRadius: 8, padding: isNarrow ? "8px 14px" : "8px 24px", color: "#fff",
+                fontFamily: "'Inter', sans-serif", fontSize: isNarrow ? 12 : 14,
+                cursor: activeIdx === TIMELINE_STEPS - 1 ? "default" : "pointer",
+                opacity: activeIdx === TIMELINE_STEPS - 1 ? 0.4 : 1,
+                transition: "all 0.2s ease",
+              }}
+              onMouseEnter={(e) => {
+                if (activeIdx !== TIMELINE_STEPS - 1) {
+                  e.currentTarget.style.background = "rgba(255,255,255,0.2)";
+                  e.currentTarget.style.transform = "scale(1.02)";
+                }
+              }}
+              onMouseLeave={(e) => {
+                e.currentTarget.style.background = "rgba(255,255,255,0.1)";
+                e.currentTarget.style.transform = "scale(1)";
+              }}
+            >Next →</button>
+          </div>
         </div>
-      </div>
+      )}
     </>
   );
 }
