@@ -1,55 +1,12 @@
 import { useState, useEffect, useRef } from "react";
 import svgPaths from "../../imports/Frame31/svg-f4epwvy9wh";
-import Nav from "../../imports/Nav/index";
-import MobileNav from "./MobileNav";
+import { SiteHeader, useSiteScale, useIsMobile, DESIGN_WIDTH } from "./SiteHeader";
 import imgImage17 from "../../imports/Frame31/ceea06c40e75febdac3e88f3d284c4e1d63ccd9e.png";
 import imgImage16 from "../../imports/Frame31/d060be9ce61288ad16074db37bfbb70d4d8416b7.png";
 import imgImage14 from "../../imports/Frame31/a74f4e0909ba84ee9c9c4e2716d87721443d1e91.png";
 import imgImage15 from "../../imports/Frame31/4220d400525c50945c5ca0ef50b76d513a3cec9d.png";
 
-const DESIGN_WIDTH = 1440;
-const NAV_H = 80;
-const MOBILE_BREAKPOINT = 768;
 
-const MIN_SCALE = 0.55;
-const MAX_SCALE = 1.15;
-
-function useClampedScale() {
-  const [scale, setScale] = useState(() =>
-    Math.min(Math.max(window.innerWidth / DESIGN_WIDTH, MIN_SCALE), MAX_SCALE)
-  );
-
-  useEffect(() => {
-    const update = () =>
-      setScale(Math.min(Math.max(window.innerWidth / DESIGN_WIDTH, MIN_SCALE), MAX_SCALE));
-    update();
-    window.addEventListener("resize", update);
-    window.addEventListener("orientationchange", update);
-    return () => {
-      window.removeEventListener("resize", update);
-      window.removeEventListener("orientationchange", update);
-    };
-  }, []);
-
-  return scale;
-}
-
-function useIsMobile() {
-  const [isMobile, setIsMobile] = useState(
-    typeof window !== "undefined" ? window.innerWidth < MOBILE_BREAKPOINT : false
-  );
-  useEffect(() => {
-    const update = () => setIsMobile(window.innerWidth < MOBILE_BREAKPOINT);
-    update();
-    window.addEventListener("resize", update);
-    return () => window.removeEventListener("resize", update);
-  }, []);
-  return isMobile;
-}
-
-// Measures the natural (unscaled) height of a ref'd element and keeps it
-// updated as content/layout changes, so the scaled wrapper never reserves
-// more vertical space than the content actually needs.
 function useContentHeight<T extends HTMLElement>() {
   const ref = useRef<T | null>(null);
   const [height, setHeight] = useState(0);
@@ -322,25 +279,60 @@ function FounderMobile() {
           >
             Brother Victor Okusanya
           </p>
-          <p style={{ fontFamily: "'CRONDE', serif", fontSize: 42, color: "#0f1421", margin: 0, lineHeight: 1.05 }}>
+          <p style={{ 
+            fontFamily: "'CRONDE', serif", 
+            fontSize: 42, 
+            color: "#0f1421", 
+            margin: 0, 
+            lineHeight: 1.05 
+          }}>
             Founder
           </p>
-          <p style={{ fontFamily: "'Futura PT', sans-serif", fontSize: 16, color: "#6b6b6b", marginTop: 16 }}>
+          <p style={{ 
+            fontFamily: "'Futura PT', sans-serif", 
+            fontSize: 16, 
+            color: "#6b6b6b", 
+            marginTop: 16 
+          }}>
             The man who carried the Gospel to the United Kingdom, and never looked back.
           </p>
         </div>
 
         <div style={{ width: "100%", maxWidth: 640, display: "flex", flexDirection: "column", gap: 20 }}>
-          <p style={{ fontFamily: "'Futura PT', sans-serif", fontSize: 15, lineHeight: 1.75, color: "#28241c", margin: 0 }}>
+          <p style={{ 
+            fontFamily: "'Futura PT', sans-serif", 
+            fontSize: 15, 
+            lineHeight: 1.75, 
+            color: "#28241c", 
+            margin: 0 
+          }}>
             Brother Victor Olusegun Okusanya founded the Apostolic Faith work in the United Kingdom in 1976, arriving in London the year before as a young music scholarship student at Goldsmith College. He served as the UK's first pastor for twenty-four years, from his ordination in Lagos in 1979 until his retirement in April 2000.
           </p>
-          <p style={{ fontFamily: "'Futura PT', sans-serif", fontSize: 15, lineHeight: 1.75, color: "#28241c", margin: 0 }}>
+          <p style={{ 
+            fontFamily: "'Futura PT', sans-serif", 
+            fontSize: 15, 
+            lineHeight: 1.75, 
+            color: "#28241c", 
+            margin: 0 
+          }}>
             Those who knew him remember a man of deep prayer and remarkable generosity — on one occasion giving away a brand-new pair of shoes to a man in need before he had worn them himself. Sister Chioma Okere, a member of the congregation he served, once described him as "all things to all men" — father, brother, uncle, and even solicitor to the members in his care.
           </p>
-          <p style={{ fontFamily: "'Futura PT', sans-serif", fontSize: 15, lineHeight: 1.75, color: "#28241c", margin: 0 }}>
+          <p style={{ 
+            fontFamily: "'Futura PT', sans-serif", 
+            fontSize: 15, 
+            lineHeight: 1.75, 
+            color: "#28241c", 
+            margin: 0 
+          }}>
             Though a trained musician, he chose never to use his music degree for secular income, believing the gift belonged to the church alone — a conviction that laid the foundation for a music ministry that continues to this day through Salem Academy of Music and, in 2026, Birmingham's David Academy.
           </p>
-          <p style={{ fontFamily: "'Futura PT', sans-serif", fontSize: 15, lineHeight: 1.75, color: "#28241c", margin: 0 }}>
+          <p style={{ 
+            fontFamily: "'Futura PT', sans-serif", 
+            fontSize: 15, 
+            lineHeight: 1.75, 
+            color: "#28241c", 
+            margin: 0 
+          }}>
             His final sermon before retirement was titled "Don't Deal in Sin, Don't Deal with Man, Deal with God" — words his family remember as capturing the whole of his ministry. On 30 April 2000, he passed leadership to Brother Isaac Adigun in a service attended by church leaders from Portland, Lagos, and Scandinavia.
           </p>
 
@@ -357,25 +349,56 @@ function FounderMobile() {
             }}
           >
             "Our first Sunday School service was held on Sunday, 11 April 1976, at 18 Doverfield Road, Clapham Park — the home of Brother Victor Okusanya's sister. Only three members were present: Brother Victor Okusanya, Sister Comfort Martins, and myself."
-            <div style={{ fontFamily: "'Futura PT', sans-serif", fontSize: 13, fontStyle: "normal", color: "#6b6b6b", marginTop: 12 }}>
+            <div style={{ 
+              fontFamily: "'Futura PT', sans-serif", 
+              fontSize: 13, 
+              fontStyle: "normal", 
+              color: "#6b6b6b", 
+              marginTop: 12 
+            }}>
               Brother Shuaibu Adeoye, one of the three present at the very first meeting, 11 April 1976
             </div>
           </blockquote>
 
-          <p style={{ fontFamily: "'Futura PT', sans-serif", fontSize: 15, lineHeight: 1.75, color: "#28241c", margin: 0 }}>
+          <p style={{ 
+            fontFamily: "'Futura PT', sans-serif", 
+            fontSize: 15, 
+            lineHeight: 1.75, 
+            color: "#28241c", 
+            margin: 0 
+          }}>
             Brother Adeoye, then a young British Petroleum scholarship student newly arrived from Nigeria, had written to the church's Portland headquarters asking where to worship in London. Portland connected him with Brother Okusanya, who had arrived in London a few months earlier with the same aim — to start an Apostolic Faith fellowship in the city. From that first meeting of three, in a borrowed lounge, the whole of this fifty-year story began.
           </p>
 
           <div style={{ marginTop: 8 }}>
-            <p style={{ fontFamily: "'CRONDE', serif", fontSize: 22, color: "#192441", margin: 0, marginBottom: 12 }}>
+            <p style={{ 
+              fontFamily: "'CRONDE', serif", 
+              fontSize: 22, 
+              color: "#192441", 
+              margin: 0, 
+              marginBottom: 12 
+            }}>
               The Women Behind the Work
             </p>
-            <p style={{ fontFamily: "'Futura PT', sans-serif", fontSize: 15, lineHeight: 1.75, color: "#28241c", margin: 0 }}>
+            <p style={{ 
+              fontFamily: "'Futura PT', sans-serif", 
+              fontSize: 15, 
+              lineHeight: 1.75, 
+              color: "#28241c", 
+              margin: 0 
+            }}>
               Sister Grace Oluyemi Okusanya carried much of the administrative weight of the early church alongside her husband. Sister Florence Osayemi's own account of the wider hardship faced by early wives on student visas — far from home, often alone during the week — is a reminder that this church was built by families, not by one man alone.
             </p>
           </div>
 
-          <p style={{ fontFamily: "'CRONDE', serif", fontSize: 17, color: "#192441", textAlign: "center", margin: "8px 0 0", fontStyle: "italic" }}>
+          <p style={{ 
+            fontFamily: "'CRONDE', serif", 
+            fontSize: 17, 
+            color: "#192441", 
+            textAlign: "center", 
+            margin: "8px 0 0", 
+            fontStyle: "italic" 
+          }}>
             "Earnestly contend for the faith which was once delivered unto the saints." — Jude 3
           </p>
 
@@ -405,7 +428,7 @@ function FounderMobile() {
 }
 
 export function FounderPage({ onBack }: { onBack?: () => void } = {}) {
-  const scale = useClampedScale();
+  const scale = useSiteScale();
   const isMobile = useIsMobile();
   const [fadeIn, setFadeIn] = useState(false);
   const [contentRef, contentHeight] = useContentHeight<HTMLDivElement>();
@@ -425,9 +448,7 @@ export function FounderPage({ onBack }: { onBack?: () => void } = {}) {
         position: "relative",
       }}
     >
-      <div style={{ position: "fixed", top: 0, left: 0, width: "100%", zIndex: 100, height: isMobile ? "auto" : NAV_H }}>
-        {isMobile ? <MobileNav /> : <Nav />}
-      </div>
+      <SiteHeader />
 
       <div
         style={{
@@ -440,8 +461,6 @@ export function FounderPage({ onBack }: { onBack?: () => void } = {}) {
           <FounderMobile />
         ) : (
           <div style={{ width: "100%", display: "flex", justifyContent: "center", overflowX: "hidden" }}>
-            {/* Height is now driven by the actual measured content, not a hardcoded constant,
-                so there's no leftover blank space below the last section. */}
             <div style={{ width: DESIGN_WIDTH * scale, height: contentHeight ? contentHeight * scale : undefined, overflow: "hidden" }}>
               <div
                 ref={contentRef}
@@ -472,7 +491,7 @@ export function FounderPage({ onBack }: { onBack?: () => void } = {}) {
                   </svg>
                 </div>
 
-                {/* Content — no fixed bottom padding/spacer beyond what's needed */}
+                {/* Content */}
                 <div
                   style={{
                     position: "relative",
@@ -528,16 +547,40 @@ export function FounderPage({ onBack }: { onBack?: () => void } = {}) {
                   </div>
 
                   <div style={{ width: 980, display: "flex", flexDirection: "column", gap: 28 }}>
-                    <p style={{ fontFamily: "'Futura PT', sans-serif", fontSize: 20, lineHeight: 1.75, color: "#28241c", margin: 0 }}>
+                    <p style={{ 
+                      fontFamily: "'Futura PT', sans-serif", 
+                      fontSize: 20, 
+                      lineHeight: 1.75, 
+                      color: "#28241c", 
+                      margin: 0 
+                    }}>
                       Brother Victor Olusegun Okusanya founded the Apostolic Faith work in the United Kingdom in 1976, arriving in London the year before as a young music scholarship student at Goldsmith College. He served as the UK's first pastor for twenty-four years, from his ordination in Lagos in 1979 until his retirement in April 2000.
                     </p>
-                    <p style={{ fontFamily: "'Futura PT', sans-serif", fontSize: 20, lineHeight: 1.75, color: "#28241c", margin: 0 }}>
+                    <p style={{ 
+                      fontFamily: "'Futura PT', sans-serif", 
+                      fontSize: 20, 
+                      lineHeight: 1.75, 
+                      color: "#28241c", 
+                      margin: 0 
+                    }}>
                       Those who knew him remember a man of deep prayer and remarkable generosity — on one occasion giving away a brand-new pair of shoes to a man in need before he had worn them himself. Sister Chioma Okere, a member of the congregation he served, once described him as "all things to all men" — father, brother, uncle, and even solicitor to the members in his care.
                     </p>
-                    <p style={{ fontFamily: "'Futura PT', sans-serif", fontSize: 20, lineHeight: 1.75, color: "#28241c", margin: 0 }}>
+                    <p style={{ 
+                      fontFamily: "'Futura PT', sans-serif", 
+                      fontSize: 20, 
+                      lineHeight: 1.75, 
+                      color: "#28241c", 
+                      margin: 0 
+                    }}>
                       Though a trained musician, he chose never to use his music degree for secular income, believing the gift belonged to the church alone — a conviction that laid the foundation for a music ministry that continues to this day through Salem Academy of Music and, in 2026, Birmingham's David Academy.
                     </p>
-                    <p style={{ fontFamily: "'Futura PT', sans-serif", fontSize: 20, lineHeight: 1.75, color: "#28241c", margin: 0 }}>
+                    <p style={{ 
+                      fontFamily: "'Futura PT', sans-serif", 
+                      fontSize: 20, 
+                      lineHeight: 1.75, 
+                      color: "#28241c", 
+                      margin: 0 
+                    }}>
                       His final sermon before retirement was titled "Don't Deal in Sin, Don't Deal with Man, Deal with God" — words his family remember as capturing the whole of his ministry. On 30 April 2000, he passed leadership to Brother Isaac Adigun in a service attended by church leaders from Portland, Lagos, and Scandinavia.
                     </p>
 
@@ -554,25 +597,56 @@ export function FounderPage({ onBack }: { onBack?: () => void } = {}) {
                       }}
                     >
                       "Our first Sunday School service was held on Sunday, 11 April 1976, at 18 Doverfield Road, Clapham Park — the home of Brother Victor Okusanya's sister. Only three members were present: Brother Victor Okusanya, Sister Comfort Martins, and myself."
-                      <div style={{ fontFamily: "'Futura PT', sans-serif", fontSize: 16, fontStyle: "normal", color: "#6b6b6b", marginTop: 14 }}>
+                      <div style={{ 
+                        fontFamily: "'Futura PT', sans-serif", 
+                        fontSize: 16, 
+                        fontStyle: "normal", 
+                        color: "#6b6b6b", 
+                        marginTop: 14 
+                      }}>
                         Brother Shuaibu Adeoye, one of the three present at the very first meeting, 11 April 1976
                       </div>
                     </blockquote>
 
-                    <p style={{ fontFamily: "'Futura PT', sans-serif", fontSize: 20, lineHeight: 1.75, color: "#28241c", margin: 0 }}>
+                    <p style={{ 
+                      fontFamily: "'Futura PT', sans-serif", 
+                      fontSize: 20, 
+                      lineHeight: 1.75, 
+                      color: "#28241c", 
+                      margin: 0 
+                    }}>
                       Brother Adeoye, then a young British Petroleum scholarship student newly arrived from Nigeria, had written to the church's Portland headquarters asking where to worship in London. Portland connected him with Brother Okusanya, who had arrived in London a few months earlier with the same aim — to start an Apostolic Faith fellowship in the city. From that first meeting of three, in a borrowed lounge, the whole of this fifty-year story began.
                     </p>
 
                     <div style={{ marginTop: 12 }}>
-                      <p style={{ fontFamily: "'CRONDE', serif", fontSize: 32, color: "#192441", margin: 0, marginBottom: 16 }}>
+                      <p style={{ 
+                        fontFamily: "'CRONDE', serif", 
+                        fontSize: 32, 
+                        color: "#192441", 
+                        margin: 0, 
+                        marginBottom: 16 
+                      }}>
                         The Women Behind the Work
                       </p>
-                      <p style={{ fontFamily: "'Futura PT', sans-serif", fontSize: 20, lineHeight: 1.75, color: "#28241c", margin: 0 }}>
+                      <p style={{ 
+                        fontFamily: "'Futura PT', sans-serif", 
+                        fontSize: 20, 
+                        lineHeight: 1.75, 
+                        color: "#28241c", 
+                        margin: 0 
+                      }}>
                         Sister Grace Oluyemi Okusanya carried much of the administrative weight of the early church alongside her husband. Sister Florence Osayemi's own account of the wider hardship faced by early wives on student visas — far from home, often alone during the week — is a reminder that this church was built by families, not by one man alone.
                       </p>
                     </div>
 
-                    <p style={{ fontFamily: "'CRONDE', serif", fontSize: 22, color: "#192441", textAlign: "center", margin: "16px 0 0", fontStyle: "italic" }}>
+                    <p style={{ 
+                      fontFamily: "'CRONDE', serif", 
+                      fontSize: 22, 
+                      color: "#192441", 
+                      textAlign: "center", 
+                      margin: "16px 0 0", 
+                      fontStyle: "italic" 
+                    }}>
                       "Earnestly contend for the faith which was once delivered unto the saints." — Jude 3
                     </p>
 

@@ -142,6 +142,7 @@ function PictureFrame() {
     </div>
   );
 }
+
 export function Section1({ scrollProgress = 0 }: { scrollProgress?: number }) {
   const clamp = (v: number, lo: number, hi: number) =>
     Math.min(Math.max(Number.isFinite(v) ? v : lo, lo), hi);
@@ -159,8 +160,39 @@ export function Section1({ scrollProgress = 0 }: { scrollProgress?: number }) {
   // Fireworks fire once the logo is meaningfully visible
   const fireworksActive = logoOpacity > 0.4;
 
+  // ── FIX: fireworks were hardcoded to a 1440x977 desktop canvas, so on
+  // mobile viewports the particle field rendered far outside (or was scaled
+  // far too small within) the visible area. Track the section's real
+  // rendered size instead and feed that into the Fireworks component.
+  const sectionRef = React.useRef<HTMLDivElement>(null);
+  const [dims, setDims] = React.useState({ width: 1440, height: 977 });
+
+  React.useEffect(() => {
+    const el = sectionRef.current;
+    if (!el) return;
+
+    const update = () => {
+      const rect = el.getBoundingClientRect();
+      if (rect.width > 0 && rect.height > 0) {
+        setDims({ width: rect.width, height: rect.height });
+      }
+    };
+
+    update();
+
+    const ro = new ResizeObserver(update);
+    ro.observe(el);
+    window.addEventListener("orientationchange", update);
+
+    return () => {
+      ro.disconnect();
+      window.removeEventListener("orientationchange", update);
+    };
+  }, []);
+
   return (
     <div
+      ref={sectionRef}
       className="min-h-[100svh] md:h-[977px] left-0 overflow-clip relative w-full"
       style={{ backgroundImage: "linear-gradient(0.480792deg, rgb(25, 36, 65) 38.09%, rgb(1, 9, 25) 110.38%)" }}
     >
@@ -176,8 +208,10 @@ export function Section1({ scrollProgress = 0 }: { scrollProgress?: number }) {
         </div>
       </div>
 
+      {/* Fireworks — now sized to the real rendered box on every viewport,
+          not a fixed desktop canvas, so mobile actually shows the effect */}
       <div className="absolute inset-0 w-full h-full [&>svg]:w-full [&>svg]:h-full pointer-events-none">
-        <Fireworks active={fireworksActive} width={1440} height={977} />
+        <Fireworks active={fireworksActive} width={dims.width} height={dims.height} />
       </div>
 
       {/* 50th Anniversary logo — revealed beneath the hero content (uksplash2) */}
@@ -192,7 +226,11 @@ export function Section1({ scrollProgress = 0 }: { scrollProgress?: number }) {
         />
       </div>
 
-      {/* Hero text + picture frames — drift up and fade out (frontmost layer, uksplash1) */}
+      {/* Hero text + picture frames — drift up and fade out (frontmost layer, uksplash1).
+          FIX: switched from top-1/2/left-1/2 + translate hack to a flexbox-centered
+          container. This is more reliable across mobile browsers where 100svh shifts
+          as chrome (address bar) collapses/expands, and it removes the risk of the
+          text block exceeding the box and getting silently clipped by overflow-clip. */}
       <div
         style={{
           position: "absolute",
@@ -200,22 +238,23 @@ export function Section1({ scrollProgress = 0 }: { scrollProgress?: number }) {
           opacity: textOpacity,
           transform: `translateY(${textDriftY}px)`,
         }}
+        className="flex flex-col items-center justify-center px-4 sm:px-6"
       >
-        <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[88%] sm:w-[85%] max-w-[596px] px-2 sm:px-4 md:px-0 text-center">
+        <div className="w-full max-w-[596px] text-center">
           <p
-            className="font-['Futura_PT:Book',sans-serif] text-white mb-3 md:mb-4"
+            className={`${BODY_COPY} text-white mb-3 md:mb-4`}
             style={{
-              fontSize: "clamp(18px, 5vw, 48px)",
-              lineHeight: "clamp(28px, 7vw, 60px)",
+              fontSize: "clamp(16px, 4.5vw, 48px)",
+              lineHeight: "clamp(24px, 6vw, 60px)",
             }}
           >
             {`"One generation shall praise thy works to another, and shall declare thy mighty acts."`}
           </p>
           <p
-            className="font-['Futura_PT:Book',sans-serif] text-white"
+            className={`${BODY_COPY} text-white`}
             style={{
-              fontSize: "clamp(14px, 3.5vw, 48px)",
-              lineHeight: "clamp(22px, 5vw, 60px)",
+              fontSize: "clamp(13px, 3vw, 48px)",
+              lineHeight: "clamp(20px, 4.5vw, 60px)",
             }}
           >
             — Psalm 145:4
@@ -385,7 +424,7 @@ function TimelineRing({
           </div>
         </div>
       </div>
-    
+
       <div style={{
         position: "absolute",
         left: 717,
@@ -400,7 +439,7 @@ function TimelineRing({
 
       {/* Far-left year (prev2) */}
       <div
-        className="-translate-x-1/2 -translate-y-1/2 [word-break:break-word] absolute flex flex-col font-['CRONDE:Regular',sans-serif] justify-center leading-[0] left-[calc(50%-259.1px)] not-italic text-[#d9c7a8] text-[24px] text-center top-[736.26px] whitespace-nowrap"
+        className={`-translate-x-1/2 -translate-y-1/2 [word-break:break-word] absolute flex flex-col ${HEADER_FONT} justify-center leading-[0] left-[calc(50%-259.1px)] not-italic text-[#d9c7a8] text-[24px] text-center top-[736.26px] whitespace-nowrap`}
         style={fade(!!prev2)}
       >
         <p className="leading-[normal]">{prev2?.year ?? ""}</p>
@@ -412,15 +451,15 @@ function TimelineRing({
         style={fade(!!prev1)}
       >
         <div className="flex-none rotate-30">
-          <div className="[word-break:break-word] flex flex-col font-['CRONDE:Regular',sans-serif] justify-center leading-[0] not-italic relative text-[#d9c7a8] text-[24px] text-center whitespace-nowrap">
+          <div className={`[word-break:break-word] flex flex-col ${HEADER_FONT} justify-center leading-[0] not-italic relative text-[#d9c7a8] text-[24px] text-center whitespace-nowrap`}>
             <p className="leading-[normal]">{prev1?.year ?? ""}</p>
           </div>
         </div>
       </div>
 
       {/* Center year — large, white, bold */}
-      <div className="-translate-x-1/2 -translate-y-1/2 [word-break:break-word] absolute flex flex-col justify-center leading-[0] left-[calc(50%+0.5px)] not-italic text-center text-white top-[571.24px] whitespace-nowrap"
-           style={{ fontFamily: "'CRONDE', sans-serif", fontSize: 56, fontWeight: 700, opacity: labelsOpacity, transition: "opacity 0.35s ease" }}>
+      <div className={`-translate-x-1/2 -translate-y-1/2 [word-break:break-word] absolute flex flex-col ${HEADER_FONT} justify-center leading-[0] left-[calc(50%+0.5px)] not-italic text-center text-white top-[571.24px] whitespace-nowrap`}
+           style={{ fontSize: 56, fontWeight: 700, opacity: labelsOpacity, transition: "opacity 0.35s ease" }}>
         <p className="leading-[normal]">{cur.year}</p>
       </div>
 
@@ -430,7 +469,7 @@ function TimelineRing({
         style={fade(!!next1)}
       >
         <div className="flex-none rotate-[-30.51deg]">
-          <div className="[word-break:break-word] flex flex-col font-['CRONDE:Regular',sans-serif] justify-center leading-[0] not-italic relative text-[#d9c7a8] text-[24px] text-center whitespace-nowrap">
+          <div className={`[word-break:break-word] flex flex-col ${HEADER_FONT} justify-center leading-[0] not-italic relative text-[#d9c7a8] text-[24px] text-center whitespace-nowrap`}>
             <p className="leading-[normal]">{next1?.year ?? ""}</p>
           </div>
         </div>
@@ -438,7 +477,7 @@ function TimelineRing({
 
       {/* Far-right year (next2) */}
       <div
-        className="-translate-x-1/2 -translate-y-1/2 [word-break:break-word] absolute flex flex-col font-['CRONDE:Regular',sans-serif] justify-center leading-[0] left-[calc(50%+263.39px)] not-italic text-[#d9c7a8] text-[24px] text-center top-[742.52px] whitespace-nowrap"
+        className={`-translate-x-1/2 -translate-y-1/2 [word-break:break-word] absolute flex flex-col ${HEADER_FONT} justify-center leading-[0] left-[calc(50%+263.39px)] not-italic text-[#d9c7a8] text-[24px] text-center top-[742.52px] whitespace-nowrap`}
         style={fade(!!next2)}
       >
         <p className="leading-[normal]">{next2?.year ?? ""}</p>
@@ -511,10 +550,10 @@ export function PreTimelineSection() {
               className="w-full max-w-[240px] h-auto"
             />
             <div className="mt-[-150px]">
-              <p className="text-[#192441] text-[38px] leading-[1.05]" style={{ fontFamily: "'CRONDE:Regular'" }}>
+              <p className={`${HEADER_FONT} text-[#192441] text-[38px] leading-[1.05]`}>
                 Praise God
               </p>
-              <p className="text-[#192441] text-[38px] leading-[1.05]" style={{ fontFamily: "'CRONDE:Regular'" }}>
+              <p className={`${HEADER_FONT} text-[#192441] text-[38px] leading-[1.05]`}>
                 With US!
               </p>
             </div>
@@ -532,14 +571,14 @@ export function PreTimelineSection() {
               <div aria-hidden className="absolute border-[4px] border-solid border-white inset-0 pointer-events-none" />
             </div>
             <div className="flex flex-col gap-4 items-start text-white text-left">
-              <p className="font-['CRONDE:Regular',sans-serif] text-[32px] leading-tight">Where it all started</p>
+              <p className={`${HEADER_FONT} text-[32px] leading-tight`}>Where it all started</p>
               <p className={`${BODY_COPY} opacity-90`}>
                 Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut.
               </p>
               <a
                 href="#timeline"
                 onClick={(e) => { e.preventDefault(); window.location.hash = "#timeline"; }}
-                className="font-['Futura_PT:Book',sans-serif] text-[15px] text-white underline underline-offset-4 decoration-1 cursor-pointer"
+                className={`${BODY_COPY} text-[15px] text-white underline underline-offset-4 decoration-1 cursor-pointer`}
               >
                 Read Full Timeline
               </a>
@@ -571,12 +610,10 @@ export function PreTimelineSection() {
               className="w-full max-w-[420px] h-auto"
             />
             <div className="mt-[-150px]">
-              <p className="text-[#192441] text-[64px] leading-[1]"
-                 style={{ fontFamily: "'CRONDE:Regular'" }}>
+              <p className={`${HEADER_FONT} text-[#192441] text-[64px] leading-[1]`}>
                 Praise God
               </p>
-              <p className="text-[#192441] text-[64px] leading-[1]"
-                 style={{ fontFamily: "'CRONDE:Regular'" }}>
+              <p className={`${HEADER_FONT} text-[#192441] text-[64px] leading-[1]`}>
                 With US!
               </p>
             </div>
@@ -601,7 +638,7 @@ export function PreTimelineSection() {
               <div aria-hidden className="absolute border-[5px] border-solid border-white inset-0 pointer-events-none" />
             </div>
             <div className="[word-break:break-word] content-stretch flex flex-col gap-[24px] items-start leading-[0] not-italic relative shrink-0 text-white w-[538px]">
-              <div className="flex flex-col font-['CRONDE:Regular',sans-serif] justify-center min-w-full relative shrink-0 text-[48px] w-[min-content]">
+              <div className={`flex flex-col ${HEADER_FONT} justify-center min-w-full relative shrink-0 text-[48px] w-[min-content]`}>
                 <p className="leading-[normal]">Where it all started</p>
               </div>
               <div className={`flex flex-col ${BODY_COPY} justify-center relative shrink-0 w-full opacity-90`}>
@@ -612,7 +649,7 @@ export function PreTimelineSection() {
               <a
                 href="#timeline"
                 onClick={(e) => { e.preventDefault(); window.location.hash = "#timeline"; }}
-                className="font-['Futura_PT:Book',sans-serif] text-[16px] text-white underline underline-offset-4 decoration-1 cursor-pointer"
+                className={`${BODY_COPY} text-[16px] text-white underline underline-offset-4 decoration-1 cursor-pointer`}
               >
                 Read Full Timeline
               </a>
@@ -698,12 +735,12 @@ export function TimelineSection({
 
         <div className="relative z-10 flex flex-col items-center text-center max-w-[420px]" style={{ opacity: contentOpacity, transition: "opacity 0.25s ease" }}>
           <p
-            className="text-white mb-3"
-            style={{ fontFamily: "'CRONDE'", fontSize: 44, opacity: labelsOpacity, transition: "opacity 0.35s ease" }}
+            className={`text-white mb-3 ${HEADER_FONT}`}
+            style={{ fontSize: 44, opacity: labelsOpacity, transition: "opacity 0.35s ease" }}
           >
             {entry.year}
           </p>
-          <h3 className="font-['CRONDE'] text-[24px] text-white mb-3 leading-tight">
+          <h3 className={`${HEADER_FONT} text-[24px] text-white mb-3 leading-tight`}>
             {entry.title}
           </h3>
           <p className={`${BODY_COPY} text-white opacity-90`}>
@@ -712,14 +749,7 @@ export function TimelineSection({
         </div>
 
         <div className="relative z-10 mt-8" style={{ opacity: dotsOpacity }}>
-          <p style={{
-            fontFamily: "'Futura PT', sans-serif",
-            fontSize: 12,
-            color: "#D9C7A8",
-            opacity: 0.7,
-            letterSpacing: "0.14em",
-            margin: 0,
-          }}>
+          <p className={`${BODY_COPY} text-[12px] text-[#D9C7A8] opacity-70 tracking-[0.14em] m-0`}>
             {String(activeYearIndex + 1).padStart(2, "0")} / {String(TIMELINE_DATA.length).padStart(2, "0")}
           </p>
         </div>
@@ -786,8 +816,8 @@ export function TimelineSection({
 
         {/* Title */}
         <div
-          className="-translate-x-1/2 -translate-y-1/2 [word-break:break-word] absolute flex flex-col justify-center leading-[0] left-[calc(50%+7.5px)] not-italic text-center text-white top-[202px] whitespace-nowrap"
-          style={{ fontFamily: "'CRONDE', sans-serif", fontSize: 48, opacity: contentOpacity, transition: "opacity 0.25s ease" }}
+          className={`-translate-x-1/2 -translate-y-1/2 [word-break:break-word] absolute flex flex-col ${HEADER_FONT} justify-center leading-[0] left-[calc(50%+7.5px)] not-italic text-center text-white top-[202px] whitespace-nowrap`}
+          style={{ fontSize: 48, opacity: contentOpacity, transition: "opacity 0.25s ease" }}
         >
           <p className="leading-[normal]">{entry.title}</p>
         </div>
@@ -805,15 +835,7 @@ export function TimelineSection({
           className="absolute bottom-[32px] left-1/2 -translate-x-1/2"
           style={{ opacity: dotsOpacity }}
         >
-          <p style={{
-            fontFamily: "'Futura PT', sans-serif",
-            fontSize: 13,
-            color: "#D9C7A8",
-            opacity: 0.55,
-            letterSpacing: "0.14em",
-            margin: 0,
-            whiteSpace: "nowrap",
-          }}>
+          <p className={`${BODY_COPY} text-[13px] text-[#D9C7A8] opacity-55 tracking-[0.14em] m-0 whitespace-nowrap`}>
             {String(activeYearIndex + 1).padStart(2, "0")} / {String(TIMELINE_DATA.length).padStart(2, "0")}
           </p>
         </div>
@@ -828,7 +850,7 @@ export function PostTimelineSection() {
 
       {/* ══════════════════ MOBILE / TABLET ══════════════════ */}
       <div className="flex md:hidden flex-col items-center text-center px-6 py-16 gap-8">
-        <p className="font-['CRONDE:Regular',sans-serif] text-[#192441] text-[44px] leading-tight">
+        <p className={`${HEADER_FONT} text-[#192441] text-[44px] leading-tight`}>
           50 Years<br />{`Of God's Faithful Ministry`}
         </p>
         <div className="grid grid-cols-2 gap-4 w-full max-w-[420px]">
@@ -843,7 +865,7 @@ export function PostTimelineSection() {
           onClick={() => { window.location.hash = "#gallery"; }}
           className="flex items-center justify-center p-[12px] rounded-[2px] w-full max-w-[280px] bg-[#192441] cursor-pointer border-0"
         >
-          <span className="font-['Futura_PT:Book',sans-serif] text-[16px] text-white">
+          <span className={`${BODY_COPY} text-[16px] text-white`}>
             View Full Gallery
           </span>
         </button>
@@ -865,7 +887,7 @@ export function PostTimelineSection() {
             <div className="absolute flex h-[272.731px] items-center justify-center left-[1078px] top-[76px] w-[263.21px]">
               <div className="flex-none rotate-[13.81deg]"><PhotoCard /></div>
             </div>
-            <div className="-translate-x-1/2 -translate-y-1/2 [word-break:break-word] absolute flex flex-col font-['CRONDE:Regular',sans-serif] justify-center leading-[0] left-[calc(50%+0.5px)] not-italic text-[#192441] text-[72px] text-center top-[416.5px] w-[525px]">
+            <div className={`-translate-x-1/2 -translate-y-1/2 [word-break:break-word] absolute flex flex-col ${HEADER_FONT} justify-center leading-[0] left-[calc(50%+0.5px)] not-italic text-[#192441] text-[72px] text-center top-[416.5px] w-[525px]`}>
               <p className="leading-[normal]">Years<br />{`Of God's Faithful Ministry`}</p>
             </div>
             <div className="absolute flex h-[272.02px] items-center justify-center left-[102.33px] top-[280.35px] w-[262.426px]">
@@ -882,9 +904,8 @@ export function PostTimelineSection() {
             <button
               onClick={() => { window.location.hash = "#gallery"; }}
               className="absolute flex h-[42px] items-center justify-center left-[603px] p-[12px] rounded-[2px] top-[601px] w-[235px] bg-[#192441] cursor-pointer border-0"
-              style={{ fontFamily: "inherit" }}
             >
-              <div className="[word-break:break-word] flex flex-col font-['Futura_PT:Book',sans-serif] justify-center leading-[0] not-italic relative shrink-0 text-[16px] text-center text-white whitespace-nowrap">
+              <div className={`[word-break:break-word] flex flex-col ${BODY_COPY} justify-center leading-[0] not-italic relative shrink-0 text-[16px] text-center text-white whitespace-nowrap`}>
                 <p className="leading-[normal]">View Full Gallery</p>
               </div>
             </button>
@@ -899,6 +920,7 @@ export function PostTimelineSection() {
     </div>
   );
 }
+
 // ─── Stories section (ukhome4 — "Voices of the Journey") ─────────────────────
 
 const STORIES = [
@@ -922,18 +944,29 @@ const STORIES = [
   },
 ];
 
+// ── FIX: exported height/anchor so App.tsx (or any absolute-offset layout
+// math for surrounding sections) can size this section correctly instead of
+// guessing — the previous file had no such export, unlike PreTimelineSection,
+// which is the most likely reason this section was being clipped.
+export const STORIES_MIN_H = 800;
+
 export function StoriesSection() {
   return (
+    // FIX: removed `overflow-clip` — this section has no fixed height (it
+    // uses minHeight + "auto" so content-driven height can grow), so clipping
+    // overflow here silently cuts off content whenever the cards + heading +
+    // CTA add up to more than the 800px minimum. Letting the box grow
+    // naturally is what "height: auto" was already trying to do.
     <div
-      className="relative w-full overflow-clip px-4 md:px-0"
-      style={{ minHeight: 800, height: "auto", background: "#FCF9F2" }}
+      className="relative w-full px-4 md:px-0"
+      style={{ minHeight: STORIES_MIN_H, background: "#FCF9F2" }}
     >
       {/* Heading */}
       <div className="mt-8 pt-12 md:pt-20 pb-8 md:pb-0 mx-auto max-w-[680px] text-center">
-        <p className="font-['Futura_PT'] text-[10px] md:text-[12px] text-[#192441] tracking-[0.22em] opacity-45 uppercase mb-4 md:mb-5">
+        <p className={`${BODY_COPY} text-[10px] md:text-[12px] text-[#192441] tracking-[0.22em] opacity-45 uppercase mb-4 md:mb-5`}>
           Stories of Ministry
         </p>
-        <h2 className="font-['CRONDE'] text-[36px] md:text-[58px] text-[#192441] leading-tight mb-4 md:mb-6">
+        <h2 className={`${HEADER_FONT} text-[36px] md:text-[58px] text-[#192441] leading-tight mb-4 md:mb-6`}>
           Voices of the Journey
         </h2>
         <p className={`${BODY_COPY} text-[#192441] opacity-55`}>
@@ -954,10 +987,10 @@ export function StoriesSection() {
               />
             </div>
             {/* Meta */}
-            <p className="font-['Futura_PT',sans-serif] text-[11px] md:text-[12px] text-[#192441] opacity-45 mt-4 md:mt-5 mb-2 tracking-[0.14em]">
+            <p className={`${BODY_COPY} text-[11px] md:text-[12px] text-[#192441] opacity-45 mt-4 md:mt-5 mb-2 tracking-[0.14em]`}>
               {story.tag}
             </p>
-            <h3 className="font-['CRONDE',sans-serif] text-[18px] md:text-[22px] text-[#192441] mb-2 md:mb-3 leading-tight">
+            <h3 className={`${HEADER_FONT} text-[18px] md:text-[22px] text-[#192441] mb-2 md:mb-3 leading-tight`}>
               {story.title}
             </h3>
             <p className={`${BODY_COPY} text-[#192441] opacity-60`}>
@@ -971,7 +1004,7 @@ export function StoriesSection() {
       <div className="pb-20 md:pb-[60px] flex justify-center">
         <div
           onClick={() => { window.location.hash = "#watch"; }}
-          className="bg-[#192441] text-white font-['Futura_PT',sans-serif] text-[13px] md:text-[14px] tracking-wide py-3 md:py-3.5 px-8 md:px-9 rounded-full cursor-pointer whitespace-nowrap"
+          className={`${BODY_COPY} bg-[#192441] text-white text-[13px] md:text-[14px] tracking-wide py-3 md:py-3.5 px-8 md:px-9 rounded-full cursor-pointer whitespace-nowrap`}
         >
           View All Stories
         </div>

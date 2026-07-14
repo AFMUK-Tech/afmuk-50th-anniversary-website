@@ -1,11 +1,11 @@
 import { useEffect, useState } from "react";
 import type { ReactElement } from "react";
-import Nav from "../../imports/Nav/index";
-import MobileNav from "./MobileNav";
+import { SiteHeader, useSiteScale, useIsMobile, DESIGN_WIDTH } from "./SiteHeader";
 
-const DESIGN_WIDTH = 1440;
+// Replace this with your actual image import
+// import crestImage from "./assets/crest.png";
+
 const DESIGN_HEIGHT = 1120;
-const NAV_H = 80;
 
 interface DepartmentCard {
   title: string;
@@ -45,6 +45,7 @@ const DEPARTMENT_CARDS: DepartmentCard[] = [
   },
 ];
 
+// If you want to keep the SVG shield, use this. If you want your imported image, use the <img> tag inside the card instead.
 function CrestIcon({ size = 90 }: { size?: number }): ReactElement {
   const h = (size * 104) / 90;
   return (
@@ -92,6 +93,10 @@ function DepartmentCardView({ card }: { card: DepartmentCard }): ReactElement {
       }}
     >
       <div style={{ marginBottom: 22 }}>
+        {/* 
+          OPTION 1: To use your imported image, uncomment this line and delete the <CrestIcon /> below:
+          <img src={crestImage} alt="Crest" style={{ width: 90, height: 'auto', display: 'block' }} /> 
+        */}
         <CrestIcon />
       </div>
       <h3
@@ -130,26 +135,23 @@ function DepartmentCanvas(): ReactElement {
 
       {/* Title */}
       <div
-        className="-translate-x-1/2 absolute mt-10 flex flex-col font-['CRONDE:Regular'] justify-center leading-[0] not-italic text-[#0f1421] text-center"
-        style={{ left: "50%", top: 68, width: "60%", fontSize: "clamp(36px, 4.44vw, 64px)" }}
+        className="-translate-x-1/2 absolute mt-10 flex flex-col justify-center leading-[0] not-italic text-[#0f1421] text-center"
+        style={{ left: "50%", top: 68, width: "60%", fontSize: "clamp(36px, 4.44vw, 64px)", fontFamily: "CRONDE, serif" }}
       >
-        <p className="leading-[normal]">Departments & Ministries</p>
+        <p className="leading-[normal]">Department</p>
       </div>
 
       {/* Description paragraph */}
       <div
-        className="-translate-x-1/2 absolute mt-10 font-['Futura_PT:Book',sans-serif] text-center"
-        style={{ left: "50%", top: 148, width: "58%", fontSize: "clamp(13px, 1.11vw, 16px)", lineHeight: 1.7, color: "#3b3b3b" }}
+        className="-translate-x-1/2 absolute mt-10 text-center"
+        style={{ left: "50%", top: 148, width: "58%", fontSize: "clamp(13px, 1.11vw, 16px)", lineHeight: 1.7, color: "#3b3b3b", fontFamily: "Futura PT, sans-serif" }}
       >
         <p style={{ margin: 0 }}>
-          Every ministry below is drawn from our fifty-year history — from a
-          single organ in the earliest Peckham services to a national Youth
-          Camp drawing 240 people a year. Whatever your gifting, there is a
-          place to serve.
+          Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident.
         </p>
       </div>
 
-      {/* Cards grid */}
+      {/* Cards grid - 3 COLUMNS for desktop */}
       <div
         className="absolute"
         style={{
@@ -157,7 +159,7 @@ function DepartmentCanvas(): ReactElement {
           right: "9.7%",
           top: 288,
           display: "grid",
-          gridTemplateColumns: "repeat(3, 1fr)",
+          gridTemplateColumns: "repeat(3, 1fr)", 
           columnGap: 40,
           rowGap: 40,
         }}
@@ -177,19 +179,14 @@ function DepartmentMobile(): ReactElement {
     <div style={{ width: "100%", background: "#fcf9f2", position: "relative", paddingTop: 96, paddingBottom: 48 }}>
       <div style={{ position: "relative", padding: "0 20px" }}>
         <h1
-          className="font-['CRONDE:Regular',sans-serif]"
-          style={{ margin: 0, marginBottom: 12, fontSize: 30, color: "#0f1421", textAlign: "center", lineHeight: 1.15 }}
+          style={{ margin: 0, marginBottom: 12, fontSize: 32, color: "#0f1421", textAlign: "center", lineHeight: 1.15, fontFamily: "CRONDE, serif" }}
         >
-          Departments & Ministries
+          Department
         </h1>
         <p
-          className="font-['Futura_PT:Book',sans-serif]"
-          style={{ margin: "0 auto 28px", maxWidth: 480, fontSize: 14, lineHeight: 1.7, color: "#3b3b3b", textAlign: "center" }}
+          style={{ margin: "0 auto 28px", maxWidth: 480, fontSize: 14, lineHeight: 1.7, color: "#3b3b3b", textAlign: "center", fontFamily: "Futura PT, sans-serif" }}
         >
-          Every ministry below is drawn from our fifty-year history — from a
-          single organ in the earliest Peckham services to a national Youth
-          Camp drawing 240 people a year. Whatever your gifting, there is a
-          place to serve.
+          Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam.
         </p>
 
         <div style={{ display: "flex", flexDirection: "column", gap: 20 }}>
@@ -199,7 +196,7 @@ function DepartmentMobile(): ReactElement {
               style={{
                 background: "#ffffff",
                 boxShadow: "0px 2px 10px 0px rgba(0,0,0,0.06)",
-                padding: "24px 20px",
+                padding: "28px 20px",
                 display: "flex",
                 flexDirection: "column",
                 alignItems: "center",
@@ -207,11 +204,11 @@ function DepartmentMobile(): ReactElement {
               }}
             >
               <div style={{ marginBottom: 16 }}>
+                {/* <img src={crestImage} alt="Crest" style={{ width: 64, height: 'auto', display: 'block' }} /> */}
                 <CrestIcon size={64} />
               </div>
               <h3
-                className="font-['Futura_PT:Book',sans-serif]"
-                style={{ margin: 0, marginBottom: 10, fontSize: 17, fontWeight: 500, color: "#0f1421", lineHeight: 1.3 }}
+                style={{ margin: 0, marginBottom: 10, fontSize: 17, fontWeight: 500, color: "#0f1421", lineHeight: 1.3, fontFamily: "Futura PT, sans-serif" }}
               >
                 {card.title}
               </h3>
@@ -227,23 +224,9 @@ function DepartmentMobile(): ReactElement {
 }
 
 export function DepartmentPage({ onBack }: { onBack?: () => void } = {}): ReactElement {
-  const [isMobile, setIsMobile] = useState(
-    typeof window !== "undefined" ? window.innerWidth < 768 : false
-  );
+  const isMobile = useIsMobile();
+  const scale = useSiteScale();
   const [fadeIn, setFadeIn] = useState(false);
-  const [scale, setScale] = useState<number>(
-    typeof window !== "undefined" ? window.innerWidth / DESIGN_WIDTH : 1
-  );
-
-  useEffect(() => {
-    const update = () => {
-      setIsMobile(window.innerWidth < 768);
-      setScale(Math.min(Math.max(window.innerWidth / DESIGN_WIDTH, 0.3), 1.2));
-    };
-    update();
-    window.addEventListener("resize", update);
-    return () => window.removeEventListener("resize", update);
-  }, []);
 
   useEffect(() => {
     requestAnimationFrame(() => setFadeIn(true));
@@ -251,9 +234,7 @@ export function DepartmentPage({ onBack }: { onBack?: () => void } = {}): ReactE
 
   return (
     <div style={{ width: "100%", minHeight: "100vh", background: "#fcf9f2", position: "relative" }}>
-      <div style={{ position: "fixed", top: 0, left: 0, width: "100%", zIndex: 100, height: isMobile ? "auto" : NAV_H }}>
-        {isMobile ? <MobileNav /> : <Nav />}
-      </div>
+      <SiteHeader />
 
       <div
         style={{

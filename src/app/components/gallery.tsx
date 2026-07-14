@@ -2,8 +2,7 @@
 import { useEffect, useState } from "react";
 import type { ReactElement } from "react";
 import svgPaths from "../../imports/Frame28-1/svg-507rsgd0a0";
-import Nav from "../../imports/Nav/index";
-import MobileNav from "./MobileNav";
+import { SiteHeader, useSiteScale, useIsMobile, DESIGN_WIDTH } from "./SiteHeader";
 
 // Static imports
 import image14 from "../../imports/Frame28-1/13080b4795fd0ccbe725b61298f65577a198e84f.png";
@@ -17,9 +16,7 @@ interface SvgPaths {
 }
 const _svgPaths = svgPaths as unknown as SvgPaths;
 
-const DESIGN_WIDTH = 1440;
 const DESIGN_HEIGHT = 1000;
-const NAV_H = 80;
 
 interface Slide {
   label: string;
@@ -95,20 +92,20 @@ function GalleryCanvas(): ReactElement {
       </div>
 
       {/* Title */}
-<div
-  className="-translate-x-1/2 -translate-y-1/2 absolute mt-10 flex flex-col font-['CRONDE:Regular'] justify-center leading-[0] not-italic text-[#0f1421] text-center"
-  style={{
-    left: "50%",
-    top: "23.8%",
-    width: "70%",
-    maxWidth: 900,
-    fontSize: "clamp(32px, 6.11vw, 88px)",
-    whiteSpace: "normal",
-    wordBreak: "break-word",
-  }}
->
-  <p className="leading-[normal]">Our pictures over the years</p>
-</div>
+      <div
+        className="-translate-x-1/2 -translate-y-1/2 absolute mt-10 flex flex-col font-['CRONDE:Regular'] justify-center leading-[0] not-italic text-[#0f1421] text-center"
+        style={{
+          left: "50%",
+          top: "23.8%",
+          width: "70%",
+          maxWidth: 900,
+          fontSize: "clamp(32px, 6.11vw, 88px)",
+          whiteSpace: "normal",
+          wordBreak: "break-word",
+        }}
+      >
+        <p className="leading-[normal]">Our pictures over the years</p>
+      </div>
 
       {/* Frame14 — card container */}
       <div
@@ -424,23 +421,9 @@ function GalleryMobile(): ReactElement {
 }
 
 export function GalleryPage({ onBack }: { onBack?: () => void } = {}): ReactElement {
-  const [isMobile, setIsMobile] = useState(
-    typeof window !== "undefined" ? window.innerWidth < 768 : false
-  );
+  const isMobile = useIsMobile();
+  const scale = useSiteScale();
   const [fadeIn, setFadeIn] = useState(false);
-  const [scale, setScale] = useState<number>(
-    typeof window !== "undefined" ? window.innerWidth / DESIGN_WIDTH : 1
-  );
-
-  useEffect(() => {
-    const update = () => {
-      setIsMobile(window.innerWidth < 768);
-      setScale(Math.min(Math.max(window.innerWidth / DESIGN_WIDTH, 0.3), 1.2));
-    };
-    update();
-    window.addEventListener("resize", update);
-    return () => window.removeEventListener("resize", update);
-  }, []);
 
   useEffect(() => {
     requestAnimationFrame(() => setFadeIn(true));
@@ -448,9 +431,7 @@ export function GalleryPage({ onBack }: { onBack?: () => void } = {}): ReactElem
 
   return (
     <div style={{ width: "100%", minHeight: "100vh", background: "#fcf9f2", position: "relative" }}>
-      <div style={{ position: "fixed", top: 0, left: 0, width: "100%", zIndex: 100, height: isMobile ? "auto" : NAV_H }}>
-        {isMobile ? <MobileNav /> : <Nav />}
-      </div>
+      <SiteHeader />
 
       <div
         style={{

@@ -1,0 +1,28 @@
+/* Add this to your global CSS or index.css */
+@font-face {
+  font-family: 'CRONDE';
+  src: url('/fonts/CRONDE.woff2') format('woff2'),
+       url('/fonts/CRONDE.woff') format('woff'),
+       url('/fonts/CRONDE.ttf') format('truetype');
+  font-weight: normal;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'Futura PT';
+  src: url('/fonts/FuturaPT-Book.woff2') format('woff2'),
+       url('/fonts/FuturaPT-Book.woff') format('woff');
+  font-weight: 400; /* Book weight */
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'Futura PT';
+  src: url('/fonts/FuturaPT-Heavy.woff2') format('woff2'),
+       url('/fonts/FuturaPT-Heavy.woff') format('woff');
+  font-weight: 700; /* Heavy weight */
+  font-style: normal;
+  font-display: swap;
+}

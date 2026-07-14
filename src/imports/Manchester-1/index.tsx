@@ -29,21 +29,21 @@ function ChevronIcon({ className = "" }: { className?: string }) {
 function BranchTitle() {
   return (
     <div className="mx-auto flex w-full max-w-[1096px] flex-col items-center gap-6 px-4 py-8 text-center sm:py-12 md:flex-row md:items-center md:justify-between md:text-left lg:py-16">
-      <div className="mt-10 flex flex-col items-center gap-3 md:flex-row md:items-center md:gap-4">
-        <img
-          src={imgCrest}
-          alt="Manchester branch crest"
-          className="size-50 sm:object-contain object-cover sm:size-20 md:size-24 lg:size-[200px]"
-        />
-        <div className="flex flex-col items-center gap-1 sm:gap-2 md:items-start mt-[-50px] md:mt-0">
-          <p className="font-['Futura_PT:Book',sans-serif] text-lg text-[#949494] sm:text-xl lg:text-2xl">
-            Branch
-          </p>
-          <h1 className="font-['CRONDE:Regular',sans-serif] text-4xl leading-none text-[#38362d] sm:text-5xl lg:text-[64px]">
-            Manchester
-          </h1>
-        </div>
-      </div>
+     <div className="mt-10 flex flex-col items-center md:flex-row md:items-center md:gap-2">
+  <img
+    src={imgCrest}
+    alt="Manchester branch crest"
+    className="size-40 sm:object-contain object-cover sm:size-20 md:size-24 lg:size-[200px]"
+  />
+  <div className="flex flex-col items-center sm:gap-1 md:items-start mt-[-20px] md:mt-0 ml-[-50px] sm:mr-[-10px] md:mr-0">
+    <p className="font-['Futura_PT'] text-lg text-[#949494] sm:text-xl lg:text-2xl">
+      Branch
+    </p>
+    <h1 className="font-['CRONDE:Regular'] text-4xl leading-none text-[#38362d] sm:text-5xl lg:text-[64px]">
+      Manchester
+    </h1>
+  </div>
+</div>
 
       <div className="hidden flex-col items-center gap-1 sm:gap-2 md:flex md:items-end md:text-right">
         <p className="font-['Futura_PT:Heavy',sans-serif] text-lg text-[#38362d] sm:text-xl lg:text-2xl">
