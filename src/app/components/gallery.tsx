@@ -96,7 +96,7 @@ function GalleryCanvas(): ReactElement {
 
       {/* Title */}
 <div
-  className="-translate-x-1/2 -translate-y-1/2 absolute flex flex-col font-['CRONDE:Regular',sans-serif] justify-center leading-[0] not-italic text-[#0f1421] text-center"
+  className="-translate-x-1/2 -translate-y-1/2 absolute mt-10 flex flex-col font-['CRONDE:Regular'] justify-center leading-[0] not-italic text-[#0f1421] text-center"
   style={{
     left: "50%",
     top: "23.8%",
