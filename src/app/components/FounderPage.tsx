@@ -6,6 +6,12 @@ import imgImage16 from "../../imports/Frame31/d060be9ce61288ad16074db37bfbb70d4d
 import imgImage14 from "../../imports/Frame31/a74f4e0909ba84ee9c9c4e2716d87721443d1e91.png";
 import imgImage15 from "../../imports/Frame31/4220d400525c50945c5ca0ef50b76d513a3cec9d.png";
 
+// Font FAMILY is controlled globally (fonts.css / globals.css) via
+// var(--font-heading) on h1-h6/.site-heading and var(--font-body) on
+// p/li/label/blockquote/figcaption. This file only imports size/weight
+// helpers — it never sets fontFamily inline, since inline styles can't
+// beat the global !important tag rules anyway.
+import { BODY_STYLE, headingSize, labelSize } from "../../styles/typography";
 
 function useContentHeight<T extends HTMLElement>() {
   const ref = useRef<T | null>(null);
@@ -74,7 +80,6 @@ const MOBILE_FRACTIONS = [0.16, 0.25, 0.42, 0.25, 0.16];
 const MOBILE_OPACITIES = [0.34, 0.5, 1, 0.5, 0.34];
 const MOBILE_ASPECT = 1.258;
 
-
 function CarouselCard({
   item,
   size,
@@ -120,10 +125,10 @@ function CarouselCard({
           }}
         />
       </div>
-      <p
+      {/* figcaption -> var(--font-body) globally, no inline fontFamily needed */}
+      <figcaption
         style={{
-          fontFamily: "'Futura PT', sans-serif",
-          fontSize: size.w < 200 ? 11 : size.w < 300 ? 19 : 25,
+          ...labelSize(size.w < 200 ? 11 : size.w < 300 ? 19 : 25),
           color: "#0f1421",
           whiteSpace: "nowrap",
           overflow: "hidden",
@@ -133,7 +138,7 @@ function CarouselCard({
         }}
       >
         {item.label}
-      </p>
+      </figcaption>
     </div>
   );
 }
@@ -264,23 +269,23 @@ function FounderCarouselMobile() {
           </svg>
         </button>
 
-      <div style={{ display: "flex", gap: 3, alignItems: "center" }}>
-       {ITEMS.map((_, i) => (
-         <span
-         key={i}
-      onClick={() => setActive(i)}
-      style={{
-        width: 4,
-        height: 4,
-        borderRadius: "50%",
-        display: "inline-block",
-        backgroundColor: i === active ? "#192441" : "#D8D8D8",
-        cursor: "pointer",
-        transition: "background-color 0.2s ease",
-      }}
-    />
-  ))}
-</div>
+        <div style={{ display: "flex", gap: 3, alignItems: "center" }}>
+          {ITEMS.map((_, i) => (
+            <span
+              key={i}
+              onClick={() => setActive(i)}
+              style={{
+                width: 4,
+                height: 4,
+                borderRadius: "50%",
+                display: "inline-block",
+                backgroundColor: i === active ? "#192441" : "#D8D8D8",
+                cursor: "pointer",
+                transition: "background-color 0.2s ease",
+              }}
+            />
+          ))}
+        </div>
 
         <button
           onClick={next}
@@ -295,6 +300,7 @@ function FounderCarouselMobile() {
     </div>
   );
 }
+
 /* ---------- Mobile page body ---------- */
 
 function FounderMobile() {
@@ -361,6 +367,8 @@ function FounderMobile() {
             His final sermon before retirement was titled "Don't Deal in Sin, Don't Deal with Man, Deal with God" — words his family remember as capturing the whole of his ministry. On 30 April 2000, he passed leadership to Brother Isaac Adigun in a service attended by church leaders from Portland, Lagos, and Scandinavia.
           </p>
 
+          {/* blockquote -> var(--font-body) globally per your CSS (blockquote is in the body-font list).
+              Removed the old inline CRONDE override — it was being silently discarded by !important anyway. */}
           <blockquote
             style={{
               borderLeft: "3px solid #192441",
@@ -370,17 +378,10 @@ function FounderMobile() {
               fontSize: 20,
               lineHeight: 1.45,
               color: "#192441",
-              fontStyle: "italic",
             }}
           >
             "Our first Sunday School service was held on Sunday, 11 April 1976, at 18 Doverfield Road, Clapham Park — the home of Brother Victor Okusanya's sister. Only three members were present: Brother Victor Okusanya, Sister Comfort Martins, and myself."
-            <div style={{ 
-              fontFamily: "'Futura PT', sans-serif", 
-              fontSize: 13, 
-              fontStyle: "normal", 
-              color: "#6b6b6b", 
-              marginTop: 12 
-            }}>
+            <div style={{ ...labelSize(13), fontStyle: "normal", color: "#6b6b6b", marginTop: 12 }}>
               Brother Shuaibu Adeoye, one of the three present at the very first meeting, 11 April 1976
             </div>
           </blockquote>
@@ -426,24 +427,6 @@ function FounderMobile() {
           }}>
             "Earnestly contend for the faith which was once delivered unto the saints." — Jude 3
           </p>
-
-          {/* <div style={{ textAlign: "center", marginTop: 4 }}>
-            <div
-              style={{
-                display: "inline-block",
-                background: "#192441",
-                color: "#fff",
-                fontFamily: "'Futura PT', sans-serif",
-                fontSize: 13,
-                letterSpacing: "0.03em",
-                padding: "12px 24px",
-                borderRadius: 999,
-                cursor: "pointer",
-              }}
-            >
-              Read the Full Story in Our 50th Anniversary Book
-            </div>
-          </div> */}
         </div>
 
         <FounderCarouselMobile />
@@ -539,10 +522,8 @@ export function FounderPage({ onBack: _onBack }: { onBack?: () => void } = {}) {
                         fontFamily: "'CRONDE', serif",
                         fontSize: 72,
                         color: "#0f1421",
-                        textAlign: "center",
                         margin: 0,
                         lineHeight: 1,
-                        width: "100%",
                       }}
                     >
                       Founders
@@ -597,6 +578,7 @@ export function FounderPage({ onBack: _onBack }: { onBack?: () => void } = {}) {
                       His final sermon before retirement was titled "Don't Deal in Sin, Don't Deal with Man, Deal with God" — words his family remember as capturing the whole of his ministry. On 30 April 2000, he passed leadership to Brother Isaac Adigun in a service attended by church leaders from Portland, Lagos, and Scandinavia.
                     </p>
 
+                    {/* blockquote -> body font via global CSS; inline CRONDE removed */}
                     <blockquote
                       style={{
                         borderLeft: "3px solid #192441",
@@ -606,17 +588,10 @@ export function FounderPage({ onBack: _onBack }: { onBack?: () => void } = {}) {
                         fontSize: 25,
                         lineHeight: 1.4,
                         color: "#192441",
-                        fontStyle: "italic",
                       }}
                     >
                       "Our first Sunday School service was held on Sunday, 11 April 1976, at 18 Doverfield Road, Clapham Park — the home of Brother Victor Okusanya's sister. Only three members were present: Brother Victor Okusanya, Sister Comfort Martins, and myself."
-                      <div style={{ 
-                        fontFamily: "'Futura PT', sans-serif", 
-                        fontSize: 16, 
-                        fontStyle: "normal", 
-                        color: "#6b6b6b", 
-                        marginTop: 14 
-                      }}>
+                      <div style={{ ...labelSize(16), fontStyle: "normal", color: "#6b6b6b", marginTop: 14 }}>
                         Brother Shuaibu Adeoye, one of the three present at the very first meeting, 11 April 1976
                       </div>
                     </blockquote>
@@ -662,8 +637,6 @@ export function FounderPage({ onBack: _onBack }: { onBack?: () => void } = {}) {
                     }}>
                       "Earnestly contend for the faith which was once delivered unto the saints." — Jude 3
                     </p>
-
-               
                   </div>
 
                   <FounderCarousel />

@@ -1,6 +1,14 @@
 import { useEffect, useState } from "react";
 import { SiteHeader, useIsMobile } from "./SiteHeader";
-export function ShopPage({ onBack }: { onBack: () => void }) {
+
+// Font FAMILY is controlled globally (fonts.css / globals.css) via
+// var(--font-heading) on h1-h6/.site-heading and var(--font-body) on
+// p/li/label/blockquote/figcaption. This file only imports size/weight
+// helpers — it never sets fontFamily inline, since inline styles can't
+// beat the global !important tag rules anyway.
+import { BODY_STYLE, headingSize, labelSize } from "../../styles/typography";
+
+export function ShopPage({ onBack: _onBack }: { onBack: () => void }) {
   const isMobile = useIsMobile();
   const [fadeIn, setFadeIn] = useState(false);
 
@@ -26,31 +34,24 @@ export function ShopPage({ onBack }: { onBack: () => void }) {
           padding: "80px 24px 64px",
         }}
       >
-        {/* <button
-          onClick={onBack}
+        {/* Eyebrow label — small metadata, body font via the <p> tag rule */}
+        <p
           style={{
-            position: "fixed",
-            top: isMobile ? "calc(72px + max(12px, env(safe-area-inset-top)))" : "max(16px, env(safe-area-inset-top))",
-            right: "max(16px, env(safe-area-inset-right))",
-            zIndex: 90,
-            background: "#192441", color: "#fff", border: "none", borderRadius: 6,
-            padding: "8px 18px", fontFamily: "'Futura PT', sans-serif", fontSize: 13,
-            cursor: "pointer", letterSpacing: "0.04em",
+            ...labelSize(12, { letterSpacing: "0.2em", textTransform: "uppercase" }),
+            color: "#8b7f6a",
+            marginBottom: 16,
           }}
         >
-          ← Back
-        </button> */}
-
-        <p style={{ fontFamily: "'Futura PT', sans-serif", fontSize: 12, letterSpacing: "0.2em", textTransform: "uppercase", color: "#8b7f6a", marginBottom: 16 }}>
           AFC UK & Western Europe — Golden Jubilee
         </p>
-        <h1 style={{ fontFamily: "'CRONDE', serif", fontSize: "clamp(36px, 8vw, 64px)", color: "#192441", margin: 0, marginBottom: 24 }}>
+        {/* Real <h1> so var(--font-heading) applies via the global h1-h6 rule */}
+        <h1 style={{ ...headingSize(50, { fontWeight: 400 }), color: "#192441", margin: 0, marginBottom: 24 }}>
           Anniversary Shop
         </h1>
-        <p style={{ fontFamily: "'Futura PT', sans-serif", fontSize: 16, lineHeight: 1.7, color: "#4a4535", maxWidth: 560, marginBottom: 8 }}>
+        <p style={{ ...BODY_STYLE, color: "#4a4535", maxWidth: 560, marginBottom: 8 }}>
           Our Golden Jubilee shop is on its way — commemorative books, apparel, and keepsakes marking fifty years of ministry.
         </p>
-        <p style={{ fontFamily: "'Futura PT', sans-serif", fontSize: 14, fontStyle: "italic", color: "#aaa" }}>
+        <p style={{ ...labelSize(14, { fontStyle: "italic" }), color: "#aaa" }}>
           Product listings and checkout coming soon.
         </p>
       </div>

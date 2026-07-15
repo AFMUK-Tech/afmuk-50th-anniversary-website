@@ -2,8 +2,12 @@ import { useEffect, useState } from "react";
 import type { ReactElement } from "react";
 import { SiteHeader, useSiteScale, useIsMobile, DESIGN_WIDTH } from "./SiteHeader";
 
-// Replace this with your actual image import
-// import crestImage from "./assets/crest.png";
+// Font FAMILY is controlled globally (fonts.css / globals.css) via
+// var(--font-heading) on h1-h6/.site-heading and var(--font-body) on
+// p/li/label/blockquote/figcaption. This file only imports size/weight
+// helpers — it never sets fontFamily inline, since inline styles can't
+// beat the global !important tag rules anyway.
+import { BODY_STYLE, headingSize } from "../../styles/typography";
 
 const DESIGN_HEIGHT = 1120;
 
@@ -45,13 +49,15 @@ const DEPARTMENT_CARDS: DepartmentCard[] = [
   },
 ];
 
-// If you want to keep the SVG shield, use this. If you want your imported image, use the <img> tag inside the card instead.
 function CrestIcon({ size = 90 }: { size?: number }): ReactElement {
   const h = (size * 104) / 90;
   return (
     <svg width={size} height={h} viewBox="0 0 90 104" fill="none" xmlns="http://www.w3.org/2000/svg" style={{ display: "block" }}>
       <path d="M8 20 C 20 6, 70 6, 82 20" stroke="#192441" strokeWidth="1.4" fill="none" />
-      <text x="45" y="16" textAnchor="middle" fontSize="8" fontFamily="Futura PT, sans-serif" letterSpacing="1" fill="#192441">
+      {/* SVG <text> isn't covered by the global h1-h6/body tag rules, so it still
+          needs an explicit font — point it at the same CSS var used for body copy
+          rather than a hardcoded font name, so it stays in sync if the var changes. */}
+      <text x="45" y="16" textAnchor="middle" fontSize="8" fontFamily="var(--font-body)" letterSpacing="1" fill="#192441">
         AFC 1976
       </text>
       <path d="M18 24 H72 V58 C72 78, 56 92, 45 98 C34 92, 18 78, 18 58 Z" stroke="#192441" strokeWidth="1.6" fill="none" />
@@ -93,19 +99,25 @@ function DepartmentCardView({ card }: { card: DepartmentCard }): ReactElement {
       }}
     >
       <div style={{ marginBottom: 22 }}>
-        {/* 
-          OPTION 1: To use your imported image, uncomment this line and delete the <CrestIcon /> below:
-          <img src={crestImage} alt="Crest" style={{ width: 90, height: 'auto', display: 'block' }} /> 
-        */}
         <CrestIcon />
       </div>
-      <h3
-        className="font-['Futura_PT:Book',sans-serif]"
-        style={{ margin: 0, marginBottom: 14, fontSize: "clamp(16px, 1.39vw, 20px)", fontWeight: 500, color: "#0f1421", lineHeight: "normal" }}
+      {/*
+        Card titles are meant to render in the BODY font (Futura), not the
+        heading font — so this can't be a real <h1>-<h6>, since the global
+        CSS forces those to CRONDE with !important. Using a <p> keeps it in
+        the body-font tag list (p/li/label/blockquote/figcaption) so
+        var(--font-body) applies with no inline fontFamily needed, while
+        role="heading"/aria-level preserves the same heading semantics the
+        old <h3> gave screen readers.
+      */}
+      <p
+        role="heading"
+        aria-level={3}
+        style={{ ...BODY_STYLE, margin: 0, marginBottom: 14, color: "#0f1421" }}
       >
         {card.title}
-      </h3>
-      <p style={{ margin: 0, fontSize: "clamp(11px, 0.83vw, 12px)", lineHeight: 1.6, color: "#6b6b6b", fontFamily: "Futura PT, sans-serif" }}>
+      </p>
+      <p style={{ ...BODY_STYLE, fontSize: "clamp(11px, 0.83vw, 12px)", lineHeight: 1.6, color: "#6b6b6b", margin: 0 }}>
         {card.description}
       </p>
     </div>
@@ -126,32 +138,32 @@ function DepartmentWatermark(): ReactElement {
   );
 }
 
-/* ---------- Desktop / tablet canvas (fixed-width, scaled) ---------- */
-
 function DepartmentCanvas(): ReactElement {
   return (
     <div style={{ width: "100%", minHeight: "100vh", background: "#fcf9f2", position: "relative" }}>
       <DepartmentWatermark />
 
-      {/* Title */}
-      <div
-        className="-translate-x-1/2 absolute mt-10 flex flex-col justify-center leading-[0] not-italic text-[#0f1421] text-center"
-        style={{ left: "50%", top: 68, width: "60%", fontSize: "clamp(36px, 4.44vw, 64px)", fontFamily: "CRONDE, serif" }}
+      {/* Real <h1> so var(--font-heading) applies via the global h1-h6 rule */}
+      <h1
+        className="-translate-x-1/2 absolute mt-10 text-[#0f1421] text-center"
+        style={{
+          ...headingSize(64, { lineHeight: "normal" }),
+          left: "50%",
+          top: 68,
+          width: "60%",
+          margin: 0,
+        }}
       >
-        <p className="leading-[normal]">Department</p>
-      </div>
+        Department
+      </h1>
 
-      {/* Description paragraph */}
-      <div
+      <p
         className="-translate-x-1/2 absolute mt-10 text-center"
-        style={{ left: "50%", top: 148, width: "58%", fontSize: "clamp(13px, 1.11vw, 16px)", lineHeight: 1.7, color: "#3b3b3b", fontFamily: "Futura PT, sans-serif" }}
+        style={{ ...BODY_STYLE, left: "50%", top: 148, width: "58%", color: "#3b3b3b", margin: 0 }}
       >
-        <p style={{ margin: 0 }}>
-          Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident.
-        </p>
-      </div>
+        Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident.
+      </p>
 
-      {/* Cards grid - 3 COLUMNS for desktop */}
       <div
         className="absolute"
         style={{
@@ -159,7 +171,7 @@ function DepartmentCanvas(): ReactElement {
           right: "9.7%",
           top: 288,
           display: "grid",
-          gridTemplateColumns: "repeat(3, 1fr)", 
+          gridTemplateColumns: "repeat(3, 1fr)",
           columnGap: 40,
           rowGap: 40,
         }}
@@ -172,20 +184,15 @@ function DepartmentCanvas(): ReactElement {
   );
 }
 
-/* ---------- Mobile layout (natural sizing, single column, no scale transform) ---------- */
-
 function DepartmentMobile(): ReactElement {
   return (
     <div style={{ width: "100%", background: "#fcf9f2", position: "relative", paddingTop: 96, paddingBottom: 48 }}>
       <div style={{ position: "relative", padding: "0 20px" }}>
-        <h1
-          style={{ margin: 0, marginBottom: 12, fontSize: 32, color: "#0f1421", textAlign: "center", lineHeight: 1.15, fontFamily: "CRONDE, serif" }}
-        >
+        {/* Real <h1> so var(--font-heading) applies */}
+        <h1 style={{ ...headingSize(32, { lineHeight: 1.15 }), color: "#0f1421", textAlign: "center", margin: 0, marginBottom: 12 }}>
           Department
         </h1>
-        <p
-          style={{ margin: "0 auto 28px", maxWidth: 480, fontSize: 14, lineHeight: 1.7, color: "#3b3b3b", textAlign: "center", fontFamily: "Futura PT, sans-serif" }}
-        >
+        <p style={{ ...BODY_STYLE, margin: "0 auto 28px", maxWidth: 480, color: "#3b3b3b", textAlign: "center" }}>
           Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam.
         </p>
 
@@ -204,15 +211,17 @@ function DepartmentMobile(): ReactElement {
               }}
             >
               <div style={{ marginBottom: 16 }}>
-                {/* <img src={crestImage} alt="Crest" style={{ width: 64, height: 'auto', display: 'block' }} /> */}
                 <CrestIcon size={64} />
               </div>
-              <h3
-                style={{ margin: 0, marginBottom: 10, fontSize: 17, fontWeight: 500, color: "#0f1421", lineHeight: 1.3, fontFamily: "Futura PT, sans-serif" }}
+              {/* Same <p role="heading"> body-font treatment as the desktop card */}
+              <p
+                role="heading"
+                aria-level={3}
+                style={{ ...BODY_STYLE, margin: 0, marginBottom: 10, color: "#0f1421" }}
               >
                 {card.title}
-              </h3>
-              <p style={{ margin: 0, fontSize: 13.5, lineHeight: 1.6, color: "#6b6b6b", fontFamily: "Futura PT, sans-serif" }}>
+              </p>
+              <p style={{ ...BODY_STYLE, fontSize: 13.5, lineHeight: 1.6, color: "#6b6b6b", margin: 0 }}>
                 {card.description}
               </p>
             </div>

@@ -1,127 +1,327 @@
-import { useState, useEffect } from "react";
-import { ChevronDown, ChevronUp } from "lucide-react";
-import { TIMELINE_DATA } from "./sections";
+/// <reference path="../../types/images.d.ts" />
 
-interface MobileTimelineProps {
-  activeYearIndex: number;
-  onYearChange?: (index: number) => void;
-}
+import { useEffect, useRef, useState } from "react";
+import { createPortal } from "react-dom";
+import { Menu, X } from "lucide-react";
+import img34159 from "../../imports/Nav/logo.png";
 
-export default function MobileTimeline({
-  activeYearIndex,
-  onYearChange,
-}: MobileTimelineProps) {
-  const [expandedIndex, setExpandedIndex] = useState(activeYearIndex);
+// Shared typography tokens — keep in sync with global.css / DepartmentPage / TestimoniesPage / ShopPage
+const FONT_HEADING = "'CRONDE', serif";
+const FONT_BODY = "'Futura PT', sans-serif";
 
-  useEffect(() => {
-    setExpandedIndex(activeYearIndex);
-  }, [activeYearIndex]);
+const BRANCH_GROUPS = [
+  {
+    heading: "Branches",
+    items: [
+      { label: "Peckham", slug: "peckham" },
+      { label: "Bexley", slug: "bexley" },
+      { label: "Aberdeen", slug: "aberdeen" },
+      { label: "Cranfield", slug: "cranfield" },
+      { label: "Birmingham", slug: "birmingham" },
+      { label: "Manchester", slug: "manchester" },
+    ],
+  },
+  {
+    heading: "Group",
+    items: [
+      { label: "Glasgow & Paisley", slug: "glasgow" },
+      { label: "Leicester", slug: "leicester" },
+      { label: "Coventry", slug: "coventry" },
+      { label: "Edinburgh", slug: "edinburgh" },
+      { label: "Sussex", slug: "sussex" },
+      { label: "Ireland — Dublin & Belfast", slug: "ireland" },
+      { label: "Germany", slug: "germany" },
+      { label: "France", slug: "france" },
+      { label: "Italy", slug: "italy" },
+      { label: "Denmark", slug: "denmark" },
+      { label: "Spain", slug: "spain" },
+    ],
+  },
+];
 
-  const handleYearClick = (index: number) => {
-    setExpandedIndex(index);
-    onYearChange?.(index);
+export default function MobileNav() {
+  const [menuOpen, setMenuOpen] = useState(false);
+  const [branchOpen, setBranchOpen] = useState(false);
+
+  // Tracks *why* the menu is closing: a plain dismiss (X / backdrop /
+  // Escape) should restore the scroll position the user had before the
+  // menu opened. Tapping an actual nav item is a real navigation and
+  // should leave the page at the top instead of snapping back to the
+  // old, now-irrelevant scroll offset.
+  const isNavigatingAway = useRef(false);
+
+  const closeMenu = () => {
+    setMenuOpen(false);
+    setBranchOpen(false);
   };
 
+  const handleBranchClick = (slug: string) => {
+    isNavigatingAway.current = true;
+    window.location.hash = `#${slug}`;
+    closeMenu();
+  };
+
+  const handleNavClick = (hash: string) => {
+    if (hash === "#timeline") {
+      // Opening the timeline sheet isn't a page navigation — it's an
+      // overlay on top of the current page — so it shouldn't force a
+      // scroll-to-top here. TimelineSheet manages its own scroll lock.
+      closeMenu();
+      requestAnimationFrame(() => {
+        if (window.location.hash !== hash) {
+          window.history.pushState(
+            null,
+            "",
+            window.location.pathname + window.location.search + hash,
+          );
+        }
+        window.dispatchEvent(new Event("timeline:open"));
+      });
+      return;
+    }
+
+    isNavigatingAway.current = true;
+    window.location.hash = hash;
+    closeMenu();
+  };
+
+  useEffect(() => {
+    if (!menuOpen) return;
+
+    const scrollPosition = window.scrollY;
+    const previousOverflow = document.body.style.overflow;
+    const previousPosition = document.body.style.position;
+    const previousTop = document.body.style.top;
+    const previousWidth = document.body.style.width;
+    const previousHtmlOverflow = document.documentElement.style.overflow;
+    const closeOnEscape = (event: KeyboardEvent) => {
+      if (event.key === "Escape") closeMenu();
+    };
+
+    document.body.style.overflow = "hidden";
+    document.body.style.position = "fixed";
+    document.body.style.top = `-${scrollPosition}px`;
+    document.body.style.width = "100%";
+    document.documentElement.style.overflow = "hidden";
+    window.addEventListener("keydown", closeOnEscape);
+    return () => {
+      document.body.style.overflow = previousOverflow;
+      document.body.style.position = previousPosition;
+      document.body.style.top = previousTop;
+      document.body.style.width = previousWidth;
+      document.documentElement.style.overflow = previousHtmlOverflow;
+      window.removeEventListener("keydown", closeOnEscape);
+
+      // Plain dismiss -> restore where the user was reading.
+      // Real navigation -> start the new page at the top.
+      window.scrollTo(0, isNavigatingAway.current ? 0 : scrollPosition);
+      isNavigatingAway.current = false;
+    };
+  }, [menuOpen]);
+
+  const navItemClass =
+    "text-left px-4 py-3 hover:bg-gray-100 rounded-lg transition-colors text-sm";
+
   return (
-    <div className="w-full h-full bg-[#0f1421] overflow-auto">
-      <div className="container-responsive py-8 sm:py-12">
-        {/* Header */}
-        <div className="text-center mb-8 sm:mb-12">
-          <h2 className="font-['CRONDE:Regular',sans-serif] text-white text-3xl sm:text-4xl md:text-5xl mb-4">
-            Our Journey
-          </h2>
-          <p className="font-['Poppins:400',sans-serif] text-[#D9C7A8] text-sm sm:text-base max-w-2xl mx-auto px-4">
-            Sixty-five years of faith, ministry, and impact across Western Europe
-          </p>
-        </div>
-
-        {/* Timeline List */}
-        <div className="max-w-3xl mx-auto space-y-4">
-          {TIMELINE_DATA.map((item, index) => {
-            const isActive = index === activeYearIndex;
-            const isExpanded = index === expandedIndex;
-
-            return (
-              <div
-                key={index}
-                className={`
-                  bg-white/5 backdrop-blur-sm rounded-lg overflow-hidden
-                  transition-all duration-300
-                  ${isActive ? "ring-2 ring-[#D9C7A8]" : ""}
-                `}
-                style={{
-                  backgroundImage: isExpanded
-                    ? `linear-gradient(rgba(15, 20, 33, 0.85), rgba(15, 20, 33, 0.85)), url(${item.bgImage})`
-                    : undefined,
-                  backgroundSize: "cover",
-                  backgroundPosition: "center",
-                }}
-              >
-                {/* Year Header - Always Visible */}
-                <button
-                  onClick={() => handleYearClick(index)}
-                  className="w-full text-left px-4 sm:px-6 py-4 flex items-center justify-between hover:bg-white/5 transition-colors"
-                >
-                  <div className="flex items-center space-x-4">
-                    {/* Year Badge */}
-                    <div
-                      className={`
-                      font-['CRONDE:Regular',sans-serif] text-xl sm:text-2xl
-                      ${isActive ? "text-[#D9C7A8]" : "text-white"}
-                      transition-colors
-                    `}
-                    >
-                      {item.year}
-                    </div>
-
-                    {/* Title */}
-                    <div
-                      className={`
-                      font-['Poppins:500',sans-serif] text-sm sm:text-base
-                      ${isActive ? "text-white" : "text-white/80"}
-                      transition-colors
-                    `}
-                    >
-                      {item.title}
-                    </div>
-                  </div>
-
-                  {/* Expand Icon */}
-                  <div className="text-[#D9C7A8]">
-                    {isExpanded ? (
-                      <ChevronUp size={20} />
-                    ) : (
-                      <ChevronDown size={20} />
-                    )}
-                  </div>
-                </button>
-
-                {/* Expanded Content */}
-                <div
-                  className={`
-                    overflow-hidden transition-all duration-300
-                    ${isExpanded ? "max-h-96" : "max-h-0"}
-                  `}
-                >
-                  <div className="px-4 sm:px-6 pb-4 pt-2">
-                    <p className="font-['Poppins:400',sans-serif] text-white/90 text-sm sm:text-base leading-relaxed">
-                      {item.text}
-                    </p>
-                  </div>
-                </div>
-              </div>
-            );
-          })}
-        </div>
-
-        {/* Scroll Indicator (Mobile Only) */}
-        <div className="mt-8 text-center sm:hidden">
-          <div className="inline-flex items-center space-x-2 text-[#D9C7A8]/60 text-xs">
-            <ChevronDown size={16} className="animate-bounce" />
-            <span>Scroll to explore all years</span>
+    <>
+      {/* Mobile Header */}
+      <div className="relative z-100 flex min-h-18 items-center justify-between bg-white px-4 py-2.5 sm:px-6">
+        {/* Logo */}
+        <div
+          className="relative h-14.5 w-47 cursor-pointer overflow-clip"
+          onClick={() => {
+            isNavigatingAway.current = true;
+            window.location.hash = "";
+            window.scrollTo({ top: 0, behavior: "smooth" });
+            closeMenu();
+          }}
+        >
+          <div className="absolute -left-11.5 -top-28 size-70">
+            <img
+              alt="Logo"
+              className="absolute inset-0 max-w-none object-cover pointer-events-none size-full"
+              src={img34159}
+            />
           </div>
         </div>
+
+        {/* Hamburger Menu Button */}
+        <button
+          onClick={() => setMenuOpen(!menuOpen)}
+          className="p-2 hover:bg-gray-100 rounded-lg transition-colors"
+          aria-label="Toggle menu"
+        >
+          {menuOpen ? <X size={24} /> : <Menu size={24} />}
+        </button>
       </div>
-    </div>
+
+      {createPortal(
+        <>
+          <div
+            aria-hidden="true"
+            className={`fixed inset-0 z-998 bg-black/55 transition-opacity duration-300 ${menuOpen ? "pointer-events-auto opacity-100" : "pointer-events-none opacity-0"}`}
+            onClick={closeMenu}
+          />
+
+          <aside
+            aria-label="Mobile navigation"
+            aria-hidden={!menuOpen}
+            className={`fixed inset-y-0 right-0 z-999 w-[min(86vw,360px)] bg-white shadow-2xl transition-transform duration-300 ease-out ${menuOpen ? "translate-x-0" : "translate-x-full"}`}
+          >
+            <div className="flex flex-col h-full">
+              {/* Menu Header */}
+              <div className="flex items-center justify-between p-4 border-b">
+                <span style={{ fontFamily: FONT_HEADING }} className="text-lg">
+                  Menu
+                </span>
+                <button
+                  onClick={closeMenu}
+                  className="p-2 hover:bg-gray-100 rounded-lg transition-colors"
+                  aria-label="Close menu"
+                >
+                  <X size={20} />
+                </button>
+              </div>
+
+              {/* Menu Items */}
+              <div className="flex-1 overflow-y-auto">
+                <div className="flex flex-col p-4 space-y-1">
+                  {/* Home */}
+                  <button
+                    onClick={() => handleNavClick("")}
+                    style={{ fontFamily: FONT_BODY }}
+                    className={navItemClass}
+                  >
+                    Home
+                  </button>
+
+                  {/* Branches Dropdown */}
+                  <div>
+                    <button
+                      onClick={() => setBranchOpen(!branchOpen)}
+                      style={{ fontFamily: FONT_BODY }}
+                      className={`w-full ${navItemClass} flex items-center justify-between`}
+                    >
+                      <span>Branches</span>
+                      <svg
+                        className={`w-4 h-4 transition-transform ${
+                          branchOpen ? "rotate-180" : ""
+                        }`}
+                        fill="none"
+                        stroke="currentColor"
+                        viewBox="0 0 24 24"
+                      >
+                        <path
+                          strokeLinecap="round"
+                          strokeLinejoin="round"
+                          strokeWidth={2}
+                          d="M19 9l-7 7-7-7"
+                        />
+                      </svg>
+                    </button>
+
+                    {/* Branch Submenu — grouped */}
+                    {branchOpen && (
+                      <div className="pl-4 pr-2 pt-2 pb-3 space-y-5">
+                        {BRANCH_GROUPS.map((group) => (
+                          <div key={group.heading}>
+                            <div className="flex items-center gap-3 mb-2.5 px-4">
+                              <span
+                                style={{ fontFamily: FONT_HEADING }}
+                                className="text-[#192441] text-[16px] whitespace-nowrap"
+                              >
+                                {group.heading}
+                              </span>
+                              <div className="flex-1 h-px bg-[#c9a771]" />
+                            </div>
+                            <div className="grid grid-cols-2 gap-x-2 gap-y-0.5">
+                              {group.items.map((branch) => (
+                                <button
+                                  key={branch.slug}
+                                  onClick={() => handleBranchClick(branch.slug)}
+                                  style={{ fontFamily: FONT_BODY }}
+                                  className="text-left px-4 py-2 hover:bg-gray-100 rounded-lg transition-colors text-sm text-gray-700"
+                                >
+                                  {branch.label}
+                                </button>
+                              ))}
+                            </div>
+                          </div>
+                        ))}
+                      </div>
+                    )}
+                  </div>
+
+                  {/* Department */}
+                  <button
+                    onClick={() => handleNavClick("#department")}
+                    style={{ fontFamily: FONT_BODY }}
+                    className={navItemClass}
+                  >
+                    Department
+                  </button>
+
+                  {/* Timeline */}
+                  <button
+                    onClick={() => handleNavClick("#timeline")}
+                    style={{ fontFamily: FONT_BODY }}
+                    className={navItemClass}
+                  >
+                    Timeline
+                  </button>
+
+                  {/* Gallery */}
+                  <button
+                    onClick={() => handleNavClick("#gallery")}
+                    style={{ fontFamily: FONT_BODY }}
+                    className={navItemClass}
+                  >
+                    Gallery
+                  </button>
+
+                  {/* Watch & Listen */}
+                  <button
+                    onClick={() => handleNavClick("#watch")}
+                    style={{ fontFamily: FONT_BODY }}
+                    className={navItemClass}
+                  >
+                    Watch & Listen
+                  </button>
+
+                  {/* Founder */}
+                  <button
+                    onClick={() => handleNavClick("#founder")}
+                    style={{ fontFamily: FONT_BODY }}
+                    className={navItemClass}
+                  >
+                    Founder
+                  </button>
+
+                  {/* Shop */}
+                  <button
+                    onClick={() => handleNavClick("#shop")}
+                    style={{ fontFamily: FONT_BODY }}
+                    className={navItemClass}
+                  >
+                    Shop
+                  </button>
+                </div>
+              </div>
+
+              {/* Menu Footer */}
+              <div className="p-4 border-t bg-gray-50">
+                <p
+                  style={{ fontFamily: FONT_BODY }}
+                  className="text-xs text-gray-600 text-center"
+                >
+                  Apostolic Faith Church — UK & Western Europe
+                </p>
+              </div>
+            </div>
+          </aside>
+        </>,
+        document.body,
+      )}
+    </>
   );
 }
