@@ -76,9 +76,9 @@ export function SiteHeader() {
     >
       <div
         style={{
-          width: DESIGN_WIDTH,
+          width: scale < 1 ? DESIGN_WIDTH : "100%",
           height: NAV_H,
-          transform: `scale(${scale})`,
+          transform: scale < 1 ? `scale(${scale})` : "none",
           transformOrigin: "top left",
           position: "relative",
         }}

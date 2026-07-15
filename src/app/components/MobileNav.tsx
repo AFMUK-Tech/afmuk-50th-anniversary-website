@@ -1,6 +1,9 @@
-import { useState } from "react";
+/// <reference path="../../types/images.d.ts" />
+
+import { useEffect, useState } from "react";
+import { createPortal } from "react-dom";
 import { Menu, X } from "lucide-react";
-import img34159 from "../../imports/Nav/9ec56a815db13e6f5f4c4f51dc8c89bded734cf2.png";
+import img34159 from "../../imports/Nav/logo.png";
 
 // Same grouping as the desktop Nav — `group` decides whether a branch
 // renders under the "Branches" or "Group" sub-header in the accordion.
@@ -64,31 +67,69 @@ export default function MobileNav() {
   };
 
   const handleNavClick = (hash: string) => {
+    if (hash === "#timeline") {
+      closeMenu();
+      requestAnimationFrame(() => {
+        if (window.location.hash !== hash) {
+          window.history.pushState(
+            null,
+            "",
+            window.location.pathname + window.location.search + hash,
+          );
+        }
+        window.dispatchEvent(new Event("timeline:open"));
+      });
+      return;
+    }
+
     window.location.hash = hash;
     closeMenu();
   };
 
+  useEffect(() => {
+    if (!menuOpen) return;
+
+    const scrollPosition = window.scrollY;
+    const previousOverflow = document.body.style.overflow;
+    const previousPosition = document.body.style.position;
+    const previousTop = document.body.style.top;
+    const previousWidth = document.body.style.width;
+    const previousHtmlOverflow = document.documentElement.style.overflow;
+    const closeOnEscape = (event: KeyboardEvent) => {
+      if (event.key === "Escape") closeMenu();
+    };
+
+    document.body.style.overflow = "hidden";
+    document.body.style.position = "fixed";
+    document.body.style.top = `-${scrollPosition}px`;
+    document.body.style.width = "100%";
+    document.documentElement.style.overflow = "hidden";
+    window.addEventListener("keydown", closeOnEscape);
+    return () => {
+      document.body.style.overflow = previousOverflow;
+      document.body.style.position = previousPosition;
+      document.body.style.top = previousTop;
+      document.body.style.width = previousWidth;
+      document.documentElement.style.overflow = previousHtmlOverflow;
+      window.removeEventListener("keydown", closeOnEscape);
+      window.scrollTo(0, scrollPosition);
+    };
+  }, [menuOpen]);
+
   return (
     <>
-      {/* FIX: this header now controls its own visibility entirely — it's
-          a plain `sticky` bar with a solid background, always rendered.
-          Previously App.tsx wrapped this whole component in a
-          translate-y-full/translate-y-0 toggle gated behind a scroll
-          threshold, so on first load — and any time that scroll math
-          didn't line up with the actual splash height — the entire nav
-          sat off-screen above the viewport. That was the root cause of
-          "the mobile nav is not showing." App.tsx no longer manages this
-          component's transform at all. */}
-      <div className="sticky top-0 left-0 right-0 z-[9999] bg-white flex items-center justify-between px-4 py-3 shadow-sm">
+      {/* Mobile Header */}
+      <div className="relative z-100 flex min-h-18 items-center justify-between bg-white px-4 py-2.5 sm:px-6">
+        {/* Logo */}
         <div
-          className="h-10 w-32 cursor-pointer overflow-clip relative"
+          className="relative h-14.5 w-47 cursor-pointer overflow-clip"
           onClick={() => {
             window.location.hash = "";
             window.scrollTo({ top: 0, behavior: "smooth" });
             closeMenu();
           }}
         >
-          <div className="absolute left-[-28.87px] size-[187.756px] top-[-75.73px]">
+          <div className="absolute -left-11.5 -top-28 size-70">
             <img
               alt="Logo"
               className="absolute inset-0 max-w-none object-cover pointer-events-none size-full"
@@ -106,18 +147,19 @@ export default function MobileNav() {
         </button>
       </div>
 
-      {menuOpen && (
-        <div
-          className="fixed inset-0 bg-black/50 z-[998]"
-          onClick={closeMenu}
-        />
-      )}
+      {createPortal(
+        <>
+          <div
+            aria-hidden="true"
+            className={`fixed inset-0 z-998 bg-black/55 transition-opacity duration-300 ${menuOpen ? "pointer-events-auto opacity-100" : "pointer-events-none opacity-0"}`}
+            onClick={closeMenu}
+          />
 
-      <div
-        className={`fixed top-0 right-0 h-full w-[80%] max-w-[300px] bg-white z-[999] shadow-2xl transform transition-transform duration-300 ease-out ${
-          menuOpen ? "translate-x-0" : "translate-x-full"
-        }`}
-      >
+          <aside
+            aria-label="Mobile navigation"
+            aria-hidden={!menuOpen}
+            className={`fixed inset-y-0 right-0 z-999 w-[min(86vw,360px)] bg-white shadow-2xl transition-transform duration-300 ease-out ${menuOpen ? "translate-x-0" : "translate-x-full"}`}
+          >
         <div className="flex flex-col h-full">
           <div className="flex items-center justify-between p-4 border-b">
             <span className={`${HEADER_FONT} text-lg`}>Menu</span>
@@ -231,6 +273,23 @@ export default function MobileNav() {
                 )}
               </div>
 
+              {/* Department */}
+              <button
+                onClick={() => handleNavClick("#department")}
+                className="text-left px-4 py-3 hover:bg-gray-100 rounded-lg transition-colors font-['Futura_PT:Book',sans-serif] text-sm"
+              >
+                Department
+              </button>
+
+              {/* Timeline */}
+              <button
+                onClick={() => handleNavClick("#timeline")}
+                className="text-left px-4 py-3 hover:bg-gray-100 rounded-lg transition-colors font-['Futura_PT:Book',sans-serif] text-sm"
+              >
+                Timeline
+              </button>
+
+              {/* Gallery */}
               <button
                 onClick={() => handleNavClick("#gallery")}
                 className={`text-left px-4 py-3 hover:bg-gray-100 rounded-lg transition-colors ${BODY_FONT} text-sm`}
@@ -267,7 +326,10 @@ export default function MobileNav() {
             </p>
           </div>
         </div>
-      </div>
+          </aside>
+        </>,
+        document.body,
+      )}
     </>
   );
 }

@@ -6,6 +6,39 @@
  * Desktop: 1024px+
  */
 
+html,
+body,
+#root {
+  width: 100%;
+  max-width: 100%;
+  min-width: 0;
+  margin: 0;
+}
+
+html {
+  overflow-x: clip;
+}
+
+body {
+  min-height: 100vh;
+  background: #fcf9f2;
+}
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+  min-width: 0;
+}
+
+img,
+video,
+canvas,
+svg {
+  height: auto;
+  max-width: 100%;
+}
+
 /* ========================================
    MOBILE STYLES (< 768px)
    ======================================== */
@@ -321,13 +354,6 @@
   padding-right: env(safe-area-inset-right);
   padding-top: env(safe-area-inset-top);
   padding-bottom: env(safe-area-inset-bottom);
-}
-
-/* Prevent horizontal scroll on mobile */
-@media (max-width: 767px) {
-  body {
-    overflow-x: hidden;
-  }
 }
 
 /* Aspect ratio utilities */

@@ -6,6 +6,7 @@
   "scripts": {
     "prebuild": "chmod +x node_modules/.bin/vite || true",
     "dev": "vite",
+    "typecheck": "tsc --noEmit",
     "build": "vite build",
     "preview": "vite preview"
   },
@@ -21,6 +22,7 @@
     "@types/react-dom": "19.2.3",
     "@vitejs/plugin-react": "6.0.3",
     "tailwindcss": "4.3.2",
+    "typescript": "^7.0.2",
     "vite": "8.1.4"
   }
 }

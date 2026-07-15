@@ -1,15 +1,12 @@
+/// <reference path="../../types/images.d.ts" />
+
 import React from "react";
 import logoImg from "../../imports/image.png";
 import logoImg1 from "../../imports/Homepage/5a015c837cc63a1e3afec59a04ef46d449dad5cf.png";
-import logoSvg from "../../imports/5.svg";
 import { Fireworks } from "./fireworks";
 import svgPaths from "../../imports/Homepage/svg-ryk8ue9wk8";
-import img1998 from "../../imports/Homepage/5a015c837cc63a1e3afec59a04ef46d449dad5cf.png";
 import imgImage13 from "../../imports/Homepage/e81c2816bfc1af01bf28989def6b833cd0126703.png";
-import imgImage12 from "../../imports/Homepage/00906276d94a619afd9053d491e72ee53b2c84f7.png";
-import imgContainer from "../../imports/Homepage/00d5e033bbebac30ecfdda76a8b34cee926f16de.png";
 import imgImage1 from "../../imports/Homepage/0f8a3c8fd5f3b15d7f224c591876d33827e7c776.png";
-import imgContainer1 from "../../imports/Homepage/e616f666c01d8e532adf17336a5b7576e91684e5.png";
 import imgImage8 from "../../imports/Homepage/3a8be516144b02ca05177fe3dd5d45cfd2484a87.png";
 import imgContainer2 from "../../imports/Homepage/6071875ce23155069c81f3bdc40cd667fe0ec200.png";
 import imgImage11 from "../../imports/Homepage/8342e6cea9f36db12564231fe9f8262a9126ccd2.png";
@@ -21,20 +18,18 @@ import imgImage18 from "../../imports/Homepage/3b8e188b8820680ef46d22804ac760d97
 import imgImage17 from "../../imports/Homepage/f2e30c0a264a39aae9ecc96a919006cbd7df2106.png";
 import imgImage15 from "../../imports/Homepage/934c91a8c59703a23c154d5e409ad03b2b6d72cb.png";
 import img51 from "../../imports/Homepage/8873fd3b316d2dfee9ed04e7d802995942646918.png";
-import img91 from "../../imports/Homepage/968c2920f880959ab3393716584f0e350964c423.png";
-import imgImage from "../../imports/Homepage/9ec56a815db13e6f5f4c4f51dc8c89bded734cf2.png";
 import imgDreamyColorfulSmokeClouds2 from "../../imports/Frame19/9f5fd2117b550f89743011446393e79f9a3e46dc.png";
+import imgPrayerPhoto from "../../imports/Frame19/ce8c1a1065b04074fbc18eb2c06e7366056f0343.png";
 
 // ── NEW ASSETS ──────────────────────────────────────────────────────────────
-import imgStartedPhoto from "../../imports/Homepage/ukpic.png";
 import imgVideoPoster from "../../imports/Homepage/ukpic.png";
 // @ts-ignore
 import videoSrcPlaceholder from "../../imports/Homepage/aboutvideo.mp4";
 
 // ─── Site-wide typography tokens ───────────────────────────────────────────
-export const HEADER_FONT = "font-['Cronde',_sans-serif] font-normal";
+export const HEADER_FONT = "site-heading";
 export const BODY_COPY =
-  "font-['Futura_PT',_sans-serif] font-normal text-[18px] leading-[32px]";
+  "site-body text-[18px] leading-[32px]";
 
 // ─── Timeline data ────────────────────────────────────────────────────────────
 
@@ -82,56 +77,28 @@ export const TIMELINE_DATA = [
 
 // ─── Section 1: Opening hero (splash — uksplash1 / uksplash2) ────────────────
 
-function PhotoFrame() {
-  return (
-    <div className="border-[2.995px] border-solid border-white h-[169.935px] overflow-clip relative w-[241.989px]">
-      <div className="absolute h-[213.353px] left-[-68.88px] top-[-25.46px] w-[319.711px]">
-        <img alt="" className="absolute inset-0 max-w-none object-cover pointer-events-none size-full" src={imgContainer2} />
-      </div>
-    </div>
-  );
-}
-
-function PhotoFrame1() {
-  return (
-    <div className="border-[2.995px] border-solid border-white h-[169.935px] overflow-clip relative w-[241.989px]">
-      <div className="absolute flex h-[463.364px] items-center justify-center left-[-125.28px] top-[-163.99px] w-[607.2px]">
-        <div className="flex-none rotate-[11.33deg]">
-          <div className="h-[363.104px] relative w-[546.535px]">
-            <img alt="" className="absolute inset-0 max-w-none object-cover pointer-events-none size-full" src={imgImage3} />
-          </div>
-        </div>
-      </div>
-    </div>
-  );
-}
-
-function PhotoFrame2() {
-  return (
-    <div className="border-[2.995px] border-solid border-white h-[169.935px] overflow-clip relative w-[241.989px]">
-      <div className="absolute flex h-[303.554px] items-center justify-center left-[-97.37px] top-[-77.8px] w-[396.954px]">
-        <div className="flex-none rotate-[11.33deg]">
-          <div className="h-[238.049px] relative w-[357.16px]">
-            <img alt="" className="absolute inset-0 max-w-none object-cover pointer-events-none size-full" src={imgImage3} />
-          </div>
-        </div>
-      </div>
-    </div>
-  );
-}
-
 function PictureFrame() {
+  const photos = [imgContainer2, imgPrayerPhoto, imgImage3];
+  const rotations = ["rotate-[8deg]", "-rotate-[8deg]", "rotate-[8deg]"];
+
   return (
-    <div className="-translate-x-1/2 absolute h-[230.519px] left-[calc(50%-27.02px)] top-[787px] w-[851.958px]">
-      <div className="absolute flex h-[226.71px] items-center justify-center left-0 top-0 w-[277.691px]">
-        <div className="flex-none rotate-[14.98deg]"><PhotoFrame /></div>
-      </div>
-      <div className="absolute flex h-[226.776px] items-center justify-center left-[287px] top-0 w-[277.726px]">
-        <div className="-rotate-15 flex-none"><PhotoFrame1 /></div>
-      </div>
-      <div className="absolute flex h-[226.776px] items-center justify-center left-[574.23px] top-[3.74px] w-[277.726px]">
-        <div className="flex-none rotate-15"><PhotoFrame2 /></div>
-      </div>
+    <div
+      className="absolute bottom-[max(1rem,env(safe-area-inset-bottom))] top-40 md:top-160 left-1/2 flex w-[92vw] max-w-213 -translate-x-1/2 items-center justify-center gap-[2vw] sm:bottom-[clamp(1.5rem,4svh,3rem)] sm:gap-5"
+      aria-label="Photos from the church's ministry"
+    >
+      {photos.map((photo, index) => (
+        <div
+          key={photo}
+          className={`relative aspect-[1.424/1] w-[30%] shrink-0 overflow-hidden border-2 border-white sm:border-[3px] ${rotations[index]}`}
+        >
+          <img
+            alt=""
+            className="absolute inset-0 size-full max-w-none object-cover pointer-events-none"
+            src={photo}
+            style={{ height: "100%", maxWidth: "none" }}
+          />
+        </div>
+      ))}
     </div>
   );
 }
@@ -178,77 +145,32 @@ export function Section1({
     };
   }, []);
 
-  if (staticReveal) {
-    return (
-      <div
-        ref={sectionRef}
-        className="min-h-[100svh] w-full relative overflow-clip flex flex-col items-center justify-center gap-8 px-6 py-16 text-center"
-        style={{ backgroundImage: "linear-gradient(0.480792deg, rgb(25, 36, 65) 38.09%, rgb(1, 9, 25) 110.38%)" }}
-      >
-        <div className="absolute inset-0 flex items-center justify-center mix-blend-color-burn opacity-50 pointer-events-none">
-          <div className="rotate-180 w-[220%] h-[220%]">
-            <img
-              alt=""
-              className="w-full h-full object-cover"
-              src={imgDreamyColorfulSmokeClouds2}
-            />
-          </div>
-        </div>
-
-        <div className="absolute inset-0 w-full h-full [&>svg]:w-full [&>svg]:h-full pointer-events-none">
-          <Fireworks active={fireworksActive} width={dims.width} height={dims.height} />
-        </div>
-
-        <img
-          src={logoImg}
-          alt="50th Anniversary — AFC UK & Western Europe"
-          className="relative z-10 w-[85%] max-w-[420px] h-auto"
-        />
-
-        <div className="relative z-10 w-full max-w-[420px]">
-          <p
-            className={`${BODY_COPY} text-white mb-3`}
-            style={{ fontSize: "clamp(15px, 4.5vw, 22px)", lineHeight: "clamp(22px, 6vw, 32px)" }}
-          >
-            {`"One generation shall praise thy works to another, and shall declare thy mighty acts."`}
-          </p>
-          <p className={`${BODY_COPY} text-white`} style={{ fontSize: "clamp(12px, 3vw, 16px)" }}>
-            — Psalm 145:4
-          </p>
-        </div>
-      </div>
-    );
-  }
-
   return (
     <div
       ref={sectionRef}
-      className="min-h-[100svh] md:h-[977px] left-0 overflow-clip relative w-full"
+      className="relative left-0 h-dvh min-h-svh w-full max-w-none overflow-clip"
       style={{ backgroundImage: "linear-gradient(0.480792deg, rgb(25, 36, 65) 38.09%, rgb(1, 9, 25) 110.38%)" }}
     >
-      <div
-        className="absolute flex items-center justify-center left-0 md:left-[-89px] mix-blend-color-burn top-0 md:top-[-1644px] w-full md:w-[1742px] h-full md:h-[3054px]"
-        style={{ opacity: textOpacity }}
-      >
-        <div className="flex-none rotate-180">
-          <div className="h-full md:h-[3054px] opacity-50 relative w-full md:w-[1742px]">
-            <img alt="" className="absolute inset-0 max-w-none object-cover pointer-events-none size-full" src={imgDreamyColorfulSmokeClouds2} />
-          </div>
-        </div>
-      </div>
+      <img
+        alt=""
+        className="absolute inset-0 size-full max-w-none rotate-180 object-cover opacity-50 mix-blend-color-burn pointer-events-none"
+        src={imgDreamyColorfulSmokeClouds2}
+        style={{ height: "100%", maxWidth: "none" }}
+      />
 
       <div className="absolute inset-0 w-full h-full [&>svg]:w-full [&>svg]:h-full pointer-events-none">
         <Fireworks active={fireworksActive} width={dims.width} height={dims.height} />
       </div>
 
       <div
-        className="absolute inset-0 flex items-center justify-center px-4"
+        className="absolute inset-0 flex items-center justify-center"
         style={{ opacity: logoOpacity }}
       >
         <img
           src={logoImg}
           alt="50th Anniversary — AFC UK & Western Europe"
-          className="w-[85%] sm:w-[75%] md:w-[90%] max-w-[620px] h-auto"
+          className="h-auto object-contain"
+          style={{ width: "min(82vw, 560px)" }}
         />
       </div>
 
@@ -259,9 +181,9 @@ export function Section1({
           opacity: textOpacity,
           transform: `translateY(${textDriftY}px)`,
         }}
-        className="flex flex-col items-center justify-center px-4 sm:px-6"
+        className="flex w-full flex-col items-center justify-center"
       >
-        <div className="w-full max-w-[596px] text-center">
+        <div className="w-[92vw] max-w-149 -translate-y-[clamp(1.5rem,8svh,5rem)] text-center sm:w-[88vw]">
           <p
             className={`${BODY_COPY} text-white mb-3 md:mb-4`}
             style={{
@@ -281,9 +203,7 @@ export function Section1({
             — Psalm 145:4
           </p>
         </div>
-        <div className="hidden lg:block">
-          <PictureFrame />
-        </div>
+        <PictureFrame />
       </div>
     </div>
   );
@@ -293,31 +213,42 @@ export function Section1({
 
 function ImgBg() {
   return (
-    <div className="absolute h-full left-0 opacity-10 top-0 w-full pb-[10px] hidden md:block">
-      <div className="absolute h-[1017px] left-[-83px] top-[-21px] w-[1525.873px]">
+    <div className="absolute h-full left-0 opacity-10 top-0 w-full pb-2.5 hidden md:block">
+      <div className="absolute h-254.25 -left-20.75 -top-5.25 w-[1525.873px]">
         <img alt="" className="absolute inset-0 max-w-none object-cover pointer-events-none size-full" src={imgImage3} />
       </div>
     </div>
   );
 }
 
-function SmallFrame({ img }: { img: string }) {
+function SmallFrame({ img: _img }: { img: string }) {
   return null;
 }
 
 function DiagonalGrid() {
   return (
     <div
-      className="absolute inset-0 pointer-events-none"
+      className="pointer-events-none absolute left-1/2 top-1/2 h-[84%] w-[145%] max-w-260 -translate-x-1/2 -translate-y-1/2 rotate-[-10deg] border border-[#192441]/10 sm:h-[90%] sm:w-[105%] lg:h-[88%] lg:w-[72%]"
       style={{
-        opacity: 0.55,
+        opacity: 0.62,
         backgroundImage:
-          "repeating-linear-gradient(35deg, transparent, transparent 77px, rgba(25,36,65,0.09) 77px, rgba(25,36,65,0.09) 78px)," +
-          "repeating-linear-gradient(-35deg, transparent, transparent 77px, rgba(25,36,65,0.09) 77px, rgba(25,36,65,0.09) 78px)",
-        maskImage: "radial-gradient(ellipse 70% 60% at 50% 30%, black 40%, transparent 85%)",
-        WebkitMaskImage: "radial-gradient(ellipse 70% 60% at 50% 30%, black 40%, transparent 85%)",
+          "linear-gradient(rgba(25,36,65,0.12) 1px, transparent 1px), linear-gradient(90deg, rgba(25,36,65,0.12) 1px, transparent 1px)",
+        backgroundSize: "clamp(105px, 13vw, 185px) clamp(90px, 11vw, 150px)",
       }}
     />
+  );
+}
+
+function JubileeLockup() {
+  return (
+    <div className="relative h-18 w-65 overflow-hidden sm:h-23 sm:w-85 lg:h-29.5 lg:w-110">
+      <img
+        src={logoImg1}
+        alt="The Apostolic Faith Mission Western Europe — 50th Anniversary, 1976–2026"
+        className="pointer-events-none absolute left-1/2 top-1/2 w-[160%] max-w-none -translate-x-1/2 -translate-y-1/2"
+        style={{ maxWidth: "none" }}
+      />
+    </div>
   );
 }
 
@@ -326,12 +257,13 @@ function VideoPlayer() {
 
   if (playing) {
     return (
-      <div className="relative w-full max-w-[1096px] aspect-video rounded-[4px] overflow-hidden bg-black">
+      <div className="relative size-full overflow-hidden bg-black">
         <video
           src={videoSrcPlaceholder}
           controls
           autoPlay
-          className="absolute inset-0 w-full h-full object-cover"
+          className="absolute inset-0 size-full object-cover"
+          style={{ height: "100%" }}
         />
       </div>
     );
@@ -342,18 +274,66 @@ function VideoPlayer() {
       type="button"
       onClick={() => setPlaying(true)}
       aria-label="Play video"
-      className="relative w-full max-w-[1096px] aspect-video rounded-[4px] overflow-hidden cursor-pointer border-0 p-0 block"
+      className="relative block size-full cursor-pointer overflow-hidden border-0 bg-black p-0"
     >
-      <img alt="" className="absolute inset-0 w-full h-full object-cover" src={imgVideoPoster} />
-      <div className="absolute inset-0 bg-black/10" />
-      <div className="absolute inset-0 flex items-center justify-center">
-        <div className="size-[56px] md:size-[84px] rounded-full bg-white/25 backdrop-blur-sm flex items-center justify-center border border-white/70">
-          <svg width="20" height="23" viewBox="0 0 26 30" fill="none" className="md:w-[26px] md:h-[30px]">
-            <path d="M0 0 L26 15 L0 30 Z" fill="white" />
-          </svg>
+      <img
+        alt=""
+        className="absolute inset-0 size-full max-w-none object-cover"
+        src={imgVideoPoster}
+        style={{ height: "100%", maxWidth: "none" }}
+      />
+    </button>
+  );
+}
+
+function StartedFeature() {
+  return (
+    <section className="relative isolate flex size-full items-center overflow-hidden bg-[#030711] px-5 py-16 sm:px-8 lg:px-12">
+      <img
+        src={imgImage13}
+        alt=""
+        className="absolute inset-0 -z-20 size-full max-w-none scale-105 object-cover"
+        style={{ height: "100%", maxWidth: "none" }}
+      />
+      <div className="absolute inset-0 -z-10 bg-[#020711]/80" />
+
+      <div className="mx-auto grid w-full max-w-274 items-center gap-10 lg:grid-cols-[400px_1fr] lg:gap-15.5">
+        <div className="relative aspect-400/280 w-full overflow-hidden border-4 border-white sm:border-[5px]">
+          <img
+            src={imgImage13}
+            alt="A woman and man speaking at an Apostolic Faith gathering"
+            className="absolute inset-0 size-full max-w-none object-cover"
+            style={{ height: "100%", maxWidth: "none" }}
+          />
+        </div>
+
+        <div className="flex flex-col items-start text-left text-white">
+          <h2 className={`${HEADER_FONT} text-[clamp(38px,5vw,52px)] leading-[1.05]`}>
+            Where it all started
+          </h2>
+          <p className={`${BODY_COPY} mt-7 max-w-155 text-[17px] leading-[1.6] text-white/90 sm:text-[19px]`}>
+            Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut.
+          </p>
+          <a
+            href="#timeline"
+            onClick={(event) => {
+              event.preventDefault();
+              if (window.location.hash !== "#timeline") {
+                window.history.pushState(
+                  null,
+                  "",
+                  window.location.pathname + window.location.search + "#timeline",
+                );
+              }
+              window.dispatchEvent(new Event("timeline:open"));
+            }}
+            className={`${BODY_COPY} mt-8 text-[17px] leading-none text-white underline decoration-1 underline-offset-4`}
+          >
+            Read Full Timeline
+          </a>
         </div>
       </div>
-    </button>
+    </section>
   );
 }
 
@@ -390,9 +370,9 @@ function TimelineRing({
         </div>
       </div>
 
-      <div className="absolute flex items-center justify-center left-[391px] size-[659px] top-[515px]">
+      <div className="absolute flex items-center justify-center left-97.75 size-164.75 top-128.75">
         <div className="-rotate-90 flex-none">
-          <div className="relative size-[659px]">
+          <div className="relative size-164.75">
             <svg
               className="absolute block inset-0 size-full"
               fill="none"
@@ -449,10 +429,10 @@ function TimelineRing({
       }} />
 
       <div
-        className={`-translate-x-1/2 -translate-y-1/2 [word-break:break-word] absolute flex flex-col ${HEADER_FONT} justify-center leading-[0] left-[calc(50%-259.1px)] not-italic text-[#d9c7a8] text-[24px] text-center top-[736.26px] whitespace-nowrap`}
+        className={`-translate-x-1/2 -translate-y-1/2 [word-break:break-word] absolute flex flex-col ${HEADER_FONT} justify-center leading-0 left-[calc(50%-259.1px)] not-italic text-[#d9c7a8] text-[24px] text-center top-[736.26px] whitespace-nowrap`}
         style={fade(!!prev2)}
       >
-        <p className="leading-[normal]">{prev2?.year ?? ""}</p>
+        <p className={`${HEADER_FONT} leading-normal`}>{prev2?.year ?? ""}</p>
       </div>
 
       <div
@@ -460,15 +440,15 @@ function TimelineRing({
         style={fade(!!prev1)}
       >
         <div className="flex-none rotate-30">
-          <div className={`[word-break:break-word] flex flex-col ${HEADER_FONT} justify-center leading-[0] not-italic relative text-[#d9c7a8] text-[24px] text-center whitespace-nowrap`}>
-            <p className="leading-[normal]">{prev1?.year ?? ""}</p>
+          <div className={`[word-break:break-word] flex flex-col ${HEADER_FONT} justify-center leading-0 not-italic relative text-[#d9c7a8] text-[24px] text-center whitespace-nowrap`}>
+            <p className={`${HEADER_FONT} leading-normal`}>{prev1?.year ?? ""}</p>
           </div>
         </div>
       </div>
 
-      <div className={`-translate-x-1/2 -translate-y-1/2 [word-break:break-word] absolute flex flex-col ${HEADER_FONT} justify-center leading-[0] left-[calc(50%+0.5px)] not-italic text-center text-white top-[571.24px] whitespace-nowrap`}
+      <div className={`-translate-x-1/2 -translate-y-1/2 [word-break:break-word] absolute flex flex-col ${HEADER_FONT} justify-center leading-0 left-[calc(50%+0.5px)] not-italic text-center text-white top-[571.24px] whitespace-nowrap`}
            style={{ fontSize: 56, fontWeight: 700, opacity: labelsOpacity, transition: "opacity 0.35s ease" }}>
-        <p className="leading-[normal]">{cur.year}</p>
+        <p className={`${HEADER_FONT} leading-normal`}>{cur.year}</p>
       </div>
 
       <div
@@ -476,25 +456,101 @@ function TimelineRing({
         style={fade(!!next1)}
       >
         <div className="flex-none rotate-[-30.51deg]">
-          <div className={`[word-break:break-word] flex flex-col ${HEADER_FONT} justify-center leading-[0] not-italic relative text-[#d9c7a8] text-[24px] text-center whitespace-nowrap`}>
-            <p className="leading-[normal]">{next1?.year ?? ""}</p>
+          <div className={`[word-break:break-word] flex flex-col ${HEADER_FONT} justify-center leading-0 not-italic relative text-[#d9c7a8] text-[24px] text-center whitespace-nowrap`}>
+            <p className={`${HEADER_FONT} leading-normal`}>{next1?.year ?? ""}</p>
           </div>
         </div>
       </div>
 
       <div
-        className={`-translate-x-1/2 -translate-y-1/2 [word-break:break-word] absolute flex flex-col ${HEADER_FONT} justify-center leading-[0] left-[calc(50%+263.39px)] not-italic text-[#d9c7a8] text-[24px] text-center top-[742.52px] whitespace-nowrap`}
+        className={`-translate-x-1/2 -translate-y-1/2 [word-break:break-word] absolute flex flex-col ${HEADER_FONT} justify-center leading-0 left-[calc(50%+263.39px)] not-italic text-[#d9c7a8] text-[24px] text-center top-[742.52px] whitespace-nowrap`}
         style={fade(!!next2)}
       >
-        <p className="leading-[normal]">{next2?.year ?? ""}</p>
+        <p className={`${HEADER_FONT} leading-normal`}>{next2?.year ?? ""}</p>
       </div>
     </>
   );
 }
 
+function MobileTimelineRing({
+  activeYearIndex,
+  labelsOpacity = 1,
+}: {
+  activeYearIndex: number;
+  labelsOpacity?: number;
+}) {
+  const entryAt = (offset: number) => TIMELINE_DATA[activeYearIndex + offset];
+
+  return (
+    <svg
+      aria-hidden="true"
+      className="block h-full w-full overflow-visible"
+      viewBox="0 0 404 250"
+      preserveAspectRatio="xMidYMax meet"
+    >
+      <g fill="none" stroke="#D9C7A8">
+        <path d="M 3 250 A 199 199 0 0 1 401 250" strokeOpacity="0.65" strokeWidth="0.8" />
+        <path d="M 63 250 A 139 139 0 0 1 341 250" strokeOpacity="0.65" strokeWidth="0.8" />
+
+        {Array.from({ length: 13 }, (_, index) => {
+          const angle = Math.PI + (Math.PI * index) / 12;
+          const outerRadius = 199;
+          const tickLength = index === 6 ? 18 : 10;
+          const x1 = 202 + (outerRadius - tickLength) * Math.cos(angle);
+          const y1 = 250 + (outerRadius - tickLength) * Math.sin(angle);
+          const x2 = 202 + outerRadius * Math.cos(angle);
+          const y2 = 250 + outerRadius * Math.sin(angle);
+
+          return (
+            <line
+              key={index}
+              x1={x1}
+              y1={y1}
+              x2={x2}
+              y2={y2}
+              stroke={index === 6 ? "white" : "#D9C7A8"}
+              strokeOpacity={index === 6 ? 1 : 0.45}
+              strokeWidth={index === 6 ? 1.6 : 0.8}
+            />
+          );
+        })}
+      </g>
+
+      <circle cx="202" cy="51" r="3" fill="white" />
+      <circle cx="202" cy="51" r="8" fill="white" opacity="0.08" />
+
+      <g
+        fill="#D9C7A8"
+        fontFamily="CRONDE, serif"
+        fontSize="13"
+        textAnchor="middle"
+        style={{ opacity: labelsOpacity, transition: "opacity 0.35s ease" }}
+      >
+        <text x="55" y="179" transform="rotate(24 55 179)">{entryAt(-2)?.year ?? ""}</text>
+        <text x="105" y="103" transform="rotate(35 105 103)">{entryAt(-1)?.year ?? ""}</text>
+        <text x="299" y="103" transform="rotate(-35 299 103)">{entryAt(1)?.year ?? ""}</text>
+        <text x="349" y="179" transform="rotate(-24 349 179)">{entryAt(2)?.year ?? ""}</text>
+      </g>
+
+      <text
+        x="202"
+        y="90"
+        fill="white"
+        fontFamily="CRONDE, serif"
+        fontSize="29"
+        fontWeight="700"
+        textAnchor="middle"
+        style={{ opacity: labelsOpacity, transition: "opacity 0.35s ease" }}
+      >
+        {TIMELINE_DATA[activeYearIndex].year}
+      </text>
+    </svg>
+  );
+}
+
 function SVGGroups() {
   return (
-    <div className="absolute contents inset-[-12.5%_14.58%] hidden md:block">
+    <div className="absolute inset-[-12.5%_14.58%] hidden md:block">
       <div className="absolute inset-[-12.5%_14.58%] opacity-10">
         <svg className="absolute block inset-0 size-full" fill="none" preserveAspectRatio="none" viewBox="0 0 1020 1020">
           <g><path d={(svgPaths as any).p32d5c00} fill="var(--fill-0, #949494)" /></g>
@@ -523,136 +579,86 @@ function SVGGroups() {
   );
 }
 
-function PhotoCard() {
+function GalleryPolaroid({
+  img,
+  className = "",
+}: {
+  img: string;
+  className?: string;
+}) {
   return (
-    <div className="bg-white content-stretch flex flex-col items-start overflow-clip pb-[32px] pt-[8px] px-[8px] relative shadow-[0px_4px_4.2px_0px_rgba(0,0,0,0.07)] w-[215px]">
-      <div className="h-[188px] overflow-clip relative shrink-0 w-[199px]">
-        <div className="absolute h-[219px] left-[-73px] top-[-31px] w-[327.677px]">
-          <img alt="" className="absolute inset-0 max-w-none object-bottom pointer-events-none size-full" src={imgContainer1} />
-        </div>
+    <div
+      className={`bg-white p-2 pb-8 shadow-[0_5px_12px_rgba(25,36,65,0.14)] ${className}`}
+    >
+      <div className="aspect-[1.06/1] w-full overflow-hidden bg-[#ece8df]">
+        <img alt="" className="size-full max-w-none object-cover" src={img} style={{ height: "100%", maxWidth: "none" }} />
       </div>
     </div>
   );
 }
 
-const WELCOME_H = 600;
+const WELCOME_H = 900;
 const STARTED_H = 722;
-const VIDEO_H   = 860;
+const VIDEO_H   = 578;
 export const PRE_H_TOTAL = WELCOME_H + STARTED_H + VIDEO_H;
 
 export function PreTimelineSection() {
   return (
     <div className="bg-[#fcf9f2] relative w-full overflow-clip">
-      <div className="flex flex-col md:hidden">
-        <div className="relative w-full min-h-[100svh] overflow-hidden bg-[#fcf9f2] flex items-center justify-center px-6 py-16">
+      <div className="flex flex-col lg:hidden">
+        <section className="relative flex min-h-svh w-full items-center justify-center overflow-hidden bg-[#fcf9f2] px-5 py-16">
           <DiagonalGrid />
-          <div className="relative flex flex-col items-center text-center max-w-[420px] z-10 gap-4">
-            <img
-              src={logoImg1}
-              alt="AFM 50th Anniversary"
-              className="w-full max-w-[240px] h-auto"
-            />
-            <div>
-              <p className={`${HEADER_FONT} text-[#192441] text-[38px] leading-[1.05]`}>
-                Praise God
-              </p>
-              <p className={`${HEADER_FONT} text-[#192441] text-[38px] leading-[1.05]`}>
-                With US!
-              </p>
-            </div>
-            <p className={`${BODY_COPY} text-[#192441]`} style={{ opacity: 0.8 }}>
-              I know not what God will accomplish in and through me, but I will do my best to be faithful.
+          <div className="relative z-10 flex w-full max-w-180 flex-col items-center text-center">
+            <JubileeLockup />
+            <h1 className={`${HEADER_FONT} mt-8 text-[clamp(48px,15vw,76px)] leading-[0.9] text-[#0f1421]`}>
+              Praise God
+              <br />
+              With US!
+            </h1>
+            <p className={`${BODY_COPY} mt-8 max-w-155 text-[17px] leading-[1.65] text-[#0f1421] sm:text-[20px]`}>
+              Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.
             </p>
           </div>
+        </section>
+
+        <div className="h-svh w-full">
+          <StartedFeature />
         </div>
 
-        <div className="relative w-full bg-[#0f1421] px-6 py-16">
-          <div className="flex flex-col items-center gap-8 max-w-[500px] mx-auto">
-            <div className="w-full aspect-[4/3] relative overflow-hidden">
-              <img alt="" className="absolute inset-0 w-full h-full object-cover" src={imgStartedPhoto} />
-              <div aria-hidden className="absolute border-[4px] border-solid border-white inset-0 pointer-events-none" />
-            </div>
-            <div className="flex flex-col gap-4 items-start text-white text-left">
-              <p className={`${HEADER_FONT} text-[32px] leading-tight`}>Where it all started</p>
-              <p className={`${BODY_COPY} opacity-90`}>
-                Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut.
-              </p>
-              <a
-                href="#timeline"
-                onClick={(e) => { e.preventDefault(); window.location.hash = "#timeline"; }}
-                className={`${BODY_COPY} text-[15px] text-white underline underline-offset-4 decoration-1 cursor-pointer`}
-              >
-                Read Full Timeline
-              </a>
-            </div>
-          </div>
-        </div>
-
-        <div className="relative w-full bg-[#0f1421] px-6 py-14 flex items-center justify-center">
+        <div className="relative h-[50svh] w-full overflow-hidden bg-black sm:aspect-767/307 sm:h-auto">
           <VideoPlayer />
         </div>
       </div>
 
-      <div className="hidden md:block relative w-[1440px] max-w-full mx-auto h-auto" style={{ height: PRE_H_TOTAL }}>
-        <div
-          className="absolute left-0 top-0 w-[1440px] overflow-hidden bg-[#fcf9f2] mt-[-100px] "
+      <div className="relative hidden h-auto w-full lg:block" style={{ height: PRE_H_TOTAL }}>
+        <section
+          className="absolute left-0 top-0 flex w-full items-center justify-center overflow-hidden bg-[#fcf9f2]"
           style={{ height: WELCOME_H }}
         >
           <DiagonalGrid />
 
-          <div className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 flex flex-col items-center text-center w-full max-w-[900px] px-8 z-10">
-            <img
-              src={logoImg1}
-              alt="AFM 50th Anniversary"
-              className="w-full max-w-[420px] h-auto"
-            />
-            <div className="mt-[-150px]">
-              <p className={`${HEADER_FONT} text-[#192441] text-[64px] leading-[1]`}>
-                Praise God
-              </p>
-              <p className={`${HEADER_FONT} text-[#192441] text-[64px] leading-[1]`}>
-                With US!
-              </p>
-            </div>
-
-            <p className={`${BODY_COPY} text-[#192441] max-w-[520px] mt-3`} style={{ opacity: 0.8 }}>
-              I know not what God will accomplish in and through me, but I will do my best to be faithful.
+          <div className="relative z-10 flex w-full max-w-250 flex-col items-center px-8 text-center">
+            <JubileeLockup />
+            <h1 className={`${HEADER_FONT} mt-12 text-[128px] leading-[0.86] text-[#0f1421]`}>
+              Praise God
+              <br />
+              With US!
+            </h1>
+            <p className={`${BODY_COPY} mt-12 max-w-190 text-[24px] leading-[1.45] text-[#0f1421]`}>
+              Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.
             </p>
           </div>
-        </div>
+        </section>
 
         <div
-          className="absolute left-0 w-[1440px] h-[722px] bg-[#0f1421] overflow-clip mt-[-50px]"
+          className="absolute left-0 h-180.5 w-full overflow-hidden bg-[#030711]"
           style={{ top: WELCOME_H }}
         >
-          <ImgBg />
-          <div className="-translate-x-1/2 -translate-y-1/2 absolute content-stretch flex gap-[62px] items-center left-1/2 top-[361px] w-[1000px]">
-            <div className="h-[280px] relative shrink-0 w-[400px] overflow-clip">
-              <img alt="" className="absolute inset-0 w-full h-full object-cover" src={imgStartedPhoto} />
-              <div aria-hidden className="absolute border-[5px] border-solid border-white inset-0 pointer-events-none" />
-            </div>
-            <div className="[word-break:break-word] content-stretch flex flex-col gap-[24px] items-start leading-[0] not-italic relative shrink-0 text-white w-[538px]">
-              <div className={`flex flex-col ${HEADER_FONT} justify-center min-w-full relative shrink-0 text-[48px] w-[min-content]`}>
-                <p className="leading-[normal]">Where it all started</p>
-              </div>
-              <div className={`flex flex-col ${BODY_COPY} justify-center relative shrink-0 w-full opacity-90`}>
-                <p className="leading-[32px]">
-                  Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut.
-                </p>
-              </div>
-              <a
-                href="#timeline"
-                onClick={(e) => { e.preventDefault(); window.location.hash = "#timeline"; }}
-                className={`${BODY_COPY} text-[16px] text-white underline underline-offset-4 decoration-1 cursor-pointer`}
-              >
-                Read Full Timeline
-              </a>
-            </div>
-          </div>
+          <StartedFeature />
         </div>
 
         <div
-          className="absolute left-0 w-[1440px] h-[860px] bg-[#0f1421] flex items-center justify-center px-6 mt-[-50px]"
+          className="absolute left-0 h-144.5 w-full overflow-hidden bg-black"
           style={{ top: WELCOME_H + STARTED_H }}
         >
           <VideoPlayer />
@@ -665,9 +671,11 @@ export function PreTimelineSection() {
 export function TimelineSection({
   activeYearIndex,
   transitionProgress = 0,
+  showMobileRing = false,
 }: {
   activeYearIndex: number;
   transitionProgress?: number;
+  showMobileRing?: boolean;
 }) {
   const safeIndex = Math.min(Math.max(activeYearIndex, 0), TIMELINE_DATA.length - 1);
   const entry = TIMELINE_DATA[safeIndex];
@@ -694,109 +702,110 @@ export function TimelineSection({
   const bg = `rgb(${bgR},${bgG},${bgB})`;
 
   return (
-    <div className="relative w-full h-full md:h-[782px] overflow-clip" style={{ background: bg }}>
-      <div className="flex md:hidden relative w-full h-full min-h-[100svh] flex-col items-center justify-center px-6 py-16">
-        <div className="absolute inset-0" style={{ opacity: Math.max(0.25, imgBgOpacity * 0.4) }}>
-          <img
-            key={safeIndex}
-            src={entry.bgImage}
-            alt=""
-            className="absolute inset-0 w-full h-full object-cover"
-          />
-          <div
-            className="absolute inset-0"
-            style={{ background: "linear-gradient(180deg, rgba(15,20,33,0.8) 0%, rgba(15,20,33,0.9) 100%)" }}
-          />
-        </div>
+    <div className="relative size-full min-h-svh overflow-hidden" style={{ background: bg }}>
+      <div
+        className="absolute inset-0"
+        style={{ transition: "opacity 1.2s cubic-bezier(0.25, 0.1, 0.25, 1)" }}
+      >
+        <img
+          key={safeIndex}
+          src={entry.bgImage}
+          alt=""
+          className="absolute inset-0 size-full max-w-none object-cover"
+          style={{
+            height: "100%",
+            maxWidth: "none",
+            opacity: imgBgOpacity * 0.78,
+            transition: "opacity 1.2s cubic-bezier(0.25, 0.1, 0.25, 1)",
+          }}
+        />
+        <div
+          className="absolute inset-0 bg-[linear-gradient(180deg,rgba(15,20,33,0.68)_0%,rgba(15,20,33,0.8)_100%)]"
+          style={{ opacity: imgBgOpacity }}
+        />
+      </div>
 
-        <div className="relative z-10 flex flex-col items-center text-center max-w-[420px]" style={{ opacity: contentOpacity, transition: "opacity 0.25s ease" }}>
-          <p
-            className={`text-white mb-3 ${HEADER_FONT}`}
-            style={{ fontSize: 44, opacity: labelsOpacity, transition: "opacity 0.35s ease" }}
-          >
-            {entry.year}
-          </p>
-          <h3 className={`${HEADER_FONT} text-[24px] text-white mb-3 leading-tight`}>
+      <div className={`relative flex size-full flex-col items-center px-5 py-12 sm:px-8 lg:hidden ${showMobileRing ? "justify-start pt-[clamp(110px,22svh,176px)]" : "justify-center"}`}>
+        <div className="relative z-10 flex w-full max-w-170 flex-col items-center text-center" style={{ opacity: contentOpacity, transition: "opacity 0.25s ease" }}>
+          {!showMobileRing && (
+            <p
+              className={`text-white mb-3 ${HEADER_FONT}`}
+              style={{ fontSize: 44, opacity: labelsOpacity, transition: "opacity 0.35s ease" }}
+            >
+              {entry.year}
+            </p>
+          )}
+          <h3 className={`${HEADER_FONT} mb-5 text-[clamp(34px,10vw,52px)] leading-[0.98] text-white`}>
             {entry.title}
           </h3>
-          <p className={`${BODY_COPY} text-white opacity-90`}>
+          <p className={`${BODY_COPY} max-w-155 pt-10 text-[clamp(16px,4.7vw,21px)] leading-[1.55] text-white opacity-90`}>
             {entry.text}
           </p>
         </div>
 
-        <div className="relative z-10 mt-8" style={{ opacity: dotsOpacity }}>
+        {showMobileRing && (
+          <div
+            className="pointer-events-none absolute inset-x-0 bottom-0 h-[clamp(270px,38svh,330px)] overflow-hidden"
+            style={{ opacity: Math.max(0, ringOpacity) }}
+          >
+            <MobileTimelineRing activeYearIndex={safeIndex} labelsOpacity={labelsOpacity} />
+          </div>
+        )}
+
+        <div className={`${showMobileRing ? "absolute bottom-6" : "relative mt-8"} z-10`} style={{ opacity: dotsOpacity }}>
           <p className={`${BODY_COPY} text-[12px] text-[#D9C7A8] opacity-70 tracking-[0.14em] m-0`}>
             {String(activeYearIndex + 1).padStart(2, "0")} / {String(TIMELINE_DATA.length).padStart(2, "0")}
           </p>
         </div>
       </div>
 
-      <div className="hidden md:block relative w-[1440px] max-w-full mx-auto h-[782px] ">
-        <div style={{
-          position: "absolute",
-          inset: 0,
-          opacity: Math.max(0.25, imgBgOpacity * 0.35),
-          transition: "opacity 1.2s cubic-bezier(0.25, 0.1, 0.25, 1)",
-        }}>
-          <img
-            key={safeIndex}
-            src={entry.bgImage}
-            alt=""
-            style={{
-              position: "absolute",
-              inset: 0,
-              width: "100%",
-              height: "100%",
-              objectFit: "cover",
-              objectPosition: "center",
-            }}
-          />
-          <div style={{
-            position: "absolute",
-            inset: 0,
-            background: "linear-gradient(180deg, rgba(15,20,33,0.75) 0%, rgba(15,20,33,0.85) 100%)",
-          }} />
-        </div>
-
+      <div className="absolute inset-0 hidden lg:block">
         <div style={{ opacity: imgBgOpacity * 0.05 }}>
           <ImgBg />
         </div>
 
-        <div style={{
-          position: "absolute", inset: 0,
-          transform: `translateY(${ringDriftY}px) scale(${ringScale})`,
-          transformOrigin: "50% 50%",
-          opacity: Math.max(0, ringOpacity),
-          pointerEvents: "none",
-        }}>
-          <TimelineRing activeYearIndex={safeIndex} labelsOpacity={labelsOpacity} />
+        <div className="pointer-events-none absolute bottom-0 left-1/2 h-195.5 w-360 origin-bottom -translate-x-1/2 scale-[0.72] xl:scale-[0.89] min-[1440px]:scale-100 min-[1600px]:scale-[1.12] min-[1920px]:scale-[1.33]">
+          <div style={{
+            position: "absolute",
+            inset: 0,
+            transform: `translateY(${ringDriftY}px) scale(${ringScale})`,
+            transformOrigin: "50% 100%",
+            opacity: Math.max(0, ringOpacity),
+          }}>
+            <TimelineRing activeYearIndex={safeIndex} labelsOpacity={labelsOpacity} />
+          </div>
         </div>
 
         <div style={{ position: "absolute", inset: 0, opacity: framesOpacity, pointerEvents: "none" }}>
-          <div className="absolute flex h-[153.332px] items-center justify-center left-[37px] top-[293px] w-[187.781px]">
+          <div className="absolute flex h-[153.332px] items-center justify-center left-9.25 top-73.25 w-[187.781px]">
             <div className="flex-none rotate-15"><SmallFrame img={imgImage3} /></div>
           </div>
-          <div className="absolute flex h-[153.332px] items-center justify-center left-[1210px] top-[362px] w-[187.781px]">
+          <div className="absolute flex h-[153.332px] items-center justify-center left-302.5 top-90.5 w-[187.781px]">
             <div className="-rotate-15 flex-none"><SmallFrame img={imgImage3} /></div>
           </div>
         </div>
 
         <div
-          className={`-translate-x-1/2 -translate-y-1/2 [word-break:break-word] absolute flex flex-col ${HEADER_FONT} justify-center leading-[0] left-[calc(50%+7.5px)] not-italic text-center text-white top-[202px] whitespace-nowrap`}
-          style={{ fontSize: 48, opacity: contentOpacity, transition: "opacity 0.25s ease" }}
+          className="absolute left-1/2 top-[18%] flex w-[min(90vw,1000px)] -translate-x-1/2 flex-col justify-center text-center text-white"
+          style={{ fontSize: "clamp(44px, 4.5vw, 72px)", opacity: contentOpacity, transition: "opacity 0.25s ease" }}
         >
-          <p className="leading-[normal]">{entry.title}</p>
+          <h3
+            className={`${HEADER_FONT} leading-normal`}
+            style={{ fontSize: "clamp(44px, 4.5vw, 72px)" }}
+          >
+            {entry.title}
+          </h3>
         </div>
 
         <div
-          className={`-translate-x-1/2 -translate-y-1/2 [word-break:break-word] absolute flex flex-col ${BODY_COPY} justify-center left-[calc(50%+14px)] not-italic text-center text-white top-[337px] w-[770px]`}
+          className="absolute left-1/2 top-[36%] flex w-[min(76vw,1080px)] -translate-x-1/2 flex-col justify-center text-center text-white"
           style={{ opacity: contentOpacity, transition: "opacity 0.16s ease" }}
         >
-          <p className="leading-[32px]">{entry.text}</p>
+          <p className={`${BODY_COPY} text-[clamp(18px,1.55vw,24px)] leading-[1.45]`}>{entry.text}</p>
         </div>
 
         <div
-          className="absolute bottom-[32px] left-1/2 -translate-x-1/2"
+          className="absolute bottom-8 left-1/2 -translate-x-1/2"
           style={{ opacity: dotsOpacity }}
         >
           <p className={`${BODY_COPY} text-[13px] text-[#D9C7A8] opacity-55 tracking-[0.14em] m-0 whitespace-nowrap`}>
@@ -809,100 +818,102 @@ export function TimelineSection({
 }
 
 export function PostTimelineSection() {
+  const galleryPhotos = [imgImage9, imgImage17, imgImage16, imgImage15, imgImage14, imgImage18];
+
   return (
     <div className="bg-[#fcf9f2] relative w-full overflow-clip">
-      <div className="flex md:hidden flex-col items-center text-center px-6 py-16 gap-6">
-        <div className="size-[200px] overflow-hidden rounded-full">
-          <div className="relative size-full overflow-hidden pointer-events-none">
-            <img
-              alt=""
-              className="absolute max-w-none size-[171.15%] object-cover"
-              src={img51}
-            />
-          </div>
+      <div className="relative flex min-h-190 flex-col items-center overflow-hidden px-1 py-10 text-center sm:min-h-245 sm:px-5 sm:py-16 lg:hidden">
+        <div
+          aria-hidden
+          className="pointer-events-none absolute left-1/2 top-1/2 h-190 w-190 -translate-x-1/2 -translate-y-1/2 rotate-[-10deg] opacity-[0.07]"
+          style={{
+            backgroundImage:
+              "linear-gradient(#192441 1px, transparent 1px), linear-gradient(90deg, #192441 1px, transparent 1px)",
+            backgroundSize: "145px 145px",
+          }}
+        />
+
+        <div className="relative z-10 size-26.5 overflow-hidden sm:size-32">
+          <img
+            alt="AFM Western Europe 50th Anniversary"
+            className="absolute left-1/2 top-1/2 size-[190%] max-w-none -translate-x-1/2 -translate-y-1/2 object-contain"
+            src={img51}
+          />
         </div>
 
-        <p className={`${HEADER_FONT} text-[#192441] text-[36px] leading-tight`}>
+        <h2 className={`${HEADER_FONT} relative z-10 mt-6 text-[35px] leading-[0.92] text-[#192441] sm:mt-7 sm:text-[44px] sm:leading-[0.98]`}>
           Years<br />{`Of God's Faithful Ministry`}
-        </p>
+        </h2>
 
-        <div className="flex items-center justify-center -space-x-3 w-full max-w-[360px] my-2">
-          <div className="rotate-[-8deg] z-0">
-            <div className="bg-white p-[5px] pb-[14px] shadow-[0px_4px_8px_0px_rgba(0,0,0,0.15)] w-[108px]">
-              <div className="w-full h-[92px] overflow-hidden">
-                <img alt="" className="w-full h-full object-cover" src={imgContainer2} />
-              </div>
-            </div>
-          </div>
-          <div className="rotate-[7deg] z-10">
-            <div className="bg-white p-[5px] pb-[14px] shadow-[0px_4px_8px_0px_rgba(0,0,0,0.15)] w-[108px]">
-              <div className="w-full h-[92px] overflow-hidden">
-                <img alt="" className="w-full h-full object-cover" src={imgImage3} />
-              </div>
-            </div>
-          </div>
-          <div className="rotate-[-6deg] z-0">
-            <div className="bg-white p-[5px] pb-[14px] shadow-[0px_4px_8px_0px_rgba(0,0,0,0.15)] w-[108px]">
-              <div className="w-full h-[92px] overflow-hidden">
-                <img alt="" className="w-full h-full object-cover" src={imgContainer1} />
-              </div>
-            </div>
-          </div>
+        <div className="relative z-10 mt-9 flex w-full items-center justify-center overflow-visible px-1 sm:hidden">
+          {galleryPhotos.slice(0, 3).map((photo, index) => (
+            <GalleryPolaroid
+              key={photo}
+              img={photo}
+              className={`w-[38%] max-w-38.5 shrink-0 p-1.5 pb-5 ${index > 0 ? "ml-[-6%]" : ""} ${["-rotate-1", "rotate-[-13deg] z-10", "rotate-[7deg]"][index]}`}
+            />
+          ))}
+        </div>
+
+        <div className="relative z-10 mt-10 hidden w-full max-w-130 grid-cols-2 gap-x-3 gap-y-5 px-2 sm:grid sm:gap-x-6">
+          {galleryPhotos.map((photo, index) => (
+            <GalleryPolaroid
+              key={photo}
+              img={photo}
+              className={`w-full ${["-rotate-3", "rotate-4", "rotate-2", "-rotate-2", "-rotate-4", "rotate-3"][index]}`}
+            />
+          ))}
         </div>
 
         <button
+          type="button"
           onClick={() => { window.location.hash = "#gallery"; }}
-          className="flex items-center justify-center p-[12px] rounded-[2px] w-full max-w-[280px] bg-[#192441] cursor-pointer border-0"
+          className={`relative z-10 mt-10 flex w-42 items-center justify-center rounded-[2px] border-0 bg-[#192441] px-4 py-2.5 text-[14px] text-white sm:mt-12 sm:w-full sm:max-w-70 sm:p-3 sm:text-[16px] ${BODY_COPY}`}
         >
-          <span className={`${BODY_COPY} text-[16px] text-white`}>
-            View Full Gallery
-          </span>
+          View Full Gallery
         </button>
       </div>
 
-      <div className="hidden md:block relative w-[1440px] max-w-full mx-auto h-[860px]">
-        <div className="absolute left-0 top-[7px] w-[1440px]">
-          <div className="h-[816px] left-0 overflow-clip relative w-[1440px]">
-            <SVGGroups />
-            <div className="absolute left-[54px] top-[113px]"><PhotoCard /></div>
-            <div className="absolute flex h-[244.998px] items-center justify-center left-[108.94px] top-[503.5px] w-[233.118px]">
-              <div className="flex-none rotate-[4.74deg]"><PhotoCard /></div>
-            </div>
-            <div className="absolute left-[1093px] top-[316px]"><PhotoCard /></div>
-            <div className="absolute flex h-[289.163px] items-center justify-center left-[1079px] top-[468px] w-[281.581px]">
-              <div className="flex-none rotate-[20.65deg]"><PhotoCard /></div>
-            </div>
-            <div className="absolute flex h-[272.731px] items-center justify-center left-[1078px] top-[76px] w-[263.21px]">
-              <div className="flex-none rotate-[13.81deg]"><PhotoCard /></div>
-            </div>
-            <div className={`-translate-x-1/2 -translate-y-1/2 [word-break:break-word] absolute flex flex-col ${HEADER_FONT} justify-center leading-[0] left-[calc(50%+0.5px)] not-italic text-[#192441] text-[72px] text-center top-[416.5px] w-[525px]`}>
-              <p className="leading-[normal]">Years<br />{`Of God's Faithful Ministry`}</p>
-            </div>
-            <div className="absolute flex h-[272.02px] items-center justify-center left-[102.33px] top-[280.35px] w-[262.426px]">
-              <div className="flex-none rotate-[-13.55deg]">
-                <div className="bg-white content-stretch flex flex-col items-start overflow-clip pb-[32px] pt-[8px] px-[8px] relative shadow-[0px_0px_9.2px_0px_rgba(0,0,0,0.07)] w-[215px]">
-                  <div className="h-[188px] overflow-clip relative shrink-0 w-[199px]">
-                    <div className="absolute h-[219px] left-[-73px] top-[-31px] w-[327.677px]">
-                      <img alt="" className="absolute inset-0 max-w-none object-bottom pointer-events-none size-full" src={imgContainer1} />
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </div>
-            <button
-              onClick={() => { window.location.hash = "#gallery"; }}
-              className="absolute flex h-[42px] items-center justify-center left-[603px] p-[12px] rounded-[2px] top-[601px] w-[235px] bg-[#192441] cursor-pointer border-0"
-            >
-              <div className={`[word-break:break-word] flex flex-col ${BODY_COPY} justify-center leading-[0] not-italic relative shrink-0 text-[16px] text-center text-white whitespace-nowrap`}>
-                <p className="leading-[normal]">View Full Gallery</p>
-              </div>
-            </button>
-            <div className="absolute left-[640px] size-[172px] top-[113px]">
-              <div className="absolute inset-0 overflow-hidden pointer-events-none">
-                <img alt="" className="absolute left-[-35.58%] max-w-none size-[171.15%] top-[-35.58%]" src={img51} />
-              </div>
-            </div>
+      <div className="hidden lg:block relative w-360 max-w-full mx-auto h-215">
+        <div className="absolute inset-0 overflow-hidden">
+          <SVGGroups />
+          <div
+            aria-hidden
+            className="pointer-events-none absolute left-1/2 top-1/2 h-262.5 w-330 -translate-x-1/2 -translate-y-1/2 rotate-[-10deg] opacity-[0.1]"
+            style={{
+              backgroundImage:
+                "linear-gradient(#192441 1px, transparent 1px), linear-gradient(90deg, #192441 1px, transparent 1px)",
+              backgroundSize: "185px 150px",
+            }}
+          />
+
+          <GalleryPolaroid img={imgImage9} className="absolute left-19 top-28 w-55.5" />
+          <GalleryPolaroid img={imgImage17} className="absolute left-28 top-76.25 w-62.5 rotate-[-13deg]" />
+          <GalleryPolaroid img={imgImage16} className="absolute left-29 top-142 w-55 rotate-[5deg]" />
+
+          <GalleryPolaroid img={imgImage15} className="absolute right-18.75 top-19.5 w-61.25 rotate-14" />
+          <GalleryPolaroid img={imgImage14} className="absolute right-23 top-82.5 w-55.5" />
+          <GalleryPolaroid img={imgImage18} className="absolute right-21 top-137 w-62.5 rotate-20" />
+
+          <div className="absolute left-1/2 top-26.5 size-45.5 -translate-x-1/2 overflow-hidden">
+            <img
+              alt="AFM Western Europe 50th Anniversary"
+              className="absolute left-1/2 top-1/2 size-[190%] max-w-none -translate-x-1/2 -translate-y-1/2 object-contain"
+              src={img51}
+            />
           </div>
+
+          <h2 className={`${HEADER_FONT} absolute left-1/2 top-83.5 w-140 -translate-x-1/2 text-center text-[72px] leading-[0.96] text-[#192441]`}>
+            Years<br />{`Of God's Faithful Ministry`}
+          </h2>
+
+          <button
+            type="button"
+            onClick={() => { window.location.hash = "#gallery"; }}
+            className={`absolute left-1/2 top-153.75 flex h-11.5 w-62 -translate-x-1/2 items-center justify-center rounded-[2px] border-0 bg-[#192441] text-[16px] text-white ${BODY_COPY}`}
+          >
+            View Full Gallery
+          </button>
         </div>
       </div>
     </div>
@@ -913,25 +924,25 @@ export function PostTimelineSection() {
 
 const STORIES = [
   {
-    img: imgImage3,
-    title: "Only Three of Us Were Present",
-    text: "On 11 April 1976, Brother Shuaibu Adeoye, Brother Victor Okusanya, and Sister Comfort Martins held the very first Apostolic Faith Sunday school lesson in the UK, in a Brixton lounge.",
-    tag: "1976",
+    img: imgImage1,
+    title: "A Church Planted in Amsterdam",
+    text: "From a small gathering of six believers, a thriving congregation emerged that continues to shape the city today.",
+    tag: "1971",
   },
   {
-    img: imgContainer1,
-    title: "Dami's Story — A Testimony of Faithfulness",
-    text: "In July 2022, a Birmingham Church family watched God turn a medical emergency no one expected their daughter to survive into a full and lasting recovery.",
-    tag: "2022",
+    img: imgImage8,
+    title: "The European Leadership Summit",
+    text: "In 1987, pastors from twelve nations gathered for the first time, forging bonds that would define the mission's next chapter.",
+    tag: "1987",
   },
   {
-    img: imgContainer2,
-    title: "Fifty Years of Testimonies",
-    text: "Healing, provision, restored families, and lives turned toward Christ — real stories gathered from across our branches over five decades of ministry.",
-    tag: "1976–2026",
+    img: imgImage11,
+    title: "50 Years of Youth Ministry",
+    text: "Young people have always been at the heart of AFM Western Europe — the next generation carrying the torch of faithful witness.",
+    tag: "2007",
   },
 ];
-export const STORIES_MIN_H = 800;
+export const STORIES_MIN_H = 920;
 
 export function StoriesSection({
   onHeightChange,
@@ -953,56 +964,55 @@ export function StoriesSection({
   }, [onHeightChange]);
 
   return (
-    <div
-      ref={rootRef}
-      className="relative w-full px-4 md:px-0"
-      style={{ minHeight: STORIES_MIN_H, background: "#FCF9F2" }}
-    >
-      <div className="mt-8 pt-12 md:pt-20 pb-8 md:pb-0 mx-auto max-w-[680px] text-center">
-        <p className={`${BODY_COPY} text-[10px] md:text-[12px] text-[#192441] tracking-[0.22em] opacity-45 uppercase mb-4 md:mb-5`}>
-          Stories of Ministry
-        </p>
-        <h2 className={`${HEADER_FONT} text-[36px] md:text-[58px] text-[#192441] leading-tight mb-4 md:mb-6`}>
-          Voices of the Journey
-        </h2>
-        <p className={`${BODY_COPY} text-[#192441] opacity-55`}>
-          Across five decades, the Gospel has transformed lives throughout Western Europe.
-        </p>
-      </div>
+    <section className="w-full bg-white p-3 sm:p-5 lg:p-6">
+      <div
+        className="relative flex w-full flex-col items-center bg-[#fcf9f2] px-5 py-16 sm:px-8 sm:py-20 lg:min-h-230 lg:px-14 lg:py-20"
+        style={{ minHeight: STORIES_MIN_H }}
+      >
+        <header className="mx-auto max-w-190 text-center">
+          <p className={`${BODY_COPY} text-[10px] uppercase tracking-[0.28em] text-[#192441]/45 sm:text-[12px]`}>
+            Stories of Ministry
+          </p>
+          <h2 className={`${HEADER_FONT} mt-5 text-[clamp(42px,5vw,66px)] leading-[1.02] text-[#192441]`}>
+            Voices of the Journey
+          </h2>
+          <p className={`${BODY_COPY} mt-7 text-[16px] leading-[1.6] text-[#192441]/55 sm:text-[18px]`}>
+            Across five decades, the Gospel has transformed lives throughout Western Europe.
+          </p>
+        </header>
 
-      <div className="mt-10 md:mt-16 mb-12 md:mb-0 mx-auto max-w-[1200px] flex flex-col md:flex-row gap-8 md:gap-11">
-        {STORIES.map((story, i) => (
-          <div key={i} className="flex-1 flex flex-col">
-            <div className="h-[180px] md:h-[216px] overflow-hidden rounded-[3px] relative">
-              <img
-                src={story.img}
-                alt=""
-                className="absolute inset-0 w-full h-full object-cover"
-              />
-            </div>
-            <p className={`${BODY_COPY} text-[11px] md:text-[12px] text-[#192441] opacity-45 mt-4 md:mt-5 mb-2 tracking-[0.14em]`}>
-              {story.tag}
-            </p>
-            <h3 className={`${HEADER_FONT} text-[18px] md:text-[22px] text-[#192441] mb-2 md:mb-3 leading-tight`}>
-              {story.title}
-            </h3>
-            <p className={`${BODY_COPY} text-[#192441] opacity-60`}>
-              {story.text}
-            </p>
-          </div>
-        ))}
-      </div>
+        <div className="mx-auto mt-14 grid w-full max-w-337 grid-cols-1 gap-10 sm:mt-20 md:grid-cols-2 lg:grid-cols-3 lg:gap-12">
+          {STORIES.map((story) => (
+            <article key={story.title} className="flex min-w-0 flex-col">
+              <div className="relative aspect-[1.72/1] w-full overflow-hidden rounded-[3px] bg-[#192441]/5">
+                <img
+                  src={story.img}
+                  alt=""
+                  className="absolute inset-0 size-full max-w-none object-cover"
+                  style={{ height: "100%", maxWidth: "none" }}
+                />
+              </div>
+              <p className={`${BODY_COPY} mt-5 text-[11px] leading-none tracking-[0.14em] text-[#192441]/45 sm:text-[12px]`}>
+                {story.tag}
+              </p>
+              <h3 className={`${HEADER_FONT} mt-3 text-[24px] leading-[1.1] text-[#192441] sm:text-[26px]`}>
+                {story.title}
+              </h3>
+              <p className={`${BODY_COPY} mt-4 text-[16px] leading-[1.55] text-[#192441]/60 sm:text-[18px]`}>
+                {story.text}
+              </p>
+            </article>
+          ))}
+        </div>
 
-      <div className="pb-20 md:pb-[60px] flex justify-center">
-        <div
+        <button
+          type="button"
           onClick={() => { window.location.hash = "#watch"; }}
-          className={`${BODY_COPY} bg-[#192441] text-white text-[13px] md:text-[14px] tracking-wide py-3 md:py-3.5 px-8 md:px-9 rounded-full cursor-pointer whitespace-nowrap`}
+          className={`${BODY_COPY} mt-16 rounded-full border-0 bg-[#192441] px-10 py-4 text-[14px] leading-none tracking-wide text-white sm:mt-20`}
         >
           View All Stories
-        </div>
+        </button>
       </div>
-
-      <div className="absolute bottom-0 left-0 right-0 h-px bg-[#192441] opacity-8" />
-    </div>
+    </section>
   );
 }

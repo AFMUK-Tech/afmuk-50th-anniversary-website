@@ -141,7 +141,7 @@ function ResponsiveBranchPage({
   );
 }
 
-function PlaceholderBranchPage({ city, onBack }: { city: string; onBack: () => void }) {
+function PlaceholderBranchPage({ city, onBack: _onBack }: { city: string; onBack: () => void }) {
   const [fadeIn, setFadeIn] = useState(false);
 
   useEffect(() => {
