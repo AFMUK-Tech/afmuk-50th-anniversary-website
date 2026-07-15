@@ -32,9 +32,9 @@ import imgVideoPoster from "../../imports/Homepage/ukpic.png";
 import videoSrcPlaceholder from "../../imports/Homepage/aboutvideo.mp4";
 
 // ─── Site-wide typography tokens ───────────────────────────────────────────
-export const HEADER_FONT = "font-['CRONDE:Regular',sans-serif]";
+export const HEADER_FONT = "font-['Cronde',_sans-serif] font-normal";
 export const BODY_COPY =
-  "font-['Futura_PT:Book',sans-serif] text-[18px] leading-[32px]";
+  "font-['Futura_PT',_sans-serif] font-normal text-[18px] leading-[32px]";
 
 // ─── Timeline data ────────────────────────────────────────────────────────────
 
@@ -146,11 +146,11 @@ export function Section1({
   const sp = staticReveal ? 1 : (Number.isFinite(scrollProgress) ? scrollProgress : 0);
 
   const textHide    = clamp(sp / 0.65, 0, 1);
-  const textOpacity = 1 - textHide;
-  const textDriftY  = -textHide * 100;
+  const textOpacity = staticReveal ? 1 : 1 - textHide;
+  const textDriftY  = staticReveal ? 0 : -textHide * 100;
 
-  const logoOpacity = clamp((sp - 0.25) / 0.55, 0, 1);
-  const fireworksActive = logoOpacity > 0.4;
+  const logoOpacity = staticReveal ? 1 : clamp((sp - 0.25) / 0.55, 0, 1);
+  const fireworksActive = staticReveal ? true : logoOpacity > 0.4;
 
   const sectionRef = React.useRef<HTMLDivElement>(null);
   const [dims, setDims] = React.useState({ width: 1440, height: 977 });
@@ -177,6 +177,48 @@ export function Section1({
       window.removeEventListener("orientationchange", update);
     };
   }, []);
+
+  if (staticReveal) {
+    return (
+      <div
+        ref={sectionRef}
+        className="min-h-[100svh] w-full relative overflow-clip flex flex-col items-center justify-center gap-8 px-6 py-16 text-center"
+        style={{ backgroundImage: "linear-gradient(0.480792deg, rgb(25, 36, 65) 38.09%, rgb(1, 9, 25) 110.38%)" }}
+      >
+        <div className="absolute inset-0 flex items-center justify-center mix-blend-color-burn opacity-50 pointer-events-none">
+          <div className="rotate-180 w-[220%] h-[220%]">
+            <img
+              alt=""
+              className="w-full h-full object-cover"
+              src={imgDreamyColorfulSmokeClouds2}
+            />
+          </div>
+        </div>
+
+        <div className="absolute inset-0 w-full h-full [&>svg]:w-full [&>svg]:h-full pointer-events-none">
+          <Fireworks active={fireworksActive} width={dims.width} height={dims.height} />
+        </div>
+
+        <img
+          src={logoImg}
+          alt="50th Anniversary — AFC UK & Western Europe"
+          className="relative z-10 w-[85%] max-w-[420px] h-auto"
+        />
+
+        <div className="relative z-10 w-full max-w-[420px]">
+          <p
+            className={`${BODY_COPY} text-white mb-3`}
+            style={{ fontSize: "clamp(15px, 4.5vw, 22px)", lineHeight: "clamp(22px, 6vw, 32px)" }}
+          >
+            {`"One generation shall praise thy works to another, and shall declare thy mighty acts."`}
+          </p>
+          <p className={`${BODY_COPY} text-white`} style={{ fontSize: "clamp(12px, 3vw, 16px)" }}>
+            — Psalm 145:4
+          </p>
+        </div>
+      </div>
+    );
+  }
 
   return (
     <div
@@ -502,15 +544,15 @@ export function PreTimelineSection() {
   return (
     <div className="bg-[#fcf9f2] relative w-full overflow-clip">
       <div className="flex flex-col md:hidden">
-        <div className="relative mt-[-150px] w-full min-h-[100svh] overflow-hidden bg-[#fcf9f2] flex items-center justify-center px-6 py-16">
+        <div className="relative w-full min-h-[100svh] overflow-hidden bg-[#fcf9f2] flex items-center justify-center px-6 py-16">
           <DiagonalGrid />
-          <div className="relative flex flex-col items-center text-center max-w-[420px] z-10">
+          <div className="relative flex flex-col items-center text-center max-w-[420px] z-10 gap-4">
             <img
               src={logoImg1}
               alt="AFM 50th Anniversary"
               className="w-full max-w-[240px] h-auto"
             />
-            <div className="mt-[-150px]">
+            <div>
               <p className={`${HEADER_FONT} text-[#192441] text-[38px] leading-[1.05]`}>
                 Praise God
               </p>
@@ -518,7 +560,7 @@ export function PreTimelineSection() {
                 With US!
               </p>
             </div>
-            <p className={`${BODY_COPY} text-[#192441] mt-4`} style={{ opacity: 0.8 }}>
+            <p className={`${BODY_COPY} text-[#192441]`} style={{ opacity: 0.8 }}>
               I know not what God will accomplish in and through me, but I will do my best to be faithful.
             </p>
           </div>
@@ -891,9 +933,28 @@ const STORIES = [
 ];
 export const STORIES_MIN_H = 800;
 
-export function StoriesSection() {
+export function StoriesSection({
+  onHeightChange,
+}: {
+  onHeightChange?: (h: number) => void;
+}) {
+  const rootRef = React.useRef<HTMLDivElement>(null);
+
+  React.useEffect(() => {
+    const el = rootRef.current;
+    if (!el || !onHeightChange) return;
+
+    const report = () => onHeightChange(el.scrollHeight);
+    report();
+
+    const ro = new ResizeObserver(report);
+    ro.observe(el);
+    return () => ro.disconnect();
+  }, [onHeightChange]);
+
   return (
     <div
+      ref={rootRef}
       className="relative w-full px-4 md:px-0"
       style={{ minHeight: STORIES_MIN_H, background: "#FCF9F2" }}
     >

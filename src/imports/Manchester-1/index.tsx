@@ -28,22 +28,33 @@ function ChevronIcon({ className = "" }: { className?: string }) {
 
 function BranchTitle() {
   return (
-    <div className="mx-auto flex w-full max-w-[1096px] flex-col items-center gap-6 px-4 py-8 text-center sm:py-12 md:flex-row md:items-center md:justify-between md:text-left lg:py-16">
-     <div className="mt-10 flex flex-col items-center md:flex-row md:items-center md:gap-2">
-  <img
-    src={imgCrest}
-    alt="Manchester branch crest"
-    className="size-40 sm:object-contain object-cover sm:size-20 md:size-24 lg:size-[200px]"
-  />
-  <div className="flex flex-col items-center sm:gap-1 md:items-start mt-[-20px] md:mt-0 ml-[-50px] sm:mr-[-10px] md:mr-0">
-    <p className="font-['Futura_PT'] text-lg text-[#949494] sm:text-xl lg:text-2xl">
-      Branch
-    </p>
-    <h1 className="font-['CRONDE:Regular'] text-4xl leading-none text-[#38362d] sm:text-5xl lg:text-[64px]">
-      Manchester
-    </h1>
-  </div>
-</div>
+    <div className="mx-auto flex w-full max-w-[1096px] flex-col items-center gap-8 px-4 pt-10 pb-2 text-center sm:pt-12 sm:pb-3 md:flex-row md:items-center md:justify-between md:text-left lg:pt-16 lg:pb-4">
+      {/* Crest + name block. Sizing is monotonic across breakpoints
+          (96 -> 112 -> 128 -> 200) and spacing comes from `gap`, not
+          hand-tuned negative margins, so it holds up at every width
+          in between, not just the exact breakpoints. */}
+      <div className="flex flex-col items-center gap-1 sm:flex-row sm:items-center sm:gap-3 md:gap-4">
+        {/* Fixed box + overflow-hidden + scaled-up image: crops out
+            any transparent padding baked into the crest PNG so the
+            visible shield mark sits tight against the title text.
+            Adjust the scale value if the crest still looks too far
+            from (scale up) or too close to (scale down) the title. */}
+        <div className="flex size-24 shrink-0 items-center justify-center overflow-hidden sm:size-28 md:size-32 lg:size-[200px]">
+          <img
+            src={imgCrest}
+            alt="Manchester branch crest"
+            className="h-full w-full scale-125 object-contain"
+          />
+        </div>
+        <div className="flex flex-col items-center gap-1 sm:items-start">
+          <p className="font-['Futura_PT'] text-lg text-[#949494] sm:text-xl lg:text-2xl">
+            Branch
+          </p>
+          <h1 className="font-['CRONDE:Regular'] text-4xl leading-none text-[#38362d] sm:text-5xl lg:text-[64px]">
+            Manchester
+          </h1>
+        </div>
+      </div>
 
       <div className="hidden flex-col items-center gap-1 sm:gap-2 md:flex md:items-end md:text-right">
         <p className="font-['Futura_PT:Heavy',sans-serif] text-lg text-[#38362d] sm:text-xl lg:text-2xl">
@@ -116,10 +127,13 @@ function StorySection() {
   return (
     <section className="relative bg-[#f4f1ea] px-4 py-14 sm:px-6 sm:py-20 lg:px-0 lg:py-24">
       <BackgroundPattern />
-      
+
       <div className="relative mx-auto flex max-w-[1096px] flex-col md:flex-row md:gap-12 lg:gap-16">
-        
-        <div className="hidden shrink-0 flex-col gap-6 md:order-1 md:flex md:w-[160px] lg:w-[180px]">
+        {/* Sidebar address list: only rendered once. On md+ it sits
+            beside the story via `order`; on mobile it drops below the
+            story text via the same order value flipping. No duplicate
+            DOM node, so no duplicate content for screen readers/SEO. */}
+        <div className="order-2 mt-10 flex flex-col gap-6 border-t border-[#e5e1d6] pt-6 md:order-1 md:mt-0 md:w-[160px] md:shrink-0 md:border-t-0 md:pt-0 lg:w-[180px]">
           <AddressListItem />
           <AddressListItem />
           <AddressListItem />
@@ -127,25 +141,16 @@ function StorySection() {
         </div>
 
         <div className="order-1 flex flex-col md:order-2 md:flex-1">
-          
-          <div className="mb-10 flex flex-col gap-5 sm:gap-6 md:mb-0">
+          <div className="flex flex-col gap-5 sm:gap-6">
             <h2 className="font-['CRONDE:Regular',sans-serif] text-3xl text-[#38362d] sm:text-4xl lg:text-[48px]">
-             A Food Bank That Became a Doorway
+              A Food Bank That Became a Doorway
             </h2>
             <p className="font-['Futura_PT:Book',sans-serif] text-base leading-7 text-[#38362d] sm:text-[18px] sm:leading-[32px]">
-              Since Brother Toyin Emitola became pastor in January 2018, Manchester's weekly attendance has grown from around thirty to a consistent 150–180. 
-              Through the pandemic, the church renovated its building; since then, Christmas has become a season of community outreach — carol visits, litter-picking, and a hot chocolate stand outside the church door. 
+              Since Brother Toyin Emitola became pastor in January 2018, Manchester's weekly attendance has grown from around thirty to a consistent 150–180.
+              Through the pandemic, the church renovated its building; since then, Christmas has become a season of community outreach — carol visits, litter-picking, and a hot chocolate stand outside the church door.
               A food bank has grown from that same spirit of hospitality, becoming a clear doorway for newcomers.
             </p>
           </div>
-
-          <div className="mt-6 flex flex-col gap-6 pt-6 border-t border-[#e5e1d6] md:hidden">
-             <AddressListItem />
-             <AddressListItem />
-             <AddressListItem />
-             <AddressListItem />
-          </div>
-
         </div>
       </div>
     </section>
@@ -236,7 +241,6 @@ function Gallery() {
         </button>
       </div>
 
-      {/* Resized Dots to be smaller */}
       <div className="mt-6 flex items-center justify-center gap-4 lg:hidden">
         <button
           type="button"
@@ -247,7 +251,7 @@ function Gallery() {
           <ChevronIcon className="size-5" />
         </button>
 
-        <div className="flex items-center gap-1.5">
+        <div className="flex items-center gap-1">
           {GALLERY_IMAGES.map((_, i) => (
             <button
               key={i}
@@ -255,9 +259,10 @@ function Gallery() {
               onClick={() => scrollToIndex(i)}
               aria-label={`Go to photo ${i + 1}`}
               aria-current={activeIndex === i}
-              className={`h-1.5 rounded-full transition-all ${
-                activeIndex === i ? "w-4 bg-[#192441]" : "w-1.5 bg-[#c9c4b4]"
+              className={`box-content rounded-full border-0 p-0 leading-none transition-all ${
+                activeIndex === i ? "h-1 w-3 bg-[#192441]" : "h-1 w-1 bg-[#c9c4b4]"
               }`}
+              style={{ minWidth: 0, minHeight: 0 }}
             />
           ))}
         </div>
@@ -280,7 +285,6 @@ function Gallery() {
 export default function Manchester() {
   return (
     <div className="w-full bg-[#f4f1ea]">
-      {/* REMOVED THE INTERNAL HEADER COMPLETELY HERE */}
       <BranchTitle />
       <HeroImage />
       <StorySection />
