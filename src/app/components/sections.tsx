@@ -26,19 +26,12 @@ import imgImage from "../../imports/Homepage/9ec56a815db13e6f5f4c4f51dc8c89bded7
 import imgDreamyColorfulSmokeClouds2 from "../../imports/Frame19/9f5fd2117b550f89743011446393e79f9a3e46dc.png";
 
 // ── NEW ASSETS ──────────────────────────────────────────────────────────────
-// Placeholder references only — replace these three imports with your real
-// files. Nothing else in the file needs to change once you do.
-import imgStartedPhoto from "../../imports/Homepage/ukpic.png"; // ukhome2 left photo
-import imgVideoPoster from "../../imports/Homepage/ukpic.png";       // ukhome3 video thumbnail
-// import mp4 may lack type declarations in this TSX context; use require with ts-ignore
+import imgStartedPhoto from "../../imports/Homepage/ukpic.png";
+import imgVideoPoster from "../../imports/Homepage/ukpic.png";
 // @ts-ignore
-import videoSrcPlaceholder from "../../imports/Homepage/aboutvideo.mp4";          // ukhome3 actual video file
+import videoSrcPlaceholder from "../../imports/Homepage/aboutvideo.mp4";
 
 // ─── Site-wide typography tokens ───────────────────────────────────────────
-// Header font (site-wide): CRONDE
-// Sub-heading / body copy (site-wide): Futura PT, Regular, 18px / 32px line-height
-// Applied consistently across all sections below — this is the single source
-// of truth for body-copy classes so every section stays in sync.
 export const HEADER_FONT = "font-['CRONDE:Regular',sans-serif]";
 export const BODY_COPY =
   "font-['Futura_PT:Book',sans-serif] text-[18px] leading-[32px]";
@@ -143,27 +136,22 @@ function PictureFrame() {
   );
 }
 
-export function Section1({ scrollProgress = 0 }: { scrollProgress?: number }) {
+export function Section1({
+  scrollProgress = 0,
+  staticReveal = false,
+}: { scrollProgress?: number; staticReveal?: boolean }) {
   const clamp = (v: number, lo: number, hi: number) =>
     Math.min(Math.max(Number.isFinite(v) ? v : lo, lo), hi);
 
-  const sp = Number.isFinite(scrollProgress) ? scrollProgress : 0;
+  const sp = staticReveal ? 1 : (Number.isFinite(scrollProgress) ? scrollProgress : 0);
 
-  // Phase 1: text + frames drift away (complete by sp = 0.65)
   const textHide    = clamp(sp / 0.65, 0, 1);
   const textOpacity = 1 - textHide;
-  const textDriftY  = -textHide * 100; // design-px upward drift
+  const textDriftY  = -textHide * 100;
 
-  // Logo: starts appearing at sp = 0.25, fully visible at sp = 0.8
   const logoOpacity = clamp((sp - 0.25) / 0.55, 0, 1);
-
-  // Fireworks fire once the logo is meaningfully visible
   const fireworksActive = logoOpacity > 0.4;
 
-  // ── FIX: fireworks were hardcoded to a 1440x977 desktop canvas, so on
-  // mobile viewports the particle field rendered far outside (or was scaled
-  // far too small within) the visible area. Track the section's real
-  // rendered size instead and feed that into the Fireworks component.
   const sectionRef = React.useRef<HTMLDivElement>(null);
   const [dims, setDims] = React.useState({ width: 1440, height: 977 });
 
@@ -196,7 +184,6 @@ export function Section1({ scrollProgress = 0 }: { scrollProgress?: number }) {
       className="min-h-[100svh] md:h-[977px] left-0 overflow-clip relative w-full"
       style={{ backgroundImage: "linear-gradient(0.480792deg, rgb(25, 36, 65) 38.09%, rgb(1, 9, 25) 110.38%)" }}
     >
-      {/* Smoke — fades with the hero text */}
       <div
         className="absolute flex items-center justify-center left-0 md:left-[-89px] mix-blend-color-burn top-0 md:top-[-1644px] w-full md:w-[1742px] h-full md:h-[3054px]"
         style={{ opacity: textOpacity }}
@@ -208,13 +195,10 @@ export function Section1({ scrollProgress = 0 }: { scrollProgress?: number }) {
         </div>
       </div>
 
-      {/* Fireworks — now sized to the real rendered box on every viewport,
-          not a fixed desktop canvas, so mobile actually shows the effect */}
       <div className="absolute inset-0 w-full h-full [&>svg]:w-full [&>svg]:h-full pointer-events-none">
         <Fireworks active={fireworksActive} width={dims.width} height={dims.height} />
       </div>
 
-      {/* 50th Anniversary logo — revealed beneath the hero content (uksplash2) */}
       <div
         className="absolute inset-0 flex items-center justify-center px-4"
         style={{ opacity: logoOpacity }}
@@ -226,11 +210,6 @@ export function Section1({ scrollProgress = 0 }: { scrollProgress?: number }) {
         />
       </div>
 
-      {/* Hero text + picture frames — drift up and fade out (frontmost layer, uksplash1).
-          FIX: switched from top-1/2/left-1/2 + translate hack to a flexbox-centered
-          container. This is more reliable across mobile browsers where 100svh shifts
-          as chrome (address bar) collapses/expands, and it removes the risk of the
-          text block exceeding the box and getting silently clipped by overflow-clip. */}
       <div
         style={{
           position: "absolute",
@@ -281,12 +260,9 @@ function ImgBg() {
 }
 
 function SmallFrame({ img }: { img: string }) {
-  return (
-    null
-  );
+  return null;
 }
 
-// Diagonal grid pattern used behind the "Praise God With US!" hero (ukhome1)
 function DiagonalGrid() {
   return (
     <div
@@ -303,7 +279,6 @@ function DiagonalGrid() {
   );
 }
 
-// Simple play-button video card used in the video section (ukhome3video)
 function VideoPlayer() {
   const [playing, setPlaying] = React.useState(false);
 
@@ -340,9 +315,6 @@ function VideoPlayer() {
   );
 }
 
-// Rotating dial ring + surrounding year labels (desktop / tablet only — see
-// mobile TimelineMobile component below for small screens).
-// svgRotation: brings activeYearIndex tick to the visual 12-o'clock position
 function TimelineRing({
   activeYearIndex,
   labelsOpacity = 1,
@@ -359,7 +331,6 @@ function TimelineRing({
   const next1 = TIMELINE_DATA[activeYearIndex + 1];
   const next2 = TIMELINE_DATA[activeYearIndex + 2];
 
-  // labelsOpacity overlays the show/hide logic for each label
   const fade = (show: boolean) => ({
     opacity: show ? labelsOpacity : 0,
     transition: "opacity 0.35s ease",
@@ -367,7 +338,6 @@ function TimelineRing({
 
   return (
     <>
-      {/* Inner filled circle */}
       <div className="absolute flex items-center justify-center left-[487.71px] size-[465.353px] top-[611.94px]">
         <div className="-rotate-90 flex-none">
           <div className="relative size-[465.353px]">
@@ -378,7 +348,6 @@ function TimelineRing({
         </div>
       </div>
 
-      {/* Outer dial ring — JS-controlled rotation, tick marks only */}
       <div className="absolute flex items-center justify-center left-[391px] size-[659px] top-[515px]">
         <div className="-rotate-90 flex-none">
           <div className="relative size-[659px]">
@@ -437,7 +406,6 @@ function TimelineRing({
         pointerEvents: "none",
       }} />
 
-      {/* Far-left year (prev2) */}
       <div
         className={`-translate-x-1/2 -translate-y-1/2 [word-break:break-word] absolute flex flex-col ${HEADER_FONT} justify-center leading-[0] left-[calc(50%-259.1px)] not-italic text-[#d9c7a8] text-[24px] text-center top-[736.26px] whitespace-nowrap`}
         style={fade(!!prev2)}
@@ -445,7 +413,6 @@ function TimelineRing({
         <p className="leading-[normal]">{prev2?.year ?? ""}</p>
       </div>
 
-      {/* Near-left year (prev1) */}
       <div
         className="-translate-x-1/2 -translate-y-1/2 absolute flex h-[40.919px] items-center justify-center left-[calc(50%-168.92px)] top-[623.14px] w-[47.873px]"
         style={fade(!!prev1)}
@@ -457,13 +424,11 @@ function TimelineRing({
         </div>
       </div>
 
-      {/* Center year — large, white, bold */}
       <div className={`-translate-x-1/2 -translate-y-1/2 [word-break:break-word] absolute flex flex-col ${HEADER_FONT} justify-center leading-[0] left-[calc(50%+0.5px)] not-italic text-center text-white top-[571.24px] whitespace-nowrap`}
            style={{ fontSize: 56, fontWeight: 700, opacity: labelsOpacity, transition: "opacity 0.35s ease" }}>
         <p className="leading-[normal]">{cur.year}</p>
       </div>
 
-      {/* Near-right year (next1) */}
       <div
         className="-translate-x-1/2 -translate-y-1/2 absolute flex h-[42.155px] items-center justify-center left-[calc(50%+183.45px)] top-[639.49px] w-[49.584px]"
         style={fade(!!next1)}
@@ -475,7 +440,6 @@ function TimelineRing({
         </div>
       </div>
 
-      {/* Far-right year (next2) */}
       <div
         className={`-translate-x-1/2 -translate-y-1/2 [word-break:break-word] absolute flex flex-col ${HEADER_FONT} justify-center leading-[0] left-[calc(50%+263.39px)] not-italic text-[#d9c7a8] text-[24px] text-center top-[742.52px] whitespace-nowrap`}
         style={fade(!!next2)}
@@ -529,18 +493,15 @@ function PhotoCard() {
   );
 }
 
-const WELCOME_H = 600;  // "Praise God With US!" hero
-const STARTED_H = 722;  // "Where it all started"
-const VIDEO_H   = 860;  // Video section
-export const PRE_H_TOTAL = WELCOME_H + STARTED_H + VIDEO_H; // 2182 — import this in App.tsx, don't hardcode it there
+const WELCOME_H = 600;
+const STARTED_H = 722;
+const VIDEO_H   = 860;
+export const PRE_H_TOTAL = WELCOME_H + STARTED_H + VIDEO_H;
 
 export function PreTimelineSection() {
   return (
     <div className="bg-[#fcf9f2] relative w-full overflow-clip">
-
-      {/* ══════════════════ MOBILE / TABLET (stacked, natural flow) ══════════════════ */}
       <div className="flex flex-col md:hidden">
-        {/* 1. Hero */}
         <div className="relative mt-[-150px] w-full min-h-[100svh] overflow-hidden bg-[#fcf9f2] flex items-center justify-center px-6 py-16">
           <DiagonalGrid />
           <div className="relative flex flex-col items-center text-center max-w-[420px] z-10">
@@ -563,7 +524,6 @@ export function PreTimelineSection() {
           </div>
         </div>
 
-        {/* 2. Where it all started */}
         <div className="relative w-full bg-[#0f1421] px-6 py-16">
           <div className="flex flex-col items-center gap-8 max-w-[500px] mx-auto">
             <div className="w-full aspect-[4/3] relative overflow-hidden">
@@ -586,16 +546,12 @@ export function PreTimelineSection() {
           </div>
         </div>
 
-        {/* 3. Video section */}
         <div className="relative w-full bg-[#0f1421] px-6 py-14 flex items-center justify-center">
           <VideoPlayer />
         </div>
       </div>
 
-      {/* ══════════════════ DESKTOP (pixel-perfect canvas) ══════════════════ */}
       <div className="hidden md:block relative w-[1440px] max-w-full mx-auto h-auto" style={{ height: PRE_H_TOTAL }}>
-
-        {/* ============ 1. "PRAISE GOD WITH US!" hero (ukhome1) ============ */}
         <div
           className="absolute left-0 top-0 w-[1440px] overflow-hidden bg-[#fcf9f2] mt-[-100px] "
           style={{ height: WELCOME_H }}
@@ -603,7 +559,6 @@ export function PreTimelineSection() {
           <DiagonalGrid />
 
           <div className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 flex flex-col items-center text-center w-full max-w-[900px] px-8 z-10">
-
             <img
               src={logoImg1}
               alt="AFM 50th Anniversary"
@@ -624,9 +579,6 @@ export function PreTimelineSection() {
           </div>
         </div>
 
-        {/* ============ 2. "WHERE IT ALL STARTED" dark two-column (ukhome2) ============
-            top is now WELCOME_H, not a hardcoded 640 — always lines up with
-            the actual bottom edge of the hero above, regardless of future edits. */}
         <div
           className="absolute left-0 w-[1440px] h-[722px] bg-[#0f1421] overflow-clip mt-[-50px]"
           style={{ top: WELCOME_H }}
@@ -657,8 +609,6 @@ export function PreTimelineSection() {
           </div>
         </div>
 
-        {/* ============ 3. VIDEO SECTION (ukhome3video) ============
-            top is now WELCOME_H + STARTED_H, not a hardcoded 1322. */}
         <div
           className="absolute left-0 w-[1440px] h-[860px] bg-[#0f1421] flex items-center justify-center px-6 mt-[-50px]"
           style={{ top: WELCOME_H + STARTED_H }}
@@ -670,14 +620,6 @@ export function PreTimelineSection() {
   );
 }
 
-/**
- * TimelineSection — rendered inside a fixed fullscreen overlay managed by App
- * on desktop, and reused directly (with its own mobile branch below) inside
- * a swipeable viewer on mobile/tablet — see MobileTimelineViewer in App.tsx.
- * The design canvas is 1440 × 782 px on desktop; on small screens the
- * pixel-positioned dial ring and year labels don't fit, so a simplified
- * stacked card layout is shown instead below `md`.
- */
 export function TimelineSection({
   activeYearIndex,
   transitionProgress = 0,
@@ -689,23 +631,18 @@ export function TimelineSection({
   const entry = TIMELINE_DATA[safeIndex];
   const tp = Math.min(Math.max(Number.isFinite(transitionProgress) ? transitionProgress : 0, 0), 1);
 
-  // Helper: normalise tp into a sub-range [lo, hi] → 0…1
   const norm = (lo: number, hi: number) => Math.min(Math.max((tp - lo) / (hi - lo), 0), 1);
 
-
   const labelsOpacity  = 1 - norm(0.00, 0.20);
-  const contentOpacity = 1 - norm(0.00, 0.35); // independent of any JS fade state
+  const contentOpacity = 1 - norm(0.00, 0.35);
   const dotsOpacity    = 1 - norm(0.00, 0.30);
   const framesOpacity  = 1 - norm(0.00, 0.35);
 
   const ringMotion  = norm(0.15, 0.85);
   const ringScale   = 1 - ringMotion * 0.86;
-  // translateY pushes the ring toward the logo circle position in the
-  // next section (gallery logo is near the canvas top-centre)
   const ringDriftY  = -ringMotion * 300;
   const ringOpacity = 1 - norm(0.65, 1.00);
 
-  // Background: interpolate #0f1421 → #fcf9f2 (gallery cream)
   const bgT = norm(0.20, 1.00);
   const bgR = Math.round(15  + (252 - 15)  * bgT);
   const bgG = Math.round(20  + (249 - 20)  * bgT);
@@ -716,10 +653,7 @@ export function TimelineSection({
 
   return (
     <div className="relative w-full h-full md:h-[782px] overflow-clip" style={{ background: bg }}>
-
-      {/* ══════════════════ MOBILE / TABLET simplified card ══════════════════ */}
       <div className="flex md:hidden relative w-full h-full min-h-[100svh] flex-col items-center justify-center px-6 py-16">
-        {/* background image tied to the active year */}
         <div className="absolute inset-0" style={{ opacity: Math.max(0.25, imgBgOpacity * 0.4) }}>
           <img
             key={safeIndex}
@@ -755,9 +689,7 @@ export function TimelineSection({
         </div>
       </div>
 
-      {/* ══════════════════ DESKTOP (pixel-perfect rotating dial) ══════════════════ */}
       <div className="hidden md:block relative w-[1440px] max-w-full mx-auto h-[782px] ">
-        {/* Background image layer that changes with active year */}
         <div style={{
           position: "absolute",
           inset: 0,
@@ -777,7 +709,6 @@ export function TimelineSection({
               objectPosition: "center",
             }}
           />
-          {/* Dark overlay for text legibility */}
           <div style={{
             position: "absolute",
             inset: 0,
@@ -785,15 +716,10 @@ export function TimelineSection({
           }} />
         </div>
 
-        {/* Texture background fades as colour transitions */}
         <div style={{ opacity: imgBgOpacity * 0.05 }}>
           <ImgBg />
         </div>
 
-        {/* ── Ring layer ──────────────────────────────────────────────────── */}
-        {/* Contracts toward canvas centre (50% 50%) and drifts upward.      */}
-        {/* Because the ring arc is near the canvas bottom, scaling from      */}
-        {/* canvas centre causes the visible arc to rise while shrinking.     */}
         <div style={{
           position: "absolute", inset: 0,
           transform: `translateY(${ringDriftY}px) scale(${ringScale})`,
@@ -804,7 +730,6 @@ export function TimelineSection({
           <TimelineRing activeYearIndex={safeIndex} labelsOpacity={labelsOpacity} />
         </div>
 
-        {/* Decorative frames — fade out with content */}
         <div style={{ position: "absolute", inset: 0, opacity: framesOpacity, pointerEvents: "none" }}>
           <div className="absolute flex h-[153.332px] items-center justify-center left-[37px] top-[293px] w-[187.781px]">
             <div className="flex-none rotate-15"><SmallFrame img={imgImage3} /></div>
@@ -814,7 +739,6 @@ export function TimelineSection({
           </div>
         </div>
 
-        {/* Title */}
         <div
           className={`-translate-x-1/2 -translate-y-1/2 [word-break:break-word] absolute flex flex-col ${HEADER_FONT} justify-center leading-[0] left-[calc(50%+7.5px)] not-italic text-center text-white top-[202px] whitespace-nowrap`}
           style={{ fontSize: 48, opacity: contentOpacity, transition: "opacity 0.25s ease" }}
@@ -822,7 +746,6 @@ export function TimelineSection({
           <p className="leading-[normal]">{entry.title}</p>
         </div>
 
-        {/* Body text */}
         <div
           className={`-translate-x-1/2 -translate-y-1/2 [word-break:break-word] absolute flex flex-col ${BODY_COPY} justify-center left-[calc(50%+14px)] not-italic text-center text-white top-[337px] w-[770px]`}
           style={{ opacity: contentOpacity, transition: "opacity 0.16s ease" }}
@@ -830,7 +753,6 @@ export function TimelineSection({
           <p className="leading-[32px]">{entry.text}</p>
         </div>
 
-        {/* Year counter — e.g. "08 / 14" — replaces the dots */}
         <div
           className="absolute bottom-[32px] left-1/2 -translate-x-1/2"
           style={{ opacity: dotsOpacity }}
@@ -847,20 +769,45 @@ export function TimelineSection({
 export function PostTimelineSection() {
   return (
     <div className="bg-[#fcf9f2] relative w-full overflow-clip">
-
-      {/* ══════════════════ MOBILE / TABLET ══════════════════ */}
-      <div className="flex md:hidden flex-col items-center text-center px-6 py-16 gap-8">
-        <p className={`${HEADER_FONT} text-[#192441] text-[44px] leading-tight`}>
-          50 Years<br />{`Of God's Faithful Ministry`}
-        </p>
-        <div className="grid grid-cols-2 gap-4 w-full max-w-[420px]">
-          <div className="rounded-[3px] overflow-hidden ">
-            <img alt="" className="w-full h-full object-cover" src={imgContainer1} />
-          </div>
-          <div className="rounded-[3px] overflow-hidden mt-6">
-            <img alt="" className="w-full h-full object-cover" src={imgContainer2} />
+      <div className="flex md:hidden flex-col items-center text-center px-6 py-16 gap-6">
+        <div className="size-[200px] overflow-hidden rounded-full">
+          <div className="relative size-full overflow-hidden pointer-events-none">
+            <img
+              alt=""
+              className="absolute max-w-none size-[171.15%] object-cover"
+              src={img51}
+            />
           </div>
         </div>
+
+        <p className={`${HEADER_FONT} text-[#192441] text-[36px] leading-tight`}>
+          Years<br />{`Of God's Faithful Ministry`}
+        </p>
+
+        <div className="flex items-center justify-center -space-x-3 w-full max-w-[360px] my-2">
+          <div className="rotate-[-8deg] z-0">
+            <div className="bg-white p-[5px] pb-[14px] shadow-[0px_4px_8px_0px_rgba(0,0,0,0.15)] w-[108px]">
+              <div className="w-full h-[92px] overflow-hidden">
+                <img alt="" className="w-full h-full object-cover" src={imgContainer2} />
+              </div>
+            </div>
+          </div>
+          <div className="rotate-[7deg] z-10">
+            <div className="bg-white p-[5px] pb-[14px] shadow-[0px_4px_8px_0px_rgba(0,0,0,0.15)] w-[108px]">
+              <div className="w-full h-[92px] overflow-hidden">
+                <img alt="" className="w-full h-full object-cover" src={imgImage3} />
+              </div>
+            </div>
+          </div>
+          <div className="rotate-[-6deg] z-0">
+            <div className="bg-white p-[5px] pb-[14px] shadow-[0px_4px_8px_0px_rgba(0,0,0,0.15)] w-[108px]">
+              <div className="w-full h-[92px] overflow-hidden">
+                <img alt="" className="w-full h-full object-cover" src={imgContainer1} />
+              </div>
+            </div>
+          </div>
+        </div>
+
         <button
           onClick={() => { window.location.hash = "#gallery"; }}
           className="flex items-center justify-center p-[12px] rounded-[2px] w-full max-w-[280px] bg-[#192441] cursor-pointer border-0"
@@ -871,12 +818,11 @@ export function PostTimelineSection() {
         </button>
       </div>
 
-      {/* ══════════════════ DESKTOP (pixel-perfect canvas, unchanged) ══════════════════ */}
       <div className="hidden md:block relative w-[1440px] max-w-full mx-auto h-[860px]">
         <div className="absolute left-0 top-[7px] w-[1440px]">
           <div className="h-[816px] left-0 overflow-clip relative w-[1440px]">
             <SVGGroups />
-            <div className="absolute left-[74px] top-[113px]"><PhotoCard /></div>
+            <div className="absolute left-[54px] top-[113px]"><PhotoCard /></div>
             <div className="absolute flex h-[244.998px] items-center justify-center left-[108.94px] top-[503.5px] w-[233.118px]">
               <div className="flex-none rotate-[4.74deg]"><PhotoCard /></div>
             </div>
@@ -921,7 +867,7 @@ export function PostTimelineSection() {
   );
 }
 
-// ─── Stories section (ukhome4 — "Voices of the Journey") ─────────────────────
+// ─── Stories section ──────────────────────────────────────────────────────────
 
 const STORIES = [
   {
@@ -943,25 +889,14 @@ const STORIES = [
     tag: "1976–2026",
   },
 ];
-
-// ── FIX: exported height/anchor so App.tsx (or any absolute-offset layout
-// math for surrounding sections) can size this section correctly instead of
-// guessing — the previous file had no such export, unlike PreTimelineSection,
-// which is the most likely reason this section was being clipped.
 export const STORIES_MIN_H = 800;
 
 export function StoriesSection() {
   return (
-    // FIX: removed `overflow-clip` — this section has no fixed height (it
-    // uses minHeight + "auto" so content-driven height can grow), so clipping
-    // overflow here silently cuts off content whenever the cards + heading +
-    // CTA add up to more than the 800px minimum. Letting the box grow
-    // naturally is what "height: auto" was already trying to do.
     <div
       className="relative w-full px-4 md:px-0"
       style={{ minHeight: STORIES_MIN_H, background: "#FCF9F2" }}
     >
-      {/* Heading */}
       <div className="mt-8 pt-12 md:pt-20 pb-8 md:pb-0 mx-auto max-w-[680px] text-center">
         <p className={`${BODY_COPY} text-[10px] md:text-[12px] text-[#192441] tracking-[0.22em] opacity-45 uppercase mb-4 md:mb-5`}>
           Stories of Ministry
@@ -974,11 +909,9 @@ export function StoriesSection() {
         </p>
       </div>
 
-      {/* Story cards */}
       <div className="mt-10 md:mt-16 mb-12 md:mb-0 mx-auto max-w-[1200px] flex flex-col md:flex-row gap-8 md:gap-11">
         {STORIES.map((story, i) => (
           <div key={i} className="flex-1 flex flex-col">
-            {/* Photo */}
             <div className="h-[180px] md:h-[216px] overflow-hidden rounded-[3px] relative">
               <img
                 src={story.img}
@@ -986,7 +919,6 @@ export function StoriesSection() {
                 className="absolute inset-0 w-full h-full object-cover"
               />
             </div>
-            {/* Meta */}
             <p className={`${BODY_COPY} text-[11px] md:text-[12px] text-[#192441] opacity-45 mt-4 md:mt-5 mb-2 tracking-[0.14em]`}>
               {story.tag}
             </p>
@@ -1000,7 +932,6 @@ export function StoriesSection() {
         ))}
       </div>
 
-      {/* CTA */}
       <div className="pb-20 md:pb-[60px] flex justify-center">
         <div
           onClick={() => { window.location.hash = "#watch"; }}
@@ -1010,7 +941,6 @@ export function StoriesSection() {
         </div>
       </div>
 
-      {/* Bottom rule */}
       <div className="absolute bottom-0 left-0 right-0 h-px bg-[#192441] opacity-8" />
     </div>
   );

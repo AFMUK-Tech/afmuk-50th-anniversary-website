@@ -36,15 +36,11 @@ const NAV_H             = 80;
 
 // PRE_H covers the combined "intro" block rendered by PreTimelineSection:
 //   Praise-God-With-Us hero + Where-it-all-started + Video.
-// Imported directly from sections.tsx (PRE_H_TOTAL) instead of a hand-copied
-// literal, so it can never silently drift out of sync again.
 const PRE_H              = PRE_H_TOTAL;
 
-// StoriesSection's real content height, imported from sections.tsx instead
-// of a stale hardcoded literal (previously 200, causing the "Voices of the
-// Journey" clipping bug).
-const STORIES_VIS_H     = STORIES_MIN_H;
-const STORIES_DWELL_H   = 600;
+// STORIES_DWELL_H governs how long (in scroll px) the Stories section stays
+// pinned before the Timeline slides in.
+const STORIES_DWELL_H   = 1000; // Increased to give more scroll room
 
 const TIMELINE_VIS_H    = 782;
 const TIMELINE_STEPS    = TIMELINE_DATA.length;
@@ -63,12 +59,6 @@ const BREAKPOINTS = {
 };
 
 // Cap how far the 1440px design canvas is allowed to scale UP.
-// Without this, on any monitor wider than 1440px (1920, 2560, etc.)
-// `scale` exceeds 1, and every scaled block — including the navbar
-// (NAV_H * scale) — grows past its intended size. That's why the
-// navbar height looked different on every screen. Capping at 1 means
-// the canvas still shrinks to fit narrower windows, but never grows
-// past its native 1440px design size.
 const MAX_SCALE = 1;
 
 type DeviceType = 'mobile' | 'tablet' | 'desktop';
@@ -161,11 +151,33 @@ export default function App() {
   const [s1Progress, setS1Progress]          = useState(0);
   const [preY, setPreY]                      = useState(0);
   const [storiesY, setStoriesY]              = useState(0);
+  const [storiesOpacity, setStoriesOpacity]  = useState(1);
   const [timelineY, setTimelineY]            = useState(900);
   const [galleryY, setGalleryY]              = useState(900);
   const [galleryOpacity, setGalleryOpacity]  = useState(0);
   const [activeYearIndex, setActiveIdx]      = useState(0);
   const [fadeIn, setFadeIn] = useState(false);
+  const [showMobileNav, setShowMobileNav] = useState(false);
+  const [storiesH, setStoriesH] = useState(STORIES_MIN_H);
+  const storiesRef = useRef<HTMLDivElement>(null);
+
+  // Calculate storiesScale BEFORE it's used in useEffect
+  const storiesScale = (scale > 0 && vh > 0 && storiesH > 0) 
+    ? Math.min(scale, vh / storiesH) 
+    : scale;
+
+  // Track scroll position for mobile nav visibility
+  useEffect(() => {
+    const handleScroll = () => {
+      const scrollY = window.scrollY;
+      // Show nav after scrolling past the splash screen (50% of viewport height)
+      const threshold = window.innerHeight * 0.5;
+      setShowMobileNav(scrollY > threshold);
+    };
+
+    window.addEventListener('scroll', handleScroll, { passive: true });
+    return () => window.removeEventListener('scroll', handleScroll);
+  }, []);
 
   useEffect(() => {
     const onHash = () => {
@@ -221,12 +233,13 @@ export default function App() {
 
     const s1End      = S1_SCROLL_H * scale;
     const preEnd     = s1End + PRE_H * scale;
-    const storiesEnd = preEnd + STORIES_DWELL_H * scale;
+    const storiesStart = preEnd;
+    const storiesEnd = storiesStart + STORIES_DWELL_H * scale;
     const tlStart    = storiesEnd;
     const tlSlideEnd = tlStart + vh;
     const tlMainEnd  = tlSlideEnd + TIMELINE_SCROLL_H * scale;
-    const tlExitEnd  = tlMainEnd + vh; // Timeline fully exits
-    const galleryStart = tlExitEnd; // Gallery appears after timeline exits
+    const tlExitEnd  = tlMainEnd + vh;
+    const galleryStart = tlExitEnd;
 
     const onScroll = () => {
       const sy = window.scrollY;
@@ -236,17 +249,38 @@ export default function App() {
       const rawS1 = sy / s1End;
       setS1Progress(Number.isFinite(rawS1) ? Math.min(Math.max(rawS1, 0), 1) : 0);
 
-      // PreTimeline (Praise-God hero + Where-it-started + Video, one sliding block)
+      // PreTimeline
       setPreY(sy <= s1End ? 0 : Math.max(-(PRE_H * scale), -(sy - s1End)));
 
-      // Stories
-      if (sy <= storiesEnd) {
+      // Stories - OUTER SCROLL CONTROLS INNER CONTENT
+      if (sy >= storiesStart && sy < storiesEnd) {
+        // Stories section is in view - calculate scroll progress within the section
+        const progress = (sy - storiesStart) / (STORIES_DWELL_H * scale);
+        
+        // Apply translateY to scroll the content upward
+        // We want to show the content progressively
+        const maxTranslate = -(storiesH * storiesScale - vh);
+        const translateY = -progress * (storiesH * storiesScale - vh);
+        
+        setStoriesY(Math.max(maxTranslate, Math.min(0, translateY)));
+        setStoriesOpacity(1);
+        
+        // Scroll the inner content using the outer scroll
+        if (storiesRef.current) {
+          const scrollTop = progress * (storiesRef.current.scrollHeight - storiesRef.current.clientHeight);
+          storiesRef.current.scrollTop = scrollTop;
+        }
+      } else if (sy < storiesStart) {
         setStoriesY(0);
+        setStoriesOpacity(1);
       } else {
-        setStoriesY(Math.max(-vh, -(sy - storiesEnd)));
+        // After stories section, fade it out
+        const fadeProgress = (sy - storiesEnd) / (vh * 0.5);
+        setStoriesOpacity(Math.max(0, 1 - fadeProgress));
+        setStoriesY(-(storiesH * storiesScale - vh)); // Fully scrolled
       }
 
-      // Timeline - slides up completely before gallery appears
+      // Timeline
       if (sy < tlStart) {
         setTimelineY(vh);
         setActiveIdx(0);
@@ -258,26 +292,22 @@ export default function App() {
         const p = (sy - tlSlideEnd) / (TIMELINE_SCROLL_H * scale);
         setActiveIdx(Math.min(Math.floor(p * TIMELINE_STEPS), TIMELINE_STEPS - 1));
       } else if (sy < tlExitEnd) {
-        // Timeline exits completely
         const timelineExit = sy - tlMainEnd;
         setTimelineY(Math.max(-vh, -timelineExit));
         setActiveIdx(TIMELINE_STEPS - 1);
       } else {
-        // Timeline fully hidden
         setTimelineY(-vh);
         setActiveIdx(TIMELINE_STEPS - 1);
       }
 
-      // Gallery - appears immediately after timeline exits, no slide-in
+      // Gallery
       if (sy < galleryStart) {
         setGalleryY(vh);
         setGalleryOpacity(0);
       } else if (sy < galleryStart + GALLERY_DWELL_H * scale) {
-        // Gallery locked in view
         setGalleryY(0);
         setGalleryOpacity(1);
       } else {
-        // Gallery exits
         const galleryExit = sy - (galleryStart + GALLERY_DWELL_H * scale);
         setGalleryY(Math.max(-vh, -galleryExit));
         setGalleryOpacity(0);
@@ -287,7 +317,7 @@ export default function App() {
     window.addEventListener("scroll", onScroll, { passive: true });
     onScroll();
     return () => window.removeEventListener("scroll", onScroll);
-  }, [scale, vh, device]);
+  }, [scale, vh, device, storiesH, storiesScale]);
 
   const safeProgress   = Number.isFinite(s1Progress) ? s1Progress : 0;
   const phase1         = Math.min(safeProgress / P1_END, 1);
@@ -297,26 +327,13 @@ export default function App() {
   const navOpacity    = phase2;
   const navTranslateY = (1 - phase2) * -NAV_H * scale;
 
-  // FIX: Hero previously used `canvasTop = Math.max(0, (vh - S1_HEIGHT *
-  // scale) / 2)` — a "top: 0, clamp at zero" approach with NO fallback
-  // for when the canvas is actually taller than the viewport. On short
-  // viewports (e.g. a 1366x768 laptop window, ~660px of usable height after
-  // browser chrome), S1_HEIGHT*scale (≈927px at scale≈0.95) exceeds vh, so
-  // canvasTop clamped to 0 and the BOTTOM portion of the canvas — which is
-  // exactly where the vertically-centered "50th Anniversary" logo sits —
-  // got clipped by this block's `overflow: hidden`. This mirrors the same
-  // fit-to-viewport pattern already used for Stories/Timeline: shrink
-  // (Math.min, not Math.max — we want to shrink when TALLER than the
-  // viewport) so the whole hero canvas always fits inside `vh`, then
-  // center it both ways.
   const heroFitScale  = (scale > 0 && vh > 0) ? Math.min(scale, vh / S1_HEIGHT) : scale;
   const heroOffsetX   = (vw - DESIGN_WIDTH * heroFitScale) / 2;
   const heroOffsetY   = Math.max(0, (vh - S1_HEIGHT * heroFitScale) / 2);
 
-  // Stories: same fit-to-viewport pattern (fixed earlier).
-  const storiesScale   = (scale > 0 && vh > 0) ? Math.min(scale, vh / STORIES_VIS_H) : scale;
+  // Stories: fit-to-viewport pattern
   const storiesOffsetX = (vw - DESIGN_WIDTH  * storiesScale) / 2;
-  const storiesOffsetY = Math.max(0, (vh - STORIES_VIS_H * storiesScale) / 2);
+  const storiesOffsetY = Math.max(0, (vh - storiesH * storiesScale) / 2);
 
   const tlScale   = (scale > 0 && vh > 0) ? Math.max(scale, vh / TIMELINE_VIS_H) : scale;
   const tlOffsetX = (vw - DESIGN_WIDTH    * tlScale) / 2;
@@ -376,12 +393,22 @@ export default function App() {
     return (
       <div className="w-full bg-[#fcf9f2] overflow-x-hidden">
         <TimelineSheet />
-        <MobileNav />
-        <Section1 scrollProgress={0} />
+        
+        {/* Mobile Nav - sticky after splash screen */}
+        <div 
+          className={`fixed top-0 left-0 right-0 z-50 transition-transform duration-500 ${
+            showMobileNav ? 'translate-y-0' : '-translate-y-full'
+          }`}
+          style={{ pointerEvents: showMobileNav ? 'auto' : 'none' }}
+        >
+          <MobileNav />
+        </div>
+
+        <Section1 scrollProgress={0} staticReveal />
         <PreTimelineSection />
         <StoriesSection />
         <MobileTimelineViewer />
-        <MobileGallery />
+        <PostTimelineSection />
         <Footer />
       </div>
     );
@@ -394,6 +421,7 @@ export default function App() {
     <div className="w-full bg-[#fcf9f2]">
       <TimelineSheet />
 
+      {/* Spacers for scroll-driven animation */}
       <div style={{ height: S1_SCROLL_H       * scale }} />
       <div style={{ height: PRE_H             * scale }} />
       <div style={{ height: STORIES_DWELL_H   * scale }} />
@@ -426,31 +454,51 @@ export default function App() {
         </div>
       </div>
 
-      {/* z:4 — Stories */}
+      {/* z:4 — Stories - OUTER SCROLL CONTROLS INNER SCROLL */}
       <div style={{
-        position: "fixed", inset: 0, zIndex: 4,
-        overflow: "hidden", background: "#FCF9F2",
-        transform: `translateY(${storiesY}px)`,
+        position: "fixed", 
+        top: 0, 
+        left: 0, 
+        width: "100%",
+        height: "100vh",
+        zIndex: 4,
+        overflow: "hidden",
+        background: "#FCF9F2",
         pointerEvents: "none",
+        opacity: storiesOpacity,
+        transition: "opacity 0.5s ease",
       }}>
-        <div style={{
-          opacity: fadeIn ? 1 : 0,
-          transform: fadeIn ? "scale(1)" : "scale(0.98)",
-          transition: "opacity 0.9s cubic-bezier(0.4, 0, 0.2, 1), transform 0.9s cubic-bezier(0.4, 0, 0.2, 1)",
-          pointerEvents: storiesY === 0 ? "auto" : "none",
-        }}>
-          <div style={{
+        <div
+          ref={storiesRef}
+          style={{
             position: "absolute",
-            top: storiesOffsetY, left: storiesOffsetX,
-            width: DESIGN_WIDTH, height: STORIES_VIS_H,
-            transform: `scale(${storiesScale})`, transformOrigin: "top left",
-          }}>
-            <StoriesSection />
+            top: storiesOffsetY,
+            left: storiesOffsetX,
+            width: DESIGN_WIDTH,
+            height: storiesH,
+            transform: `scale(${storiesScale})`,
+            transformOrigin: "top left",
+            overflowY: "scroll",
+            scrollbarWidth: "none",
+            msOverflowStyle: "none",
+            pointerEvents: "auto",
+          }}
+        >
+          {/* Hide scrollbar */}
+          <style>
+            {`
+              .hide-scrollbar::-webkit-scrollbar {
+                display: none;
+              }
+            `}
+          </style>
+          <div className="hide-scrollbar" style={{ width: "100%", height: "100%" }}>
+            <StoriesSection onHeightChange={setStoriesH} />
           </div>
         </div>
       </div>
 
-      {/* z:5 — Intro block (Praise-God hero + Where-it-started + Video) */}
+      {/* z:5 — Intro block */}
       <div style={{
         position: "fixed", top: 0, left: 0, width: "100%",
         height: PRE_H * scale, zIndex: 5, overflow: "hidden",
@@ -471,12 +519,7 @@ export default function App() {
         </div>
       </div>
 
-      {/* z:10 — Hero
-          FIX: now uses heroFitScale/heroOffsetX/heroOffsetY (fit-to-viewport
-          + centering, same pattern as Stories/Timeline) instead of a plain
-          width-only `scale` with a canvasTop that clamped to 0 on short
-          viewports. This is what was clipping the bottom of the "50th
-          Anniversary" logo. */}
+      {/* z:10 — Hero */}
       <div style={{
         position: "fixed", inset: 0, zIndex: 10, overflow: "hidden",
         backgroundImage: "linear-gradient(0.480792deg, rgb(25, 36, 65) 38.09%, rgb(1, 9, 25) 110.38%)",
