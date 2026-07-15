@@ -40,7 +40,7 @@ const PRE_H              = PRE_H_TOTAL;
 
 // STORIES_DWELL_H governs how long (in scroll px) the Stories section stays
 // pinned before the Timeline slides in.
-const STORIES_DWELL_H   = 1000; // Increased to give more scroll room
+const STORIES_DWELL_H   = 1000;
 
 const TIMELINE_VIS_H    = 782;
 const TIMELINE_STEPS    = TIMELINE_DATA.length;
@@ -58,7 +58,10 @@ const BREAKPOINTS = {
   tablet: 1024,
 };
 
-// Cap how far the 1440px design canvas is allowed to scale UP.
+// Cap how far the 1440px design canvas is allowed to scale UP for general
+// page blocks (spacers, timeline, gallery, etc). The HERO uses its own
+// "cover" scale further down so it always fills the viewport regardless
+// of this cap.
 const MAX_SCALE = 1;
 
 type DeviceType = 'mobile' | 'tablet' | 'desktop';
@@ -157,27 +160,28 @@ export default function App() {
   const [galleryOpacity, setGalleryOpacity]  = useState(0);
   const [activeYearIndex, setActiveIdx]      = useState(0);
   const [fadeIn, setFadeIn] = useState(false);
-  const [showMobileNav, setShowMobileNav] = useState(false);
   const [storiesH, setStoriesH] = useState(STORIES_MIN_H);
   const storiesRef = useRef<HTMLDivElement>(null);
 
-  // Calculate storiesScale BEFORE it's used in useEffect
-  const storiesScale = (scale > 0 && vh > 0 && storiesH > 0) 
-    ? Math.min(scale, vh / storiesH) 
+  const storiesScale = (scale > 0 && vh > 0 && storiesH > 0)
+    ? Math.min(scale, vh / storiesH)
     : scale;
 
-  // Track scroll position for mobile nav visibility
-  useEffect(() => {
-    const handleScroll = () => {
-      const scrollY = window.scrollY;
-      // Show nav after scrolling past the splash screen (50% of viewport height)
-      const threshold = window.innerHeight * 0.5;
-      setShowMobileNav(scrollY > threshold);
-    };
-
-    window.addEventListener('scroll', handleScroll, { passive: true });
-    return () => window.removeEventListener('scroll', handleScroll);
-  }, []);
+  // Raw scroll-derived targets, written by the scroll handler and read by
+  // the rAF lerp loop below. Keeping these in a ref (not state) means the
+  // scroll listener never triggers a re-render directly — only the lerp
+  // loop does, at a steady animation-frame cadence. This removes the
+  // jank/stutter from calling setState on every native scroll pixel.
+  const rawTargets = useRef({
+    s1Progress: 0,
+    preY: 0,
+    storiesY: 0,
+    storiesOpacity: 1,
+    timelineY: 900,
+    galleryY: 900,
+    galleryOpacity: 0,
+    activeYearIndex: 0,
+  });
 
   useEffect(() => {
     const onHash = () => {
@@ -228,6 +232,7 @@ export default function App() {
     return () => window.removeEventListener("resize", update);
   }, []);
 
+  // ── Scroll handler: writes RAW targets only, rAF-throttled ──────────────
   useEffect(() => {
     if (device !== 'desktop') return;
 
@@ -241,83 +246,116 @@ export default function App() {
     const tlExitEnd  = tlMainEnd + vh;
     const galleryStart = tlExitEnd;
 
-    const onScroll = () => {
+    const raw = rawTargets.current;
+
+    const computeTargets = () => {
       const sy = window.scrollY;
       if (s1End <= 0) return;
 
       // Hero section
       const rawS1 = sy / s1End;
-      setS1Progress(Number.isFinite(rawS1) ? Math.min(Math.max(rawS1, 0), 1) : 0);
+      raw.s1Progress = Number.isFinite(rawS1) ? Math.min(Math.max(rawS1, 0), 1) : 0;
 
       // PreTimeline
-      setPreY(sy <= s1End ? 0 : Math.max(-(PRE_H * scale), -(sy - s1End)));
+      raw.preY = sy <= s1End ? 0 : Math.max(-(PRE_H * scale), -(sy - s1End));
 
-      // Stories - OUTER SCROLL CONTROLS INNER CONTENT
+      // Stories — outer scroll controls inner content
       if (sy >= storiesStart && sy < storiesEnd) {
-        // Stories section is in view - calculate scroll progress within the section
         const progress = (sy - storiesStart) / (STORIES_DWELL_H * scale);
-        
-        // Apply translateY to scroll the content upward
-        // We want to show the content progressively
         const maxTranslate = -(storiesH * storiesScale - vh);
         const translateY = -progress * (storiesH * storiesScale - vh);
-        
-        setStoriesY(Math.max(maxTranslate, Math.min(0, translateY)));
-        setStoriesOpacity(1);
-        
-        // Scroll the inner content using the outer scroll
+
+        raw.storiesY = Math.max(maxTranslate, Math.min(0, translateY));
+        raw.storiesOpacity = 1;
+
         if (storiesRef.current) {
           const scrollTop = progress * (storiesRef.current.scrollHeight - storiesRef.current.clientHeight);
           storiesRef.current.scrollTop = scrollTop;
         }
       } else if (sy < storiesStart) {
-        setStoriesY(0);
-        setStoriesOpacity(1);
+        raw.storiesY = 0;
+        raw.storiesOpacity = 1;
       } else {
-        // After stories section, fade it out
         const fadeProgress = (sy - storiesEnd) / (vh * 0.5);
-        setStoriesOpacity(Math.max(0, 1 - fadeProgress));
-        setStoriesY(-(storiesH * storiesScale - vh)); // Fully scrolled
+        raw.storiesOpacity = Math.max(0, 1 - fadeProgress);
+        raw.storiesY = -(storiesH * storiesScale - vh);
       }
 
       // Timeline
       if (sy < tlStart) {
-        setTimelineY(vh);
-        setActiveIdx(0);
+        raw.timelineY = vh;
+        raw.activeYearIndex = 0;
       } else if (sy < tlSlideEnd) {
-        setTimelineY(Math.max(0, vh - (sy - tlStart)));
-        setActiveIdx(0);
+        raw.timelineY = Math.max(0, vh - (sy - tlStart));
+        raw.activeYearIndex = 0;
       } else if (sy < tlMainEnd) {
-        setTimelineY(0);
+        raw.timelineY = 0;
         const p = (sy - tlSlideEnd) / (TIMELINE_SCROLL_H * scale);
-        setActiveIdx(Math.min(Math.floor(p * TIMELINE_STEPS), TIMELINE_STEPS - 1));
+        raw.activeYearIndex = Math.min(Math.floor(p * TIMELINE_STEPS), TIMELINE_STEPS - 1);
       } else if (sy < tlExitEnd) {
         const timelineExit = sy - tlMainEnd;
-        setTimelineY(Math.max(-vh, -timelineExit));
-        setActiveIdx(TIMELINE_STEPS - 1);
+        raw.timelineY = Math.max(-vh, -timelineExit);
+        raw.activeYearIndex = TIMELINE_STEPS - 1;
       } else {
-        setTimelineY(-vh);
-        setActiveIdx(TIMELINE_STEPS - 1);
+        raw.timelineY = -vh;
+        raw.activeYearIndex = TIMELINE_STEPS - 1;
       }
 
       // Gallery
       if (sy < galleryStart) {
-        setGalleryY(vh);
-        setGalleryOpacity(0);
+        raw.galleryY = vh;
+        raw.galleryOpacity = 0;
       } else if (sy < galleryStart + GALLERY_DWELL_H * scale) {
-        setGalleryY(0);
-        setGalleryOpacity(1);
+        raw.galleryY = 0;
+        raw.galleryOpacity = 1;
       } else {
         const galleryExit = sy - (galleryStart + GALLERY_DWELL_H * scale);
-        setGalleryY(Math.max(-vh, -galleryExit));
-        setGalleryOpacity(0);
+        raw.galleryY = Math.max(-vh, -galleryExit);
+        raw.galleryOpacity = 0;
       }
     };
 
+    let ticking = false;
+    const onScroll = () => {
+      if (ticking) return;
+      ticking = true;
+      requestAnimationFrame(() => {
+        computeTargets();
+        ticking = false;
+      });
+    };
+
     window.addEventListener("scroll", onScroll, { passive: true });
-    onScroll();
+    computeTargets();
     return () => window.removeEventListener("scroll", onScroll);
   }, [scale, vh, device, storiesH, storiesScale]);
+
+  // ── Lerp loop: smooths raw targets into visual state every frame,
+  // producing buttery scroll-driven motion instead of jumpy 1:1 updates ───
+  useEffect(() => {
+    if (device !== 'desktop') return;
+    let frameId: number;
+    const LERP = 0.18;
+    const EPS = 0.05;
+
+    const tick = () => {
+      const raw = rawTargets.current;
+
+      setS1Progress(prev => (Math.abs(prev - raw.s1Progress) < 0.001 ? raw.s1Progress : prev + (raw.s1Progress - prev) * LERP));
+      setPreY(prev => (Math.abs(prev - raw.preY) < EPS ? raw.preY : prev + (raw.preY - prev) * LERP));
+      setStoriesY(prev => (Math.abs(prev - raw.storiesY) < EPS ? raw.storiesY : prev + (raw.storiesY - prev) * LERP));
+      setStoriesOpacity(prev => (Math.abs(prev - raw.storiesOpacity) < 0.01 ? raw.storiesOpacity : prev + (raw.storiesOpacity - prev) * LERP));
+      setTimelineY(prev => (Math.abs(prev - raw.timelineY) < EPS ? raw.timelineY : prev + (raw.timelineY - prev) * LERP));
+      setGalleryY(prev => (Math.abs(prev - raw.galleryY) < EPS ? raw.galleryY : prev + (raw.galleryY - prev) * LERP));
+      setGalleryOpacity(prev => (Math.abs(prev - raw.galleryOpacity) < 0.01 ? raw.galleryOpacity : prev + (raw.galleryOpacity - prev) * LERP));
+      setActiveIdx(raw.activeYearIndex); // integer index — sync directly, no lerp
+
+      frameId = requestAnimationFrame(tick);
+    };
+
+    frameId = requestAnimationFrame(tick);
+    return () => cancelAnimationFrame(frameId);
+  }, [device]);
 
   const safeProgress   = Number.isFinite(s1Progress) ? s1Progress : 0;
   const phase1         = Math.min(safeProgress / P1_END, 1);
@@ -327,9 +365,14 @@ export default function App() {
   const navOpacity    = phase2;
   const navTranslateY = (1 - phase2) * -NAV_H * scale;
 
-  const heroFitScale  = (scale > 0 && vh > 0) ? Math.min(scale, vh / S1_HEIGHT) : scale;
-  const heroOffsetX   = (vw - DESIGN_WIDTH * heroFitScale) / 2;
-  const heroOffsetY   = Math.max(0, (vh - S1_HEIGHT * heroFitScale) / 2);
+  // Hero uses a COVER scale (like CSS background-size: cover) — the larger
+  // of the width-ratio and height-ratio — so it always fills the entire
+  // viewport on every screen ratio instead of leaving bare gradient bars.
+  const heroCoverScale = (vw > 0 && vh > 0)
+    ? Math.max(vw / DESIGN_WIDTH, vh / S1_HEIGHT)
+    : 1;
+  const heroOffsetX   = (vw - DESIGN_WIDTH * heroCoverScale) / 2;
+  const heroOffsetY   = (vh - S1_HEIGHT * heroCoverScale) / 2; // may be negative; cropped by overflow:hidden — intentional
 
   // Stories: fit-to-viewport pattern
   const storiesOffsetX = (vw - DESIGN_WIDTH  * storiesScale) / 2;
@@ -393,16 +436,13 @@ export default function App() {
     return (
       <div className="w-full bg-[#fcf9f2] overflow-x-hidden">
         <TimelineSheet />
-        
-        {/* Mobile Nav - sticky after splash screen */}
-        <div 
-          className={`fixed top-0 left-0 right-0 z-50 transition-transform duration-500 ${
-            showMobileNav ? 'translate-y-0' : '-translate-y-full'
-          }`}
-          style={{ pointerEvents: showMobileNav ? 'auto' : 'none' }}
-        >
-          <MobileNav />
-        </div>
+
+        {/* MobileNav manages its own sticky positioning/visibility
+            internally — no wrapper transform or scroll-based show/hide
+            needed here. This is what fixes the "mobile nav not showing"
+            issue: previously it was hidden off-screen until a scroll
+            threshold was crossed. */}
+        <MobileNav />
 
         <Section1 scrollProgress={0} staticReveal />
         <PreTimelineSection />
@@ -439,7 +479,8 @@ export default function App() {
       <div style={{
         position: "fixed", inset: 0, zIndex: 2,
         overflow: "hidden", background: "#fcf9f2",
-        transform: `translateY(${galleryY}px)`,
+        transform: `translate3d(0, ${galleryY}px, 0)`,
+        willChange: "transform",
         pointerEvents: "none",
       }}>
         <div style={{
@@ -456,9 +497,9 @@ export default function App() {
 
       {/* z:4 — Stories - OUTER SCROLL CONTROLS INNER SCROLL */}
       <div style={{
-        position: "fixed", 
-        top: 0, 
-        left: 0, 
+        position: "fixed",
+        top: 0,
+        left: 0,
         width: "100%",
         height: "100vh",
         zIndex: 4,
@@ -476,8 +517,9 @@ export default function App() {
             left: storiesOffsetX,
             width: DESIGN_WIDTH,
             height: storiesH,
-            transform: `scale(${storiesScale})`,
+            transform: `translate3d(0, ${storiesY}px, 0) scale(${storiesScale})`,
             transformOrigin: "top left",
+            willChange: "transform",
             overflowY: "scroll",
             scrollbarWidth: "none",
             msOverflowStyle: "none",
@@ -502,7 +544,8 @@ export default function App() {
       <div style={{
         position: "fixed", top: 0, left: 0, width: "100%",
         height: PRE_H * scale, zIndex: 5, overflow: "hidden",
-        transform: `translateY(${preY}px)`,
+        transform: `translate3d(0, ${preY}px, 0)`,
+        willChange: "transform",
         pointerEvents: "none",
       }}>
         <div style={{ paddingTop: NAV_H * scale, width: "100%", height: "100%", boxSizing: "border-box" }}>
@@ -519,11 +562,12 @@ export default function App() {
         </div>
       </div>
 
-      {/* z:10 — Hero */}
+      {/* z:10 — Hero (cover-scale — always fills the viewport) */}
       <div style={{
         position: "fixed", inset: 0, zIndex: 10, overflow: "hidden",
         backgroundImage: "linear-gradient(0.480792deg, rgb(25, 36, 65) 38.09%, rgb(1, 9, 25) 110.38%)",
-        transform: `translateY(${heroTranslateY}px)`,
+        transform: `translate3d(0, ${heroTranslateY}px, 0)`,
+        willChange: "transform",
         pointerEvents: heroTranslateY <= -vh ? "none" : "auto",
       }}>
         <div style={{
@@ -535,7 +579,7 @@ export default function App() {
             position: "absolute",
             top: heroOffsetY, left: heroOffsetX,
             width: DESIGN_WIDTH, height: S1_HEIGHT,
-            transform: `scale(${heroFitScale})`, transformOrigin: "top left",
+            transform: `scale(${heroCoverScale})`, transformOrigin: "top left",
           }}>
             <Section1 scrollProgress={phase1} />
           </div>
@@ -547,7 +591,8 @@ export default function App() {
         position: "fixed", top: 0, left: 0, width: "100%",
         height: NAV_H * scale, zIndex: 100, overflow: "visible",
         opacity: navOpacity,
-        transform: `translateY(${navTranslateY}px)`,
+        transform: `translate3d(0, ${navTranslateY}px, 0)`,
+        willChange: "transform, opacity",
         pointerEvents: phase2 > 0.5 ? "auto" : "none",
       }}>
         <div style={{ width: DESIGN_WIDTH, height: NAV_H, transform: `scale(${scale})`, transformOrigin: "top left", position: "relative" }}>
@@ -558,7 +603,8 @@ export default function App() {
       {/* z:50 — Timeline */}
       <div style={{
         position: "fixed", inset: 0, zIndex: 50, overflow: "hidden",
-        transform: `translateY(${timelineY}px)`,
+        transform: `translate3d(0, ${timelineY}px, 0)`,
+        willChange: "transform",
         pointerEvents: "none",
       }}>
         <div style={{
