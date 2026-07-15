@@ -3,34 +3,54 @@
 import { useState, useEffect, useRef } from "react";
 import img34159 from "./logo.png";
 
+// Font FAMILY is controlled globally (fonts.css / globals.css):
+// - var(--font-body) is the base font on <body>, and every <p>/<button>
+//   below inherits it directly (Tailwind's preflight sets
+//   `button { font: inherit }`) — no inline fontFamily needed.
+// - var(--font-heading) only applies via the h1-h6 tag rule (or the
+//   .site-heading utility class for non-heading tags that still want the
+//   heading font, like the "Branches"/"Group" section headings below).
+// Keep this in sync with global.css / MobileNav / DepartmentPage / TestimoniesPage / ShopPage.
+
 const BRANCH_GROUPS = [
- {
+  {
     heading: "Branches",
     items: [
       { label: "Peckham", slug: "peckham" },
       { label: "Bexley", slug: "bexley" },
-  { label: "Aberdeen",          slug: "aberdeen" },
-  { label: "Cranfield",         slug: "cranfield" },
-  { label: "Birmingham",        slug: "birmingham"},
-  { label: "Manchester",        slug: "manchester"},
+      { label: "Aberdeen", slug: "aberdeen" },
+      { label: "Cranfield", slug: "cranfield" },
+      { label: "Birmingham", slug: "birmingham" },
+      { label: "Manchester", slug: "manchester" },
     ],
   },
   {
     heading: "Group",
     items: [
-  { label: "Glasgow & Paisley", slug: "glasgow", },
-  { label: "Leicester",         slug: "leicester"},
-  { label: "Coventry",          slug: "coventry" },
-  { label: "Sussex",            slug: "sussex" },
-  { label: "Ireland — Dublin & Belfast", slug: "ireland" },
-  { label: "Germany",           slug: "germany" },
-  { label: "France",            slug: "france"},
-  { label: "Italy",             slug: "italy" },
-  { label: "Demark",           slug: "demark" },
-  { label: "Spain",             slug: "spain"},
+      { label: "Glasgow & Paisley", slug: "glasgow" },
+      { label: "Leicester", slug: "leicester" },
+      { label: "Coventry", slug: "coventry" },
+      { label: "Sussex", slug: "sussex" },
+      { label: "Ireland — Dublin & Belfast", slug: "ireland" },
+      { label: "Germany", slug: "germany" },
+      { label: "France", slug: "france" },
+      { label: "Italy", slug: "italy" },
+      { label: "Denmark", slug: "denmark" },
+      { label: "Spain", slug: "spain" },
     ],
   },
 ];
+
+// fontFamily intentionally omitted — this is a <p>, so it already inherits
+// var(--font-body) from the global tag rule / body default.
+const navLinkStyle: React.CSSProperties = {
+  fontWeight: 400,
+  lineHeight: "18.144px",
+  fontStyle: "normal",
+  color: "#38362d",
+  fontSize: "15.778px",
+  letterSpacing: "-0.2367px",
+};
 
 export default function Nav() {
   const [branchOpen, setBranchOpen] = useState(false);
@@ -67,10 +87,13 @@ export default function Nav() {
             {/* Logo */}
             <div className="relative shrink-0 justify-self-start">
               <div className="relative flex items-center">
-                <div className="relative h-14.5 w-47 shrink-0 cursor-pointer" onClick={() => {
-                  window.location.hash = ""; 
-                  window.scrollTo({ top: 0, behavior: 'smooth' });
-                }}>
+                <div
+                  className="relative h-14.5 w-47 shrink-0 cursor-pointer"
+                  onClick={() => {
+                    window.location.hash = "";
+                    window.scrollTo({ top: 0, behavior: "smooth" });
+                  }}
+                >
                   <div className="overflow-clip relative rounded-[inherit] size-full">
                     <div className="absolute -left-11.5 -top-[115px] size-70">
                       <img alt="" className="absolute inset-0 max-w-none object-cover pointer-events-none size-full" src={img34159} />
@@ -83,14 +106,17 @@ export default function Nav() {
             {/* Nav links */}
             <div className="relative flex shrink-0 items-center gap-[25.244px] justify-self-center">
               <p
-                className="font-['Futura_PT:Book',sans-serif] font-normal leading-[18.144px] not-italic text-[#38362d] text-[15.778px] tracking-[-0.2367px] whitespace-nowrap cursor-pointer hover:opacity-60 transition-opacity"
+                style={navLinkStyle}
+                className="whitespace-nowrap cursor-pointer hover:opacity-60 transition-opacity"
                 onClick={() => { window.location.hash = "#founder"; }}
-              >Founder</p>
+              >
+                Founder
+              </p>
 
               {/* Branches dropdown */}
               <div className="relative" ref={dropdownRef}>
                 <div className="content-stretch flex gap-2 items-center cursor-pointer hover:opacity-60 transition-opacity" onClick={() => setBranchOpen(o => !o)}>
-                  <p className="font-['Futura_PT:Book',sans-serif] font-normal leading-[18.144px] not-italic text-[#38362d] text-[15.778px] tracking-[-0.2367px] whitespace-nowrap">Branches</p>
+                  <p style={navLinkStyle} className="whitespace-nowrap">Branches</p>
                   <div className="flex items-center justify-center size-6">
                     <div className={`flex-none size-6 transition-transform duration-200 ${branchOpen ? "rotate-90" : "-rotate-90"}`}>
                       <svg className="block size-full" fill="none" viewBox="0 0 24 24">
@@ -107,18 +133,20 @@ export default function Nav() {
                       <div key={group.heading} className={gi > 0 ? "mt-8" : ""}>
                         {/* Section heading + rule */}
                         <div className="flex items-center gap-4 mb-5">
-                          <span className="font-['CRONDE:Regular',sans-serif] text-[#192441] text-[21px] whitespace-nowrap">
+                          {/* .site-heading -> var(--font-heading), since <span> isn't in the h1-h6 tag rule */}
+                          <span className="site-heading text-[#192441] text-[21px] whitespace-nowrap">
                             {group.heading}
                           </span>
                           <div className="flex-1 h-px bg-[#c9a771]" />
                         </div>
 
-                        {/* Items grid */}
+                        {/* Items grid — <p> inherits var(--font-body) directly, no inline fontFamily needed */}
                         <div className="grid grid-cols-3 gap-x-8 gap-y-5">
                           {group.items.map(({ label, slug }) => (
                             <p
                               key={slug}
-                              className="font-['Futura_PT:Book',sans-serif] font-normal text-[#54524a] text-[15.5px] tracking-[-0.2px] leading-[20px] cursor-pointer hover:text-[#192441] transition-colors"
+                              style={{ fontWeight: 400, letterSpacing: "-0.2px", lineHeight: "20px" }}
+                              className="text-[#54524a] text-[15.5px] cursor-pointer hover:text-[#192441] transition-colors"
                               onClick={() => { window.location.hash = `#${slug}`; setBranchOpen(false); }}
                             >
                               {label}
@@ -131,11 +159,15 @@ export default function Nav() {
                 )}
               </div>
 
-              {/* Departement */}
+              {/* Department */}
               <div className="content-stretch flex gap-2 items-center cursor-pointer hover:opacity-60 transition-opacity">
-                <p className="font-['Futura_PT:Book',sans-serif] font-normal leading-[18.144px] not-italic text-[#38362d] text-[15.778px] tracking-[-0.2367px] whitespace-nowrap cursor-pointer hover:opacity-60 transition-opacity" onClick={() => {
-                window.location.hash = "#department";
-              }}>Department</p>
+                <p
+                  style={navLinkStyle}
+                  className="whitespace-nowrap cursor-pointer hover:opacity-60 transition-opacity"
+                  onClick={() => { window.location.hash = "#department"; }}
+                >
+                  Department
+                </p>
                 <div className="flex items-center justify-center size-6">
                   <div className="-rotate-90 flex-none size-6">
                     <svg className="block size-full" fill="none" viewBox="0 0 24 24">
@@ -146,7 +178,8 @@ export default function Nav() {
               </div>
 
               <p
-                className="font-['Futura_PT:Book',sans-serif] font-normal leading-[18.144px] not-italic text-[#38362d] text-[15.778px] tracking-[-0.2367px] whitespace-nowrap cursor-pointer hover:opacity-60 transition-opacity"
+                style={navLinkStyle}
+                className="whitespace-nowrap cursor-pointer hover:opacity-60 transition-opacity"
                 onClick={openTimeline}
               >
                 Timeline
@@ -154,27 +187,42 @@ export default function Nav() {
 
               {/* Gallery */}
               <p
-                className="font-['Futura_PT:Book',sans-serif] font-normal leading-[18.144px] not-italic text-[#38362d] text-[15.778px] tracking-[-0.2367px] whitespace-nowrap cursor-pointer hover:opacity-60 transition-opacity"
+                style={navLinkStyle}
+                className="whitespace-nowrap cursor-pointer hover:opacity-60 transition-opacity"
                 onClick={() => { window.location.hash = "#gallery"; }}
-              >Gallery</p>
+              >
+                Gallery
+              </p>
 
               {/* Watch & Listen */}
               <p
-                className="font-['Futura_PT:Book',sans-serif] font-normal leading-[18.144px] not-italic text-[#38362d] text-[15.778px] tracking-[-0.2367px] whitespace-nowrap cursor-pointer hover:opacity-60 transition-opacity"
+                style={navLinkStyle}
+                className="whitespace-nowrap cursor-pointer hover:opacity-60 transition-opacity"
                 onClick={() => { window.location.hash = "#watch"; }}
-              >Watch & Listen</p>
+              >
+                Watch & Listen
+              </p>
 
               <p
-                className="font-['Futura_PT:Book',sans-serif] font-normal leading-[18.144px] not-italic text-[#38362d] text-[15.778px] tracking-[-0.2367px] whitespace-nowrap cursor-pointer hover:opacity-60 transition-opacity"
+                style={navLinkStyle}
+                className="whitespace-nowrap cursor-pointer hover:opacity-60 transition-opacity"
                 onClick={() => { window.location.hash = "#shop"; }}
-              >Shop</p>
+              >
+                Shop
+              </p>
             </div>
 
             {/* AFC UK button */}
             <div className="relative shrink-0 justify-self-end">
               <div className="relative flex items-center">
                 <div className="bg-[#192441] content-stretch flex h-[37.867px] items-center justify-center px-[18.933px] relative rounded-[66.267px] shrink-0 cursor-pointer">
-                  <p className="font-['Futura_PT:Book',sans-serif] font-normal leading-[13.253px] not-italic text-[10.729px] text-center text-white tracking-[0.0552px] whitespace-nowrap">AFC UK</p>
+                  {/* <p> inherits var(--font-body) directly, no inline fontFamily needed */}
+                  <p
+                    style={{ fontWeight: 400, lineHeight: "13.253px", letterSpacing: "0.0552px" }}
+                    className="text-[10.729px] text-center text-white whitespace-nowrap"
+                  >
+                    AFC UK
+                  </p>
                 </div>
               </div>
             </div>

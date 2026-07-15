@@ -1,5 +1,13 @@
 import { useEffect, useState } from "react";
 import { SiteHeader, useIsMobile } from "./SiteHeader";
+
+// Font FAMILY is controlled globally (fonts.css / globals.css) via
+// var(--font-heading) on h1-h6/.site-heading and var(--font-body) on
+// p/li/label/blockquote/figcaption. This file only imports size/weight
+// helpers — it never sets fontFamily inline, since inline styles can't
+// beat the global !important tag rules anyway.
+import { BODY_STYLE, headingSize, labelSize } from "../../styles/typography";
+
 const NAV_H = 80;
 
 interface Testimony {
@@ -66,21 +74,6 @@ export function TestimoniesPage({ onBack }: { onBack: () => void }) {
           paddingTop: isMobile ? 72 : NAV_H,
         }}
       >
-        {/* <button
-          onClick={onBack}
-          style={{
-            position: "fixed",
-            top: isMobile ? "calc(72px + max(12px, env(safe-area-inset-top)))" : "max(16px, env(safe-area-inset-top))",
-            right: "max(16px, env(safe-area-inset-right))",
-            zIndex: 90,
-            background: "#192441", color: "#fff", border: "none", borderRadius: 6,
-            padding: "8px 18px", fontFamily: "'Futura PT', sans-serif", fontSize: 13,
-            cursor: "pointer", letterSpacing: "0.04em",
-          }}
-        >
-          ← Back
-        </button> */}
-
         {/* Hero */}
         <div
           style={{
@@ -89,35 +82,32 @@ export function TestimoniesPage({ onBack }: { onBack: () => void }) {
             textAlign: "center",
           }}
         >
-          <p style={{ fontFamily: "'Futura PT', sans-serif", fontSize: 12, letterSpacing: "0.2em", textTransform: "uppercase", color: "#D9C7A8", opacity: 0.8, marginBottom: 14 }}>
+          {/* Eyebrow label -> var(--font-body) globally via the <p> tag rule */}
+          <p
+            style={{
+              ...labelSize(12, { letterSpacing: "0.2em", textTransform: "uppercase" }),
+              color: "#D9C7A8",
+              opacity: 0.8,
+              marginBottom: 14,
+            }}
+          >
             Golden Jubilee · 1976–2026
           </p>
-          <h1 style={{ fontFamily: "'CRONDE', serif", color: "#fff", fontSize: isMobile ? "clamp(28px, 9vw, 40px)" : "clamp(44px, 5vw, 72px)", margin: 0, marginBottom: 18, lineHeight: 1.05 }}>
+          {/* Real <h1> so var(--font-heading) applies via the global h1-h6 rule */}
+          <h1
+            style={{
+              ...headingSize(isMobile ? 34 : 58, { lineHeight: 1.05 }),
+              color: "#fff",
+              margin: 0,
+              marginBottom: 18,
+            }}
+          >
             Watch & Listen
           </h1>
-          <p style={{ fontFamily: "'Futura PT', sans-serif", color: "#D9C7A8", fontSize: isMobile ? 15 : 20, maxWidth: 720, margin: "0 auto", lineHeight: 1.6 }}>
+          <p style={{ ...BODY_STYLE, color: "#D9C7A8", maxWidth: 720, margin: "0 auto" }}>
             Healing, provision, restored families, and lives turned toward Christ — real stories from across our fifty years.
           </p>
         </div>
-
-        {/* About note */}
-        {/* <div style={{ maxWidth: 820, margin: "0 auto", padding: isMobile ? "28px 20px 0" : "48px 24px 0" }}>
-          <div
-            style={{
-              background: "rgba(217,199,168,0.14)",
-              border: "1px solid rgba(217,199,168,0.4)",
-              borderRadius: 8,
-              padding: isMobile ? "18px 18px" : "24px 30px",
-            }}
-          >
-            <p style={{ fontFamily: "'Futura PT', sans-serif", fontSize: 11, letterSpacing: "0.14em", textTransform: "uppercase", color: "#8b7f6a", marginBottom: 10 }}>
-              About these stories — read before publishing
-            </p>
-            <p style={{ fontFamily: "'Futura PT', sans-serif", fontSize: isMobile ? 13 : 14.5, lineHeight: 1.7, color: "#4a4535", margin: 0 }}>
-              The accounts below are told in narrative summary, drawn from written and recorded sources gathered across the church's fifty years. Several are reconstructed from the 45th Anniversary Report (2021) and are not verbatim quotations. Consent for public use is still being confirmed with each individual or their family, and some details have been deliberately handled with care or left out until that confirmation is complete. Further video interviews recorded for the 50th Anniversary documentary are being reviewed and will be added here once available.
-            </p>
-          </div>
-        </div> */}
 
         {/* Testimonies */}
         <div style={{ maxWidth: 820, margin: "0 auto", padding: isMobile ? "28px 20px 40px" : "48px 24px 64px" }}>
@@ -132,34 +122,36 @@ export function TestimoniesPage({ onBack }: { onBack: () => void }) {
                 marginBottom: 24,
               }}
             >
-              <h3 style={{ fontFamily: "'CRONDE', serif", fontSize: isMobile ? 20 : 26, color: "#192441", margin: 0, marginBottom: 8 }}>
+              {/*
+                Spec: sub-heading and body copy share the same Futura PT
+                Regular 18px/32px style — so this can't be a real <h1>-<h6>,
+                since the global h1-h6 rule would force it to CRONDE. Using
+                <p role="heading"> keeps the heading semantics for screen
+                readers while getting var(--font-body) + BODY_STYLE like the
+                paragraph below it.
+              */}
+              <p
+                role="heading"
+                aria-level={3}
+                style={{ ...BODY_STYLE, color: "#192441", margin: 0, marginBottom: 8 }}
+              >
                 {t.title}
-              </h3>
-              <p style={{ fontFamily: "'Futura PT', sans-serif", fontSize: 12, letterSpacing: "0.04em", color: "#8b7f6a", marginBottom: 16 }}>
+              </p>
+              {/* Attribution — small metadata line, body font via the <p> tag rule */}
+              <p
+                style={{
+                  ...labelSize(12, { letterSpacing: "0.04em" }),
+                  color: "#8b7f6a",
+                  marginBottom: 16,
+                }}
+              >
                 {t.attribution}
               </p>
-              <p style={{ fontFamily: "'Futura PT', sans-serif", fontSize: isMobile ? 14 : 16, lineHeight: 1.75, color: "#28241c", margin: 0 }}>
+              <p style={{ ...BODY_STYLE, color: "#28241c", margin: 0 }}>
                 {t.body}
               </p>
             </div>
           ))}
-
-          {/* <div
-            style={{
-              textAlign: "center",
-              padding: isMobile ? "24px 20px" : "32px 40px",
-              border: "1px dashed #b8ab8f",
-              borderRadius: 8,
-              background: "rgba(217,199,168,0.08)",
-            }}
-          >
-            <p style={{ fontFamily: "'CRONDE', serif", fontSize: isMobile ? 18 : 22, color: "#192441", marginBottom: 8 }}>
-              More stories, coming soon
-            </p>
-            <p style={{ fontFamily: "'Futura PT', sans-serif", fontSize: isMobile ? 13 : 14.5, lineHeight: 1.7, color: "#4a4535", margin: 0 }}>
-              Additional interview recordings gathered for the documentary — including further accounts from members across our branches — are currently being reviewed by the production team and will be added here once finalised and cleared for public use.
-            </p>
-          </div> */}
         </div>
       </div>
     </div>

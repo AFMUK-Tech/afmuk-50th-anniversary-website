@@ -6,6 +6,12 @@ import imgImage16 from "../../imports/Frame31/d060be9ce61288ad16074db37bfbb70d4d
 import imgImage14 from "../../imports/Frame31/a74f4e0909ba84ee9c9c4e2716d87721443d1e91.png";
 import imgImage15 from "../../imports/Frame31/4220d400525c50945c5ca0ef50b76d513a3cec9d.png";
 
+// Font FAMILY is controlled globally (fonts.css / globals.css) via
+// var(--font-heading) on h1-h6/.site-heading and var(--font-body) on
+// p/li/label/blockquote/figcaption. This file only imports size/weight
+// helpers — it never sets fontFamily inline, since inline styles can't
+// beat the global !important tag rules anyway.
+import { BODY_STYLE, headingSize, labelSize } from "../../styles/typography";
 
 function useContentHeight<T extends HTMLElement>() {
   const ref = useRef<T | null>(null);
@@ -74,7 +80,6 @@ const MOBILE_FRACTIONS = [0.16, 0.25, 0.42, 0.25, 0.16];
 const MOBILE_OPACITIES = [0.34, 0.5, 1, 0.5, 0.34];
 const MOBILE_ASPECT = 1.258;
 
-
 function CarouselCard({
   item,
   size,
@@ -120,10 +125,10 @@ function CarouselCard({
           }}
         />
       </div>
-      <p
+      {/* figcaption -> var(--font-body) globally, no inline fontFamily needed */}
+      <figcaption
         style={{
-          fontFamily: "'Futura PT', sans-serif",
-          fontSize: size.w < 200 ? 11 : size.w < 300 ? 19 : 25,
+          ...labelSize(size.w < 200 ? 11 : size.w < 300 ? 19 : 25),
           color: "#0f1421",
           whiteSpace: "nowrap",
           overflow: "hidden",
@@ -133,7 +138,7 @@ function CarouselCard({
         }}
       >
         {item.label}
-      </p>
+      </figcaption>
     </div>
   );
 }
@@ -264,23 +269,23 @@ function FounderCarouselMobile() {
           </svg>
         </button>
 
-      <div style={{ display: "flex", gap: 3, alignItems: "center" }}>
-       {ITEMS.map((_, i) => (
-         <span
-         key={i}
-      onClick={() => setActive(i)}
-      style={{
-        width: 4,
-        height: 4,
-        borderRadius: "50%",
-        display: "inline-block",
-        backgroundColor: i === active ? "#192441" : "#D8D8D8",
-        cursor: "pointer",
-        transition: "background-color 0.2s ease",
-      }}
-    />
-  ))}
-</div>
+        <div style={{ display: "flex", gap: 3, alignItems: "center" }}>
+          {ITEMS.map((_, i) => (
+            <span
+              key={i}
+              onClick={() => setActive(i)}
+              style={{
+                width: 4,
+                height: 4,
+                borderRadius: "50%",
+                display: "inline-block",
+                backgroundColor: i === active ? "#192441" : "#D8D8D8",
+                cursor: "pointer",
+                transition: "background-color 0.2s ease",
+              }}
+            />
+          ))}
+        </div>
 
         <button
           onClick={next}
@@ -295,6 +300,7 @@ function FounderCarouselMobile() {
     </div>
   );
 }
+
 /* ---------- Mobile page body ---------- */
 
 function FounderMobile() {
@@ -302,159 +308,78 @@ function FounderMobile() {
     <div style={{ width: "100%", background: "#fcf9f2", position: "relative", paddingTop: 96, paddingBottom: 64 }}>
       <div style={{ padding: "0 20px", display: "flex", flexDirection: "column", gap: 40, alignItems: "center" }}>
         <div style={{ textAlign: "center" }}>
+          {/* label -> var(--font-body) globally */}
           <p
             style={{
-              fontFamily: "'Futura PT', sans-serif",
-              fontSize: 12,
-              letterSpacing: "0.08em",
+              ...labelSize(12, { letterSpacing: "0.08em", textTransform: "uppercase" }),
               color: "#8b7f6a",
-              textTransform: "uppercase",
               margin: 0,
               marginBottom: 12,
             }}
           >
             Brother Victor Okusanya
           </p>
-          <p style={{ 
-            fontFamily: "'CRONDE', serif", 
-            fontSize: 42, 
-            color: "#0f1421", 
-            margin: 0, 
-            lineHeight: 1.05 
-          }}>
+          {/* Real <h1> so var(--font-heading) applies via the global h1-h6 rule */}
+          <h1 style={{ ...headingSize(42), color: "#0f1421", margin: 0, lineHeight: 1.05 }}>
             Founder
-          </p>
-          <p style={{ 
-            fontFamily: "'Futura PT', sans-serif", 
-            fontSize: 16, 
-            color: "#6b6b6b", 
-            marginTop: 16 
-          }}>
+          </h1>
+          <p style={{ ...labelSize(16), color: "#6b6b6b", marginTop: 16 }}>
             The man who carried the Gospel to the United Kingdom, and never looked back.
           </p>
         </div>
 
         <div style={{ width: "100%", maxWidth: 640, display: "flex", flexDirection: "column", gap: 20 }}>
-          <p style={{ 
-            fontFamily: "'Futura PT', sans-serif", 
-            fontSize: 15, 
-            lineHeight: 1.75, 
-            color: "#28241c", 
-            margin: 0 
-          }}>
+          {/* Body copy — canonical 18px / 32px / Regular; family already Futura PT via global <p> rule */}
+          <p style={{ ...BODY_STYLE, color: "#28241c", margin: 0 }}>
             Brother Victor Olusegun Okusanya founded the Apostolic Faith work in the United Kingdom in 1976, arriving in London the year before as a young music scholarship student at Goldsmith College. He served as the UK's first pastor for twenty-four years, from his ordination in Lagos in 1979 until his retirement in April 2000.
           </p>
-          <p style={{ 
-            fontFamily: "'Futura PT', sans-serif", 
-            fontSize: 15, 
-            lineHeight: 1.75, 
-            color: "#28241c", 
-            margin: 0 
-          }}>
+          <p style={{ ...BODY_STYLE, color: "#28241c", margin: 0 }}>
             Those who knew him remember a man of deep prayer and remarkable generosity — on one occasion giving away a brand-new pair of shoes to a man in need before he had worn them himself. Sister Chioma Okere, a member of the congregation he served, once described him as "all things to all men" — father, brother, uncle, and even solicitor to the members in his care.
           </p>
-          <p style={{ 
-            fontFamily: "'Futura PT', sans-serif", 
-            fontSize: 15, 
-            lineHeight: 1.75, 
-            color: "#28241c", 
-            margin: 0 
-          }}>
+          <p style={{ ...BODY_STYLE, color: "#28241c", margin: 0 }}>
             Though a trained musician, he chose never to use his music degree for secular income, believing the gift belonged to the church alone — a conviction that laid the foundation for a music ministry that continues to this day through Salem Academy of Music and, in 2026, Birmingham's David Academy.
           </p>
-          <p style={{ 
-            fontFamily: "'Futura PT', sans-serif", 
-            fontSize: 15, 
-            lineHeight: 1.75, 
-            color: "#28241c", 
-            margin: 0 
-          }}>
+          <p style={{ ...BODY_STYLE, color: "#28241c", margin: 0 }}>
             His final sermon before retirement was titled "Don't Deal in Sin, Don't Deal with Man, Deal with God" — words his family remember as capturing the whole of his ministry. On 30 April 2000, he passed leadership to Brother Isaac Adigun in a service attended by church leaders from Portland, Lagos, and Scandinavia.
           </p>
 
+          {/* blockquote -> var(--font-body) globally per your CSS (blockquote is in the body-font list).
+              Removed the old inline CRONDE override — it was being silently discarded by !important anyway. */}
           <blockquote
             style={{
               borderLeft: "3px solid #D9C7A8",
               margin: "8px 0",
               padding: "6px 0 6px 20px",
-              fontFamily: "'CRONDE', serif",
-              fontSize: 18,
-              lineHeight: 1.5,
+              ...labelSize(18, { lineHeight: 1.5, fontStyle: "italic" }),
               color: "#192441",
-              fontStyle: "italic",
             }}
           >
             "Our first Sunday School service was held on Sunday, 11 April 1976, at 18 Doverfield Road, Clapham Park — the home of Brother Victor Okusanya's sister. Only three members were present: Brother Victor Okusanya, Sister Comfort Martins, and myself."
-            <div style={{ 
-              fontFamily: "'Futura PT', sans-serif", 
-              fontSize: 13, 
-              fontStyle: "normal", 
-              color: "#6b6b6b", 
-              marginTop: 12 
-            }}>
+            <div style={{ ...labelSize(13), fontStyle: "normal", color: "#6b6b6b", marginTop: 12 }}>
               Brother Shuaibu Adeoye, one of the three present at the very first meeting, 11 April 1976
             </div>
           </blockquote>
 
-          <p style={{ 
-            fontFamily: "'Futura PT', sans-serif", 
-            fontSize: 15, 
-            lineHeight: 1.75, 
-            color: "#28241c", 
-            margin: 0 
-          }}>
+          <p style={{ ...BODY_STYLE, color: "#28241c", margin: 0 }}>
             Brother Adeoye, then a young British Petroleum scholarship student newly arrived from Nigeria, had written to the church's Portland headquarters asking where to worship in London. Portland connected him with Brother Okusanya, who had arrived in London a few months earlier with the same aim — to start an Apostolic Faith fellowship in the city. From that first meeting of three, in a borrowed lounge, the whole of this fifty-year story began.
           </p>
 
           <div style={{ marginTop: 8 }}>
-            <p style={{ 
-              fontFamily: "'CRONDE', serif", 
-              fontSize: 22, 
-              color: "#192441", 
-              margin: 0, 
-              marginBottom: 12 
-            }}>
+            {/* Real <h2> so var(--font-heading) applies */}
+            <h2 style={{ ...headingSize(22), color: "#192441", margin: 0, marginBottom: 12 }}>
               The Women Behind the Work
-            </p>
-            <p style={{ 
-              fontFamily: "'Futura PT', sans-serif", 
-              fontSize: 15, 
-              lineHeight: 1.75, 
-              color: "#28241c", 
-              margin: 0 
-            }}>
+            </h2>
+            <p style={{ ...BODY_STYLE, color: "#28241c", margin: 0 }}>
               Sister Grace Oluyemi Okusanya carried much of the administrative weight of the early church alongside her husband. Sister Florence Osayemi's own account of the wider hardship faced by early wives on student visas — far from home, often alone during the week — is a reminder that this church was built by families, not by one man alone.
             </p>
           </div>
 
-          <p style={{ 
-            fontFamily: "'CRONDE', serif", 
-            fontSize: 17, 
-            color: "#192441", 
-            textAlign: "center", 
-            margin: "8px 0 0", 
-            fontStyle: "italic" 
-          }}>
+          {/* Scripture line: kept as a heading-font flourish via .site-heading, since it's
+              a standalone display line rather than body copy. Drop the className if you'd
+              rather it follow the blockquote (body-font) rule like the quote above. */}
+          <p className="site-heading" style={{ ...headingSize(17, { fontStyle: "italic" }), color: "#192441", textAlign: "center", margin: "8px 0 0" }}>
             "Earnestly contend for the faith which was once delivered unto the saints." — Jude 3
           </p>
-
-          {/* <div style={{ textAlign: "center", marginTop: 4 }}>
-            <div
-              style={{
-                display: "inline-block",
-                background: "#192441",
-                color: "#fff",
-                fontFamily: "'Futura PT', sans-serif",
-                fontSize: 13,
-                letterSpacing: "0.03em",
-                padding: "12px 24px",
-                borderRadius: 999,
-                cursor: "pointer",
-              }}
-            >
-              Read the Full Story in Our 50th Anniversary Book
-            </div>
-          </div> */}
         </div>
 
         <FounderCarouselMobile />
@@ -546,147 +471,77 @@ export function FounderPage({ onBack: _onBack }: { onBack?: () => void } = {}) {
                   <div style={{ textAlign: "center" }}>
                     <p
                       style={{
-                        fontFamily: "'Futura PT', sans-serif",
-                        fontSize: 15,
-                        letterSpacing: "0.08em",
+                        ...labelSize(15, { letterSpacing: "0.08em", textTransform: "uppercase" }),
                         color: "#8b7f6a",
-                        textTransform: "uppercase",
                         margin: 0,
                         marginBottom: 18,
                       }}
                     >
                       Brother Victor Okusanya
                     </p>
-                    <p
+                    {/* Real <h1> — assumes SiteHeader doesn't already render the page's h1
+                        (e.g. it's a nav/logo, not a page title). If it does, drop this to <h2>. */}
+                    <h1
                       style={{
-                        fontFamily: "'CRONDE', serif",
-                        fontSize: 80,
+                        ...headingSize(80, { textAlign: "center", width: "100%" }),
                         color: "#0f1421",
-                        textAlign: "center",
                         margin: 0,
                         lineHeight: 1,
-                        width: "100%",
                       }}
                     >
                       Founder
-                    </p>
-                    <p
-                      style={{
-                        fontFamily: "'Futura PT', sans-serif",
-                        fontSize: 22,
-                        color: "#6b6b6b",
-                        marginTop: 24,
-                      }}
-                    >
+                    </h1>
+                    <p style={{ ...labelSize(22), color: "#6b6b6b", marginTop: 24 }}>
                       The man who carried the Gospel to the United Kingdom, and never looked back.
                     </p>
                   </div>
 
                   <div style={{ width: 980, display: "flex", flexDirection: "column", gap: 28 }}>
-                    <p style={{ 
-                      fontFamily: "'Futura PT', sans-serif", 
-                      fontSize: 20, 
-                      lineHeight: 1.75, 
-                      color: "#28241c", 
-                      margin: 0 
-                    }}>
+                    <p style={{ ...BODY_STYLE, color: "#28241c", margin: 0 }}>
                       Brother Victor Olusegun Okusanya founded the Apostolic Faith work in the United Kingdom in 1976, arriving in London the year before as a young music scholarship student at Goldsmith College. He served as the UK's first pastor for twenty-four years, from his ordination in Lagos in 1979 until his retirement in April 2000.
                     </p>
-                    <p style={{ 
-                      fontFamily: "'Futura PT', sans-serif", 
-                      fontSize: 20, 
-                      lineHeight: 1.75, 
-                      color: "#28241c", 
-                      margin: 0 
-                    }}>
+                    <p style={{ ...BODY_STYLE, color: "#28241c", margin: 0 }}>
                       Those who knew him remember a man of deep prayer and remarkable generosity — on one occasion giving away a brand-new pair of shoes to a man in need before he had worn them himself. Sister Chioma Okere, a member of the congregation he served, once described him as "all things to all men" — father, brother, uncle, and even solicitor to the members in his care.
                     </p>
-                    <p style={{ 
-                      fontFamily: "'Futura PT', sans-serif", 
-                      fontSize: 20, 
-                      lineHeight: 1.75, 
-                      color: "#28241c", 
-                      margin: 0 
-                    }}>
+                    <p style={{ ...BODY_STYLE, color: "#28241c", margin: 0 }}>
                       Though a trained musician, he chose never to use his music degree for secular income, believing the gift belonged to the church alone — a conviction that laid the foundation for a music ministry that continues to this day through Salem Academy of Music and, in 2026, Birmingham's David Academy.
                     </p>
-                    <p style={{ 
-                      fontFamily: "'Futura PT', sans-serif", 
-                      fontSize: 20, 
-                      lineHeight: 1.75, 
-                      color: "#28241c", 
-                      margin: 0 
-                    }}>
+                    <p style={{ ...BODY_STYLE, color: "#28241c", margin: 0 }}>
                       His final sermon before retirement was titled "Don't Deal in Sin, Don't Deal with Man, Deal with God" — words his family remember as capturing the whole of his ministry. On 30 April 2000, he passed leadership to Brother Isaac Adigun in a service attended by church leaders from Portland, Lagos, and Scandinavia.
                     </p>
 
+                    {/* blockquote -> body font via global CSS; inline CRONDE removed */}
                     <blockquote
                       style={{
                         borderLeft: "3px solid #D9C7A8",
                         margin: "16px 0",
                         padding: "6px 0 6px 32px",
-                        fontFamily: "'CRONDE', serif",
-                        fontSize: 26,
-                        lineHeight: 1.5,
+                        ...labelSize(26, { lineHeight: 1.5, fontStyle: "italic" }),
                         color: "#192441",
-                        fontStyle: "italic",
                       }}
                     >
                       "Our first Sunday School service was held on Sunday, 11 April 1976, at 18 Doverfield Road, Clapham Park — the home of Brother Victor Okusanya's sister. Only three members were present: Brother Victor Okusanya, Sister Comfort Martins, and myself."
-                      <div style={{ 
-                        fontFamily: "'Futura PT', sans-serif", 
-                        fontSize: 16, 
-                        fontStyle: "normal", 
-                        color: "#6b6b6b", 
-                        marginTop: 14 
-                      }}>
+                      <div style={{ ...labelSize(16), fontStyle: "normal", color: "#6b6b6b", marginTop: 14 }}>
                         Brother Shuaibu Adeoye, one of the three present at the very first meeting, 11 April 1976
                       </div>
                     </blockquote>
 
-                    <p style={{ 
-                      fontFamily: "'Futura PT', sans-serif", 
-                      fontSize: 20, 
-                      lineHeight: 1.75, 
-                      color: "#28241c", 
-                      margin: 0 
-                    }}>
+                    <p style={{ ...BODY_STYLE, color: "#28241c", margin: 0 }}>
                       Brother Adeoye, then a young British Petroleum scholarship student newly arrived from Nigeria, had written to the church's Portland headquarters asking where to worship in London. Portland connected him with Brother Okusanya, who had arrived in London a few months earlier with the same aim — to start an Apostolic Faith fellowship in the city. From that first meeting of three, in a borrowed lounge, the whole of this fifty-year story began.
                     </p>
 
                     <div style={{ marginTop: 12 }}>
-                      <p style={{ 
-                        fontFamily: "'CRONDE', serif", 
-                        fontSize: 32, 
-                        color: "#192441", 
-                        margin: 0, 
-                        marginBottom: 16 
-                      }}>
+                      <h2 style={{ ...headingSize(32), color: "#192441", margin: 0, marginBottom: 16 }}>
                         The Women Behind the Work
-                      </p>
-                      <p style={{ 
-                        fontFamily: "'Futura PT', sans-serif", 
-                        fontSize: 20, 
-                        lineHeight: 1.75, 
-                        color: "#28241c", 
-                        margin: 0 
-                      }}>
+                      </h2>
+                      <p style={{ ...BODY_STYLE, color: "#28241c", margin: 0 }}>
                         Sister Grace Oluyemi Okusanya carried much of the administrative weight of the early church alongside her husband. Sister Florence Osayemi's own account of the wider hardship faced by early wives on student visas — far from home, often alone during the week — is a reminder that this church was built by families, not by one man alone.
                       </p>
                     </div>
 
-                    <p style={{ 
-                      fontFamily: "'CRONDE', serif", 
-                      fontSize: 22, 
-                      color: "#192441", 
-                      textAlign: "center", 
-                      margin: "16px 0 0", 
-                      fontStyle: "italic" 
-                    }}>
+                    <p className="site-heading" style={{ ...headingSize(22, { fontStyle: "italic" }), color: "#192441", textAlign: "center", margin: "16px 0 0" }}>
                       "Earnestly contend for the faith which was once delivered unto the saints." — Jude 3
                     </p>
-
-               
                   </div>
 
                   <FounderCarousel />
