@@ -534,7 +534,7 @@ function MobileTimelineRing({
 
       <text
         x="202"
-        y="76"
+        y="90"
         fill="white"
         fontFamily="CRONDE, serif"
         fontSize="29"
