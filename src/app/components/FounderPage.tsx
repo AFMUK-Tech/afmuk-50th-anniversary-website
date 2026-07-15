@@ -43,11 +43,41 @@ const ITEMS = [
 ];
 
 const CARD_SIZES = [
-  { w: 161.962, h: 141.623 + 40, opacity: 0.34, shadow: 3.164 },
-  { w: 271.728, h: 237.604 + 50, opacity: 0.5, shadow: 5.308 },
-  { w: 369.189, h: 322.826 + 68, opacity: 1.0, shadow: 7.212 },
-  { w: 271.728, h: 237.604 + 50, opacity: 0.5, shadow: 5.308 },
-  { w: 161.962, h: 141.623 + 40, opacity: 0.34, shadow: 3.164 },
+  {
+    w: 121.47,
+    h: 153.31,
+    opacity: 0.34,
+    padding: 5.02,
+    gap: 6.69,
+  },
+  {
+    w: 203.80,
+    h: 256.30,
+    opacity: 0.5,
+    padding: 8.42,
+    gap: 11.23,
+  },
+  {
+    w: 276.89,
+    h: 347.32,
+    opacity: 1,
+    padding: 11.44,
+    gap: 15.25,
+  },
+  {
+    w: 203.80,
+    h: 256.30,
+    opacity: 0.5,
+    padding: 8.42,
+    gap: 11.23,
+  },
+  {
+    w: 121.47,
+    h: 153.31,
+    opacity: 0.34,
+    padding: 5.02,
+    gap: 6.69,
+  },
 ];
 
 function CarouselCard({
@@ -402,7 +432,7 @@ function FounderMobile() {
             "Earnestly contend for the faith which was once delivered unto the saints." — Jude 3
           </p>
 
-          <div style={{ textAlign: "center", marginTop: 4 }}>
+          {/* <div style={{ textAlign: "center", marginTop: 4 }}>
             <div
               style={{
                 display: "inline-block",
@@ -418,7 +448,7 @@ function FounderMobile() {
             >
               Read the Full Story in Our 50th Anniversary Book
             </div>
-          </div>
+          </div> */}
         </div>
 
         <FounderCarouselMobile />
@@ -650,23 +680,7 @@ export function FounderPage({ onBack }: { onBack?: () => void } = {}) {
                       "Earnestly contend for the faith which was once delivered unto the saints." — Jude 3
                     </p>
 
-                    <div style={{ textAlign: "center", marginTop: 8 }}>
-                      <div
-                        style={{
-                          display: "inline-block",
-                          background: "#192441",
-                          color: "#fff",
-                          fontFamily: "'Futura PT', sans-serif",
-                          fontSize: 15,
-                          letterSpacing: "0.03em",
-                          padding: "14px 32px",
-                          borderRadius: 999,
-                          cursor: "pointer",
-                        }}
-                      >
-                        Read the Full Story in Our 50th Anniversary Book
-                      </div>
-                    </div>
+               
                   </div>
 
                   <FounderCarousel />

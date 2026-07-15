@@ -66,7 +66,7 @@ export function TestimoniesPage({ onBack }: { onBack: () => void }) {
           paddingTop: isMobile ? 72 : NAV_H,
         }}
       >
-        <button
+        {/* <button
           onClick={onBack}
           style={{
             position: "fixed",
@@ -79,7 +79,7 @@ export function TestimoniesPage({ onBack }: { onBack: () => void }) {
           }}
         >
           ← Back
-        </button>
+        </button> */}
 
         {/* Hero */}
         <div
@@ -101,7 +101,7 @@ export function TestimoniesPage({ onBack }: { onBack: () => void }) {
         </div>
 
         {/* About note */}
-        <div style={{ maxWidth: 820, margin: "0 auto", padding: isMobile ? "28px 20px 0" : "48px 24px 0" }}>
+        {/* <div style={{ maxWidth: 820, margin: "0 auto", padding: isMobile ? "28px 20px 0" : "48px 24px 0" }}>
           <div
             style={{
               background: "rgba(217,199,168,0.14)",
@@ -117,7 +117,7 @@ export function TestimoniesPage({ onBack }: { onBack: () => void }) {
               The accounts below are told in narrative summary, drawn from written and recorded sources gathered across the church's fifty years. Several are reconstructed from the 45th Anniversary Report (2021) and are not verbatim quotations. Consent for public use is still being confirmed with each individual or their family, and some details have been deliberately handled with care or left out until that confirmation is complete. Further video interviews recorded for the 50th Anniversary documentary are being reviewed and will be added here once available.
             </p>
           </div>
-        </div>
+        </div> */}
 
         {/* Testimonies */}
         <div style={{ maxWidth: 820, margin: "0 auto", padding: isMobile ? "28px 20px 40px" : "48px 24px 64px" }}>
@@ -144,7 +144,7 @@ export function TestimoniesPage({ onBack }: { onBack: () => void }) {
             </div>
           ))}
 
-          <div
+          {/* <div
             style={{
               textAlign: "center",
               padding: isMobile ? "24px 20px" : "32px 40px",
@@ -159,7 +159,7 @@ export function TestimoniesPage({ onBack }: { onBack: () => void }) {
             <p style={{ fontFamily: "'Futura PT', sans-serif", fontSize: isMobile ? 13 : 14.5, lineHeight: 1.7, color: "#4a4535", margin: 0 }}>
               Additional interview recordings gathered for the documentary — including further accounts from members across our branches — are currently being reviewed by the production team and will be added here once finalised and cleared for public use.
             </p>
-          </div>
+          </div> */}
         </div>
       </div>
     </div>
