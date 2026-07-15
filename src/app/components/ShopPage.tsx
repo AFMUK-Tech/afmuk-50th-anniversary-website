@@ -23,7 +23,7 @@ export function ShopPage({ onBack }: { onBack: () => void }) {
           alignItems: "center",
           justifyContent: "center",
           textAlign: "center",
-          padding: "30px 24px 64px",
+          padding: "80px 24px 64px",
         }}
       >
         {/* <button
