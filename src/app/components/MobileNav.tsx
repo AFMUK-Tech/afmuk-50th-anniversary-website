@@ -5,27 +5,36 @@ import { createPortal } from "react-dom";
 import { Menu, X } from "lucide-react";
 import img34159 from "../../imports/Nav/logo.png";
 
-
-const BRANCHES = [
-  { label: "Peckham", slug: "peckham" },
-  { label: "Bexley", slug: "bexley" },
-  { label: "Bristol & Cardiff", slug: "bristol" },
-  { label: "Aberdeen", slug: "aberdeen" },
-  { label: "Glasgow & Paisley", slug: "glasgow" },
-  { label: "Edinburgh", slug: "edinburgh" },
-  { label: "Cranfield", slug: "cranfield" },
-  { label: "Birmingham", slug: "birmingham" },
-  { label: "Manchester", slug: "manchester" },
-  { label: "Leicester", slug: "leicester" },
-  { label: "Coventry", slug: "coventry" },
-  { label: "Sussex", slug: "sussex" },
+const BRANCH_GROUPS = [
+  {
+    heading: "Branches",
+    items: [
+      { label: "Peckham", slug: "peckham" },
+      { label: "Bexley", slug: "bexley" },
+  { label: "Aberdeen",          slug: "aberdeen" },
+  { label: "Cranfield",         slug: "cranfield" },
+  { label: "Birmingham",        slug: "birmingham"},
+  { label: "Manchester",        slug: "manchester"},
+    ],
+  },
+  {
+    heading: "Group",
+    items: [
+  { label: "Glasgow & Paisley", slug: "glasgow", },
+  { label: "Leicester",         slug: "leicester"},
+  { label: "Coventry",          slug: "coventry" },
+  { label: "Edinburgh",         slug: "edinburgh" },
+  { label: "Sussex",            slug: "sussex" },
   { label: "Ireland — Dublin & Belfast", slug: "ireland" },
-  { label: "Germany", slug: "germany" },
-  { label: "France", slug: "france" },
-  { label: "Italy", slug: "italy" },
-  { label: "Denmark", slug: "denmark" },
-  { label: "Spain", slug: "spain" },
+  { label: "Germany",           slug: "germany" },
+  { label: "France",            slug: "france"},
+  { label: "Italy",             slug: "italy" },
+  { label: "Denmark",           slug: "denmark" },
+  { label: "Spain",             slug: "spain"},
+    ],
+  },
 ];
+
 
 export default function MobileNav() {
   const [menuOpen, setMenuOpen] = useState(false);
@@ -184,17 +193,29 @@ export default function MobileNav() {
                   </svg>
                 </button>
 
-                {/* Branch Submenu */}
+                {/* Branch Submenu — grouped */}
                 {branchOpen && (
-                  <div className="pl-4 mt-1 space-y-1">
-                    {BRANCHES.map((branch) => (
-                      <button
-                        key={branch.slug}
-                        onClick={() => handleBranchClick(branch.slug)}
-                        className="w-full text-left px-4 py-2 hover:bg-gray-100 rounded-lg transition-colors font-['Futura_PT:Book',sans-serif] text-sm text-gray-700"
-                      >
-                        {branch.label}
-                      </button>
+                  <div className="pl-4 pr-2 pt-2 pb-3 space-y-5">
+                    {BRANCH_GROUPS.map((group) => (
+                      <div key={group.heading}>
+                        <div className="flex items-center gap-3 mb-2.5 px-4">
+                          <span className="font-['CRONDE:Regular',sans-serif] text-[#192441] text-[16px] whitespace-nowrap">
+                            {group.heading}
+                          </span>
+                          <div className="flex-1 h-px bg-[#c9a771]" />
+                        </div>
+                        <div className="grid grid-cols-2 gap-x-2 gap-y-0.5">
+                          {group.items.map((branch) => (
+                            <button
+                              key={branch.slug}
+                              onClick={() => handleBranchClick(branch.slug)}
+                              className="text-left px-4 py-2 hover:bg-gray-100 rounded-lg transition-colors font-['Futura_PT:Book',sans-serif] text-sm text-gray-700"
+                            >
+                              {branch.label}
+                            </button>
+                          ))}
+                        </div>
+                      </div>
                     ))}
                   </div>
                 )}
