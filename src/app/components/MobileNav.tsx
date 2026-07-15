@@ -46,8 +46,16 @@ export default function MobileNav() {
   };
 
   const handleBranchClick = (slug: string) => {
-    window.location.hash = `#${slug}`;
+    navigateTo(`#${slug}`);
     closeMenu();
+  };
+
+  const navigateTo = (hash: string) => {
+    const nextUrl = window.location.pathname + window.location.search + hash;
+    window.history.pushState(null, "", nextUrl);
+    // pushState does not emit hashchange. Dispatching it also handles Home when
+    // the timeline has already removed its own hash from a non-home page.
+    window.dispatchEvent(new HashChangeEvent("hashchange"));
   };
 
   const handleNavClick = (hash: string) => {
@@ -66,37 +74,20 @@ export default function MobileNav() {
       return;
     }
 
-    window.location.hash = hash;
+    navigateTo(hash);
     closeMenu();
   };
 
   useEffect(() => {
     if (!menuOpen) return;
 
-    const scrollPosition = window.scrollY;
-    const previousOverflow = document.body.style.overflow;
-    const previousPosition = document.body.style.position;
-    const previousTop = document.body.style.top;
-    const previousWidth = document.body.style.width;
-    const previousHtmlOverflow = document.documentElement.style.overflow;
     const closeOnEscape = (event: KeyboardEvent) => {
       if (event.key === "Escape") closeMenu();
     };
 
-    document.body.style.overflow = "hidden";
-    document.body.style.position = "fixed";
-    document.body.style.top = `-${scrollPosition}px`;
-    document.body.style.width = "100%";
-    document.documentElement.style.overflow = "hidden";
     window.addEventListener("keydown", closeOnEscape);
     return () => {
-      document.body.style.overflow = previousOverflow;
-      document.body.style.position = previousPosition;
-      document.body.style.top = previousTop;
-      document.body.style.width = previousWidth;
-      document.documentElement.style.overflow = previousHtmlOverflow;
       window.removeEventListener("keydown", closeOnEscape);
-      window.scrollTo(0, scrollPosition);
     };
   }, [menuOpen]);
 
@@ -108,8 +99,7 @@ export default function MobileNav() {
         <div
           className="relative h-14.5 w-47 cursor-pointer overflow-clip"
           onClick={() => {
-            window.location.hash = "";
-            window.scrollTo({ top: 0, behavior: "smooth" });
+            navigateTo("");
             closeMenu();
           }}
         >
@@ -136,14 +126,14 @@ export default function MobileNav() {
         <>
           <div
             aria-hidden="true"
-            className={`fixed inset-0 z-998 bg-black/55 transition-opacity duration-300 ${menuOpen ? "pointer-events-auto opacity-100" : "pointer-events-none opacity-0"}`}
+            className={`fixed inset-0 z-998 touch-none bg-black/55 transition-opacity duration-300 ${menuOpen ? "pointer-events-auto opacity-100" : "pointer-events-none opacity-0"}`}
             onClick={closeMenu}
           />
 
           <aside
             aria-label="Mobile navigation"
             aria-hidden={!menuOpen}
-            className={`fixed inset-y-0 right-0 z-999 w-[min(86vw,360px)] bg-white shadow-2xl transition-transform duration-300 ease-out ${menuOpen ? "translate-x-0" : "translate-x-full"}`}
+            className={`fixed inset-y-0 right-0 z-999 w-[min(86vw,360px)] overscroll-contain bg-white shadow-2xl transition-transform duration-300 ease-out ${menuOpen ? "translate-x-0" : "translate-x-full"}`}
           >
         <div className="flex flex-col h-full">
           {/* Menu Header */}

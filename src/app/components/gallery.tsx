@@ -96,7 +96,7 @@ function GalleryCanvas(): ReactElement {
         className="-translate-x-1/2 -translate-y-1/2 absolute mt-10 flex flex-col font-['CRONDE:Regular'] justify-center leading-[0] not-italic text-[#0f1421] text-center"
         style={{
           left: "50%",
-          top: "23.8%",
+          top: "18%",
           width: "70%",
           maxWidth: 900,
           fontSize: "clamp(32px, 6.11vw, 88px)",
@@ -112,11 +112,11 @@ function GalleryCanvas(): ReactElement {
         style={{
           position: "absolute",
           height: 578,
-          left: -89,
-          top: 369,
+          left: "50%",
+          top: 330,
           width: 1631.549,
-          transform: "scale(var(--gallery-scale, 1))",
-          transformOrigin: "top left",
+          transform: "translateX(-50%)",
+          transformOrigin: "top center",
         }}
       >
         {/* Frame9 — center card, straight */}
@@ -256,7 +256,7 @@ function GalleryCanvas(): ReactElement {
         </div>
 
         {/* Frame11 — Label text */}
-        <div className="-translate-x-1/2 absolute flex items-center justify-center" style={{ left: "calc(50% - 6.27px)", top: 453 }}>
+        <div className="-translate-x-1/2 absolute flex items-center justify-center" style={{ left: "calc(50% - 6.27px)", top: 350 }}>
           <div
             className="flex flex-col font-['Futura_PT:Book',sans-serif] justify-center not-italic text-[#0f1421] text-[40px] text-center whitespace-nowrap"
             style={{
@@ -270,7 +270,7 @@ function GalleryCanvas(): ReactElement {
         </div>
 
         {/* Navigation controls */}
-        <div className="-translate-x-1/2 absolute flex gap-[20px] items-center justify-center" style={{ left: "calc(50% - 6.27px)", top: 566 }}>
+        <div className="-translate-x-1/2 absolute flex gap-[20px] items-center justify-center" style={{ left: "calc(50% - 6.27px)", top: 400 }}>
           <button
             onClick={prev}
             style={{
@@ -342,40 +342,51 @@ function GalleryMobile(): ReactElement {
   const next = () => setActive(i => (i + 1) % total);
 
   return (
-    <div style={{ width: "100%", background: "#fcf9f2", position: "relative", paddingTop: 96, paddingBottom: 48 }}>
-      <div style={{ padding: "0 20px", display: "flex", flexDirection: "column", alignItems: "center" }}>
+    <div style={{ width: "100%", minHeight: "100svh", background: "#fcf9f2", position: "relative", paddingTop: 112, paddingBottom: 48, overflow: "hidden" }}>
+      <div className="absolute inset-[-4%_-55%_0] opacity-20" style={{ transform: "rotate(-10deg)" }}>
+        <svg className="absolute block inset-0 size-full" fill="none" preserveAspectRatio="none" viewBox="0 0 1244 947.143">
+          <g>
+            {Object.values(_svgPaths).map((path, index) => <path key={index} d={path} fill="#949494" />)}
+          </g>
+        </svg>
+      </div>
+
+      <div style={{ position: "relative", padding: "0 18px", display: "flex", flexDirection: "column", alignItems: "center" }}>
         <h1
           className="font-['CRONDE:Regular',sans-serif]"
-          style={{ margin: 0, marginBottom: 24, fontSize: 30, color: "#0f1421", textAlign: "center", lineHeight: 1.15 }}
+          style={{ margin: 0, width: "min(86vw, 330px)", fontSize: "clamp(48px, 14vw, 60px)", color: "#0f1421", textAlign: "center", lineHeight: 0.9 }}
         >
-          Our pictures over the years
+          Our pictures
+          <br />
+          over the
+          <br />
+          years
         </h1>
 
-        <button
-          onClick={() => {
-            window.location.hash = "#pictures";
-          }}
-          className="bg-white overflow-clip shadow-[0px_2px_10px_0px_rgba(0,0,0,0.08)] border-0 cursor-pointer"
-          style={{
-            width: "100%",
-            maxWidth: 320,
-            padding: "10px 10px 24px",
-            display: "block",
-          }}
-        >
-          <div style={{ position: "relative", width: "100%", aspectRatio: "1 / 0.9", overflow: "hidden" }}>
-            <CardImg src={slide.center} isCenter={true} />
+        <div style={{ position: "relative", width: "100vw", height: "clamp(180px, 56vw, 250px)", marginTop: 64 }}>
+          <div className="absolute bg-white shadow-[0_4px_10px_rgba(0,0,0,.10)]" style={{ width: "clamp(120px,36vw,170px)", padding: "7px 7px 24px", left: "-16%", top: 30, transform: "rotate(-20deg)" }}>
+            <div style={{ position: "relative", aspectRatio: "1.05/1", overflow: "hidden" }}><CardImg src={slide.centerLeft} isCenter={false} /></div>
           </div>
-        </button>
+          <button
+            onClick={() => { window.location.hash = "#pictures"; }}
+            className="absolute left-1/2 z-10 -translate-x-1/2 border-0 bg-white shadow-[0_3px_12px_rgba(0,0,0,.10)] cursor-pointer"
+            style={{ width: "clamp(112px, 31vw, 150px)", padding: "7px 7px 24px", top: 0 }}
+          >
+            <div style={{ position: "relative", width: "100%", aspectRatio: "1 / 1.08", overflow: "hidden" }}><CardImg src={slide.center} isCenter={true} /></div>
+          </button>
+          <div className="absolute bg-white shadow-[0_4px_10px_rgba(0,0,0,.10)]" style={{ width: "clamp(120px,36vw,170px)", padding: "7px 7px 24px", right: "-16%", top: 30, transform: "rotate(20deg)" }}>
+            <div style={{ position: "relative", aspectRatio: "1.05/1", overflow: "hidden" }}><CardImg src={slide.topRight} isCenter={false} /></div>
+          </div>
+        </div>
 
         <p
           className="font-['Futura_PT:Book',sans-serif]"
-          style={{ margin: "20px 0 0", fontSize: 17, color: "#0f1421", textAlign: "center" }}
+          style={{ margin: "4px 0 0", fontSize: 15, color: "#0f1421", textAlign: "center" }}
         >
           {slide.label}
         </p>
 
-        <div style={{ display: "flex", alignItems: "center", gap: 16, marginTop: 20 }}>
+        <div style={{ display: "flex", alignItems: "center", gap: 12, marginTop: 6 }}>
           <button
             onClick={prev}
             aria-label="Previous"
@@ -393,15 +404,29 @@ function GalleryMobile(): ReactElement {
                 onClick={() => setActive(i)}
                 aria-label={`Go to slide ${i + 1}`}
                 style={{
-                  width: 8,
-                  height: 8,
-                  borderRadius: "50%",
+                  display: "grid",
+                  placeItems: "center",
+                  width: 32,
+                  height: 44,
                   border: "none",
                   padding: 0,
-                  background: i === active ? "#192441" : "#D8D8D8",
+                  background: "transparent",
                   cursor: "pointer",
                 }}
-              />
+              >
+                <span
+                  aria-hidden="true"
+                  style={{
+                    display: "block",
+                    width: 5,
+                    height: 5,
+                    borderRadius: "50%",
+                    background: i === active ? "#192441" : "#D8D8D8",
+                    transition: "background 0.25s ease, transform 0.25s ease",
+                    transform: i === active ? "scale(1.2)" : "scale(1)",
+                  }}
+                />
+              </button>
             ))}
           </div>
 
@@ -444,7 +469,7 @@ export function GalleryPage({ onBack: _onBack }: { onBack?: () => void } = {}): 
           <GalleryMobile />
         ) : (
           <div style={{ width: "100%", height: DESIGN_HEIGHT * scale, overflow: "hidden" }}>
-            <div style={{ width: DESIGN_WIDTH, height: DESIGN_HEIGHT, transform: `scale(${scale})`, transformOrigin: "top left" }}>
+            <div style={{ width: scale < 1 ? DESIGN_WIDTH : "100%", height: DESIGN_HEIGHT, transform: scale < 1 ? `scale(${scale})` : "none", transformOrigin: "top left" }}>
               <GalleryCanvas />
             </div>
           </div>

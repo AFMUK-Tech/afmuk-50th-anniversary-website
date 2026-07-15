@@ -1,2 +1,33 @@
-@import url('https://fonts.cdnfonts.com/css/futura-pt');
 @import url('https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400&family=Inter&display=swap');
+
+@font-face {
+  font-family: 'CRONDE';
+  src: local('CRONDE Regular'), local('CRONDE');
+  font-style: normal;
+  font-weight: 400;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'Futura PT';
+  src: url('../assets/fonts/FuturaPT-Book.woff') format('woff');
+  font-style: normal;
+  font-weight: 400;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'Futura PT';
+  src: url('../assets/fonts/FuturaPT-Medium.woff') format('woff');
+  font-style: normal;
+  font-weight: 450;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'Futura PT';
+  src: url('../assets/fonts/FuturaPT-Demi.woff') format('woff');
+  font-style: normal;
+  font-weight: 500 700;
+  font-display: swap;
+}
