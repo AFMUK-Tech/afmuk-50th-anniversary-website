@@ -1,18 +1,17 @@
 import { useEffect, useRef, useState } from "react";
 import svgPaths from "./svg-qle47qowmk";
-// Removed imgLogo as it's handled by the parent nav now
 import imgCrest from "./6289e65571dab6c414b3b1e11ca90d8fc1b7d1fe.png";
 import imgHero from "./4986cb0ca9480b3dc025830e0fd805d9e9f8b29c.png";
 import imgGallery from "./00906276d94a619afd9053d491e72ee53b2c84f7.png";
 
-const GALLERY_IMAGES = [imgGallery, imgGallery, imgGallery];
+const GALLERY_IMAGES = Array.from({ length: 12 }, () => imgGallery);
 const BRANCH_ADDRESS = "21 pekam road North London";
-
-/* --------------------------------- Icons -------------------------------- */
+const STORY_COPY =
+  "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.";
 
 function ChevronIcon({ className = "" }: { className?: string }) {
   return (
-    <svg viewBox="0 0 24 24" fill="none" className={className} aria-hidden="true">
+    <svg aria-hidden="true" className={className} fill="none" viewBox="0 0 24 24">
       <path
         d="M15 6L9 12L15 18"
         stroke="currentColor"
@@ -24,73 +23,10 @@ function ChevronIcon({ className = "" }: { className?: string }) {
   );
 }
 
-/* ------------------------------ Branch title ------------------------------ */
-
-function BranchTitle() {
+function BackgroundPattern({ className = "" }: { className?: string }) {
   return (
-    <div className="mx-auto flex w-full max-w-[1096px] flex-col items-center gap-8 px-4 pt-10 pb-2 text-center sm:pt-12 sm:pb-3 md:flex-row md:items-center md:justify-between md:text-left lg:pt-16 lg:pb-4">
-      {/* Crest + name block. Sizing is monotonic across breakpoints
-          (96 -> 112 -> 128 -> 200) and spacing comes from `gap`, not
-          hand-tuned negative margins, so it holds up at every width
-          in between, not just the exact breakpoints. */}
-      <div className="flex flex-col items-center gap-1 sm:flex-row sm:items-center sm:gap-3 md:gap-4">
-        {/* Fixed box + overflow-hidden + scaled-up image: crops out
-            any transparent padding baked into the crest PNG so the
-            visible shield mark sits tight against the title text.
-            Adjust the scale value if the crest still looks too far
-            from (scale up) or too close to (scale down) the title. */}
-        <div className="flex size-24 shrink-0 items-center justify-center overflow-hidden sm:size-28 md:size-32 lg:size-[200px]">
-          <img
-            src={imgCrest}
-            alt="Manchester branch crest"
-            className="h-full w-full scale-125 object-contain"
-          />
-        </div>
-        <div className="flex flex-col items-center gap-1 sm:items-start">
-          <p className="font-['Futura_PT'] text-lg text-[#949494] sm:text-xl lg:text-2xl">
-            Branch
-          </p>
-          <h1 className="font-['CRONDE:Regular'] text-4xl leading-none text-[#38362d] sm:text-5xl lg:text-[64px]">
-            Manchester
-          </h1>
-        </div>
-      </div>
-
-      <div className="hidden flex-col items-center gap-1 sm:gap-2 md:flex md:items-end md:text-right">
-        <p className="font-['Futura_PT:Heavy',sans-serif] text-lg text-[#38362d] sm:text-xl lg:text-2xl">
-          Address
-        </p>
-        <p className="font-['Futura_PT:Book',sans-serif] text-base leading-7 text-[#38362d] sm:text-lg lg:text-[18px] lg:leading-[32px]">
-          {BRANCH_ADDRESS}
-        </p>
-      </div>
-    </div>
-  );
-}
-
-/* -------------------------------- Hero image ------------------------------ */
-
-function HeroImage() {
-  return (
-    <div className="relative h-[220px] w-full overflow-hidden sm:h-[340px] md:h-[400px] lg:h-[579px]">
-      <img
-        src={imgHero}
-        alt="Manchester church building exterior"
-        className="absolute inset-0 h-full w-full object-cover object-[center_35%]"
-      />
-    </div>
-  );
-}
-
-/* ------------------------------ Background art ----------------------------- */
-
-function BackgroundPattern() {
-  return (
-    <div
-      aria-hidden="true"
-      className="pointer-events-none absolute inset-x-[6.81%] top-0 bottom-[15%] opacity-20"
-    >
-      <svg className="h-full w-full" fill="none" preserveAspectRatio="none" viewBox="0 0 1244 1142">
+    <div aria-hidden="true" className={`pointer-events-none absolute opacity-20 ${className}`}>
+      <svg className="size-full" fill="none" preserveAspectRatio="none" viewBox="0 0 1244 1142">
         <g>
           <path d={svgPaths.p1d9a8400} fill="#949494" />
           <path d={svgPaths.p56bbc40} fill="#949494" />
@@ -110,13 +46,76 @@ function BackgroundPattern() {
   );
 }
 
-/* --------------------------- Address + Lorem Ipsum -------------------------- */
-
-function AddressListItem() {
+function Crest() {
   return (
-    <div className="flex flex-col gap-1">
-      <p className="font-['Futura_PT:Heavy',sans-serif] text-sm text-[#38362d]">Address</p>
-      <p className="font-['Futura_PT:Book',sans-serif] text-sm leading-6 text-[#38362d]">
+    <div className="size-30 shrink-0 overflow-hidden" aria-hidden="true">
+      <img
+        alt=""
+        className="size-full scale-[1.84] object-contain"
+        src={imgCrest}
+      />
+    </div>
+  );
+}
+
+function AddressBlock() {
+  return (
+    <div className="text-center md:text-left">
+      <p className="font-['Futura_PT:Heavy',sans-serif] text-[20px] font-bold leading-none text-[#38362d] md:text-[24px]">
+        Address
+      </p>
+      <p className="mt-4 font-['Futura_PT:Book',sans-serif] text-[18px] leading-6 text-[#38362d] md:mt-3 md:text-[24px] md:leading-8">
+        {BRANCH_ADDRESS}
+      </p>
+    </div>
+  );
+}
+
+function BranchTitle() {
+  return (
+    <section className="relative min-h-94 overflow-hidden bg-[#f4f1ea] md:min-h-[371px]">
+      <BackgroundPattern className="-inset-x-[8%] -inset-y-[20%] md:inset-x-[6.81%] md:-top-[28%] md:bottom-0" />
+
+      <div className="relative z-10 mx-auto flex min-h-94 w-full max-w-[1096px] flex-col items-center justify-center px-6 pb-7 text-center md:min-h-[371px] md:flex-row md:items-end md:justify-between md:pb-10.5 md:text-left">
+        <div className="flex flex-col items-center md:flex-row md:gap-3">
+          <Crest />
+          <div className="-mt-1 flex flex-col items-center gap-1 md:mt-0 md:items-start md:gap-2">
+            <p className="font-['Futura_PT:Book',sans-serif] text-[20px] leading-none text-[#949494] md:text-[24px]">
+              Branch
+            </p>
+            <h1 className="font-['CRONDE:Regular',sans-serif] text-[52px] leading-none text-[#38362d] md:text-[64px]">
+              Manchester
+            </h1>
+          </div>
+        </div>
+
+        <div className="mt-5 md:mb-4 md:mt-0">
+          <AddressBlock />
+        </div>
+      </div>
+    </section>
+  );
+}
+
+function HeroImage() {
+  return (
+    <div className="relative h-55.5 w-full overflow-hidden sm:h-80 md:h-[579px]">
+      <img
+        alt="Manchester church building exterior"
+        className="absolute inset-0 size-full object-cover object-[center_20%] md:object-[center_47%]"
+        src={imgHero}
+      />
+    </div>
+  );
+}
+
+function AddressListItem({ mobileOnly = false }: { mobileOnly?: boolean }) {
+  return (
+    <div className={`grid grid-cols-[95px_1fr] items-start gap-6 md:block ${mobileOnly ? "md:hidden" : ""}`}>
+      <p className="font-['Futura_PT:Heavy',sans-serif] text-[18px] font-bold leading-6 text-[#192441] md:text-[16px]">
+        Address
+      </p>
+      <p className="font-['Futura_PT:Book',sans-serif] text-right text-[18px] leading-6 text-[#38362d] md:mt-2 md:text-left md:text-[16px]">
         {BRANCH_ADDRESS}
       </p>
     </div>
@@ -125,170 +124,162 @@ function AddressListItem() {
 
 function StorySection() {
   return (
-    <section className="relative bg-[#f4f1ea] px-4 py-14 sm:px-6 sm:py-20 lg:px-0 lg:py-24">
-      <BackgroundPattern />
+    <section className="relative overflow-hidden bg-[#f4f1ea] px-6 pb-18 pt-18 sm:px-10 md:px-0 md:pb-20 md:pt-22">
+      <BackgroundPattern className="-inset-x-[45%] -top-[10%] bottom-0 md:inset-x-[6.81%] md:-top-[35%] md:-bottom-[15%]" />
 
-      <div className="relative mx-auto flex max-w-[1096px] flex-col md:flex-row md:gap-12 lg:gap-16">
-        {/* Sidebar address list: only rendered once. On md+ it sits
-            beside the story via `order`; on mobile it drops below the
-            story text via the same order value flipping. No duplicate
-            DOM node, so no duplicate content for screen readers/SEO. */}
-        <div className="order-2 mt-10 flex flex-col gap-6 border-t border-[#e5e1d6] pt-6 md:order-1 md:mt-0 md:w-[160px] md:shrink-0 md:border-t-0 md:pt-0 lg:w-[180px]">
+      <div className="relative z-10 mx-auto flex max-w-[1096px] flex-col md:grid md:grid-cols-[240px_minmax(0,1fr)] md:gap-10">
+        <aside className="order-2 mt-12 flex flex-col gap-5 border-t border-[#38362d] pt-8 md:order-1 md:mt-0 md:gap-6 md:border-r md:border-t-0 md:pr-12 md:pt-1">
           <AddressListItem />
           <AddressListItem />
           <AddressListItem />
           <AddressListItem />
-        </div>
+          <AddressListItem mobileOnly />
+        </aside>
 
-        <div className="order-1 flex flex-col md:order-2 md:flex-1">
-          <div className="flex flex-col gap-5 sm:gap-6">
-            <h2 className="font-['CRONDE:Regular',sans-serif] text-3xl text-[#38362d] sm:text-4xl lg:text-[48px]">
-              A Food Bank That Became a Doorway
-            </h2>
-            <p className="font-['Futura_PT:Book',sans-serif] text-base leading-7 text-[#38362d] sm:text-[18px] sm:leading-[32px]">
-              Since Brother Toyin Emitola became pastor in January 2018, Manchester's weekly attendance has grown from around thirty to a consistent 150–180.
-              Through the pandemic, the church renovated its building; since then, Christmas has become a season of community outreach — carol visits, litter-picking, and a hot chocolate stand outside the church door.
-              A food bank has grown from that same spirit of hospitality, becoming a clear doorway for newcomers.
-            </p>
-          </div>
-        </div>
+        <article className="order-1 md:order-2">
+          <h2 className="font-['CRONDE:Regular',sans-serif] text-[44px] leading-none text-[#192441] md:text-[48px]">
+            Loreum Ipsum
+          </h2>
+          <p className="mt-11 font-['Futura_PT:Book',sans-serif] text-[18px] leading-[1.5] text-[#38362d] md:mt-8 md:text-[24px] md:leading-[1.35]">
+            {STORY_COPY}
+          </p>
+          <p className="mt-6 hidden font-['Futura_PT:Book',sans-serif] text-[24px] leading-[1.35] text-[#38362d] 2xl:block">
+            {STORY_COPY}
+          </p>
+        </article>
       </div>
     </section>
   );
 }
-
-/* --------------------------------- Gallery --------------------------------- */
 
 function Gallery() {
   const scrollerRef = useRef<HTMLDivElement>(null);
   const [activeIndex, setActiveIndex] = useState(0);
 
   const scrollToIndex = (index: number) => {
-    const el = scrollerRef.current;
-    if (!el) return;
-    const clamped = Math.max(0, Math.min(index, GALLERY_IMAGES.length - 1));
-    const card = el.children[clamped] as HTMLElement | undefined;
-    if (card) {
-      el.scrollTo({ left: card.offsetLeft, behavior: "smooth" });
-    }
-  };
+    const scroller = scrollerRef.current;
+    if (!scroller) return;
 
-  const scrollByCard = (direction: 1 | -1) => {
-    scrollToIndex(activeIndex + direction);
+    const clampedIndex = Math.max(0, Math.min(index, GALLERY_IMAGES.length - 1));
+    const card = scroller.children[clampedIndex] as HTMLElement | undefined;
+    if (card) scroller.scrollTo({ left: card.offsetLeft, behavior: "smooth" });
   };
 
   useEffect(() => {
-    const el = scrollerRef.current;
-    if (!el) return;
+    const scroller = scrollerRef.current;
+    if (!scroller) return;
 
     const handleScroll = () => {
-      const cards = Array.from(el.children) as HTMLElement[];
-      let closest = 0;
-      let closestDistance = Infinity;
-      cards.forEach((card, i) => {
-        const distance = Math.abs(card.offsetLeft - el.scrollLeft);
+      const cards = Array.from(scroller.children) as HTMLElement[];
+      let closestIndex = 0;
+      let closestDistance = Number.POSITIVE_INFINITY;
+
+      cards.forEach((card, index) => {
+        const distance = Math.abs(card.offsetLeft - scroller.scrollLeft);
         if (distance < closestDistance) {
           closestDistance = distance;
-          closest = i;
+          closestIndex = index;
         }
       });
-      setActiveIndex(closest);
+
+      setActiveIndex(closestIndex);
     };
 
-    el.addEventListener("scroll", handleScroll, { passive: true });
-    return () => el.removeEventListener("scroll", handleScroll);
+    scroller.addEventListener("scroll", handleScroll, { passive: true });
+    return () => scroller.removeEventListener("scroll", handleScroll);
   }, []);
 
   return (
-    <section className="relative bg-[#f4f1ea] px-4 pb-14 sm:px-6 sm:pb-20 lg:px-0 lg:pb-24">
-      <div className="mx-auto flex max-w-[1290px] items-center gap-3 sm:gap-6 lg:gap-[45px]">
+    <section className="relative bg-[#f4f1ea] pb-44 pt-3 md:pb-30 md:pt-0">
+      <div className="mx-auto flex w-full max-w-[1290px] items-center gap-3 md:gap-11.25">
         <button
+          aria-label="Previous photo"
+          className="hidden size-12 shrink-0 items-center justify-center text-black transition-opacity hover:opacity-60 disabled:opacity-25 md:flex"
+          disabled={activeIndex === 0}
+          onClick={() => scrollToIndex(activeIndex - 1)}
           type="button"
-          onClick={() => scrollByCard(-1)}
-          aria-label="Previous photos"
-          className="hidden shrink-0 items-center justify-center text-[#38362d] transition-opacity hover:opacity-70 lg:flex"
         >
-          <ChevronIcon className="size-8 lg:size-12" />
+          <ChevronIcon className="size-12" />
         </button>
 
         <div
           ref={scrollerRef}
-          className="flex flex-1 snap-x snap-mandatory gap-3 overflow-x-auto scroll-smooth py-2 [-ms-overflow-style:none] [scrollbar-width:none] [&::-webkit-scrollbar]:hidden sm:gap-4"
+          className="flex flex-1 snap-x snap-mandatory gap-3 overflow-x-auto scroll-smooth py-2 [-ms-overflow-style:none] [scrollbar-width:none] [&::-webkit-scrollbar]:hidden"
         >
-          {GALLERY_IMAGES.map((src, i) => (
-            <div
-              key={i}
-              className="w-[85%] shrink-0 snap-start bg-white p-2 pb-6 sm:w-[46%] md:w-[31%] lg:w-[320px]"
+          {GALLERY_IMAGES.map((src, index) => (
+            <figure
+              className="w-[30vw] min-w-[136px] shrink-0 snap-start bg-white p-2 pb-6 md:w-[336px] md:min-w-[336px] md:pb-8"
+              key={`${src}-${index}`}
             >
-              <div className="h-[170px] w-full overflow-hidden sm:h-[210px] lg:h-[240px]">
+              <div className="relative aspect-[4/3] w-full overflow-hidden">
                 <img
-                  src={src}
                   alt="Manchester congregation gathered together"
-                  className="h-full w-full object-cover"
+                  className="absolute -left-[48.75%] -top-[51.667%] h-[205%] w-[230.625%] max-w-none"
+                  src={src}
                 />
               </div>
-            </div>
+            </figure>
           ))}
         </div>
 
         <button
+          aria-label="Next photo"
+          className="hidden size-12 shrink-0 items-center justify-center text-black transition-opacity hover:opacity-60 disabled:opacity-25 md:flex"
+          disabled={activeIndex === GALLERY_IMAGES.length - 1}
+          onClick={() => scrollToIndex(activeIndex + 1)}
           type="button"
-          onClick={() => scrollByCard(1)}
-          aria-label="Next photos"
-          className="hidden shrink-0 items-center justify-center text-[#38362d] transition-opacity hover:opacity-70 lg:flex"
         >
-          <ChevronIcon className="size-8 rotate-180 lg:size-12" />
+          <ChevronIcon className="size-12 rotate-180" />
         </button>
       </div>
 
-      <div className="mt-6 flex items-center justify-center gap-4 lg:hidden">
+      <div className="mt-7 flex items-center justify-center gap-8 md:mt-8">
         <button
+          aria-label="Previous photo"
+          className="flex size-6 items-center justify-center text-black disabled:opacity-25"
+          disabled={activeIndex === 0}
+          onClick={() => scrollToIndex(activeIndex - 1)}
           type="button"
-          onClick={() => scrollByCard(-1)}
-          aria-label="Previous photos"
-          className="text-[#38362d]"
         >
-          <ChevronIcon className="size-5" />
+          <ChevronIcon className="size-6" />
         </button>
 
-        <div className="flex items-center gap-1">
-          {GALLERY_IMAGES.map((_, i) => (
+        <div className="flex items-center gap-1" role="group" aria-label="Choose a gallery photo">
+          {GALLERY_IMAGES.map((_, index) => (
             <button
-              key={i}
-              type="button"
-              onClick={() => scrollToIndex(i)}
-              aria-label={`Go to photo ${i + 1}`}
-              aria-current={activeIndex === i}
-              className={`box-content rounded-full border-0 p-0 leading-none transition-all ${
-                activeIndex === i ? "h-1 w-3 bg-[#192441]" : "h-1 w-1 bg-[#c9c4b4]"
+              aria-current={activeIndex === index}
+              aria-label={`Go to photo ${index + 1}`}
+              className={`size-1.5 rounded-full border-0 p-0 transition-colors ${
+                activeIndex === index ? "bg-[#192441]" : "bg-[#d2d2d2]"
               }`}
-              style={{ minWidth: 0, minHeight: 0 }}
+              key={index}
+              onClick={() => scrollToIndex(index)}
+              type="button"
             />
           ))}
         </div>
 
         <button
+          aria-label="Next photo"
+          className="flex size-6 items-center justify-center text-black disabled:opacity-25"
+          disabled={activeIndex === GALLERY_IMAGES.length - 1}
+          onClick={() => scrollToIndex(activeIndex + 1)}
           type="button"
-          onClick={() => scrollByCard(1)}
-          aria-label="Next photos"
-          className="text-[#38362d]"
         >
-          <ChevronIcon className="size-5 rotate-180" />
+          <ChevronIcon className="size-6 rotate-180" />
         </button>
       </div>
     </section>
   );
 }
 
-/* --------------------------------- Manchester -------------------------------- */
-
 export default function Manchester() {
   return (
-    <div className="w-full bg-[#f4f1ea]">
+    <main className="w-full overflow-x-hidden bg-[#f4f1ea]">
       <BranchTitle />
       <HeroImage />
       <StorySection />
       <Gallery />
-    </div>
+    </main>
   );
 }

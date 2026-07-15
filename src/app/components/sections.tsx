@@ -381,8 +381,8 @@ export function Section1({
           <p
             className={`${BODY_COPY} text-white mb-3 md:mb-4`}
             style={{
-              fontSize: "clamp(16px, 4.5vw, 48px)",
-              lineHeight: "clamp(24px, 6vw, 60px)",
+              fontSize: dims.width < 768 ? "clamp(21px, 5.5vw, 25px)" : "clamp(16px, 4.5vw, 48px)",
+              lineHeight: dims.width < 768 ? "1.45" : "clamp(24px, 6vw, 60px)",
             }}
           >
             {`"One generation shall praise thy works to another, and shall declare thy mighty acts."`}
@@ -390,8 +390,8 @@ export function Section1({
           <p
             className={`${BODY_COPY} text-white`}
             style={{
-              fontSize: "clamp(13px, 3vw, 48px)",
-              lineHeight: "clamp(20px, 4.5vw, 60px)",
+              fontSize: dims.width < 768 ? "clamp(15px, 3.8vw, 17px)" : "clamp(13px, 3vw, 48px)",
+              lineHeight: dims.width < 768 ? "1.4" : "clamp(20px, 4.5vw, 60px)",
             }}
           >
             — Psalm 145:4
@@ -402,7 +402,7 @@ export function Section1({
 
       <ScrollDownControl
         className="absolute left-1/2 top-[60%] z-20 -translate-x-1/2"
-        onClick={() => onScrollDown?.("bible")}
+        onClick={() => onScrollDown?.("anniversary")}
         opacity={textOpacity}
       />
 

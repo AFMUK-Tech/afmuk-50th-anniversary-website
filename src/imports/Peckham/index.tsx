@@ -1,20 +1,17 @@
 import { useEffect, useRef, useState } from "react";
-import svgPaths from "./svg-qle47qowmk";
-// Removed imgLogo as it's handled by the parent nav now
-import imgCrest from "./6289e65571dab6c414b3b1e11ca90d8fc1b7d1fe.png";
-import imgHero from "./4986cb0ca9480b3dc025830e0fd805d9e9f8b29c.png";
+import imgCrest from "./0cce19fd4acc08db680fdccec6c96c1b9ad2b1e8.png";
+import imgHero from "./da3529783d02f20216c63bb9f6bf68b91cb518b5.png";
+import imgMobileHero from "./4986cb0ca9480b3dc025830e0fd805d9e9f8b29c.png";
 import imgGallery from "./00906276d94a619afd9053d491e72ee53b2c84f7.png";
 
-const GALLERY_IMAGES = [imgGallery, imgGallery, imgGallery];
 const BRANCH_ADDRESS = "21 pekam road North London";
-
-/* --------------------------------- Icons -------------------------------- */
+const GALLERY_IMAGES = Array.from({ length: 12 }, () => imgGallery);
 
 function ChevronIcon({ className = "" }: { className?: string }) {
   return (
-    <svg viewBox="0 0 24 24" fill="none" className={className} aria-hidden="true">
+    <svg className={className} viewBox="0 0 24 24" fill="none" aria-hidden="true">
       <path
-        d="M15 6L9 12L15 18"
+        d="m15 6-6 6 6 6"
         stroke="currentColor"
         strokeLinecap="round"
         strokeLinejoin="round"
@@ -24,267 +21,231 @@ function ChevronIcon({ className = "" }: { className?: string }) {
   );
 }
 
-/* ------------------------------ Branch title ------------------------------ */
-
-function BranchTitle() {
-  return (
-    <div className="mx-auto flex w-full max-w-[1096px] flex-col items-center gap-6 px-4 py-8 text-center sm:py-12 md:flex-row md:items-center md:justify-between md:text-left lg:py-16">
-      <div className="mt-10 flex flex-col items-center gap-3 md:flex-row md:items-center md:gap-4">
-        <img
-          src={imgCrest}
-          alt="Manchester branch crest"
-          className="size-50 sm:object-contain object-cover sm:size-20 md:size-24 lg:size-[200px]"
-        />
-        <div className="flex flex-col items-center gap-1 sm:gap-2 md:items-start mt-[-50px] md:mt-0">
-          <p className="font-['Futura_PT:Book',sans-serif] text-lg text-[#949494] sm:text-xl lg:text-2xl">
-            Branch
-          </p>
-          <h1 className="font-['CRONDE:Regular',sans-serif] text-4xl leading-none text-[#38362d] sm:text-5xl lg:text-[64px]">
-            Manchester
-          </h1>
-        </div>
-      </div>
-
-      <div className="hidden flex-col items-center gap-1 sm:gap-2 md:flex md:items-end md:text-right">
-        <p className="font-['Futura_PT:Heavy',sans-serif] text-lg text-[#38362d] sm:text-xl lg:text-2xl">
-          Address
-        </p>
-        <p className="font-['Futura_PT:Book',sans-serif] text-base leading-7 text-[#38362d] sm:text-lg lg:text-[18px] lg:leading-[32px]">
-          {BRANCH_ADDRESS}
-        </p>
-      </div>
-    </div>
-  );
-}
-
-/* -------------------------------- Hero image ------------------------------ */
-
-function HeroImage() {
-  return (
-    <div className="relative h-[220px] w-full overflow-hidden sm:h-[340px] md:h-[400px] lg:h-[579px]">
-      <img
-        src={imgHero}
-        alt="Manchester church building exterior"
-        className="absolute inset-0 h-full w-full object-cover object-[center_35%]"
-      />
-    </div>
-  );
-}
-
-/* ------------------------------ Background art ----------------------------- */
-
-function BackgroundPattern() {
+function DecorativeGrid({ className = "" }: { className?: string }) {
   return (
     <div
       aria-hidden="true"
-      className="pointer-events-none absolute inset-x-[6.81%] top-0 bottom-[15%] opacity-20"
-    >
-      <svg className="h-full w-full" fill="none" preserveAspectRatio="none" viewBox="0 0 1244 1142">
-        <g>
-          <path d={svgPaths.p1d9a8400} fill="#949494" />
-          <path d={svgPaths.p56bbc40} fill="#949494" />
-          <path d={svgPaths.p35f8ee80} fill="#949494" />
-          <path d={svgPaths.p3de18b80} fill="#949494" />
-          <path d={svgPaths.p85df300} fill="#949494" />
-          <path d={svgPaths.p2733e000} fill="#949494" />
-          <path d={svgPaths.p3d407f00} fill="#949494" />
-          <path d={svgPaths.pd613700} fill="#949494" />
-          <path d={svgPaths.p9c00100} fill="#949494" />
-          <path d={svgPaths.p1e936c00} fill="#949494" />
-          <path d={svgPaths.p2315e700} fill="#949494" />
-          <path d={svgPaths.p36f7a300} fill="#949494" />
-        </g>
-      </svg>
-    </div>
+      className={`pointer-events-none absolute opacity-35 ${className}`}
+      style={{
+        backgroundImage:
+          "linear-gradient(#c9c6bd 1px, transparent 1px), linear-gradient(90deg, #c9c6bd 1px, transparent 1px)",
+        backgroundSize: "180px 150px",
+        transform: "rotate(-11deg)",
+      }}
+    />
   );
 }
 
-/* --------------------------- Address + Lorem Ipsum -------------------------- */
+function BranchIntro() {
+  return (
+    <section className="relative isolate overflow-hidden bg-[#f4f1ea]">
+      <DecorativeGrid className="-inset-x-[8%] -inset-y-[55%]" />
+
+      <div className="relative mx-auto grid w-full max-w-[1240px] gap-5 px-5 py-12 sm:px-8 sm:py-14 md:grid-cols-[1fr_auto] md:items-center md:gap-12 lg:px-12 lg:py-[92px]">
+        <div className="flex min-w-0 flex-col items-center justify-center md:flex-row md:justify-start">
+          <img
+            src={imgCrest}
+            alt="Peckham branch crest"
+            className="h-[108px] w-[108px] shrink-0 object-contain sm:h-[132px] sm:w-[132px] lg:h-[150px] lg:w-[150px]"
+          />
+          <div className="min-w-0 text-center md:text-left">
+            <p className="text-[18px] leading-none text-[#949494] sm:text-[21px] lg:text-[24px]">
+              Branch
+            </p>
+            <h1 className="mt-2 text-[56px] leading-[0.86] tracking-[-0.035em] text-[#38362d] sm:text-[64px] md:text-[clamp(42px,6vw,72px)]">
+              <span className="md:hidden">Peckham</span>
+              <span className="hidden md:inline">PECKHAM</span>
+            </h1>
+          </div>
+        </div>
+
+        <div className="mx-auto mt-1 w-full max-w-[340px] text-center md:mx-0 md:mt-0 md:text-left">
+          <p className="text-[20px] font-bold leading-none text-[#38362d] lg:text-[24px]">
+            Address
+          </p>
+          <p className="mt-3 text-[18px] leading-7 text-[#38362d] lg:text-[22px] lg:leading-8">
+            {BRANCH_ADDRESS}
+          </p>
+        </div>
+      </div>
+    </section>
+  );
+}
+
+function HeroImage() {
+  return (
+    <figure className="m-0 h-[44vw] min-h-[180px] max-h-[230px] w-full overflow-hidden bg-[#e9e7e0] md:h-[clamp(360px,48vw,580px)] md:max-h-none">
+      <img
+        src={imgMobileHero}
+        alt="Peckham church building exterior"
+        className="block md:hidden"
+        style={{ width: "100%", height: "100%", objectFit: "cover", objectPosition: "center 27%" }}
+        fetchPriority="high"
+      />
+      <img
+        src={imgHero}
+        alt="Peckham church building exterior"
+        className="hidden md:block"
+        style={{ width: "100%", height: "100%", objectFit: "cover", objectPosition: "center 70%" }}
+        fetchPriority="high"
+      />
+    </figure>
+  );
+}
 
 function AddressListItem() {
   return (
-    <div className="flex flex-col gap-1">
-      <p className="font-['Futura_PT:Heavy',sans-serif] text-sm text-[#38362d]">Address</p>
-      <p className="font-['Futura_PT:Book',sans-serif] text-sm leading-6 text-[#38362d]">
-        {BRANCH_ADDRESS}
-      </p>
+    <div className="flex items-start justify-between gap-5 md:block">
+      <p className="shrink-0 text-[16px] font-bold leading-5 text-[#192441] md:text-[15px]">Address</p>
+      <p className="text-right text-[16px] leading-5 text-[#38362d] md:mt-2 md:text-left md:text-[15px]">{BRANCH_ADDRESS}</p>
     </div>
   );
 }
 
 function StorySection() {
   return (
-    <section className="relative bg-[#f4f1ea] px-4 py-14 sm:px-6 sm:py-20 lg:px-0 lg:py-24">
-      <BackgroundPattern />
-      
-      <div className="relative mx-auto flex max-w-[1096px] flex-col md:flex-row md:gap-12 lg:gap-16">
-        
-        <div className="hidden shrink-0 flex-col gap-6 md:order-1 md:flex md:w-[160px] lg:w-[180px]">
-          <AddressListItem />
-          <AddressListItem />
-          <AddressListItem />
-          <AddressListItem />
-        </div>
+    <section className="relative isolate overflow-hidden bg-[#f4f1ea] px-5 pb-16 pt-14 sm:px-8 sm:pb-20 sm:pt-20 lg:px-12 lg:pb-24 lg:pt-24">
+      <DecorativeGrid className="-left-[5%] -right-[5%] -top-[155px] h-[320px]" />
 
-        <div className="order-1 flex flex-col md:order-2 md:flex-1">
-          
-          <div className="mb-10 flex flex-col gap-5 sm:gap-6 md:mb-0">
-            <h2 className="font-['CRONDE:Regular',sans-serif] text-3xl text-[#38362d] sm:text-4xl lg:text-[48px]">
-             A Food Bank That Became a Doorway
-            </h2>
-            <p className="font-['Futura_PT:Book',sans-serif] text-base leading-7 text-[#38362d] sm:text-[18px] sm:leading-[32px]">
-              Since Brother Toyin Emitola became pastor in January 2018, Manchester's weekly attendance has grown from around thirty to a consistent 150–180. 
-              Through the pandemic, the church renovated its building; since then, Christmas has become a season of community outreach — carol visits, litter-picking, and a hot chocolate stand outside the church door. 
-              A food bank has grown from that same spirit of hospitality, becoming a clear doorway for newcomers.
+      <div className="relative mx-auto grid max-w-[1240px] gap-10 md:grid-cols-[190px_minmax(0,1fr)] md:gap-10 lg:grid-cols-[210px_minmax(0,1fr)] lg:gap-12">
+        <aside className="order-2 grid grid-cols-1 gap-y-5 border-t border-[#38362d] pt-8 md:order-1 md:content-start md:gap-7 md:border-r md:border-t-0 md:pb-0 md:pr-10 md:pt-0 lg:pr-12" aria-label="Branch addresses">
+          <AddressListItem />
+          <AddressListItem />
+          <AddressListItem />
+          <AddressListItem />
+          <div className="md:hidden"><AddressListItem /></div>
+        </aside>
+
+        <article className="order-1 md:order-2">
+          <h2 className="text-[clamp(38px,5vw,54px)] leading-none tracking-[-0.025em] text-[#192441]">
+            Lorem Ipsum
+          </h2>
+          <div className="mt-8 space-y-7 text-[17px] leading-[1.55] text-[#38362d] sm:text-[18px] sm:leading-[1.6]">
+            <p className="hidden md:block">
+              Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
+            </p>
+            <p>
+              Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
             </p>
           </div>
-
-          <div className="mt-6 flex flex-col gap-6 pt-6 border-t border-[#e5e1d6] md:hidden">
-             <AddressListItem />
-             <AddressListItem />
-             <AddressListItem />
-             <AddressListItem />
-          </div>
-
-        </div>
+        </article>
       </div>
     </section>
   );
 }
-
-/* --------------------------------- Gallery --------------------------------- */
 
 function Gallery() {
   const scrollerRef = useRef<HTMLDivElement>(null);
   const [activeIndex, setActiveIndex] = useState(0);
 
   const scrollToIndex = (index: number) => {
-    const el = scrollerRef.current;
-    if (!el) return;
-    const clamped = Math.max(0, Math.min(index, GALLERY_IMAGES.length - 1));
-    const card = el.children[clamped] as HTMLElement | undefined;
-    if (card) {
-      el.scrollTo({ left: card.offsetLeft, behavior: "smooth" });
-    }
-  };
+    const scroller = scrollerRef.current;
+    if (!scroller) return;
 
-  const scrollByCard = (direction: 1 | -1) => {
-    scrollToIndex(activeIndex + direction);
+    const nextIndex = Math.max(0, Math.min(index, GALLERY_IMAGES.length - 1));
+    const card = scroller.children[nextIndex] as HTMLElement | undefined;
+    card?.scrollIntoView({ behavior: "smooth", block: "nearest", inline: "start" });
   };
 
   useEffect(() => {
-    const el = scrollerRef.current;
-    if (!el) return;
+    const scroller = scrollerRef.current;
+    if (!scroller) return;
 
     const handleScroll = () => {
-      const cards = Array.from(el.children) as HTMLElement[];
-      let closest = 0;
-      let closestDistance = Infinity;
-      cards.forEach((card, i) => {
-        const distance = Math.abs(card.offsetLeft - el.scrollLeft);
-        if (distance < closestDistance) {
-          closestDistance = distance;
-          closest = i;
-        }
-      });
-      setActiveIndex(closest);
+      const cards = Array.from(scroller.children) as HTMLElement[];
+      const nearest = cards.reduce(
+        (result, card, index) => {
+          const distance = Math.abs(card.offsetLeft - scroller.scrollLeft);
+          return distance < result.distance ? { index, distance } : result;
+        },
+        { index: 0, distance: Number.POSITIVE_INFINITY },
+      );
+      setActiveIndex(nearest.index);
     };
 
-    el.addEventListener("scroll", handleScroll, { passive: true });
-    return () => el.removeEventListener("scroll", handleScroll);
+    scroller.addEventListener("scroll", handleScroll, { passive: true });
+    return () => scroller.removeEventListener("scroll", handleScroll);
   }, []);
 
   return (
-    <section className="relative bg-[#f4f1ea] px-4 pb-14 sm:px-6 sm:pb-20 lg:px-0 lg:pb-24">
-      <div className="mx-auto flex max-w-[1290px] items-center gap-3 sm:gap-6 lg:gap-[45px]">
+    <section className="bg-[#f4f1ea] pb-24 pt-2 sm:px-8 sm:pb-24 sm:pt-0 lg:px-10 lg:pb-32">
+      <div className="mx-auto flex max-w-[1320px] items-center gap-3 sm:gap-5 lg:gap-8">
         <button
           type="button"
-          onClick={() => scrollByCard(-1)}
           aria-label="Previous photos"
-          className="hidden shrink-0 items-center justify-center text-[#38362d] transition-opacity hover:opacity-70 lg:flex"
+          onClick={() => scrollToIndex(activeIndex - 1)}
+          disabled={activeIndex === 0}
+          className="hidden shrink-0 text-[#111] transition-opacity hover:opacity-60 disabled:opacity-30 sm:grid sm:size-12 sm:place-items-center"
         >
-          <ChevronIcon className="size-8 lg:size-12" />
+          <ChevronIcon className="size-10" />
         </button>
 
         <div
           ref={scrollerRef}
-          className="flex flex-1 snap-x snap-mandatory gap-3 overflow-x-auto scroll-smooth py-2 [-ms-overflow-style:none] [scrollbar-width:none] [&::-webkit-scrollbar]:hidden sm:gap-4"
+          className="flex flex-1 snap-x snap-mandatory gap-2.5 overflow-x-auto scroll-smooth [scrollbar-width:none] [&::-webkit-scrollbar]:hidden sm:gap-4"
         >
-          {GALLERY_IMAGES.map((src, i) => (
-            <div
-              key={i}
-              className="w-[85%] shrink-0 snap-start bg-white p-2 pb-6 sm:w-[46%] md:w-[31%] lg:w-[320px]"
+          {GALLERY_IMAGES.map((src, index) => (
+            <figure
+              key={index}
+              className="m-0 w-[29%] shrink-0 snap-start bg-white p-1.5 pb-4 sm:w-[calc((100%-16px)/2)] sm:p-2 sm:pb-6 lg:w-[calc((100%-32px)/3)] lg:pb-7"
             >
-              <div className="h-[170px] w-full overflow-hidden sm:h-[210px] lg:h-[240px]">
+              <div className="aspect-[0.9/1] w-full overflow-hidden sm:aspect-[1.28/1]">
                 <img
                   src={src}
-                  alt="Manchester congregation gathered together"
-                  className="h-full w-full object-cover"
+                  alt={`Peckham branch gathering ${index + 1}`}
+                  className="block"
+                  style={{ width: "100%", height: "100%", objectFit: "cover", objectPosition: "32% center" }}
+                  loading={index < 3 ? "eager" : "lazy"}
                 />
               </div>
-            </div>
+            </figure>
           ))}
         </div>
 
         <button
           type="button"
-          onClick={() => scrollByCard(1)}
           aria-label="Next photos"
-          className="hidden shrink-0 items-center justify-center text-[#38362d] transition-opacity hover:opacity-70 lg:flex"
+          onClick={() => scrollToIndex(activeIndex + 1)}
+          disabled={activeIndex === GALLERY_IMAGES.length - 1}
+          className="hidden shrink-0 text-[#111] transition-opacity hover:opacity-60 disabled:opacity-30 sm:grid sm:size-12 sm:place-items-center"
         >
-          <ChevronIcon className="size-8 rotate-180 lg:size-12" />
+          <ChevronIcon className="size-10 rotate-180" />
         </button>
       </div>
 
-      {/* Resized Dots to be smaller */}
-      <div className="mt-6 flex items-center justify-center gap-4 lg:hidden">
-        <button
-          type="button"
-          onClick={() => scrollByCard(-1)}
-          aria-label="Previous photos"
-          className="text-[#38362d]"
-        >
-          <ChevronIcon className="size-5" />
+      <div className="mt-6 flex items-center justify-center gap-7 sm:hidden">
+        <button type="button" aria-label="Previous photos" onClick={() => scrollToIndex(activeIndex - 1)} className="grid size-9 place-items-center text-[#111]">
+          <ChevronIcon className="size-6" />
         </button>
-
-        <div className="flex items-center gap-1.5">
-          {GALLERY_IMAGES.map((_, i) => (
+        <div className="flex items-center justify-center gap-1">
+          {GALLERY_IMAGES.map((_, index) => (
             <button
-              key={i}
+              key={index}
               type="button"
-              onClick={() => scrollToIndex(i)}
-              aria-label={`Go to photo ${i + 1}`}
-              aria-current={activeIndex === i}
-              className={`h-1.5 rounded-full transition-all ${
-                activeIndex === i ? "w-4 bg-[#192441]" : "w-1.5 bg-[#c9c4b4]"
+              aria-label={`Go to photo ${index + 1}`}
+              aria-current={activeIndex === index ? "true" : undefined}
+              onClick={() => scrollToIndex(index)}
+              className={`!min-h-0 !min-w-0 rounded-full transition-all ${
+                activeIndex === index ? "size-2 bg-[#192441]" : "size-1.5 bg-[#cfd1d3]"
               }`}
             />
           ))}
         </div>
-
-        <button
-          type="button"
-          onClick={() => scrollByCard(1)}
-          aria-label="Next photos"
-          className="text-[#38362d]"
-        >
-          <ChevronIcon className="size-5 rotate-180" />
+        <button type="button" aria-label="Next photos" onClick={() => scrollToIndex(activeIndex + 1)} className="grid size-9 place-items-center text-[#111]">
+          <ChevronIcon className="size-6 rotate-180" />
         </button>
       </div>
     </section>
   );
 }
 
-/* --------------------------------- Peckham -------------------------------- */
-
 export default function Peckham() {
   return (
-    <div className="w-full bg-[#f4f1ea]">
-      {/* REMOVED THE INTERNAL HEADER COMPLETELY HERE */}
-      <BranchTitle />
+    <main className="w-full overflow-x-clip bg-[#f4f1ea]">
+      <BranchIntro />
       <HeroImage />
       <StorySection />
       <Gallery />
-    </div>
+    </main>
   );
 }

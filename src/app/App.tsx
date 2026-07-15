@@ -96,6 +96,7 @@ export default function App() {
   const [fadeIn, setFadeIn] = useState(false);
   const [showMobileNav, setShowMobileNav] = useState(false);
   const timelineScrollRef = useRef<HTMLDivElement>(null);
+  const preTimelineRef = useRef<HTMLElement>(null);
   const heroScrollDistance = device === 'desktop'
     ? S1_SCROLL_H * scale
     : vh * 1.5;
@@ -186,6 +187,12 @@ export default function App() {
 
   const navigateHome = () => { window.location.hash = ""; };
   const scrollHeroForward = (stage: "bible" | "anniversary") => {
+    if (stage === "anniversary" && preTimelineRef.current) {
+      const targetTop = preTimelineRef.current.getBoundingClientRect().top + window.scrollY;
+      window.scrollTo({ top: targetTop, behavior: "smooth" });
+      return;
+    }
+
     window.scrollTo({
       top: stage === "bible" ? heroScrollDistance * P1_END : heroScrollDistance,
       behavior: "smooth",
@@ -257,7 +264,7 @@ export default function App() {
 
         <div aria-hidden style={{ height: heroScrollDistance }} />
 
-        <main className="relative z-20 w-full max-w-full bg-[#fcf9f2]">
+        <main ref={preTimelineRef} className="relative z-20 w-full max-w-full bg-[#fcf9f2]">
           <PreTimelineSection />
           <StoriesSection />
           <div
@@ -312,7 +319,7 @@ export default function App() {
 
       <div aria-hidden style={{ height: heroScrollDistance }} />
 
-      <main className="relative z-20 w-full max-w-full bg-[#fcf9f2]">
+      <main ref={preTimelineRef} className="relative z-20 w-full max-w-full bg-[#fcf9f2]">
         <ScaledBlock height={PRE_H} scale={scale}>
           <PreTimelineSection />
         </ScaledBlock>
