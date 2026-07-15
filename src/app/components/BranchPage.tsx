@@ -22,6 +22,14 @@ import Bristol from "../../imports/Bristol/index";
 const DESIGN_WIDTH  = SITE_DESIGN_WIDTH; // 1440 — re-exported from SiteHeader, kept as a local alias so the rest of this file doesn't need renaming
 const DESIGN_HEIGHT = 1920;
 
+// Shared clearance for the fixed mobile nav (SiteHeader renders MobileNav
+// with position: "fixed" on mobile, which reserves zero space in normal
+// flow). Every mobile branch-page wrapper below must pad by this exact
+// amount or content renders underneath/misaligned with the nav. Both
+// ScaledBranchPage and MobileBranchPage now read from this single constant
+// instead of each hardcoding (or, previously, omitting) their own value.
+const MOBILE_NAV_CLEARANCE = 96;
+
 function ScaledBranchPage({ children }: { children: React.ReactNode; onBack?: () => void }) {
   const scale = useSiteScale();
   const isMobile = useIsMobile();
@@ -32,7 +40,6 @@ function ScaledBranchPage({ children }: { children: React.ReactNode; onBack?: ()
       setFadeIn(true);
     });
   }, []);
-  const mobileNavClearance = 96;
 
   return (
     <div style={{
@@ -51,7 +58,7 @@ function ScaledBranchPage({ children }: { children: React.ReactNode; onBack?: ()
           display: "flex",
           justifyContent: "center",
           overflowX: "hidden",
-          paddingTop: isMobile ? mobileNavClearance : 0,
+          paddingTop: isMobile ? MOBILE_NAV_CLEARANCE : 0,
         }}>
           <div style={{
             width: DESIGN_WIDTH * scale,
@@ -90,8 +97,13 @@ function MobileBranchPage({ children }: { children: React.ReactNode; onBack?: ()
     <div style={{ width: "100%", minHeight: "100vh", background: "#fcf9f2", position: "relative" }}>
       <SiteHeader />
 
+      {/* Fixed nav reserves no flow space — this padding is the only
+          thing preventing content from rendering underneath it. This
+          was previously missing entirely, which is what caused the
+          inconsistent gap you were seeing on mobile branch pages. */}
       <div
         style={{
+          paddingTop: MOBILE_NAV_CLEARANCE,
           opacity: fadeIn ? 1 : 0,
           transform: fadeIn ? "scale(1)" : "scale(0.98)",
           transition: "opacity 0.9s cubic-bezier(0.4, 0, 0.2, 1) 0.1s, transform 0.9s cubic-bezier(0.4, 0, 0.2, 1) 0.1s",
