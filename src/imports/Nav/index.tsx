@@ -3,60 +3,44 @@
 import { useState, useEffect, useRef } from "react";
 import img34159 from "./logo.png";
 
-// Each branch now carries a `group` so we can render them under
-// "Branches" (UK locations) vs "Group" (international) headers,
-// matching the two-section layout in the design.
-const BRANCHES = [
-  { label: "Peckham",           slug: "peckham",  group: "international" },
-  { label: "Bexley",            slug: "bexley",   group: "international" },
-  { label: "Glasgow & Paisley", slug: "glasgow",  group: "international" },
-  { label: "Leicester",         slug: "leicester",group: "international" },
-  { label: "Coventry",          slug: "coventry", group: "international" },
-  { label: "Sussex",            slug: "sussex",   group: "international" },
-  { label: "Ireland — Dublin & Belfast", slug: "ireland",  group: "international" },
-  { label: "Germany",           slug: "germany",  group: "international" },
-  { label: "France",            slug: "france",   group: "international" },
-  { label: "Italy",             slug: "italy",    group: "international " },
-  { label: "Denmark",           slug: "denmark",  group: "international" },
-  { label: "Spain",             slug: "spain",    group: "international" },
-  { label: "Bristol & Cardiff", slug: "bristol",  group: "branches" },
-  { label: "Aberdeen",          slug: "aberdeen", group: "branches" },
-  { label: "Edinburgh",         slug: "edinburgh",group: "branches" },
-  { label: "Cranfield",         slug: "cranfield",group: "branches" },
-  { label: "Birmingham",        slug: "birmingham",group: "branches" },
-  { label: "Manchester",        slug: "manchester",group: "branches" },
+const BRANCH_GROUPS = [
+ {
+    heading: "Branches",
+    items: [
+      { label: "Peckham", slug: "peckham" },
+      { label: "Bexley", slug: "bexley" },
+  { label: "Aberdeen",          slug: "aberdeen" },
+  { label: "Cranfield",         slug: "cranfield" },
+  { label: "Birmingham",        slug: "birmingham"},
+  { label: "Manchester",        slug: "manchester"},
+    ],
+  },
+  {
+    heading: "Group",
+    items: [
+  { label: "Glasgow & Paisley", slug: "glasgow", },
+  { label: "Leicester",         slug: "leicester"},
+  { label: "Coventry",          slug: "coventry" },
+  { label: "Sussex",            slug: "sussex" },
+  { label: "Ireland — Dublin & Belfast", slug: "ireland" },
+  { label: "Germany",           slug: "germany" },
+  { label: "France",            slug: "france"},
+  { label: "Italy",             slug: "italy" },
+  { label: "Denmark",           slug: "denmark" },
+  { label: "Spain",             slug: "spain"},
+    ],
+  },
 ];
-
-const BRANCH_SECTIONS = [
-  { title: "Branches", items: BRANCHES.filter((b) => b.group === "branches") },
-  { title: "Group", items: BRANCHES.filter((b) => b.group === "international") },
-];
-
-const DEPARTMENTS = [
-  { label: "Music department", slug: "music" },
-  { label: "Ushering",         slug: "ushering" },
-];
-
-const NAV_FONT = "font-['Futura_PT',_sans-serif] font-normal";
-
-// Distinct serif treatment for the section headers inside the Branches
-// panel ("Branches" / "Group"), to match the reference design.
-const SECTION_FONT = "font-['Futura_PT'] font-normal";
 
 export default function Nav() {
   const [branchOpen, setBranchOpen] = useState(false);
-  const [deptOpen, setDeptOpen] = useState(false);
-  const branchRef = useRef<HTMLDivElement>(null);
-  const deptRef = useRef<HTMLDivElement>(null);
+  const dropdownRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
-    if (!branchOpen && !deptOpen) return;
+    if (!branchOpen) return;
     const handler = (e: MouseEvent) => {
-      if (branchRef.current && !branchRef.current.contains(e.target as Node)) {
+      if (dropdownRef.current && !dropdownRef.current.contains(e.target as Node)) {
         setBranchOpen(false);
-      }
-      if (deptRef.current && !deptRef.current.contains(e.target as Node)) {
-        setDeptOpen(false);
       }
     };
     document.addEventListener("mousedown", handler);
@@ -99,7 +83,7 @@ export default function Nav() {
             {/* Nav links */}
             <div className="relative flex shrink-0 items-center gap-[25.244px] justify-self-center">
               <p
-                className={`${NAV_FONT} leading-[18.144px] not-italic text-[#38362d] text-[15.778px] tracking-[-0.2367px] whitespace-nowrap cursor-pointer hover:opacity-60 transition-opacity`}
+                className="font-['Futura_PT:Book',sans-serif] font-normal leading-[18.144px] not-italic text-[#38362d] text-[15.778px] tracking-[-0.2367px] whitespace-nowrap cursor-pointer hover:opacity-60 transition-opacity"
                 onClick={() => { window.location.hash = "#founder"; }}
               >Founder</p>
 
@@ -118,15 +102,28 @@ export default function Nav() {
 
                 {/* Dropdown panel */}
                 {branchOpen && (
-                  <div className="absolute top-full left-0 mt-2 bg-white rounded-xl shadow-[0_4px_24px_rgba(0,0,0,0.10)] py-2.5 px-1.5 min-w-105 max-h-[70vh] overflow-y-auto z-50 grid grid-cols-2 gap-x-1">
-                    {BRANCHES.map(({ label, slug }) => (
-                      <div
-                        key={slug}
-                        className="relative shrink-0 cursor-pointer hover:bg-[#f5f2eb] transition-colors rounded-[6px]"
-                        onClick={() => { window.location.hash = `#${slug}`; setBranchOpen(false); }}
-                      >
-                        <div className="content-stretch flex items-center p-2.5 relative size-full">
-                          <p className="font-['Futura_PT:Book',sans-serif] font-normal leading-[18.144px] not-italic text-[#38362d] text-[14px] tracking-[-0.2367px] whitespace-nowrap">{label}</p>
+                  <div className="absolute top-full left-1/2 -translate-x-1/2 mt-3 bg-white rounded-2xl shadow-[0_12px_40px_rgba(0,0,0,0.14)] py-9 px-10 w-[620px] max-h-[75vh] overflow-y-auto z-50">
+                    {BRANCH_GROUPS.map((group, gi) => (
+                      <div key={group.heading} className={gi > 0 ? "mt-8" : ""}>
+                        {/* Section heading + rule */}
+                        <div className="flex items-center gap-4 mb-5">
+                          <span className="font-['CRONDE:Regular',sans-serif] text-[#192441] text-[21px] whitespace-nowrap">
+                            {group.heading}
+                          </span>
+                          <div className="flex-1 h-px bg-[#c9a771]" />
+                        </div>
+
+                        {/* Items grid */}
+                        <div className="grid grid-cols-3 gap-x-8 gap-y-5">
+                          {group.items.map(({ label, slug }) => (
+                            <p
+                              key={slug}
+                              className="font-['Futura_PT:Book',sans-serif] font-normal text-[#54524a] text-[15.5px] tracking-[-0.2px] leading-[20px] cursor-pointer hover:text-[#192441] transition-colors"
+                              onClick={() => { window.location.hash = `#${slug}`; setBranchOpen(false); }}
+                            >
+                              {label}
+                            </p>
+                          ))}
                         </div>
                       </div>
                     ))}
@@ -157,18 +154,18 @@ export default function Nav() {
 
               {/* Gallery */}
               <p
-                className={`${NAV_FONT} leading-[18.144px] not-italic text-[#38362d] text-[15.778px] tracking-[-0.2367px] whitespace-nowrap cursor-pointer hover:opacity-60 transition-opacity`}
+                className="font-['Futura_PT:Book',sans-serif] font-normal leading-[18.144px] not-italic text-[#38362d] text-[15.778px] tracking-[-0.2367px] whitespace-nowrap cursor-pointer hover:opacity-60 transition-opacity"
                 onClick={() => { window.location.hash = "#gallery"; }}
               >Gallery</p>
 
               {/* Watch & Listen */}
               <p
-                className={`${NAV_FONT} leading-[18.144px] not-italic text-[#38362d] text-[15.778px] tracking-[-0.2367px] whitespace-nowrap cursor-pointer hover:opacity-60 transition-opacity`}
+                className="font-['Futura_PT:Book',sans-serif] font-normal leading-[18.144px] not-italic text-[#38362d] text-[15.778px] tracking-[-0.2367px] whitespace-nowrap cursor-pointer hover:opacity-60 transition-opacity"
                 onClick={() => { window.location.hash = "#watch"; }}
               >Watch & Listen</p>
 
               <p
-                className={`${NAV_FONT} leading-[18.144px] not-italic text-[#38362d] text-[15.778px] tracking-[-0.2367px] whitespace-nowrap cursor-pointer hover:opacity-60 transition-opacity`}
+                className="font-['Futura_PT:Book',sans-serif] font-normal leading-[18.144px] not-italic text-[#38362d] text-[15.778px] tracking-[-0.2367px] whitespace-nowrap cursor-pointer hover:opacity-60 transition-opacity"
                 onClick={() => { window.location.hash = "#shop"; }}
               >Shop</p>
             </div>
@@ -177,7 +174,7 @@ export default function Nav() {
             <div className="relative shrink-0 justify-self-end">
               <div className="relative flex items-center">
                 <div className="bg-[#192441] content-stretch flex h-[37.867px] items-center justify-center px-[18.933px] relative rounded-[66.267px] shrink-0 cursor-pointer">
-                  <p className={`${NAV_FONT} leading-[13.253px] not-italic text-[10.729px] text-center text-white tracking-[0.0552px] whitespace-nowrap`}>AFC UK</p>
+                  <p className="font-['Futura_PT:Book',sans-serif] font-normal leading-[13.253px] not-italic text-[10.729px] text-center text-white tracking-[0.0552px] whitespace-nowrap">AFC UK</p>
                 </div>
               </div>
             </div>

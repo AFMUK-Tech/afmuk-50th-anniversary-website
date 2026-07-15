@@ -49,10 +49,7 @@ const BREAKPOINTS = {
   tablet: 1024,
 };
 
-// Cap how far the 1440px design canvas is allowed to scale UP for general
-// page blocks (spacers, timeline, gallery, etc). The HERO uses its own
-// "cover" scale further down so it always fills the viewport regardless
-// of this cap.
+// Cap how far the 1440px design canvas is allowed to scale UP.
 const MAX_SCALE = 1;
 
 type DeviceType = 'mobile' | 'tablet' | 'desktop';
@@ -151,7 +148,6 @@ export default function App() {
     return () => window.removeEventListener("resize", update);
   }, []);
 
-  // ── Scroll handler: writes RAW targets only, rAF-throttled ──────────────
   useEffect(() => {
     const s1End = heroScrollDistance;
 
@@ -160,7 +156,7 @@ export default function App() {
       if (s1End <= 0) return;
 
       const rawS1 = sy / s1End;
-      raw.s1Progress = Number.isFinite(rawS1) ? Math.min(Math.max(rawS1, 0), 1) : 0;
+      setS1Progress(Number.isFinite(rawS1) ? Math.min(Math.max(rawS1, 0), 1) : 0);
 
       if (device !== 'desktop') {
         setShowMobileNav(rawS1 > 0.75);
@@ -175,18 +171,8 @@ export default function App() {
       }
     };
 
-    let ticking = false;
-    const onScroll = () => {
-      if (ticking) return;
-      ticking = true;
-      requestAnimationFrame(() => {
-        computeTargets();
-        ticking = false;
-      });
-    };
-
     window.addEventListener("scroll", onScroll, { passive: true });
-    computeTargets();
+    onScroll();
     return () => window.removeEventListener("scroll", onScroll);
   }, [heroScrollDistance, vh, device]);
 
@@ -355,12 +341,11 @@ export default function App() {
         </ScaledBlock>
       </main>
 
-      {/* z:10 — Hero (cover-scale — always fills the viewport) */}
+      {/* z:10 — Hero */}
       <div style={{
         position: "fixed", inset: 0, zIndex: 10, overflow: "hidden",
         backgroundImage: "linear-gradient(0.480792deg, rgb(25, 36, 65) 38.09%, rgb(1, 9, 25) 110.38%)",
-        transform: `translate3d(0, ${heroTranslateY}px, 0)`,
-        willChange: "transform",
+        transform: `translateY(${heroTranslateY}px)`,
         pointerEvents: heroTranslateY <= -vh ? "none" : "auto",
       }}>
         <div style={{
@@ -380,8 +365,7 @@ export default function App() {
         position: "fixed", top: 0, left: 0, width: "100%",
         height: NAV_H * scale, zIndex: 100, overflow: "visible",
         opacity: navOpacity,
-        transform: `translate3d(0, ${navTranslateY}px, 0)`,
-        willChange: "transform, opacity",
+        transform: `translateY(${navTranslateY}px)`,
         pointerEvents: phase2 > 0.5 ? "auto" : "none",
       }}>
         <div style={{

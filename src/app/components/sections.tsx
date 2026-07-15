@@ -113,11 +113,11 @@ export function Section1({
   const sp = staticReveal ? 1 : (Number.isFinite(scrollProgress) ? scrollProgress : 0);
 
   const textHide    = clamp(sp / 0.65, 0, 1);
-  const textOpacity = staticReveal ? 1 : 1 - textHide;
-  const textDriftY  = staticReveal ? 0 : -textHide * 100;
+  const textOpacity = 1 - textHide;
+  const textDriftY  = -textHide * 100;
 
-  const logoOpacity = staticReveal ? 1 : clamp((sp - 0.25) / 0.55, 0, 1);
-  const fireworksActive = staticReveal ? true : logoOpacity > 0.4;
+  const logoOpacity = clamp((sp - 0.25) / 0.55, 0, 1);
+  const fireworksActive = logoOpacity > 0.4;
 
   const sectionRef = React.useRef<HTMLDivElement>(null);
   const [dims, setDims] = React.useState({ width: 1440, height: 977 });
@@ -944,25 +944,7 @@ const STORIES = [
 ];
 export const STORIES_MIN_H = 920;
 
-export function StoriesSection({
-  onHeightChange,
-}: {
-  onHeightChange?: (h: number) => void;
-}) {
-  const rootRef = React.useRef<HTMLDivElement>(null);
-
-  React.useEffect(() => {
-    const el = rootRef.current;
-    if (!el || !onHeightChange) return;
-
-    const report = () => onHeightChange(el.scrollHeight);
-    report();
-
-    const ro = new ResizeObserver(report);
-    ro.observe(el);
-    return () => ro.disconnect();
-  }, [onHeightChange]);
-
+export function StoriesSection() {
   return (
     <section className="w-full bg-white p-3 sm:p-5 lg:p-6">
       <div
