@@ -1,6 +1,5 @@
 import { useEffect, useRef, useState } from "react";
 import svgPaths from "./svg-qle47qowmk";
-import imgCrest from "./6289e65571dab6c414b3b1e11ca90d8fc1b7d1fe.png";
 import imgGallery from "./00906276d94a619afd9053d491e72ee53b2c84f7.png";
 
 const GALLERY_IMAGES = [imgGallery, imgGallery, imgGallery];

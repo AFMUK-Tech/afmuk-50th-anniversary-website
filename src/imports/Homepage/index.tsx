@@ -1,5 +1,7 @@
+/// <reference path="../../types/images.d.ts" />
+
 import svgPaths from "./svg-ryk8ue9wk8";
-import MobileTimeline from "../../app/components/MobileTimeline"; // adjust path to match your folder structure
+import MobileTimeline from "../../app/components/MobileTimeline";
 /* ---------------------------------------------------------------
  * IMAGE IMPORTS
  * ---------------------------------------------------------------
@@ -23,19 +25,12 @@ import img51 from "./8873fd3b316d2dfee9ed04e7d802995942646918.png";
 import img91 from "./968c2920f880959ab3393716584f0e350964c423.png";
 import imgImage from "./9ec56a815db13e6f5f4c4f51dc8c89bded734cf2.png";
 
-/**
- * NEW ASSETS — these are the pieces the mobile screenshot shows that
- * weren't in the previous version of the file: the black-and-white
- * photo-collage strip on the very first screen, and the gold
- * "50th Anniversary" badge/seal on the second screen.
- *
- * Swap these paths for your real exported files (same names/format as
- * the rest of the figma export, e.g. "./<hash>.png").
- */
-import imgPhotoStrip1 from "./photo-strip-1.png";
-import imgPhotoStrip2 from "./photo-strip-2.png";
-import imgPhotoStrip3 from "./photo-strip-3.png";
-import imgAnniversaryBadge from "./anniversary-badge.png";
+// Reuse existing exports for the collage and anniversary badge. The previous
+// placeholder imports pointed at files that are not present in this project.
+const imgPhotoStrip1 = imgContainer;
+const imgPhotoStrip2 = imgContainer1;
+const imgPhotoStrip3 = imgContainer2;
+const imgAnniversaryBadge = img51;
 
 /* ---------------------------------- Nav ---------------------------------- */
 
@@ -56,7 +51,7 @@ function NavLink({ children }: NavLinkProps) {
 
 function ChevronDown() {
   return (
-    <svg className="size-[16px] lg:size-[24px]" fill="none" viewBox="0 0 24 24">
+    <svg className="size-4 lg:size-6" fill="none" viewBox="0 0 24 24">
       <path
         d="M15 6L9 12L15 18"
         stroke="black"
@@ -72,8 +67,8 @@ function ChevronDown() {
 function NavBar() {
   return (
     <div className="sticky top-0 z-50 bg-white w-full">
-      <div className="mx-auto flex h-[63px] max-w-[1440px] items-center justify-between gap-4 px-4 sm:px-6 lg:px-[18.933px]">
-        <a href="#" className="relative h-[36px] w-[70px] shrink-0 overflow-hidden sm:h-[39px] sm:w-[90px]">
+      <div className="mx-auto flex h-15.75 max-w-360 items-center justify-between gap-4 px-4 sm:px-6 lg:px-[18.933px]">
+        <a href="#" className="relative h-9 w-17.5 shrink-0 overflow-hidden sm:h-9.75 sm:w-22.5">
           <img alt="Logo" className="absolute left-[-15%] top-[-40%] h-[190%] w-[190%] max-w-none object-cover" src={imgImage} />
         </a>
 
@@ -143,7 +138,7 @@ function JubileeEyebrow() {
     <div className="flex flex-col items-center gap-1 text-center">
       <p className="font-['CRONDE:Regular',sans-serif] text-[16px] leading-none text-[#d9c7a8] sm:text-[15px] lg:text-[15px]">Golden</p>
       <p className="font-['CRONDE:Regular',sans-serif] text-[16px] leading-none text-white sm:text-[15px] lg:text-[15px]">Jubilee</p>
-      <p className="mt-5 max-w-[94vw] font-['Futura_PT:Book',sans-serif] text-[20px] leading-[1.5] text-white sm:max-w-[500px] sm:text-[22px] lg:max-w-[596px] lg:text-[24px]">
+      <p className="mt-5 max-w-[94vw] font-['Futura_PT:Book',sans-serif] text-[20px] leading-normal text-white sm:max-w-125 sm:text-[22px] lg:max-w-149 lg:text-[24px]">
         "One generation shall praise thy works to another, and shall declare thy mighty acts."
         <br />
         <br />
@@ -162,8 +157,8 @@ function QuoteHero() {
 
   return (
     <div className="relative flex w-full flex-col items-center justify-center overflow-hidden bg-[#0f1421] px-6 py-20 text-center sm:py-28">
-      <div className="relative z-10 flex w-full max-w-[560px] flex-col items-center gap-10 sm:gap-14">
-        <p className="font-['Futura_PT:Book',sans-serif] text-[26px] italic leading-[1.5] text-white sm:text-[28px] lg:text-[32px]">
+      <div className="relative z-10 flex w-full max-w-140 flex-col items-center gap-10 sm:gap-14">
+        <p className="font-['Futura_PT:Book',sans-serif] text-[26px] italic leading-normal text-white sm:text-[28px] lg:text-[32px]">
           "One generation shall praise thy works to another, and shall declare thy mighty acts."
         </p>
         <p className="font-['Futura_PT:Book',sans-serif] text-[16px] tracking-[1px] text-[#d9c7a8] sm:text-[16px]">
@@ -171,14 +166,14 @@ function QuoteHero() {
         </p>
 
         {/* Collage strip of three overlapping/rotated black-and-white photos */}
-        <div className="relative mt-4 flex h-[70px] w-full max-w-[280px] items-center justify-center sm:h-[90px] sm:max-w-[360px]">
-          <div className="absolute left-[0%] h-[64px] w-[90px] -rotate-6 overflow-hidden rounded-[2px] shadow-lg sm:h-[80px] sm:w-[110px]">
+        <div className="relative mt-4 flex h-17.5 w-full max-w-70 items-center justify-center sm:h-22.5 sm:max-w-90">
+          <div className="absolute left-[0%] h-16 w-22.5 -rotate-6 overflow-hidden rounded-[2px] shadow-lg sm:h-20 sm:w-27.5">
             <img alt="" className="h-full w-full object-cover grayscale" src={photos[0]} />
           </div>
-          <div className="absolute z-10 h-[64px] w-[90px] overflow-hidden rounded-[2px] shadow-lg sm:h-[80px] sm:w-[110px]">
+          <div className="absolute z-10 h-16 w-22.5 overflow-hidden rounded-[2px] shadow-lg sm:h-20 sm:w-27.5">
             <img alt="" className="h-full w-full object-cover grayscale" src={photos[1]} />
           </div>
-          <div className="absolute right-[0%] h-[64px] w-[90px] rotate-6 overflow-hidden rounded-[2px] shadow-lg sm:h-[80px] sm:w-[110px]">
+          <div className="absolute right-[0%] h-16 w-22.5 rotate-6 overflow-hidden rounded-[2px] shadow-lg sm:h-20 sm:w-27.5">
             <img alt="" className="h-full w-full object-cover grayscale" src={photos[2]} />
           </div>
         </div>
@@ -194,10 +189,10 @@ function QuoteHero() {
 function AnniversarySplash() {
   return (
     <div className="relative flex w-full flex-col items-center justify-center overflow-hidden bg-[#0f1421] px-6 py-20 text-center sm:py-28">
-      <div className="flex w-full max-w-[420px] flex-col items-center gap-6">
+      <div className="flex w-full max-w-105 flex-col items-center gap-6">
         <img
           alt="AFM Western Europe 50th Anniversary, 1976 to 2026"
-          className="h-auto w-full max-w-[240px] object-contain sm:max-w-[300px] lg:max-w-[340px]"
+          className="h-auto w-full max-w-60 object-contain sm:max-w-75 lg:max-w-85"
           src={imgAnniversaryBadge}
         />
       </div>
@@ -213,8 +208,8 @@ function Hero() {
   return (
     <div className="relative w-full overflow-hidden bg-[#fcf9f2] py-16 sm:py-20 lg:py-28" data-name="Hero">
       <VectorWatermark />
-      <div className="relative mx-auto flex w-full max-w-[900px] flex-col items-center gap-6 px-4 text-center sm:gap-8 sm:px-8 lg:gap-[34px]">
-        <div className="relative h-[60px] w-[190px] sm:h-[85px] sm:w-[270px] lg:h-[109px] lg:w-[337px]">
+      <div className="relative mx-auto flex w-full max-w-225 flex-col items-center gap-6 px-4 text-center sm:gap-8 sm:px-8 lg:gap-8.5">
+        <div className="relative h-15 w-47.5 sm:h-21.25 sm:w-67.5 lg:h-27.25 lg:w-84.25">
           <div className="absolute inset-0 overflow-hidden">
             <img alt="" className="absolute left-[-22.15%] top-[-172.98%] h-[443.28%] w-[143.62%] max-w-none" src={img1998} />
           </div>
@@ -223,7 +218,7 @@ function Hero() {
         <h1 className="font-['CRONDE:Regular',sans-serif] text-[#0f1421] text-[42px] leading-tight sm:text-[64px] lg:text-[96px]">
           Praise God With US!
         </h1>
-        <p className="max-w-[601px] font-['Futura_PT:Book',sans-serif] text-[16px] text-[#0f1421] sm:text-[20px] lg:text-[24px]">
+        <p className="max-w-150.25 font-['Futura_PT:Book',sans-serif] text-[16px] text-[#0f1421] sm:text-[20px] lg:text-[24px]">
           Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.
         </p>
       </div>
@@ -243,14 +238,14 @@ function Intro() {
         <div className="absolute inset-0 bg-[#172037] mix-blend-multiply" />
       </div>
 
-      <div className="relative mx-auto flex w-full max-w-[1096px] flex-col items-center gap-8 px-4 sm:px-8 lg:flex-row lg:items-center lg:gap-[62px]">
-        <div className="w-full max-w-[400px] shrink-0 overflow-hidden border-[4.948px] border-white sm:max-w-[450px] lg:w-[400px]">
-          <div className="relative aspect-[399/281] w-full overflow-hidden">
-            <img alt="" className="absolute -left-[40%] -top-[45%] w-[190%] max-w-none object-cover" src={imgImage12} />
+      <div className="relative mx-auto flex w-full flex-col items-center gap-8 px-4 sm:px-8 lg:flex-row lg:items-center lg:gap-15.5">
+        <div className="w-full max-w-100 shrink-0 overflow-hidden border-[4.948px] border-white sm:max-w-112.5 lg:w-100">
+          <div className="relative aspect-399/281 w-full overflow-hidden">
+            <img alt="" className="absolute left-[-40%] top-[-45%] w-[190%] max-w-none object-cover" src={imgImage12} />
           </div>
         </div>
 
-        <div className="flex w-full flex-col items-start gap-4 text-white sm:gap-6 lg:max-w-[601px] lg:gap-[34px]">
+        <div className="flex w-full flex-col items-start gap-4 text-white sm:gap-6 lg:max-w-150.25 lg:gap-8.5">
           <h2 className="font-['CRONDE:Regular',sans-serif] text-[30px] leading-tight sm:text-[38px] lg:text-[48px]">
             Where it all started
           </h2>
@@ -269,12 +264,12 @@ function Intro() {
 
 function VideoBanner() {
   return (
-    <div className="relative aspect-video w-full overflow-hidden bg-black sm:aspect-[21/9]">
+    <div className="relative aspect-video w-full overflow-hidden bg-black sm:aspect-21/9">
       <img alt="" className="h-full w-full object-cover" src={imgImage12} />
       <button
         type="button"
         aria-label="Play video"
-        className="absolute left-1/2 top-1/2 flex size-[80px] -translate-x-1/2 -translate-y-1/2 items-center justify-center rounded-full bg-white/50 transition hover:bg-white/70 sm:size-[120px] lg:size-[160px]"
+        className="absolute left-1/2 top-1/2 flex size-20 -translate-x-1/2 -translate-y-1/2 items-center justify-center rounded-full bg-white/50 transition hover:bg-white/70 sm:size-30 lg:size-40"
       >
         <svg className="h-[30%] w-[30%] fill-[#1F2349] opacity-70" viewBox="0 0 24 24">
           <path d="M8 5v14l11-7z" />
@@ -298,8 +293,8 @@ interface StoryCardProps {
 
 function StoryCard({ img, year, title, body, imgClass = "" }: StoryCardProps) {
   return (
-    <div className="flex w-full max-w-[380px] flex-col items-start sm:max-w-none">
-      <div className="relative aspect-[292/170] w-full overflow-hidden rounded-[3px]">
+    <div className="flex w-full max-w-95 flex-col items-start sm:max-w-none">
+      <div className="relative aspect-292/170 w-full overflow-hidden rounded-[3px]">
         <img alt="" className={`absolute inset-0 h-full w-full object-cover ${imgClass}`} src={img} />
       </div>
       <p className="mt-4 font-['Futura_PT:Book',sans-serif] text-[10px] uppercase tracking-[1.3px] text-[#192441] opacity-45">
@@ -314,7 +309,7 @@ function StoryCard({ img, year, title, body, imgClass = "" }: StoryCardProps) {
 function StorySection() {
   return (
     <div className="w-full bg-white py-12 sm:py-16 lg:py-20">
-      <div className="mx-auto flex w-full max-w-[1100px] flex-col items-center gap-10 px-4 sm:gap-14 sm:px-8 lg:gap-[72px]">
+      <div className="mx-auto flex w-full max-w-275 flex-col items-center gap-10 px-4 sm:gap-14 sm:px-8 lg:gap-18">
         <div className="flex flex-col items-center gap-3 text-center">
           <p className="font-['Futura_PT:Book',sans-serif] text-[9px] uppercase tracking-[2px] text-[#192441] opacity-45">
             Stories of Ministry
@@ -322,7 +317,7 @@ function StorySection() {
           <h2 className="font-['CRONDE:Regular',sans-serif] text-[30px] text-[#192441] sm:text-[38px] lg:text-[45.756px]">
             Voices of the Journey
           </h2>
-          <p className="max-w-[500px] font-['Futura_PT:Book',sans-serif] text-[13px] text-[#192441] opacity-55 sm:text-[14.2px]">
+          <p className="max-w-125 font-['Futura_PT:Book',sans-serif] text-[13px] text-[#192441] opacity-55 sm:text-[14.2px]">
             Across five decades, the Gospel has transformed lives throughout Western Europe.
           </p>
         </div>
@@ -373,13 +368,13 @@ function TimelineHero() {
         <div className="absolute inset-0 bg-[#172037] mix-blend-multiply" />
       </div>
 
-      <div className="relative mx-auto flex w-full max-w-[900px] flex-col items-center px-4 text-center">
+      <div className="relative mx-auto flex w-full max-w-225 flex-col items-center px-4 text-center">
         <JubileeEyebrow />
 
         <h2 className="mt-10 font-['CRONDE:Regular',sans-serif] text-[32px] text-white sm:mt-14 sm:text-[40px] lg:mt-16 lg:text-[48px]">
           Loreum Ipsum
         </h2>
-        <p className="mt-6 max-w-[770px] font-['Futura_PT:Book',sans-serif] text-[15px] leading-relaxed text-white sm:text-[17px] lg:mt-8 lg:text-[20px]">
+        <p className="mt-6 max-w-192.5 font-['Futura_PT:Book',sans-serif] text-[15px] leading-relaxed text-white sm:text-[17px] lg:mt-8 lg:text-[20px]">
           Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna
           aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.
           Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur
@@ -387,13 +382,13 @@ function TimelineHero() {
         </p>
 
         {/* Desktop/tablet: concentric ring */}
-        <div className="relative mt-12 hidden h-[420px] w-[420px] items-center justify-center sm:mt-16 sm:flex lg:h-[600px] lg:w-[600px]">
+        <div className="relative mt-12 hidden h-105 w-105 items-center justify-center sm:mt-16 sm:flex lg:h-150 lg:w-150">
           <div className="absolute size-[70%] rounded-full border border-[#d9c7a8]/40 bg-black/20" />
           <div className="absolute size-full rounded-full border border-[#d9c7a8]/60" />
           <span className="absolute -left-2 top-[15%] font-['CRONDE:Regular',sans-serif] text-[16px] text-[#d9c7a8] sm:text-[20px] lg:text-[24px]">
             1957
           </span>
-          <span className="absolute left-[8%] top-[38%] rotate-[30deg] font-['CRONDE:Regular',sans-serif] text-[16px] text-[#d9c7a8] sm:text-[20px] lg:text-[24px]">
+          <span className="absolute left-[8%] top-[38%] rotate-30 font-['CRONDE:Regular',sans-serif] text-[16px] text-[#d9c7a8] sm:text-[20px] lg:text-[24px]">
             1967
           </span>
           <span className="absolute font-['CRONDE:Regular',sans-serif] text-[32px] text-white sm:text-[40px] lg:text-[48px]">
@@ -428,7 +423,7 @@ interface PolaroidPhotoProps {
 function PolaroidPhoto({ img, className, rotate = "" }: PolaroidPhotoProps) {
   return (
     <div className={`absolute hidden overflow-hidden bg-white p-2 pb-8 shadow-[0px_4px_4.2px_0px_rgba(0,0,0,0.07)] lg:block ${rotate} ${className}`}>
-      <div className="h-[188px] w-[199px] overflow-hidden">
+      <div className="h-47 w-49.75 overflow-hidden">
         <img alt="" className="h-full w-full object-cover" src={img} />
       </div>
     </div>
@@ -442,9 +437,9 @@ function GallerySection() {
     <div className="relative w-full overflow-hidden bg-[#fcf9f2] py-16 sm:py-20 lg:py-28" data-name="gallery">
       <VectorWatermark />
 
-      <div className="relative mx-auto flex w-full max-w-[900px] flex-col items-center px-4 text-center">
+      <div className="relative mx-auto flex w-full max-w-225 flex-col items-center px-4 text-center">
         {/* Small circular logo mark, matching the top of screen 6 */}
-        <div className="relative size-[56px] sm:size-[64px]" data-name="mark">
+        <div className="relative h-18.75" data-name="mark">
           <div className="absolute inset-0 overflow-hidden rounded-full">
             <img alt="" className="h-full w-full object-cover" src={img51} />
           </div>
@@ -458,7 +453,7 @@ function GallerySection() {
 
         <button
           type="button"
-          className="mt-8 w-full max-w-[280px] rounded-[2px] bg-[#192441] px-6 py-3 font-['Futura_PT:Book',sans-serif] text-[15px] text-white sm:mt-10 sm:w-auto lg:text-[16px]"
+          className="mt-8 w-full max-w-70 rounded-[2px] bg-[#192441] px-6 py-3 font-['Futura_PT:Book',sans-serif] text-[15px] text-white sm:mt-10 sm:w-auto lg:text-[16px]"
         >
           View Full Gallery
         </button>
@@ -473,13 +468,13 @@ function GallerySection() {
         </div>
 
         {/* Scattered polaroid layout, desktop/large screens only */}
-        <div className="relative mt-16 hidden h-[420px] w-full lg:block">
+        <div className="relative mt-16 hidden h-105 w-full lg:block">
           <PolaroidPhoto img={photos[0]} className="left-[2%] top-0" />
           <PolaroidPhoto img={photos[1]} className="left-[20%] top-[52%]" rotate="rotate-[5deg]" />
           <PolaroidPhoto img={photos[2]} className="right-[2%] top-[35%]" />
           <PolaroidPhoto img={photos[3]} className="right-[6%] top-0" rotate="rotate-[21deg]" />
           <PolaroidPhoto img={photos[4]} className="left-[38%] top-[38%]" rotate="rotate-[-14deg]" />
-          <PolaroidPhoto img={photos[5]} className="right-[10%] top-[8%]" rotate="rotate-[14deg]" />
+          <PolaroidPhoto img={photos[5]} className="right-[10%] top-[8%]" rotate="rotate-14" />
         </div>
       </div>
     </div>
@@ -491,9 +486,9 @@ function GallerySection() {
 function Footer() {
   return (
     <footer className="w-full bg-[#192441] py-12 sm:py-16 lg:py-20" data-name="footer">
-      <div className="mx-auto flex w-full max-w-[1100px] flex-col items-center gap-10 px-4 sm:px-8 lg:gap-[72px]">
+      <div className="mx-auto flex w-full max-w-275 flex-col items-center gap-10 px-4 sm:px-8 lg:gap-18">
         <div className="flex w-full flex-col items-center gap-6 sm:flex-row sm:justify-between">
-          <div className="relative h-[100px] w-[110px] shrink-0 overflow-hidden sm:h-[120px] sm:w-[132px] lg:h-[145px] lg:w-[160px]">
+          <div className="relative h-25 w-27.5 shrink-0 overflow-hidden sm:h-30 sm:w-33 lg:h-36.25 lg:w-40">
             <img alt="" className="absolute left-[-32%] top-[-40%] h-[180%] w-[163%] max-w-none object-cover" src={img91} />
           </div>
           <span className="rounded-full border border-[#d9c7a8]/30 bg-[#d9c7a8]/10 px-5 py-2 font-['Futura_PT:Book',sans-serif] text-[11px] tracking-[0.4px] text-[#d9c7a8]">

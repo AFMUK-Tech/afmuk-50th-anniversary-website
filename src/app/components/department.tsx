@@ -223,7 +223,7 @@ function DepartmentMobile(): ReactElement {
   );
 }
 
-export function DepartmentPage({ onBack }: { onBack?: () => void } = {}): ReactElement {
+export function DepartmentPage({ onBack: _onBack }: { onBack?: () => void } = {}): ReactElement {
   const isMobile = useIsMobile();
   const scale = useSiteScale();
   const [fadeIn, setFadeIn] = useState(false);

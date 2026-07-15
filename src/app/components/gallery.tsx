@@ -420,7 +420,7 @@ function GalleryMobile(): ReactElement {
   );
 }
 
-export function GalleryPage({ onBack }: { onBack?: () => void } = {}): ReactElement {
+export function GalleryPage({ onBack: _onBack }: { onBack?: () => void } = {}): ReactElement {
   const isMobile = useIsMobile();
   const scale = useSiteScale();
   const [fadeIn, setFadeIn] = useState(false);

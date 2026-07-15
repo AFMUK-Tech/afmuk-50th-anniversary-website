@@ -427,7 +427,7 @@ function FounderMobile() {
   );
 }
 
-export function FounderPage({ onBack }: { onBack?: () => void } = {}) {
+export function FounderPage({ onBack: _onBack }: { onBack?: () => void } = {}) {
   const scale = useSiteScale();
   const isMobile = useIsMobile();
   const [fadeIn, setFadeIn] = useState(false);
