@@ -23,10 +23,10 @@ export function ShopPage({ onBack }: { onBack: () => void }) {
           alignItems: "center",
           justifyContent: "center",
           textAlign: "center",
-          padding: "96px 24px 64px",
+          padding: "80px 24px 64px",
         }}
       >
-        <button
+        {/* <button
           onClick={onBack}
           style={{
             position: "fixed",
@@ -39,7 +39,7 @@ export function ShopPage({ onBack }: { onBack: () => void }) {
           }}
         >
           ← Back
-        </button>
+        </button> */}
 
         <p style={{ fontFamily: "'Futura PT', sans-serif", fontSize: 12, letterSpacing: "0.2em", textTransform: "uppercase", color: "#8b7f6a", marginBottom: 16 }}>
           AFC UK & Western Europe — Golden Jubilee

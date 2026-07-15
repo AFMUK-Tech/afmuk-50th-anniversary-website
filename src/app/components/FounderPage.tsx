@@ -27,6 +27,26 @@ function useContentHeight<T extends HTMLElement>() {
   return [ref, height] as const;
 }
 
+function useElementWidth<T extends HTMLElement>() {
+  const ref = useRef<T | null>(null);
+  const [width, setWidth] = useState(0);
+
+  useEffect(() => {
+    if (!ref.current) return;
+    const el = ref.current;
+    const observer = new ResizeObserver((entries) => {
+      for (const entry of entries) {
+        setWidth(entry.contentRect.width);
+      }
+    });
+    observer.observe(el);
+    setWidth(el.getBoundingClientRect().width);
+    return () => observer.disconnect();
+  }, []);
+
+  return [ref, width] as const;
+}
+
 const ITEMS = [
   { img: imgImage16, label: "Wales Camp Meeting 2019" },
   { img: imgImage17, label: "Wales Camp Meeting 2019" },
@@ -43,19 +63,24 @@ const ITEMS = [
 ];
 
 const CARD_SIZES = [
-  { w: 161.962, h: 141.623 + 40, opacity: 0.34, shadow: 3.164 },
-  { w: 271.728, h: 237.604 + 50, opacity: 0.5, shadow: 5.308 },
-  { w: 369.189, h: 322.826 + 68, opacity: 1.0, shadow: 7.212 },
-  { w: 271.728, h: 237.604 + 50, opacity: 0.5, shadow: 5.308 },
-  { w: 161.962, h: 141.623 + 40, opacity: 0.34, shadow: 3.164 },
+  { w: 121.47, h: 153.31, opacity: 0.34, padding: 5.02, gap: 6.69, shadow: 20 },
+  { w: 203.80, h: 256.30, opacity: 0.5, padding: 8.42, gap: 11.23, shadow: 30 },
+  { w: 276.89, h: 347.32, opacity: 1, padding: 11.44, gap: 15.25, shadow: 40 },
+  { w: 203.80, h: 256.30, opacity: 0.5, padding: 8.42, gap: 11.23, shadow: 30 },
+  { w: 121.47, h: 153.31, opacity: 0.34, padding: 5.02, gap: 6.69, shadow: 20 },
 ];
+
+const MOBILE_FRACTIONS = [0.16, 0.25, 0.42, 0.25, 0.16];
+const MOBILE_OPACITIES = [0.34, 0.5, 1, 0.5, 0.34];
+const MOBILE_ASPECT = 1.258;
+
 
 function CarouselCard({
   item,
   size,
 }: {
   item: { img: string; label: string };
-  size: (typeof CARD_SIZES)[number];
+  size: { w: number; h: number; opacity: number; shadow: number };
 }) {
   const imgH = size.h - (size.w < 200 ? 40 : size.w < 300 ? 50 : 68);
   return (
@@ -76,10 +101,10 @@ function CarouselCard({
         paddingLeft: size.w < 200 ? 7 : size.w < 300 ? 11 : 15,
         paddingRight: size.w < 200 ? 7 : size.w < 300 ? 11 : 15,
         gap: size.w < 200 ? 9 : size.w < 300 ? 15 : 20,
-        transition: "opacity 0.3s ease, width 0.3s ease",
+        transition: "opacity 0.3s ease, width 0.3s ease, height 0.3s ease",
       }}
     >
-      <div style={{ width: "100%", height: imgH, overflow: "hidden", position: "relative" }}>
+      <div style={{ width: "100%", height: imgH > 0 ? imgH : 0, overflow: "hidden", position: "relative" }}>
         <img
           src={item.img}
           alt={item.label}
@@ -101,6 +126,9 @@ function CarouselCard({
           fontSize: size.w < 200 ? 11 : size.w < 300 ? 19 : 25,
           color: "#0f1421",
           whiteSpace: "nowrap",
+          overflow: "hidden",
+          textOverflow: "ellipsis",
+          maxWidth: "100%",
           margin: 0,
         }}
       >
@@ -109,6 +137,8 @@ function CarouselCard({
     </div>
   );
 }
+
+/* ---------- Desktop carousel ---------- */
 
 function FounderCarousel() {
   const [active, setActive] = useState(1);
@@ -153,7 +183,7 @@ function FounderCarousel() {
               onClick={() => setActive(i)}
               style={{
                 width: 12,
-                height: 12,
+                height: 10,
                 borderRadius: "50%",
                 border: "none",
                 padding: 0,
@@ -179,86 +209,92 @@ function FounderCarousel() {
   );
 }
 
-/* ---------- Mobile carousel: single card, clearly visible arrow buttons ---------- */
+/* ---------- Mobile carousel: same 5-card layout, sized off the real container width ---------- */
 
 function FounderCarouselMobile() {
   const [active, setActive] = useState(0);
   const total = ITEMS.length;
-  const item = ITEMS[active];
+  const [containerRef, containerWidth] = useElementWidth<HTMLDivElement>();
 
   const prev = () => setActive((i) => Math.max(0, i - 1));
   const next = () => setActive((i) => Math.min(total - 1, i + 1));
 
-  const arrowButtonStyle = (disabled: boolean): React.CSSProperties => ({
-    width: 44,
-    height: 44,
-    borderRadius: "50%",
-    border: "none",
-    background: disabled ? "#c7c2b4" : "#192441",
-    display: "flex",
-    alignItems: "center",
-    justifyContent: "center",
-    cursor: disabled ? "default" : "pointer",
-    boxShadow: "0px 2px 6px 0px rgba(0,0,0,0.15)",
-    flexShrink: 0,
+  const slots = [-2, -1, 0, 1, 2].map((offset) => {
+    const idx = active + offset;
+    if (idx < 0 || idx >= total) return null;
+    return ITEMS[idx];
+  });
+
+  // Recompute pixel sizes from the measured container width every render,
+  // so the same 5-card composition works from small phones to tablets.
+  const sizes = MOBILE_FRACTIONS.map((f, i) => {
+    const w = containerWidth * f;
+    return {
+      w,
+      h: w * MOBILE_ASPECT,
+      opacity: MOBILE_OPACITIES[i],
+      shadow: 12 + i * 3,
+    };
   });
 
   return (
-    <div style={{ display: "flex", flexDirection: "column", gap: 20, alignItems: "center", width: "100%" }}>
+    <div style={{ display: "flex", flexDirection: "column", gap: 30, alignItems: "center", width: "100%", marginBottom: 40 }}>
       <div
-        style={{
-          background: "#fff",
-          width: "100%",
-          maxWidth: 300,
-          boxShadow: "0px 3px 8px 0px rgba(0,0,0,0.08)",
-          display: "flex",
-          flexDirection: "column",
-          alignItems: "center",
-          padding: "12px 12px 24px",
-        }}
+        ref={containerRef}
+        style={{ display: "flex", alignItems: "center", justifyContent: "center", gap: 1, width: "100%", overflow: "hidden" }}
       >
-        <div style={{ width: "100%", aspectRatio: "1 / 0.87", overflow: "hidden", position: "relative" }}>
-          <img
-            src={item.img}
-            alt={item.label}
-            style={{ position: "absolute", inset: 0, width: "100%", height: "100%", objectFit: "cover" }}
-          />
-        </div>
-        <p style={{ fontFamily: "'Futura PT', sans-serif", fontSize: 15, color: "#0f1421", margin: "14px 0 0" }}>
-          {item.label}
-        </p>
+        {containerWidth > 0 &&
+          slots.map((item, i) =>
+            item ? (
+              <CarouselCard key={active + (i - 2)} item={item} size={sizes[i]} />
+            ) : (
+              <div key={`empty-${i}`} style={{ width: sizes[i].w, flexShrink: 0 }} />
+            )
+          )}
       </div>
 
-      {/* Arrows + position counter — fits on any phone width, nothing scrolls off-screen */}
-      <div style={{ display: "flex", alignItems: "center", justifyContent: "center", gap: 24, width: "100%" }}>
-        <button onClick={prev} disabled={active === 0} aria-label="Previous photo" style={arrowButtonStyle(active === 0)}>
-          <svg width="18" height="18" viewBox="0 0 48 48" fill="none">
-            <path d="M30 12L18 24L30 36" stroke="#ffffff" strokeLinecap="round" strokeLinejoin="round" strokeWidth="4" />
+      <div style={{ display: "flex", gap: 24, alignItems: "center", justifyContent: "center" }}>
+        <button
+          onClick={prev}
+          disabled={active === 0}
+          style={{ background: "none", border: "none", cursor: active === 0 ? "default" : "pointer", opacity: active === 0 ? 0.3 : 1, padding: 8 }}
+        >
+          <svg width="24" height="24" viewBox="0 0 48 48" fill="none">
+            <path d="M30 12L18 24L30 36" stroke="black" strokeLinecap="round" strokeLinejoin="round" strokeWidth="3" />
           </svg>
         </button>
 
-        <span
-          style={{
-            fontFamily: "'Futura PT', sans-serif",
-            fontSize: 14,
-            color: "#6b6b6b",
-            minWidth: 48,
-            textAlign: "center",
-          }}
-        >
-          {active + 1} / {total}
-        </span>
+      <div style={{ display: "flex", gap: 3, alignItems: "center" }}>
+       {ITEMS.map((_, i) => (
+         <span
+         key={i}
+      onClick={() => setActive(i)}
+      style={{
+        width: 4,
+        height: 4,
+        borderRadius: "50%",
+        display: "inline-block",
+        backgroundColor: i === active ? "#192441" : "#D8D8D8",
+        cursor: "pointer",
+        transition: "background-color 0.2s ease",
+      }}
+    />
+  ))}
+</div>
 
-        <button onClick={next} disabled={active === total - 1} aria-label="Next photo" style={arrowButtonStyle(active === total - 1)}>
-          <svg width="18" height="18" viewBox="0 0 48 48" fill="none">
-            <path d="M30 12L18 24L30 36" stroke="#ffffff" strokeLinecap="round" strokeLinejoin="round" strokeWidth="4" transform="rotate(180 24 24)" />
+        <button
+          onClick={next}
+          disabled={active === total - 1}
+          style={{ background: "none", border: "none", cursor: active === total - 1 ? "default" : "pointer", opacity: active === total - 1 ? 0.3 : 1, padding: 8 }}
+        >
+          <svg width="32" height="32" viewBox="0 0 48 48" fill="none">
+            <path d="M30 12L18 24L30 36" stroke="black" strokeLinecap="round" strokeLinejoin="round" strokeWidth="3" transform="rotate(180 24 24)" />
           </svg>
         </button>
       </div>
     </div>
   );
 }
-
 /* ---------- Mobile page body ---------- */
 
 function FounderMobile() {
@@ -402,7 +438,7 @@ function FounderMobile() {
             "Earnestly contend for the faith which was once delivered unto the saints." — Jude 3
           </p>
 
-          <div style={{ textAlign: "center", marginTop: 4 }}>
+          {/* <div style={{ textAlign: "center", marginTop: 4 }}>
             <div
               style={{
                 display: "inline-block",
@@ -418,7 +454,7 @@ function FounderMobile() {
             >
               Read the Full Story in Our 50th Anniversary Book
             </div>
-          </div>
+          </div> */}
         </div>
 
         <FounderCarouselMobile />
@@ -650,23 +686,7 @@ export function FounderPage({ onBack: _onBack }: { onBack?: () => void } = {}) {
                       "Earnestly contend for the faith which was once delivered unto the saints." — Jude 3
                     </p>
 
-                    <div style={{ textAlign: "center", marginTop: 8 }}>
-                      <div
-                        style={{
-                          display: "inline-block",
-                          background: "#192441",
-                          color: "#fff",
-                          fontFamily: "'Futura PT', sans-serif",
-                          fontSize: 15,
-                          letterSpacing: "0.03em",
-                          padding: "14px 32px",
-                          borderRadius: 999,
-                          cursor: "pointer",
-                        }}
-                      >
-                        Read the Full Story in Our 50th Anniversary Book
-                      </div>
-                    </div>
+               
                   </div>
 
                   <FounderCarousel />

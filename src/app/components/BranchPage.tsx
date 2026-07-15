@@ -116,6 +116,32 @@ function MobileBranchPage({ children }: { children: React.ReactNode; onBack?: ()
   );
 }
 
+function FluidBranchPage({ children }: { children: React.ReactNode; onBack?: () => void }) {
+  const scale = useSiteScale();
+  const isMobile = useIsMobile();
+  const [fadeIn, setFadeIn] = useState(false);
+
+  useEffect(() => {
+    requestAnimationFrame(() => setFadeIn(true));
+  }, []);
+
+  return (
+    <div style={{ width: "100%", minHeight: "100vh", background: "#f4f1ea", position: "relative" }}>
+      <SiteHeader />
+      <div
+        style={{
+          paddingTop: isMobile ? MOBILE_NAV_CLEARANCE : NAV_H * scale,
+          opacity: fadeIn ? 1 : 0,
+          transform: fadeIn ? "translateY(0)" : "translateY(10px)",
+          transition: "opacity 0.7s ease, transform 0.7s ease",
+        }}
+      >
+        {children}
+      </div>
+    </div>
+  );
+}
+
 function ResponsiveBranchPage({
   onBack,
   Canvas,
@@ -186,7 +212,11 @@ export function BranchPage({ branch, onBack }: { branch: string; onBack: () => v
     return <ResponsiveBranchPage onBack={onBack} Canvas={Bexley} Mobile={Bexley} />;
   }
   if (branch === "peckham") {
-    return <ResponsiveBranchPage onBack={onBack} Canvas={Peckham} Mobile={Peckham} />;
+    return (
+      <FluidBranchPage onBack={onBack}>
+        <Peckham />
+      </FluidBranchPage>
+    );
   }
   if (branch === "cranfield") {
     return <ResponsiveBranchPage onBack={onBack} Canvas={Cranfield} Mobile={Cranfield} />;

@@ -1,6 +1,9 @@
 /// <reference path="../../types/images.d.ts" />
 
 import React from "react";
+import { Volume2, VolumeX } from "lucide-react";
+import anniversaryThemeSrc from "../../assets/anniversary-theme.mp3";
+import fireworksSoundSrc from "../../assets/fireworks.mp3";
 import logoImg from "../../imports/image.png";
 import logoImg1 from "../../imports/Homepage/5a015c837cc63a1e3afec59a04ef46d449dad5cf.png";
 import { Fireworks } from "./fireworks";
@@ -23,7 +26,6 @@ import imgPrayerPhoto from "../../imports/Frame19/ce8c1a1065b04074fbc18eb2c06e73
 
 // ── NEW ASSETS ──────────────────────────────────────────────────────────────
 import imgVideoPoster from "../../imports/Homepage/ukpic.png";
-// @ts-ignore
 import videoSrcPlaceholder from "../../imports/Homepage/aboutvideo.mp4";
 
 // ─── Site-wide typography tokens ───────────────────────────────────────────
@@ -83,7 +85,7 @@ function PictureFrame() {
 
   return (
     <div
-      className="absolute bottom-[max(1rem,env(safe-area-inset-bottom))] top-40 md:top-160 left-1/2 flex w-[92vw] max-w-213 -translate-x-1/2 items-center justify-center gap-[2vw] sm:bottom-[clamp(1.5rem,4svh,3rem)] sm:gap-5"
+      className="absolute bottom-[max(1rem,env(safe-area-inset-bottom))] left-1/2 flex w-[92vw] max-w-213 -translate-x-1/2 items-center justify-center gap-[2vw] sm:bottom-[clamp(1.5rem,4svh,3rem)] sm:gap-5 md:top-160"
       aria-label="Photos from the church's ministry"
     >
       {photos.map((photo, index) => (
@@ -103,10 +105,42 @@ function PictureFrame() {
   );
 }
 
+function ScrollDownControl({
+  className = "",
+  onClick,
+  opacity,
+}: {
+  className?: string;
+  onClick?: () => void;
+  opacity: number;
+}) {
+  return (
+    <button
+      aria-label="Scroll down"
+      className={`flex flex-col items-center gap-2 border-0 bg-transparent p-2 text-white transition-opacity duration-300 ${className}`}
+      onClick={onClick}
+      style={{ opacity, pointerEvents: opacity > 0.35 ? "auto" : "none" }}
+      type="button"
+    >
+      <svg aria-hidden="true" fill="none" height="20" viewBox="0 0 20 20" width="20" xmlns="http://www.w3.org/2000/svg">
+        <path d="M9.99967 4.1665L10.4413 3.72484C10.3242 3.6078 10.1653 3.54205 9.99967 3.54205C9.83405 3.54205 9.6752 3.6078 9.55801 3.72484L9.99967 4.1665ZM9.99967 10.8332L9.55801 11.2748C9.6752 11.3919 9.83405 11.4576 9.99967 11.4576C10.1653 11.4576 10.3242 11.3919 10.4413 11.2748L9.99967 10.8332ZM7.89134 5.3915C7.78094 5.50998 7.72084 5.66669 7.72369 5.82861C7.72655 5.99052 7.79215 6.14501 7.90666 6.25952C8.02117 6.37403 8.17565 6.43963 8.33757 6.44248C8.49949 6.44534 8.6562 6.38524 8.77467 6.27484L7.89134 5.3915ZM11.2247 6.27484C11.2819 6.33624 11.3509 6.38549 11.4276 6.41965C11.5042 6.45381 11.587 6.47218 11.6709 6.47366C11.7548 6.47514 11.8382 6.45971 11.916 6.42827C11.9938 6.39684 12.0645 6.35005 12.1239 6.2907C12.1832 6.23135 12.23 6.16066 12.2614 6.08284C12.2929 6.00501 12.3083 5.92165 12.3068 5.83774C12.3054 5.75382 12.287 5.67105 12.2528 5.59439C12.2187 5.51772 12.1694 5.44872 12.108 5.3915L11.2247 6.27484ZM8.77467 8.72484C8.71746 8.66343 8.64846 8.61418 8.57179 8.58002C8.49512 8.54586 8.41236 8.52749 8.32844 8.52601C8.24452 8.52453 8.16117 8.53997 8.08334 8.5714C8.00552 8.60284 7.93482 8.64962 7.87548 8.70897C7.81613 8.76832 7.76934 8.83902 7.73791 8.91684C7.70647 8.99466 7.69103 9.07802 7.69251 9.16194C7.69399 9.24586 7.71236 9.32862 7.74652 9.40529C7.78068 9.48195 7.82994 9.55095 7.89134 9.60817L8.77467 8.72484ZM12.108 9.60817C12.1694 9.55095 12.2187 9.48195 12.2528 9.40529C12.287 9.32862 12.3054 9.24586 12.3068 9.16194C12.3083 9.07802 12.2929 8.99466 12.2614 8.91684C12.23 8.83902 12.1832 8.76832 12.1239 8.70897C12.0645 8.64962 11.9938 8.60284 11.916 8.5714C11.8382 8.53997 11.7548 8.52453 11.6709 8.52601C11.587 8.52749 11.5042 8.54586 11.4276 8.58002C11.3509 8.61418 11.2819 8.66343 11.2247 8.72484L12.108 9.60817ZM2.70801 8.33317V11.6665H3.95801V8.33317H2.70801ZM17.2913 11.6665V8.33317H16.0413V11.6665H17.2913ZM9.37467 4.1665V10.8332H10.6247V4.1665H9.37467ZM9.55801 3.72484L7.89134 5.3915L8.77467 6.27484L10.4413 4.60817L9.55801 3.72484ZM9.55801 4.60817L11.2247 6.27484L12.108 5.3915L10.4413 3.72484L9.55801 4.60817ZM10.4413 10.3915L8.77467 8.72484L7.89134 9.60817L9.55801 11.2748L10.4413 10.3915ZM10.4413 11.2748L12.108 9.60817L11.2247 8.72484L9.55801 10.3915L10.4413 11.2748ZM17.2913 8.33317C17.2913 6.3993 16.5231 4.54464 15.1557 3.17718C13.7882 1.80973 11.9335 1.0415 9.99967 1.0415V2.2915C11.602 2.2915 13.1387 2.92804 14.2718 4.06107C15.4048 5.1941 16.0413 6.73082 16.0413 8.33317H17.2913ZM9.99967 18.9582C10.9572 18.9582 11.9054 18.7696 12.7901 18.4031C13.6747 18.0367 14.4786 17.4996 15.1557 16.8225C15.8328 16.1454 16.3699 15.3416 16.7363 14.4569C17.1027 13.5722 17.2913 12.6241 17.2913 11.6665H16.0413C16.0413 13.2689 15.4048 14.8056 14.2718 15.9386C13.1387 17.0716 11.602 17.7082 9.99967 17.7082V18.9582ZM2.70801 11.6665C2.70801 13.6004 3.47623 15.455 4.84369 16.8225C6.21114 18.1899 8.0658 18.9582 9.99967 18.9582V17.7082C8.39732 17.7082 6.8606 17.0716 5.72757 15.9386C4.59454 14.8056 3.95801 13.2689 3.95801 11.6665H2.70801ZM3.95801 8.33317C3.95801 6.73082 4.59454 5.1941 5.72757 4.06107C6.8606 2.92804 8.39732 2.2915 9.99967 2.2915V1.0415C8.0658 1.0415 6.21114 1.80973 4.84369 3.17718C3.47623 4.54464 2.70801 6.3993 2.70801 8.33317H3.95801Z" fill="white" />
+      </svg>
+      <span className={`${BODY_COPY} text-[12px] font-normal leading-none`}>scroll down</span>
+    </button>
+  );
+}
+
 export function Section1({
   scrollProgress = 0,
   staticReveal = false,
-}: { scrollProgress?: number; staticReveal?: boolean }) {
+  anniversaryInView = true,
+  onScrollDown,
+}: {
+  scrollProgress?: number;
+  staticReveal?: boolean;
+  anniversaryInView?: boolean;
+  onScrollDown?: (stage: "bible" | "anniversary") => void;
+}) {
   const clamp = (v: number, lo: number, hi: number) =>
     Math.min(Math.max(Number.isFinite(v) ? v : lo, lo), hi);
 
@@ -117,7 +151,13 @@ export function Section1({
   const textDriftY  = -textHide * 100;
 
   const logoOpacity = clamp((sp - 0.25) / 0.55, 0, 1);
-  const fireworksActive = logoOpacity > 0.4;
+  const openingAudioActive = anniversaryInView;
+  const fireworksActive = logoOpacity > 0.4 && anniversaryInView;
+  const [soundEnabled, setSoundEnabled] = React.useState(true);
+  const themeAudioRef = React.useRef<HTMLAudioElement | null>(null);
+  const themeAudioUnlockedRef = React.useRef(false);
+  const audioRef = React.useRef<HTMLAudioElement | null>(null);
+  const audioUnlockedRef = React.useRef(false);
 
   const sectionRef = React.useRef<HTMLDivElement>(null);
   const [dims, setDims] = React.useState({ width: 1440, height: 977 });
@@ -145,6 +185,160 @@ export function Section1({
     };
   }, []);
 
+  const getThemeAudio = React.useCallback(() => {
+    if (!themeAudioRef.current) {
+      const audio = new Audio(anniversaryThemeSrc);
+      audio.loop = true;
+      audio.preload = "auto";
+      audio.volume = 0.55;
+      themeAudioRef.current = audio;
+    }
+    return themeAudioRef.current;
+  }, []);
+
+  const startThemeAudio = React.useCallback(async () => {
+    const audio = getThemeAudio();
+    try {
+      await audio.play();
+      themeAudioUnlockedRef.current = true;
+    } catch {
+      // Browsers may block sound until the user's first interaction.
+    }
+  }, [getThemeAudio]);
+
+  const getFireworksAudio = React.useCallback(() => {
+    if (!audioRef.current) {
+      const audio = new Audio(fireworksSoundSrc);
+      audio.loop = true;
+      audio.preload = "auto";
+      audio.volume = 0.2;
+      audioRef.current = audio;
+    }
+    return audioRef.current;
+  }, []);
+
+  const startFireworksAudio = React.useCallback(async () => {
+    const audio = getFireworksAudio();
+    audio.muted = false;
+    try {
+      await audio.play();
+      audioUnlockedRef.current = true;
+    } catch {
+      // Browsers may block sound until the user's first interaction.
+    }
+  }, [getFireworksAudio]);
+
+  React.useEffect(() => {
+    const audio = getThemeAudio();
+    if (openingAudioActive) {
+      void startThemeAudio();
+      return;
+    }
+
+    audio.pause();
+    audio.currentTime = 0;
+  }, [getThemeAudio, openingAudioActive, startThemeAudio]);
+
+  React.useEffect(() => {
+    if (!openingAudioActive || themeAudioUnlockedRef.current) return;
+
+    const unlockThemeAudio = () => {
+      if (!themeAudioUnlockedRef.current) void startThemeAudio();
+    };
+
+    window.addEventListener("pointerdown", unlockThemeAudio);
+    window.addEventListener("keydown", unlockThemeAudio);
+    window.addEventListener("touchstart", unlockThemeAudio, { passive: true });
+    window.addEventListener("wheel", unlockThemeAudio, { passive: true });
+
+    return () => {
+      window.removeEventListener("pointerdown", unlockThemeAudio);
+      window.removeEventListener("keydown", unlockThemeAudio);
+      window.removeEventListener("touchstart", unlockThemeAudio);
+      window.removeEventListener("wheel", unlockThemeAudio);
+    };
+  }, [openingAudioActive, startThemeAudio]);
+
+  React.useEffect(() => {
+    const audio = getFireworksAudio();
+    if (soundEnabled && fireworksActive) {
+      void startFireworksAudio();
+      return;
+    }
+
+    audio.pause();
+    if (!fireworksActive) audio.currentTime = 0;
+  }, [fireworksActive, getFireworksAudio, soundEnabled, startFireworksAudio]);
+
+  React.useEffect(() => {
+    if (!soundEnabled || audioUnlockedRef.current) return;
+
+    const unlockAudio = () => {
+      if (audioUnlockedRef.current) return;
+      const audio = getFireworksAudio();
+
+      if (fireworksActive) {
+        void startFireworksAudio();
+        return;
+      }
+
+      const previousVolume = audio.volume;
+      audio.muted = false;
+      audio.volume = 0;
+      void audio.play().then(() => {
+        audio.pause();
+        audio.currentTime = 0;
+        audio.volume = previousVolume;
+        audioUnlockedRef.current = true;
+      }).catch(() => {
+        audio.volume = previousVolume;
+      });
+    };
+
+    window.addEventListener("pointerdown", unlockAudio);
+    window.addEventListener("keydown", unlockAudio);
+    window.addEventListener("touchstart", unlockAudio, { passive: true });
+    window.addEventListener("wheel", unlockAudio, { passive: true });
+
+    return () => {
+      window.removeEventListener("pointerdown", unlockAudio);
+      window.removeEventListener("keydown", unlockAudio);
+      window.removeEventListener("touchstart", unlockAudio);
+      window.removeEventListener("wheel", unlockAudio);
+    };
+  }, [fireworksActive, getFireworksAudio, soundEnabled, startFireworksAudio]);
+
+  React.useEffect(() => {
+    return () => {
+      const themeAudio = themeAudioRef.current;
+      if (themeAudio) {
+        themeAudio.pause();
+        themeAudio.removeAttribute("src");
+        themeAudio.load();
+        themeAudioRef.current = null;
+      }
+
+      const audio = audioRef.current;
+      if (!audio) return;
+      audio.pause();
+      audio.removeAttribute("src");
+      audio.load();
+      audioRef.current = null;
+    };
+  }, []);
+
+  const toggleFireworksSound = async () => {
+    const audio = getFireworksAudio();
+    if (soundEnabled) {
+      setSoundEnabled(false);
+      audio.pause();
+      return;
+    }
+
+    setSoundEnabled(true);
+    if (fireworksActive) await startFireworksAudio();
+  };
+
   return (
     <div
       ref={sectionRef}
@@ -159,7 +353,7 @@ export function Section1({
       />
 
       <div className="absolute inset-0 w-full h-full [&>svg]:w-full [&>svg]:h-full pointer-events-none">
-        <Fireworks active={fireworksActive} width={dims.width} height={dims.height} />
+        <Fireworks active={fireworksActive} height={dims.height} width={dims.width} />
       </div>
 
       <div
@@ -187,8 +381,8 @@ export function Section1({
           <p
             className={`${BODY_COPY} text-white mb-3 md:mb-4`}
             style={{
-              fontSize: "clamp(16px, 4.5vw, 48px)",
-              lineHeight: "clamp(24px, 6vw, 60px)",
+              fontSize: dims.width < 768 ? "clamp(21px, 5.5vw, 25px)" : "clamp(16px, 4.5vw, 48px)",
+              lineHeight: dims.width < 768 ? "1.45" : "clamp(24px, 6vw, 60px)",
             }}
           >
             {`"One generation shall praise thy works to another, and shall declare thy mighty acts."`}
@@ -196,8 +390,8 @@ export function Section1({
           <p
             className={`${BODY_COPY} text-white`}
             style={{
-              fontSize: "clamp(13px, 3vw, 48px)",
-              lineHeight: "clamp(20px, 4.5vw, 60px)",
+              fontSize: dims.width < 768 ? "clamp(15px, 3.8vw, 17px)" : "clamp(13px, 3vw, 48px)",
+              lineHeight: dims.width < 768 ? "1.4" : "clamp(20px, 4.5vw, 60px)",
             }}
           >
             — Psalm 145:4
@@ -205,6 +399,32 @@ export function Section1({
         </div>
         <PictureFrame />
       </div>
+
+      <ScrollDownControl
+        className="absolute left-1/2 top-[60%] z-20 -translate-x-1/2"
+        onClick={() => onScrollDown?.("anniversary")}
+        opacity={textOpacity}
+      />
+
+      <ScrollDownControl
+        className="absolute bottom-[max(36px,8svh)] left-1/2 z-20 -translate-x-1/2"
+        onClick={() => onScrollDown?.("anniversary")}
+        opacity={logoOpacity}
+      />
+
+      {logoOpacity > 0.35 && (
+        <button
+          aria-label={soundEnabled ? "Mute fireworks sound" : "Play fireworks sound"}
+          aria-pressed={soundEnabled}
+          className="absolute right-5 top-[max(20px,env(safe-area-inset-top))] z-30 flex size-11 items-center justify-center rounded-full border border-white/55 bg-[#0f1421]/55 text-white backdrop-blur-sm transition-colors hover:bg-white/15 sm:right-8 sm:top-8"
+          onClick={() => void toggleFireworksSound()}
+          style={{ opacity: logoOpacity }}
+          title={soundEnabled ? "Mute fireworks sound" : "Play fireworks sound"}
+          type="button"
+        >
+          {soundEnabled ? <Volume2 aria-hidden="true" size={22} /> : <VolumeX aria-hidden="true" size={22} />}
+        </button>
+      )}
     </div>
   );
 }
