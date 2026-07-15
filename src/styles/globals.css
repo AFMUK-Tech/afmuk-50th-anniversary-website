@@ -11,10 +11,8 @@ textarea {
   font-family: var(--font-body);
 }
 
-p,
 li,
 label,
-blockquote,
 figcaption,
 .site-body,
 [class*="Futura_PT"],
@@ -32,4 +30,13 @@ h6,
 [class*="CRONDE"] {
   font-family: var(--font-heading) !important;
   font-weight: 400;
+}
+
+.founder-page [style*="CRONDE"] {
+  font-family: var(--font-heading) !important;
+  font-weight: 400 !important;
+}
+
+.founder-page [style*="Futura PT"] {
+  font-family: var(--font-body) !important;
 }

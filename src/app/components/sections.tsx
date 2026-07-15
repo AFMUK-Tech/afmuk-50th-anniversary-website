@@ -692,82 +692,6 @@ function TimelineRing({
   );
 }
 
-function MobileTimelineRing({
-  activeYearIndex,
-  labelsOpacity = 1,
-}: {
-  activeYearIndex: number;
-  labelsOpacity?: number;
-}) {
-  const entryAt = (offset: number) => TIMELINE_DATA[activeYearIndex + offset];
-
-  return (
-    <svg
-      aria-hidden="true"
-      className="block h-full w-full overflow-visible"
-      viewBox="0 0 404 250"
-      preserveAspectRatio="xMidYMax meet"
-    >
-      <g fill="none" stroke="#D9C7A8">
-        <path d="M 3 250 A 199 199 0 0 1 401 250" strokeOpacity="0.65" strokeWidth="0.8" />
-        <path d="M 63 250 A 139 139 0 0 1 341 250" strokeOpacity="0.65" strokeWidth="0.8" />
-
-        {Array.from({ length: 13 }, (_, index) => {
-          const angle = Math.PI + (Math.PI * index) / 12;
-          const outerRadius = 199;
-          const tickLength = index === 6 ? 18 : 10;
-          const x1 = 202 + (outerRadius - tickLength) * Math.cos(angle);
-          const y1 = 250 + (outerRadius - tickLength) * Math.sin(angle);
-          const x2 = 202 + outerRadius * Math.cos(angle);
-          const y2 = 250 + outerRadius * Math.sin(angle);
-
-          return (
-            <line
-              key={index}
-              x1={x1}
-              y1={y1}
-              x2={x2}
-              y2={y2}
-              stroke={index === 6 ? "white" : "#D9C7A8"}
-              strokeOpacity={index === 6 ? 1 : 0.45}
-              strokeWidth={index === 6 ? 1.6 : 0.8}
-            />
-          );
-        })}
-      </g>
-
-      <circle cx="202" cy="51" r="3" fill="white" />
-      <circle cx="202" cy="51" r="8" fill="white" opacity="0.08" />
-
-      <g
-        fill="#D9C7A8"
-        fontFamily="CRONDE, serif"
-        fontSize="13"
-        textAnchor="middle"
-        style={{ opacity: labelsOpacity, transition: "opacity 0.35s ease" }}
-      >
-        <text x="55" y="179" transform="rotate(24 55 179)">{entryAt(-2)?.year ?? ""}</text>
-        <text x="105" y="103" transform="rotate(35 105 103)">{entryAt(-1)?.year ?? ""}</text>
-        <text x="299" y="103" transform="rotate(-35 299 103)">{entryAt(1)?.year ?? ""}</text>
-        <text x="349" y="179" transform="rotate(-24 349 179)">{entryAt(2)?.year ?? ""}</text>
-      </g>
-
-      <text
-        x="202"
-        y="90"
-        fill="white"
-        fontFamily="CRONDE, serif"
-        fontSize="29"
-        fontWeight="700"
-        textAnchor="middle"
-        style={{ opacity: labelsOpacity, transition: "opacity 0.35s ease" }}
-      >
-        {TIMELINE_DATA[activeYearIndex].year}
-      </text>
-    </svg>
-  );
-}
-
 function SVGGroups() {
   return (
     <div className="absolute inset-[-12.5%_14.58%] hidden md:block">
@@ -912,6 +836,9 @@ export function TimelineSection({
   const ringScale   = 1 - ringMotion * 0.86;
   const ringDriftY  = -ringMotion * 300;
   const ringOpacity = 1 - norm(0.65, 1.00);
+  const mobileRingScale = typeof window === "undefined"
+    ? 0.55
+    : Math.min(Math.max(window.innerWidth / 720, 0.48), 1);
 
   const bgT = norm(0.20, 1.00);
   const bgR = Math.round(15  + (252 - 15)  * bgT);
@@ -965,10 +892,19 @@ export function TimelineSection({
 
         {showMobileRing && (
           <div
-            className="pointer-events-none absolute inset-x-0 bottom-0 h-[clamp(270px,38svh,330px)] overflow-hidden"
+            className="pointer-events-none absolute inset-x-0 bottom-0 h-[clamp(265px,38svh,340px)] overflow-hidden"
             style={{ opacity: Math.max(0, ringOpacity) }}
           >
-            <MobileTimelineRing activeYearIndex={safeIndex} labelsOpacity={labelsOpacity} />
+            <div
+              className="absolute bottom-0 left-1/2 h-195.5 w-360 origin-bottom"
+              style={{
+                transform: `translateX(-50%) translateY(${ringDriftY}px) scale(${mobileRingScale * ringScale})`,
+                transformOrigin: "50% 100%",
+                transition: "transform 0.45s cubic-bezier(0.25, 0.46, 0.45, 0.94)",
+              }}
+            >
+              <TimelineRing activeYearIndex={safeIndex} labelsOpacity={labelsOpacity} />
+            </div>
           </div>
         )}
 

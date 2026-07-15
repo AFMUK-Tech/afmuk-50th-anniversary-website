@@ -299,46 +299,35 @@ function FounderCarouselMobile() {
 
 function FounderMobile() {
   return (
-    <div style={{ width: "100%", background: "#fcf9f2", position: "relative", paddingTop: 96, paddingBottom: 64 }}>
-      <div style={{ padding: "0 20px", display: "flex", flexDirection: "column", gap: 40, alignItems: "center" }}>
+    <div className="founder-page" style={{ width: "100%", background: "#fcf9f2", position: "relative", paddingTop: 112, paddingBottom: 64 }}>
+      <div style={{ padding: "0 clamp(20px, 6vw, 40px)", display: "flex", flexDirection: "column", gap: 34, alignItems: "center" }}>
         <div style={{ textAlign: "center" }}>
-          <p
-            style={{
-              fontFamily: "'Futura PT', sans-serif",
-              fontSize: 12,
-              letterSpacing: "0.08em",
-              color: "#8b7f6a",
-              textTransform: "uppercase",
-              margin: 0,
-              marginBottom: 12,
-            }}
-          >
-            Brother Victor Okusanya
-          </p>
           <p style={{ 
             fontFamily: "'CRONDE', serif", 
-            fontSize: 42, 
+            fontSize: "clamp(48px, 14vw, 62px)",
             color: "#0f1421", 
             margin: 0, 
-            lineHeight: 1.05 
+            lineHeight: 0.95
           }}>
-            Founder
+            Founders
           </p>
           <p style={{ 
             fontFamily: "'Futura PT', sans-serif", 
-            fontSize: 16, 
+            fontSize: "clamp(15px, 4.2vw, 18px)",
             color: "#6b6b6b", 
-            marginTop: 16 
+            lineHeight: 1.5,
+            margin: "18px auto 0",
+            maxWidth: 540,
           }}>
             The man who carried the Gospel to the United Kingdom, and never looked back.
           </p>
         </div>
 
-        <div style={{ width: "100%", maxWidth: 640, display: "flex", flexDirection: "column", gap: 20 }}>
+        <div style={{ width: "100%", maxWidth: 680, display: "flex", flexDirection: "column", gap: 18 }}>
           <p style={{ 
             fontFamily: "'Futura PT', sans-serif", 
-            fontSize: 15, 
-            lineHeight: 1.75, 
+            fontSize: 15.5,
+            lineHeight: 1.6,
             color: "#28241c", 
             margin: 0 
           }}>
@@ -346,8 +335,8 @@ function FounderMobile() {
           </p>
           <p style={{ 
             fontFamily: "'Futura PT', sans-serif", 
-            fontSize: 15, 
-            lineHeight: 1.75, 
+            fontSize: 15.5,
+            lineHeight: 1.6,
             color: "#28241c", 
             margin: 0 
           }}>
@@ -355,8 +344,8 @@ function FounderMobile() {
           </p>
           <p style={{ 
             fontFamily: "'Futura PT', sans-serif", 
-            fontSize: 15, 
-            lineHeight: 1.75, 
+            fontSize: 15.5,
+            lineHeight: 1.6,
             color: "#28241c", 
             margin: 0 
           }}>
@@ -364,8 +353,8 @@ function FounderMobile() {
           </p>
           <p style={{ 
             fontFamily: "'Futura PT', sans-serif", 
-            fontSize: 15, 
-            lineHeight: 1.75, 
+            fontSize: 15.5,
+            lineHeight: 1.6,
             color: "#28241c", 
             margin: 0 
           }}>
@@ -374,12 +363,12 @@ function FounderMobile() {
 
           <blockquote
             style={{
-              borderLeft: "3px solid #D9C7A8",
+              borderLeft: "3px solid #192441",
               margin: "8px 0",
               padding: "6px 0 6px 20px",
               fontFamily: "'CRONDE', serif",
-              fontSize: 18,
-              lineHeight: 1.5,
+              fontSize: 20,
+              lineHeight: 1.45,
               color: "#192441",
               fontStyle: "italic",
             }}
@@ -398,8 +387,8 @@ function FounderMobile() {
 
           <p style={{ 
             fontFamily: "'Futura PT', sans-serif", 
-            fontSize: 15, 
-            lineHeight: 1.75, 
+            fontSize: 15.5,
+            lineHeight: 1.6,
             color: "#28241c", 
             margin: 0 
           }}>
@@ -409,7 +398,7 @@ function FounderMobile() {
           <div style={{ marginTop: 8 }}>
             <p style={{ 
               fontFamily: "'CRONDE', serif", 
-              fontSize: 22, 
+              fontSize: 28,
               color: "#192441", 
               margin: 0, 
               marginBottom: 12 
@@ -418,8 +407,8 @@ function FounderMobile() {
             </p>
             <p style={{ 
               fontFamily: "'Futura PT', sans-serif", 
-              fontSize: 15, 
-              lineHeight: 1.75, 
+              fontSize: 15.5,
+              lineHeight: 1.6,
               color: "#28241c", 
               margin: 0 
             }}>
@@ -429,7 +418,7 @@ function FounderMobile() {
 
           <p style={{ 
             fontFamily: "'CRONDE', serif", 
-            fontSize: 17, 
+            fontSize: 19,
             color: "#192441", 
             textAlign: "center", 
             margin: "8px 0 0", 
@@ -477,6 +466,7 @@ export function FounderPage({ onBack: _onBack }: { onBack?: () => void } = {}) {
 
   return (
     <div
+      className="founder-page"
       style={{
         width: "100%",
         minHeight: "100vh",
@@ -539,28 +529,15 @@ export function FounderPage({ onBack: _onBack }: { onBack?: () => void } = {}) {
                     boxSizing: "border-box",
                     display: "flex",
                     flexDirection: "column",
-                    gap: 64,
+                    gap: 48,
                     alignItems: "center",
                   }}
                 >
                   <div style={{ textAlign: "center" }}>
                     <p
                       style={{
-                        fontFamily: "'Futura PT', sans-serif",
-                        fontSize: 15,
-                        letterSpacing: "0.08em",
-                        color: "#8b7f6a",
-                        textTransform: "uppercase",
-                        margin: 0,
-                        marginBottom: 18,
-                      }}
-                    >
-                      Brother Victor Okusanya
-                    </p>
-                    <p
-                      style={{
                         fontFamily: "'CRONDE', serif",
-                        fontSize: 80,
+                        fontSize: 72,
                         color: "#0f1421",
                         textAlign: "center",
                         margin: 0,
@@ -568,12 +545,12 @@ export function FounderPage({ onBack: _onBack }: { onBack?: () => void } = {}) {
                         width: "100%",
                       }}
                     >
-                      Founder
+                      Founders
                     </p>
                     <p
                       style={{
                         fontFamily: "'Futura PT', sans-serif",
-                        fontSize: 22,
+                        fontSize: 21,
                         color: "#6b6b6b",
                         marginTop: 24,
                       }}
@@ -582,11 +559,11 @@ export function FounderPage({ onBack: _onBack }: { onBack?: () => void } = {}) {
                     </p>
                   </div>
 
-                  <div style={{ width: 980, display: "flex", flexDirection: "column", gap: 28 }}>
+                  <div style={{ width: 1200, display: "flex", flexDirection: "column", gap: 20 }}>
                     <p style={{ 
                       fontFamily: "'Futura PT', sans-serif", 
-                      fontSize: 20, 
-                      lineHeight: 1.75, 
+                      fontSize: 17,
+                      lineHeight: 1.55,
                       color: "#28241c", 
                       margin: 0 
                     }}>
@@ -594,8 +571,8 @@ export function FounderPage({ onBack: _onBack }: { onBack?: () => void } = {}) {
                     </p>
                     <p style={{ 
                       fontFamily: "'Futura PT', sans-serif", 
-                      fontSize: 20, 
-                      lineHeight: 1.75, 
+                      fontSize: 17,
+                      lineHeight: 1.55,
                       color: "#28241c", 
                       margin: 0 
                     }}>
@@ -603,8 +580,8 @@ export function FounderPage({ onBack: _onBack }: { onBack?: () => void } = {}) {
                     </p>
                     <p style={{ 
                       fontFamily: "'Futura PT', sans-serif", 
-                      fontSize: 20, 
-                      lineHeight: 1.75, 
+                      fontSize: 17,
+                      lineHeight: 1.55,
                       color: "#28241c", 
                       margin: 0 
                     }}>
@@ -612,8 +589,8 @@ export function FounderPage({ onBack: _onBack }: { onBack?: () => void } = {}) {
                     </p>
                     <p style={{ 
                       fontFamily: "'Futura PT', sans-serif", 
-                      fontSize: 20, 
-                      lineHeight: 1.75, 
+                      fontSize: 17,
+                      lineHeight: 1.55,
                       color: "#28241c", 
                       margin: 0 
                     }}>
@@ -622,12 +599,12 @@ export function FounderPage({ onBack: _onBack }: { onBack?: () => void } = {}) {
 
                     <blockquote
                       style={{
-                        borderLeft: "3px solid #D9C7A8",
+                        borderLeft: "3px solid #192441",
                         margin: "16px 0",
                         padding: "6px 0 6px 32px",
                         fontFamily: "'CRONDE', serif",
-                        fontSize: 26,
-                        lineHeight: 1.5,
+                        fontSize: 25,
+                        lineHeight: 1.4,
                         color: "#192441",
                         fontStyle: "italic",
                       }}
@@ -646,8 +623,8 @@ export function FounderPage({ onBack: _onBack }: { onBack?: () => void } = {}) {
 
                     <p style={{ 
                       fontFamily: "'Futura PT', sans-serif", 
-                      fontSize: 20, 
-                      lineHeight: 1.75, 
+                      fontSize: 17,
+                      lineHeight: 1.55,
                       color: "#28241c", 
                       margin: 0 
                     }}>
@@ -657,7 +634,7 @@ export function FounderPage({ onBack: _onBack }: { onBack?: () => void } = {}) {
                     <div style={{ marginTop: 12 }}>
                       <p style={{ 
                         fontFamily: "'CRONDE', serif", 
-                        fontSize: 32, 
+                        fontSize: 36,
                         color: "#192441", 
                         margin: 0, 
                         marginBottom: 16 
@@ -666,8 +643,8 @@ export function FounderPage({ onBack: _onBack }: { onBack?: () => void } = {}) {
                       </p>
                       <p style={{ 
                         fontFamily: "'Futura PT', sans-serif", 
-                        fontSize: 20, 
-                        lineHeight: 1.75, 
+                        fontSize: 17,
+                        lineHeight: 1.55,
                         color: "#28241c", 
                         margin: 0 
                       }}>
@@ -677,7 +654,7 @@ export function FounderPage({ onBack: _onBack }: { onBack?: () => void } = {}) {
 
                     <p style={{ 
                       fontFamily: "'CRONDE', serif", 
-                      fontSize: 22, 
+                      fontSize: 24,
                       color: "#192441", 
                       textAlign: "center", 
                       margin: "16px 0 0", 
