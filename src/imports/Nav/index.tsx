@@ -168,13 +168,7 @@ export default function Nav() {
                 >
                   Department
                 </p>
-                <div className="flex items-center justify-center size-6">
-                  <div className="-rotate-90 flex-none size-6">
-                    <svg className="block size-full" fill="none" viewBox="0 0 24 24">
-                      <path d="M15 6L9 12L15 18" stroke="#38362d" strokeLinecap="round" strokeLinejoin="round" strokeWidth="1.5" />
-                    </svg>
-                  </div>
-                </div>
+               
               </div>
 
               <p

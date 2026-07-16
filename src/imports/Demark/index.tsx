@@ -4,8 +4,14 @@ import imgHero from "./da3529783d02f20216c63bb9f6bf68b91cb518b5.png";
 import imgMobileHero from "./4986cb0ca9480b3dc025830e0fd805d9e9f8b29c.png";
 import imgGallery from "./00906276d94a619afd9053d491e72ee53b2c84f7.png";
 
-const BRANCH_ADDRESS = "21 pekam road North London";
+const BRANCH_ADDRESS = "Industrivej 12, Kolding";
 const GALLERY_IMAGES = Array.from({ length: 12 }, () => imgGallery);
+const FACTS = [
+  { label: "Re-established", value: "2015" },
+  { label: "Permanent venue since", value: "September 2023, Kolding" },
+  { label: "Leader", value: "Bro Solomon Akano" },
+  { label: "Membership", value: "22, plus Scandinavia District" },
+];
 
 function ChevronIcon({ className = "" }: { className?: string }) {
   return (
@@ -48,8 +54,8 @@ function BranchIntro() {
               Group
             </p>
             <h1 className="mt-2 text-[56px] leading-[0.86] tracking-[-0.035em] text-[#38362d] sm:text-[64px] md:text-[clamp(42px,6vw,72px)]">
-              <span className="md:hidden">Sussex</span>
-              <span className="hidden md:inline">Sussex</span>
+              <span className="md:hidden">Denmark</span>
+              <span className="hidden md:inline">Denmark</span>
             </h1>
           </div>
         </div>
@@ -67,11 +73,11 @@ function BranchIntro() {
   );
 }
 
-function AddressListItem() {
+function AddressListItem({ label, value }: { label: string; value: string }) {
   return (
     <div className="flex items-start justify-between gap-5 md:block">
-      <p className="shrink-0 text-[16px] font-bold leading-5 text-[#192441] md:text-[15px]">Address</p>
-      <p className="text-right text-[16px] leading-5 text-[#38362d] md:mt-2 md:text-left md:text-[15px]">{BRANCH_ADDRESS}</p>
+      <p className="shrink-0 text-[16px] font-bold leading-5 text-[#192441] md:text-[15px]">{label}</p>
+      <p className="text-right text-[16px] leading-5 text-[#38362d] md:mt-2 md:text-left md:text-[15px]">{value}</p>
     </div>
   );
 }
@@ -83,23 +89,21 @@ function StorySection() {
 
       <div className="relative mx-auto grid max-w-[1240px] gap-10 md:grid-cols-[190px_minmax(0,1fr)] md:gap-10 lg:grid-cols-[210px_minmax(0,1fr)] lg:gap-12">
         <aside className="order-2 grid grid-cols-1 gap-y-5 border-t border-[#38362d] pt-8 md:order-1 md:content-start md:gap-7 md:border-r md:border-t-0 md:pb-0 md:pr-10 md:pt-0 lg:pr-12" aria-label="Branch addresses">
-          <AddressListItem />
-          <AddressListItem />
-          <AddressListItem />
-          <AddressListItem />
-          <div className="md:hidden"><AddressListItem /></div>
+          {FACTS.map((f) => (
+            <AddressListItem key={f.label} label={f.label} value={f.value} />
+          ))}
         </aside>
 
         <article className="order-1 md:order-2">
           <h2 className="text-[clamp(38px,5vw,54px)] leading-none tracking-[-0.025em] text-[#192441]">
-            Lorem Ipsum
+            Faithful Through Five Years Alone
           </h2>
           <div className="mt-8 space-y-7 text-[17px] leading-[1.55] text-[#38362d] sm:text-[18px] sm:leading-[1.6]">
             <p className="hidden md:block">
-              Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
+              The Copenhagen fellowship, re-established in 2015, faced a genuine test in 2019 when nearly every founding member relocated away, leaving Brother Solomon Akano and his family effectively alone in the work — worshipping at home, following the Western Europe Headquarters webcast, and holding on, from late 2018 until the summer of 2023.
             </p>
             <p>
-              Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
+              God did not forget that faithfulness. From 2021, new arrivals — Helen Oladele, Robert Makasi, Folorunso Oloruntobi and others — began rebuilding the congregation, and in 2023 the Denmark work was formally incorporated into the Scandinavia District, headquartered in Stavanger, Norway. That same September, the group secured its first permanent rented worship space, at Industrivej 12, Kolding — the answer to nearly a decade of prayer. Since then, growth has spread the fellowship across the Nordic region: families now participate from Sweden and Finland as well as Denmark, and in late 2025 the congregation achieved formal legal registration with the Danish authorities as "Menigheden for den Apostolske Tro i Danmark." Twenty-two members now gather in Kolding each week, with dozens more joining online from across Scandinavia.
             </p>
           </div>
         </article>

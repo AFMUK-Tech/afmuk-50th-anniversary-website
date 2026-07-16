@@ -4,8 +4,14 @@ import imgHero from "./da3529783d02f20216c63bb9f6bf68b91cb518b5.png";
 import imgMobileHero from "./4986cb0ca9480b3dc025830e0fd805d9e9f8b29c.png";
 import imgGallery from "./00906276d94a619afd9053d491e72ee53b2c84f7.png";
 
-const BRANCH_ADDRESS = "21 pekam road North London";
+const BRANCH_ADDRESS = "Dublin & Belfast";
 const GALLERY_IMAGES = Array.from({ length: 12 }, () => imgGallery);
+const FACTS = [
+  { label: "Dublin fellowship since", value: "2006" },
+  { label: "Belfast fellowship since", value: "2017" },
+  { label: "Registered Irish Charity", value: "December 2025" },
+  { label: "Combined attendance", value: "~50" },
+];
 
 function ChevronIcon({ className = "" }: { className?: string }) {
   return (
@@ -48,8 +54,8 @@ function BranchIntro() {
               Group
             </p>
             <h1 className="mt-2 text-[56px] leading-[0.86] tracking-[-0.035em] text-[#38362d] sm:text-[64px] md:text-[clamp(42px,6vw,72px)]">
-              <span className="md:hidden">Sussex</span>
-              <span className="hidden md:inline">Sussex</span>
+              <span className="md:hidden">Ireland</span>
+              <span className="hidden md:inline">Ireland</span>
             </h1>
           </div>
         </div>
@@ -67,11 +73,11 @@ function BranchIntro() {
   );
 }
 
-function AddressListItem() {
+function AddressListItem({ label, value }: { label: string; value: string }) {
   return (
     <div className="flex items-start justify-between gap-5 md:block">
-      <p className="shrink-0 text-[16px] font-bold leading-5 text-[#192441] md:text-[15px]">Address</p>
-      <p className="text-right text-[16px] leading-5 text-[#38362d] md:mt-2 md:text-left md:text-[15px]">{BRANCH_ADDRESS}</p>
+      <p className="shrink-0 text-[16px] font-bold leading-5 text-[#192441] md:text-[15px]">{label}</p>
+      <p className="text-right text-[16px] leading-5 text-[#38362d] md:mt-2 md:text-left md:text-[15px]">{value}</p>
     </div>
   );
 }
@@ -83,23 +89,21 @@ function StorySection() {
 
       <div className="relative mx-auto grid max-w-[1240px] gap-10 md:grid-cols-[190px_minmax(0,1fr)] md:gap-10 lg:grid-cols-[210px_minmax(0,1fr)] lg:gap-12">
         <aside className="order-2 grid grid-cols-1 gap-y-5 border-t border-[#38362d] pt-8 md:order-1 md:content-start md:gap-7 md:border-r md:border-t-0 md:pb-0 md:pr-10 md:pt-0 lg:pr-12" aria-label="Branch addresses">
-          <AddressListItem />
-          <AddressListItem />
-          <AddressListItem />
-          <AddressListItem />
-          <div className="md:hidden"><AddressListItem /></div>
+          {FACTS.map((f) => (
+            <AddressListItem key={f.label} label={f.label} value={f.value} />
+          ))}
         </aside>
 
         <article className="order-1 md:order-2">
           <h2 className="text-[clamp(38px,5vw,54px)] leading-none tracking-[-0.025em] text-[#192441]">
-            Lorem Ipsum
+            A Family's Move, Two Congregations
           </h2>
           <div className="mt-8 space-y-7 text-[17px] leading-[1.55] text-[#38362d] sm:text-[18px] sm:leading-[1.6]">
             <p className="hidden md:block">
-              Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
+              The Adeyemi family's relocation from London to Dublin in 2000 planted the seed of what became, from 2006, a Sunday house fellowship alongside the Oduwole and Okunowo families. By April 2009 the growing congregation had found a permanent home in a school owned by the Anglican Church of Ireland, where it still meets. Every 17 March — St Patrick's Day, a public holiday across the Republic — the congregation takes to the streets for its annual Gospel Campaign, and every December, a Christmas Carol Service opens the church's doors to the wider community.
             </p>
             <p>
-              Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
+              In April 2017, an Easter retreat with the Ogundipe family in Belfast planted a second seed; by October 2024, organised street evangelism there had grown into a monthly revival service. Combined attendance across Dublin and Belfast now averages around fifty, and in December 2025 the Apostolic Faith Church was formally registered as a Charity in the Republic of Ireland — a foundation, the congregation hopes, for decades still to come.
             </p>
           </div>
         </article>
@@ -166,7 +170,7 @@ function Gallery() {
               <div className="aspect-[0.9/1] w-full overflow-hidden sm:aspect-[1.28/1]">
                 <img
                   src={src}
-                  alt={`Sussex branch gathering ${index + 1}`}
+                  alt={`Ireland branch gathering ${index + 1}`}
                   className="block"
                   style={{ width: "100%", height: "100%", objectFit: "cover", objectPosition: "32% center" }}
                   loading={index < 3 ? "eager" : "lazy"}
