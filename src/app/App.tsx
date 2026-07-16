@@ -204,24 +204,7 @@ export default function App() {
   }
 
   if (page === "pictures") {
-    return (
-      <>
-        <div style={{ width: "100%", minHeight: "100vh", background: "#fcf9f2", position: "relative" }}>
-          <div style={{
-            opacity: fadeIn ? 1 : 0,
-            transform: fadeIn ? "scale(1)" : "scale(0.98)",
-            transition: "opacity 0.9s cubic-bezier(0.4, 0, 0.2, 1) 0.1s, transform 0.9s cubic-bezier(0.4, 0, 0.2, 1) 0.1s",
-          }}>
-            <div style={{ width: "100%", height: 1178 * scale, overflow: "hidden", position: "relative" }}>
-              <div style={{ width: 1440, height: 1178, position: "absolute", left: "50%", transform: `translateX(-50%) scale(${scale})`, transformOrigin: "top center" }}>
-                <PicturesPage onBack={navigateHome} />
-              </div>
-            </div>
-          </div>
-        </div>
-        <TimelineSheet />
-      </>
-    );
+    return <><PicturesPage /><TimelineSheet /></>;
   }
 
   if (page === "founder") {

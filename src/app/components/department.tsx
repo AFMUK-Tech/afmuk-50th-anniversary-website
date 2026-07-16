@@ -148,7 +148,7 @@ function DepartmentCanvas(): ReactElement {
         className="-translate-x-1/2 absolute mt-10 text-center"
         style={{ ...BODY_STYLE, left: "50%", top: 148, width: "58%", color: "#3b3b3b", margin: 0 }}
       >
-        Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident.
+        Every branch carries its calling through the people who serve it — voices raised in song, children discipled from their earliest years, young people gathered each May, hospitality quietly offered at the door, and real needs met with real hands. Explore the ministries that have shaped this church for fifty years, and find where you might serve.
       </p>
 
       <div
@@ -180,7 +180,7 @@ function DepartmentMobile(): ReactElement {
           Department
         </h1>
         <p style={{ ...BODY_STYLE, margin: "0 auto 28px", maxWidth: 480, color: "#3b3b3b", textAlign: "center" }}>
-          Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam.
+          Every branch carries its calling through ministry — music, children, youth, hospitality, and care. Explore where you might serve.
         </p>
 
         <div style={{ display: "flex", flexDirection: "column", gap: 20 }}>

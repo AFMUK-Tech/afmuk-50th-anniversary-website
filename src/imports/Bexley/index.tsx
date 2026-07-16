@@ -4,8 +4,14 @@ import imgHero from "./da3529783d02f20216c63bb9f6bf68b91cb518b5.png";
 import imgMobileHero from "./4986cb0ca9480b3dc025830e0fd805d9e9f8b29c.png";
 import imgGallery from "./00906276d94a619afd9053d491e72ee53b2c84f7.png";
 
-const BRANCH_ADDRESS = "21 pekam road North London";
+const BRANCH_ADDRESS = "Western Europe District Headquarters, Bexley";
 const GALLERY_IMAGES = Array.from({ length: 12 }, () => imgGallery);
+const FACTS = [
+  { label: "Purchased", value: "2008" },
+  { label: "Dedicated", value: "February 2011" },
+  { label: "Redeveloped & Rededicated", value: "September 2025" },
+  { label: "Role", value: "Western Europe District Headquarters" },
+];
 
 function ChevronIcon({ className = "" }: { className?: string }) {
   return (
@@ -45,7 +51,7 @@ function BranchIntro() {
         <div className="flex min-w-0 flex-col items-center justify-center md:flex-row md:justify-start">
           <img
             src={imgCrest}
-            alt="Peckham branch crest"
+            alt="Bexley branch crest"
             className="h-[108px] w-[108px] shrink-0 object-contain sm:h-[132px] sm:w-[132px] lg:h-[150px] lg:w-[150px]"
           />
           <div className="min-w-0 text-center md:text-left">
@@ -53,8 +59,8 @@ function BranchIntro() {
               Branch
             </p>
             <h1 className="mt-2 text-[56px] leading-[0.86] tracking-[-0.035em] text-[#38362d] sm:text-[64px] md:text-[clamp(42px,6vw,72px)]">
-              <span className="md:hidden">Peckham</span>
-              <span className="hidden md:inline">PECKHAM</span>
+              <span className="md:hidden">Bexley</span>
+              <span className="hidden md:inline">BEXLEY</span>
             </h1>
           </div>
         </div>
@@ -77,14 +83,14 @@ function HeroImage() {
     <figure className="m-0 h-[44vw] min-h-[180px] max-h-[230px] w-full overflow-hidden bg-[#e9e7e0] md:h-[clamp(360px,48vw,580px)] md:max-h-none">
       <img
         src={imgMobileHero}
-        alt="Peckham church building exterior"
+        alt="Bexley church building exterior"
         className="block md:hidden"
         style={{ width: "100%", height: "100%", objectFit: "cover", objectPosition: "center 27%" }}
         fetchPriority="high"
       />
       <img
         src={imgHero}
-        alt="Peckham church building exterior"
+        alt="Bexley church building exterior"
         className="hidden md:block"
         style={{ width: "100%", height: "100%", objectFit: "cover", objectPosition: "center 70%" }}
         fetchPriority="high"
@@ -93,11 +99,11 @@ function HeroImage() {
   );
 }
 
-function AddressListItem() {
+function AddressListItem({ label, value }: { label: string; value: string }) {
   return (
     <div className="flex items-start justify-between gap-5 md:block">
-      <p className="shrink-0 text-[16px] font-bold leading-5 text-[#192441] md:text-[15px]">Address</p>
-      <p className="text-right text-[16px] leading-5 text-[#38362d] md:mt-2 md:text-left md:text-[15px]">{BRANCH_ADDRESS}</p>
+      <p className="shrink-0 text-[16px] font-bold leading-5 text-[#192441] md:text-[15px]">{label}</p>
+      <p className="text-right text-[16px] leading-5 text-[#38362d] md:mt-2 md:text-left md:text-[15px]">{value}</p>
     </div>
   );
 }
@@ -109,23 +115,21 @@ function StorySection() {
 
       <div className="relative mx-auto grid max-w-[1240px] gap-10 md:grid-cols-[190px_minmax(0,1fr)] md:gap-10 lg:grid-cols-[210px_minmax(0,1fr)] lg:gap-12">
         <aside className="order-2 grid grid-cols-1 gap-y-5 border-t border-[#38362d] pt-8 md:order-1 md:content-start md:gap-7 md:border-r md:border-t-0 md:pb-0 md:pr-10 md:pt-0 lg:pr-12" aria-label="Branch addresses">
-          <AddressListItem />
-          <AddressListItem />
-          <AddressListItem />
-          <AddressListItem />
-          <div className="md:hidden"><AddressListItem /></div>
+          {FACTS.map((f) => (
+            <AddressListItem key={f.label} label={f.label} value={f.value} />
+          ))}
         </aside>
 
         <article className="order-1 md:order-2">
           <h2 className="text-[clamp(38px,5vw,54px)] leading-none tracking-[-0.025em] text-[#192441]">
-            Lorem Ipsum
+            Western Europe Headquarters
           </h2>
           <div className="mt-8 space-y-7 text-[17px] leading-[1.55] text-[#38362d] sm:text-[18px] sm:leading-[1.6]">
             <p className="hidden md:block">
-              Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
+              Bexley's story began with an ordinary newspaper advert in 2007 — God's provision arriving in an unremarkable envelope — and the church dedicated in February 2011 has since grown to become the Headquarters of the Western Europe District, overseeing churches and Bible study groups across the UK and mainland Europe.
             </p>
             <p>
-              Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
+              Between 2021 and 2025, God opened the way for a comprehensive redevelopment: an enlarged sanctuary, a new platform, an Upper Room prayer space, and expanded facilities, funded entirely through the sacrificial giving and voluntary labour of God's people. During construction, the congregation met at Chislehurst & Sidcup Grammar School for a season, before returning home and formally rededicating the building in September 2025. Through the church's Media Department, the Gospel now reaches more than 140,000 viewers across the UK, Africa, North America, and Europe — prayer, preaching, and the printed and broadcast word, carried further than any one congregation could carry it alone.
             </p>
           </div>
         </article>
@@ -192,7 +196,7 @@ function Gallery() {
               <div className="aspect-[0.9/1] w-full overflow-hidden sm:aspect-[1.28/1]">
                 <img
                   src={src}
-                  alt={`Peckham branch gathering ${index + 1}`}
+                  alt={`Bexley branch gathering ${index + 1}`}
                   className="block"
                   style={{ width: "100%", height: "100%", objectFit: "cover", objectPosition: "32% center" }}
                   loading={index < 3 ? "eager" : "lazy"}

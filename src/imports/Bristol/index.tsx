@@ -6,7 +6,12 @@ import imgHero from "./4986cb0ca9480b3dc025830e0fd805d9e9f8b29c.png";
 import imgGallery from "./00906276d94a619afd9053d491e72ee53b2c84f7.png";
 
 const GALLERY_IMAGES = [imgGallery, imgGallery, imgGallery];
-const BRANCH_ADDRESS = "21 pekam road North London";
+const BRANCH_ADDRESS = "Stoke Gifford, Bristol";
+const FACTS = [
+  { label: "Founded", value: "2006–07" },
+  { label: "Current venue", value: "Stoke Gifford, Bristol" },
+  { label: "Leader", value: "Bro Thomas Moyo" },
+];
 
 /* --------------------------------- Icons -------------------------------- */
 
@@ -32,7 +37,7 @@ function BranchTitle() {
       <div className="mt-10 flex flex-col items-center gap-3 md:flex-row md:items-center md:gap-4">
         <img
           src={imgCrest}
-          alt="Manchester branch crest"
+          alt="Bristol branch crest"
           className="size-50 sm:object-contain object-cover sm:size-20 md:size-24 lg:size-[200px]"
         />
         <div className="flex flex-col items-center gap-1 sm:gap-2 md:items-start mt-[-50px] md:mt-0">
@@ -40,7 +45,7 @@ function BranchTitle() {
             Branch
           </p>
           <h1 className="font-['CRONDE:Regular',sans-serif] text-4xl leading-none text-[#38362d] sm:text-5xl lg:text-[64px]">
-            Manchester
+            Bristol
           </h1>
         </div>
       </div>
@@ -64,7 +69,7 @@ function HeroImage() {
     <div className="relative h-[220px] w-full overflow-hidden sm:h-[340px] md:h-[400px] lg:h-[579px]">
       <img
         src={imgHero}
-        alt="Manchester church building exterior"
+        alt="Bristol church building exterior"
         className="absolute inset-0 h-full w-full object-cover object-[center_35%]"
       />
     </div>
@@ -101,12 +106,12 @@ function BackgroundPattern() {
 
 /* --------------------------- Address + Lorem Ipsum -------------------------- */
 
-function AddressListItem() {
+function AddressListItem({ label, value }: { label: string; value: string }) {
   return (
     <div className="flex flex-col gap-1">
-      <p className="font-['Futura_PT:Heavy',sans-serif] text-sm text-[#38362d]">Address</p>
+      <p className="font-['Futura_PT:Heavy',sans-serif] text-sm text-[#38362d]">{label}</p>
       <p className="font-['Futura_PT:Book',sans-serif] text-sm leading-6 text-[#38362d]">
-        {BRANCH_ADDRESS}
+        {value}
       </p>
     </div>
   );
@@ -120,30 +125,28 @@ function StorySection() {
       <div className="relative mx-auto flex max-w-[1096px] flex-col md:flex-row md:gap-12 lg:gap-16">
         
         <div className="hidden shrink-0 flex-col gap-6 md:order-1 md:flex md:w-[160px] lg:w-[180px]">
-          <AddressListItem />
-          <AddressListItem />
-          <AddressListItem />
-          <AddressListItem />
+          {FACTS.map((f) => (
+            <AddressListItem key={f.label} label={f.label} value={f.value} />
+          ))}
         </div>
 
         <div className="order-1 flex flex-col md:order-2 md:flex-1">
           
           <div className="mb-10 flex flex-col gap-5 sm:gap-6 md:mb-0">
             <h2 className="font-['CRONDE:Regular',sans-serif] text-3xl text-[#38362d] sm:text-4xl lg:text-[48px]">
-             A Food Bank That Became a Doorway
+             Two Cities, One Congregation
             </h2>
             <p className="font-['Futura_PT:Book',sans-serif] text-base leading-7 text-[#38362d] sm:text-[18px] sm:leading-[32px]">
-              Since Brother Toyin Emitola became pastor in January 2018, Manchester's weekly attendance has grown from around thirty to a consistent 150–180. 
-              Through the pandemic, the church renovated its building; since then, Christmas has become a season of community outreach — carol visits, litter-picking, and a hot chocolate stand outside the church door. 
-              A food bank has grown from that same spirit of hospitality, becoming a clear doorway for newcomers.
+              The Bristol and Cardiff work traces back to 2006, when a handful of members began meeting on alternate Sundays in each other's homes. Brother Michael and Sister Florence Owolabi's move from London to Bristol in 2007 turned that pattern into a settled group, worshipping at St Chad Ecumenical Church, Patchway.
+              {" "}Brother Thomas Moyo has led the congregation since 2014, guiding it through a COVID-era closure, a move to Cardiff's Phoenix Hall from 2022, and a return to Bristol in 2024.
+              {" "}On 31 May 2025, the fellowship celebrated its first-ever wedding — a small but joyful sign of a congregation still growing, still gathering brethren from beyond the UK, and still praying for a permanent home of its own in the Cardiff area, where the potential for Gospel growth is great.
             </p>
           </div>
 
           <div className="mt-6 flex flex-col gap-6 pt-6 border-t border-[#e5e1d6] md:hidden">
-             <AddressListItem />
-             <AddressListItem />
-             <AddressListItem />
-             <AddressListItem />
+             {FACTS.map((f) => (
+               <AddressListItem key={f.label} label={f.label} value={f.value} />
+             ))}
           </div>
 
         </div>
@@ -218,7 +221,7 @@ function Gallery() {
               <div className="h-[170px] w-full overflow-hidden sm:h-[210px] lg:h-[240px]">
                 <img
                   src={src}
-                  alt="Manchester congregation gathered together"
+                  alt="Bristol congregation gathered together"
                   className="h-full w-full object-cover"
                 />
               </div>

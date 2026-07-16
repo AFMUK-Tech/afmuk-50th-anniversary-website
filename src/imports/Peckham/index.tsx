@@ -4,8 +4,13 @@ import imgHero from "./da3529783d02f20216c63bb9f6bf68b91cb518b5.png";
 import imgMobileHero from "./4986cb0ca9480b3dc025830e0fd805d9e9f8b29c.png";
 import imgGallery from "./00906276d94a619afd9053d491e72ee53b2c84f7.png";
 
-const BRANCH_ADDRESS = "21 pekam road North London";
+const BRANCH_ADDRESS = "95 Fenham Road, Peckham, London SE15";
 const GALLERY_IMAGES = Array.from({ length: 12 }, () => imgGallery);
+const FACTS = [
+  { label: "Founded", value: "1976 — the first Sunday school meeting" },
+  { label: "Church building since", value: "1982" },
+  { label: "Address", value: "95 Fenham Road, Peckham, London SE15" },
+];
 
 function ChevronIcon({ className = "" }: { className?: string }) {
   return (
@@ -93,11 +98,11 @@ function HeroImage() {
   );
 }
 
-function AddressListItem() {
+function AddressListItem({ label, value }: { label: string; value: string }) {
   return (
     <div className="flex items-start justify-between gap-5 md:block">
-      <p className="shrink-0 text-[16px] font-bold leading-5 text-[#192441] md:text-[15px]">Address</p>
-      <p className="text-right text-[16px] leading-5 text-[#38362d] md:mt-2 md:text-left md:text-[15px]">{BRANCH_ADDRESS}</p>
+      <p className="shrink-0 text-[16px] font-bold leading-5 text-[#192441] md:text-[15px]">{label}</p>
+      <p className="text-right text-[16px] leading-5 text-[#38362d] md:mt-2 md:text-left md:text-[15px]">{value}</p>
     </div>
   );
 }
@@ -109,23 +114,21 @@ function StorySection() {
 
       <div className="relative mx-auto grid max-w-[1240px] gap-10 md:grid-cols-[190px_minmax(0,1fr)] md:gap-10 lg:grid-cols-[210px_minmax(0,1fr)] lg:gap-12">
         <aside className="order-2 grid grid-cols-1 gap-y-5 border-t border-[#38362d] pt-8 md:order-1 md:content-start md:gap-7 md:border-r md:border-t-0 md:pb-0 md:pr-10 md:pt-0 lg:pr-12" aria-label="Branch addresses">
-          <AddressListItem />
-          <AddressListItem />
-          <AddressListItem />
-          <AddressListItem />
-          <div className="md:hidden"><AddressListItem /></div>
+          {FACTS.map((f) => (
+            <AddressListItem key={f.label} label={f.label} value={f.value} />
+          ))}
         </aside>
 
         <article className="order-1 md:order-2">
           <h2 className="text-[clamp(38px,5vw,54px)] leading-none tracking-[-0.025em] text-[#192441]">
-            Lorem Ipsum
+            The First Home God Gave Us
           </h2>
           <div className="mt-8 space-y-7 text-[17px] leading-[1.55] text-[#38362d] sm:text-[18px] sm:leading-[1.6]">
             <p className="hidden md:block">
-              Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
+              From the first Sunday school lesson in a Brixton lounge in 1976, the young Apostolic Faith fellowship in London settled at 95 Fenham Road, Peckham, in 1982 — the first dedicated Apostolic Faith Church building in the UK, and the only one for eighteen years. Through the seasons since, Peckham has weathered a pandemic and come out stronger: when lockdown closed the doors, the church carried worship, Bible study, and pastoral care online, and later folded what it learned into hybrid meetings that lifted midweek attendance by more than 60%.
             </p>
             <p>
-              Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
+              God has continued to add to Peckham — families relocating from Nigeria and Zimbabwe, students, young professionals, and members returning after decades away. In 2022, a Bible study group meeting across Bedfordshire, Hertfordshire, and Buckinghamshire grew so quickly that, within a year, twenty-six Peckham members — including two ministers — were released to help plant an entirely new congregation in Cranfield. Even after releasing so many experienced workers, Peckham kept growing: the 2024 Christmas Concert drew 226 people, and in 2025 eight young people from Peckham were baptised at the Annual Camp Meeting, publicly declaring their faith.
             </p>
           </div>
         </article>
