@@ -4,7 +4,14 @@ import MobileNav from "./MobileNav";
 
 export const DESIGN_WIDTH = 1440;
 export const NAV_H = 80;
-export const MOBILE_BREAKPOINT = 768;
+// 1024, not 768 — a 768px-wide device (a classic iPad in portrait) needs
+// the hamburger MobileNav, not the scaled-down desktop Nav: at 768px the
+// desktop canvas scale (width / DESIGN_WIDTH) is ~0.53, which shrinks nav
+// link text to ~8px. This threshold matches App.tsx's own 'tablet' tier
+// (BREAKPOINTS.tablet = 1024), which already treats 768-1024 as a natural-
+// flow mobile-style layout on the home page — every other page's Mobile/
+// Desktop split (via useIsMobile below) now agrees with that.
+export const MOBILE_BREAKPOINT = 1024;
 
 // Single source of truth for the site's scale factor. Every page must use
 // this exact formula — capped at 1 so the canvas never grows past its

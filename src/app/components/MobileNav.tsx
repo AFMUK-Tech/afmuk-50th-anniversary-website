@@ -94,8 +94,9 @@ export default function MobileNav() {
     };
   }, [menuOpen]);
 
+  // Sub-heading & body copy spec: Futura PT, Regular, 18px, 32px line-height.
   const navItemClass =
-    "text-left px-4 py-3 hover:bg-gray-100 rounded-lg transition-colors text-sm";
+    "text-left px-4 py-3 hover:bg-gray-100 rounded-lg transition-colors text-[18px] leading-[32px] font-normal";
 
   return (
     <>
@@ -213,7 +214,7 @@ export default function MobileNav() {
                                   key={branch.slug}
                                   onClick={() => handleBranchClick(branch.slug)}
                                   style={{ fontFamily: FONT_BODY }}
-                                  className="text-left px-4 py-2 hover:bg-gray-100 rounded-lg transition-colors text-sm text-gray-700"
+                                  className="text-left px-4 py-2 hover:bg-gray-100 rounded-lg transition-colors text-[18px] leading-[32px] font-normal text-gray-700"
                                 >
                                   {branch.label}
                                 </button>
