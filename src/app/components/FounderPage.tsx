@@ -308,61 +308,89 @@ function FounderMobile() {
     <div className="founder-page" style={{ width: "100%", background: "#fcf9f2", position: "relative", paddingTop: 112, paddingBottom: 64 }}>
       <div style={{ padding: "0 clamp(20px, 6vw, 40px)", display: "flex", flexDirection: "column", gap: 34, alignItems: "center" }}>
         <div style={{ textAlign: "center" }}>
-          <p style={{ 
-            fontFamily: "'CRONDE', serif", 
-            fontSize: "clamp(48px, 14vw, 62px)",
-            color: "#0f1421", 
-            margin: 0, 
+          <p style={{
+            fontFamily: "'Futura PT', sans-serif",
+            fontSize: "clamp(14px, 4vw, 17px)",
+            color: "#949494",
+            margin: 0,
+            lineHeight: 1,
+          }}>
+            Pioneer Pastor
+          </p>
+          <p style={{
+            fontFamily: "'CRONDE', serif",
+            fontSize: "clamp(40px, 12vw, 54px)",
+            color: "#0f1421",
+            margin: 0,
+            marginTop: 6,
             lineHeight: 0.95
           }}>
-            Founders
+            Brother Victor Okusanya
           </p>
-          <p style={{ 
-            fontFamily: "'Futura PT', sans-serif", 
-            fontSize: "clamp(15px, 4.2vw, 18px)",
-            color: "#6b6b6b", 
-            lineHeight: 1.5,
+          <p style={{
+            fontFamily: "'Futura PT', sans-serif",
+            fontSize: 18,
+            color: "#6b6b6b",
+            lineHeight: "32px",
             margin: "18px auto 0",
             maxWidth: 540,
           }}>
             The man who carried the Gospel to the United Kingdom, and never looked back.
           </p>
+          <a
+            href="#TODO-anniversary-book-link"
+            style={{
+              display: "inline-block",
+              background: "#192441",
+              color: "#fff",
+              fontFamily: "'Futura PT', sans-serif",
+              fontSize: 13,
+              letterSpacing: "0.03em",
+              padding: "12px 28px",
+              borderRadius: 999,
+              cursor: "pointer",
+              marginTop: 22,
+              textDecoration: "none",
+            }}
+          >
+            Read the Full Story in Our 50th Anniversary Book
+          </a>
         </div>
 
         <div style={{ width: "100%", maxWidth: 680, display: "flex", flexDirection: "column", gap: 18 }}>
           <p style={{ 
             fontFamily: "'Futura PT', sans-serif", 
-            fontSize: 15.5,
-            lineHeight: 1.6,
-            color: "#28241c", 
-            margin: 0 
+            fontSize: 18,
+            lineHeight: "32px",
+            color: "#28241c",
+            margin: 0
           }}>
-            Brother Victor Olusegun Okusanya founded the Apostolic Faith work in the United Kingdom in 1976, arriving in London the year before as a young music scholarship student at Goldsmith College. He served as the UK's first pastor for twenty-four years, from his ordination in Lagos in 1979 until his retirement in April 2000.
+            Brother Victor Olusegun Okusanya was the Pioneer Pastor who carried the Apostolic Faith work to the United Kingdom in 1976, extending the ministry begun through the Azusa Street Revival (1906) and the Portland, Oregon headquarters founded by Sister Florence Crawford (1908). He arrived in London the year before as a young music scholarship student at Goldsmith College, and served as the UK's first pastor for twenty-four years, from his ordination in Lagos in 1979 until his retirement in April 2000.
           </p>
           <p style={{ 
             fontFamily: "'Futura PT', sans-serif", 
-            fontSize: 15.5,
-            lineHeight: 1.6,
-            color: "#28241c", 
-            margin: 0 
+            fontSize: 18,
+            lineHeight: "32px",
+            color: "#28241c",
+            margin: 0
           }}>
             Those who knew him remember a man of deep prayer and remarkable generosity — on one occasion giving away a brand-new pair of shoes to a man in need before he had worn them himself. Sister Chioma Okere, a member of the congregation he served, once described him as "all things to all men" — father, brother, uncle, and even solicitor to the members in his care.
           </p>
           <p style={{ 
             fontFamily: "'Futura PT', sans-serif", 
-            fontSize: 15.5,
-            lineHeight: 1.6,
-            color: "#28241c", 
-            margin: 0 
+            fontSize: 18,
+            lineHeight: "32px",
+            color: "#28241c",
+            margin: 0
           }}>
             Though a trained musician, he chose never to use his music degree for secular income, believing the gift belonged to the church alone — a conviction that laid the foundation for a music ministry that continues to this day through Salem Academy of Music and, in 2026, Birmingham's David Academy.
           </p>
           <p style={{ 
             fontFamily: "'Futura PT', sans-serif", 
-            fontSize: 15.5,
-            lineHeight: 1.6,
-            color: "#28241c", 
-            margin: 0 
+            fontSize: 18,
+            lineHeight: "32px",
+            color: "#28241c",
+            margin: 0
           }}>
             His final sermon before retirement was titled "Don't Deal in Sin, Don't Deal with Man, Deal with God" — words his family remember as capturing the whole of his ministry. On 30 April 2000, he passed leadership to Brother Isaac Adigun in a service attended by church leaders from Portland, Lagos, and Scandinavia.
           </p>
@@ -388,10 +416,10 @@ function FounderMobile() {
 
           <p style={{ 
             fontFamily: "'Futura PT', sans-serif", 
-            fontSize: 15.5,
-            lineHeight: 1.6,
-            color: "#28241c", 
-            margin: 0 
+            fontSize: 18,
+            lineHeight: "32px",
+            color: "#28241c",
+            margin: 0
           }}>
             Brother Adeoye, then a young British Petroleum scholarship student newly arrived from Nigeria, had written to the church's Portland headquarters asking where to worship in London. Portland connected him with Brother Okusanya, who had arrived in London a few months earlier with the same aim — to start an Apostolic Faith fellowship in the city. From that first meeting of three, in a borrowed lounge, the whole of this fifty-year story began.
           </p>
@@ -406,12 +434,12 @@ function FounderMobile() {
             }}>
               The Women Behind the Work
             </p>
-            <p style={{ 
-              fontFamily: "'Futura PT', sans-serif", 
-              fontSize: 15.5,
-              lineHeight: 1.6,
-              color: "#28241c", 
-              margin: 0 
+            <p style={{
+              fontFamily: "'Futura PT', sans-serif",
+              fontSize: 18,
+              lineHeight: "32px",
+              color: "#28241c",
+              margin: 0
             }}>
               Sister Grace Oluyemi Okusanya carried much of the administrative weight of the early church alongside her husband. Sister Florence Osayemi's own account of the wider hardship faced by early wives on student visas — far from home, often alone during the week — is a reminder that this church was built by families, not by one man alone.
             </p>
@@ -519,61 +547,92 @@ export function FounderPage({ onBack: _onBack }: { onBack?: () => void } = {}) {
                   <div style={{ textAlign: "center" }}>
                     <p
                       style={{
-                        fontFamily: "'CRONDE', serif",
-                        fontSize: 72,
-                        color: "#0f1421",
+                        fontFamily: "'Futura PT', sans-serif",
+                        fontSize: 21,
+                        color: "#949494",
                         margin: 0,
                         lineHeight: 1,
                       }}
                     >
-                      Founders
+                      Pioneer Pastor
+                    </p>
+                    <p
+                      style={{
+                        fontFamily: "'CRONDE', serif",
+                        fontSize: 72,
+                        color: "#0f1421",
+                        margin: 0,
+                        marginTop: 8,
+                        lineHeight: 1,
+                      }}
+                    >
+                      Brother Victor Okusanya
                     </p>
                     <p
                       style={{
                         fontFamily: "'Futura PT', sans-serif",
-                        fontSize: 21,
+                        fontSize: 18,
+                        lineHeight: "32px",
                         color: "#6b6b6b",
                         marginTop: 24,
                       }}
                     >
                       The man who carried the Gospel to the United Kingdom, and never looked back.
                     </p>
+                    <a
+                      href="#TODO-anniversary-book-link"
+                      style={{
+                        display: "inline-block",
+                        background: "#192441",
+                        color: "#fff",
+                        fontFamily: "'Futura PT', sans-serif",
+                        fontSize: 14,
+                        letterSpacing: "0.03em",
+                        padding: "14px 34px",
+                        borderRadius: 999,
+                        cursor: "pointer",
+                        marginTop: 28,
+                        textDecoration: "none",
+                      }}
+                    >
+                      Read the Full Story in Our 50th Anniversary Book
+                    </a>
                   </div>
 
                   <div style={{ width: 1200, display: "flex", flexDirection: "column", gap: 20 }}>
                     <p style={{ 
                       fontFamily: "'Futura PT', sans-serif", 
-                      fontSize: 17,
-                      lineHeight: 1.55,
-                      color: "#28241c", 
-                      margin: 0 
+                      fontSize: 18,
+                      lineHeight: "32px",
+                      color: "#28241c",
+                      margin: 0
                     }}>
-                      Brother Victor Olusegun Okusanya founded the Apostolic Faith work in the United Kingdom in 1976, arriving in London the year before as a young music scholarship student at Goldsmith College. He served as the UK's first pastor for twenty-four years, from his ordination in Lagos in 1979 until his retirement in April 2000.
+                      Brother Victor Olusegun Okusanya was the Pioneer Pastor who carried the Apostolic Faith work to the United Kingdom in 1976, extending the ministry begun through the Azusa Street Revival (1906) and the Portland, Oregon headquarters founded by Sister Florence Crawford (1908). He arrived in London the year before as a young music scholarship student at Goldsmith College, and served as the UK's first pastor for twenty-four years, from his ordination in Lagos in 1979 until his retirement in April 2000.
                     </p>
                     <p style={{ 
                       fontFamily: "'Futura PT', sans-serif", 
-                      fontSize: 17,
-                      lineHeight: 1.55,
-                      color: "#28241c", 
-                      margin: 0 
+                      fontSize: 18,
+                      lineHeight: "32px",
+                      color: "#28241c",
+                      margin: 0
                     }}>
                       Those who knew him remember a man of deep prayer and remarkable generosity — on one occasion giving away a brand-new pair of shoes to a man in need before he had worn them himself. Sister Chioma Okere, a member of the congregation he served, once described him as "all things to all men" — father, brother, uncle, and even solicitor to the members in his care.
                     </p>
                     <p style={{ 
                       fontFamily: "'Futura PT', sans-serif", 
-                      fontSize: 17,
-                      lineHeight: 1.55,
-                      color: "#28241c", 
-                      margin: 0 
+                      fontSize: 18,
+                      lineHeight: "32px",
+                      color: "#28241c",
+                      margin: 0
                     }}>
                       Though a trained musician, he chose never to use his music degree for secular income, believing the gift belonged to the church alone — a conviction that laid the foundation for a music ministry that continues to this day through Salem Academy of Music and, in 2026, Birmingham's David Academy.
                     </p>
                     <p style={{ 
                       fontFamily: "'Futura PT', sans-serif", 
-                      fontSize: 17,
-                      lineHeight: 1.55,
-                      color: "#28241c", 
-                      margin: 0 
+                      fontSize: 18,
+                      lineHeight: "32px",
+                      color: "#28241c",
+                      margin: 0
                     }}>
                       His final sermon before retirement was titled "Don't Deal in Sin, Don't Deal with Man, Deal with God" — words his family remember as capturing the whole of his ministry. On 30 April 2000, he passed leadership to Brother Isaac Adigun in a service attended by church leaders from Portland, Lagos, and Scandinavia.
                     </p>
@@ -598,10 +657,10 @@ export function FounderPage({ onBack: _onBack }: { onBack?: () => void } = {}) {
 
                     <p style={{ 
                       fontFamily: "'Futura PT', sans-serif", 
-                      fontSize: 17,
-                      lineHeight: 1.55,
-                      color: "#28241c", 
-                      margin: 0 
+                      fontSize: 18,
+                      lineHeight: "32px",
+                      color: "#28241c",
+                      margin: 0
                     }}>
                       Brother Adeoye, then a young British Petroleum scholarship student newly arrived from Nigeria, had written to the church's Portland headquarters asking where to worship in London. Portland connected him with Brother Okusanya, who had arrived in London a few months earlier with the same aim — to start an Apostolic Faith fellowship in the city. From that first meeting of three, in a borrowed lounge, the whole of this fifty-year story began.
                     </p>
@@ -616,12 +675,12 @@ export function FounderPage({ onBack: _onBack }: { onBack?: () => void } = {}) {
                       }}>
                         The Women Behind the Work
                       </p>
-                      <p style={{ 
-                        fontFamily: "'Futura PT', sans-serif", 
-                        fontSize: 17,
-                        lineHeight: 1.55,
-                        color: "#28241c", 
-                        margin: 0 
+                      <p style={{
+                        fontFamily: "'Futura PT', sans-serif",
+                        fontSize: 18,
+                        lineHeight: "32px",
+                        color: "#28241c",
+                        margin: 0
                       }}>
                         Sister Grace Oluyemi Okusanya carried much of the administrative weight of the early church alongside her husband. Sister Florence Osayemi's own account of the wider hardship faced by early wives on student visas — far from home, often alone during the week — is a reminder that this church was built by families, not by one man alone.
                       </p>

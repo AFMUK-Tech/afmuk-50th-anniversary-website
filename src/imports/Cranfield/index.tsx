@@ -124,7 +124,7 @@ function StorySection() {
           <h2 className="text-[clamp(38px,5vw,54px)] leading-none tracking-[-0.025em] text-[#192441]">
             The Newest Church
           </h2>
-          <div className="mt-8 space-y-7 text-[17px] leading-[1.55] text-[#38362d] sm:text-[18px] sm:leading-[1.6]">
+          <div className="mt-8 space-y-7 text-[18px] leading-[32px] text-[#38362d]">
             <p className="hidden md:block">
               As families from Peckham settled across Buckinghamshire, Bedfordshire, and Hertfordshire, the drive back to London for Sunday service grew heavier each year. In February 2022, Reverend Fungai Mangere launched a weekly online Bible study to meet the need — and eighteen months later, in January 2023, a Wesleyan chapel came onto the market. After prayer and due diligence, the offer was accepted, and on Sunday 15 October 2023 the new church was dedicated before leaders who had travelled from as far as St Louis, Atlanta, and the Scandinavian district.
             </p>

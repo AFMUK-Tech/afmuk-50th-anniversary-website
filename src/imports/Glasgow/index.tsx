@@ -98,7 +98,7 @@ function StorySection() {
           <h2 className="text-[clamp(38px,5vw,54px)] leading-none tracking-[-0.025em] text-[#192441]">
             Six Venues in Under a Decade
           </h2>
-          <div className="mt-8 space-y-7 text-[17px] leading-[1.55] text-[#38362d] sm:text-[18px] sm:leading-[1.6]">
+          <div className="mt-8 space-y-7 text-[18px] leading-[32px] text-[#38362d]">
             <p className="hidden md:block">
               The Glasgow group began in 2016 in a rented conference room at a Travelodge, largely made up of postgraduate students whose lives were, by nature, always in motion. Since then the congregation has prayed its way through six venues — Dennistoun New Parish Church, a return to the Travelodge, Renfrew Leisure Centre, and, since March 2025, Lagoon Leisure Centre in Paisley — each move answered by God's provision rather than the group's own planning.
             </p>

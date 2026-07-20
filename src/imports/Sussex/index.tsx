@@ -97,7 +97,7 @@ function StorySection() {
           <h2 className="text-[clamp(38px,5vw,54px)] leading-none tracking-[-0.025em] text-[#192441]">
             Finding a Voice in Unlikely Places
           </h2>
-          <div className="mt-8 space-y-7 text-[17px] leading-[1.55] text-[#38362d] sm:text-[18px] sm:leading-[1.6]">
+          <div className="mt-8 space-y-7 text-[18px] leading-[32px] text-[#38362d]">
             <p className="hidden md:block">
               Brother Ade Akerejola and his family carried the Gospel work in East Sussex forward through a series of rented halls in Bexhill, before the family's move to Eastbourne extended the work there too. On 24 March 2024, after a season of meeting in the Akerejolas' own living room, conservatory, and back garden, the church held its maiden service at St Andrew's Parish Hall, Seaside Road, Eastbourne — an answer, the congregation says, to Rev Mark Mfandarahwa's direct challenge and the persistent prayers of the saints.
             </p>

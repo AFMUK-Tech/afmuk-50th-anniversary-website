@@ -37,7 +37,7 @@ function BranchTitle() {
       <div className="mt-10 flex flex-col items-center gap-3 md:flex-row md:items-center md:gap-4">
         <img
           src={imgCrest}
-          alt="Bristol branch crest"
+          alt="Bristol & Cardiff branch crest"
           className="size-50 sm:object-contain object-cover sm:size-20 md:size-24 lg:size-[200px]"
         />
         <div className="flex flex-col items-center gap-1 sm:gap-2 md:items-start mt-[-50px] md:mt-0">
@@ -45,7 +45,7 @@ function BranchTitle() {
             Branch
           </p>
           <h1 className="font-['CRONDE:Regular',sans-serif] text-4xl leading-none text-[#38362d] sm:text-5xl lg:text-[64px]">
-            Bristol
+            Bristol & Cardiff
           </h1>
         </div>
       </div>
@@ -69,7 +69,7 @@ function HeroImage() {
     <div className="relative h-[220px] w-full overflow-hidden sm:h-[340px] md:h-[400px] lg:h-[579px]">
       <img
         src={imgHero}
-        alt="Bristol church building exterior"
+        alt="Bristol & Cardiff church building exterior"
         className="absolute inset-0 h-full w-full object-cover object-[center_35%]"
       />
     </div>
@@ -136,7 +136,7 @@ function StorySection() {
             <h2 className="font-['CRONDE:Regular',sans-serif] text-3xl text-[#38362d] sm:text-4xl lg:text-[48px]">
              Two Cities, One Congregation
             </h2>
-            <p className="font-['Futura_PT:Book',sans-serif] text-base leading-7 text-[#38362d] sm:text-[18px] sm:leading-[32px]">
+            <p className="font-['Futura_PT:Book',sans-serif] text-[18px] leading-[32px] text-[#38362d]">
               The Bristol and Cardiff work traces back to 2006, when a handful of members began meeting on alternate Sundays in each other's homes. Brother Michael and Sister Florence Owolabi's move from London to Bristol in 2007 turned that pattern into a settled group, worshipping at St Chad Ecumenical Church, Patchway.
               {" "}Brother Thomas Moyo has led the congregation since 2014, guiding it through a COVID-era closure, a move to Cardiff's Phoenix Hall from 2022, and a return to Bristol in 2024.
               {" "}On 31 May 2025, the fellowship celebrated its first-ever wedding — a small but joyful sign of a congregation still growing, still gathering brethren from beyond the UK, and still praying for a permanent home of its own in the Cardiff area, where the potential for Gospel growth is great.
@@ -280,7 +280,7 @@ function Gallery() {
 
 /* --------------------------------- Bristol -------------------------------- */
 
-export default function Bristol() {
+export default function BristolCardiff() {
   return (
     <div className="w-full bg-[#f4f1ea]">
       {/* REMOVED THE INTERNAL HEADER COMPLETELY HERE */}

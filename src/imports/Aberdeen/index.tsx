@@ -124,7 +124,7 @@ function StorySection() {
           <h2 className="text-[clamp(38px,5vw,54px)] leading-none tracking-[-0.025em] text-[#192441]">
             Twenty-Six Years to a Permanent Home
           </h2>
-          <div className="mt-8 space-y-7 text-[17px] leading-[1.55] text-[#38362d] sm:text-[18px] sm:leading-[1.6]">
+          <div className="mt-8 space-y-7 text-[18px] leading-[32px] text-[#38362d]">
             <p className="hidden md:block">
               In 1998, God called one family — the Ainas — to carry the Gospel to Scotland virtually alone. For twenty-six years and nine different rented venues, from a university assembly hall to a community centre, the Aberdeen congregation kept faith through changes most churches never have to weather. Then, on 12 June 2024, that faithfulness was answered: Kingswells Parish Church was acquired as Aberdeen's first permanent home, complete with a sanctuary of wooden seating and stained-glass windows, halls for children's ministry, and a garden.
             </p>

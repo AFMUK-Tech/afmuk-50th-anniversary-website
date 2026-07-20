@@ -288,13 +288,13 @@ export default function MobileNav() {
                     Watch & Listen
                   </button>
 
-                  {/* Founder */}
+                  {/* Pioneer Pastor */}
                   <button
                     onClick={() => handleNavClick("#founder")}
                     style={{ fontFamily: FONT_BODY }}
                     className={navItemClass}
                   >
-                    Founder
+                    Pioneer Pastor
                   </button>
 
                   {/* Shop */}

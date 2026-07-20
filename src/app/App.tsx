@@ -11,6 +11,7 @@ import Nav from "../imports/Nav/index";
 import MobileNav from "./components/MobileNav";
 import { GalleryPage } from "./components/gallery";
 import { DepartmentPage } from "./components/department";
+import { DepartmentDetailPage } from "./components/DepartmentDetailPage";
 import { BranchPage } from "./components/BranchPage";
 import { FounderPage } from "./components/FounderPage";
 import { TimelineSheet } from "./components/TimelineSheet";
@@ -20,10 +21,15 @@ import { ShopPage } from "./components/ShopPage";
 
 const OTHER_BRANCHES = [
   "manchester", "bexley", "peckham", "cranfield", "birmingham", "aberdeen",
-  "bristol", "glasgow", "edinburgh", "coventry", "sussex", "leicester", "ireland",
+  "bristolcardiff", "glasgow", "edinburgh", "coventry", "sussex", "leicester", "ireland",
   "germany", "france", "italy", "denmark", "spain",
 ] as const;
 type BranchSlug = typeof OTHER_BRANCHES[number];
+
+const DEPARTMENT_SLUGS = [
+  "dept-music", "dept-choir", "dept-sunday-school", "dept-youth", "dept-ushering", "dept-welfare",
+] as const;
+type DepartmentSlug = typeof DEPARTMENT_SLUGS[number];
 
 const DESIGN_WIDTH      = 1440;
 const S1_HEIGHT         = 977;
@@ -76,7 +82,7 @@ function ScaledBlock({
 }
 
 export default function App() {
-  const [page, setPage] = useState<"home" | "gallery" | "pictures" | "founder" | "department" | "watch" | "shop" | BranchSlug>(() => {
+  const [page, setPage] = useState<"home" | "gallery" | "pictures" | "founder" | "department" | "watch" | "shop" | BranchSlug | DepartmentSlug>(() => {
     const h = window.location.hash.replace("#", "") as string;
     if (h === "gallery") return "gallery";
     if (h === "pictures") return "pictures";
@@ -86,6 +92,7 @@ export default function App() {
     if (h === "shop") return "shop";
     if (h === "timeline") return "home"; // sheet handles itself
     if ((OTHER_BRANCHES as readonly string[]).includes(h)) return h as BranchSlug;
+    if ((DEPARTMENT_SLUGS as readonly string[]).includes(h)) return h as DepartmentSlug;
     return "home";
   });
   const [scale, setScale]                    = useState(1);
@@ -112,6 +119,7 @@ export default function App() {
       else if (h === "watch") setPage("watch");
       else if (h === "shop") setPage("shop");
       else if ((OTHER_BRANCHES as readonly string[]).includes(h)) setPage(h as BranchSlug);
+      else if ((DEPARTMENT_SLUGS as readonly string[]).includes(h)) setPage(h as DepartmentSlug);
       else {
         setPage("home");
         setFadeIn(false);
@@ -213,6 +221,10 @@ export default function App() {
 
   if (page === "department") {
     return <><DepartmentPage onBack={navigateHome} /><TimelineSheet /></>;
+  }
+
+  if ((DEPARTMENT_SLUGS as readonly string[]).includes(page)) {
+    return <><DepartmentDetailPage slug={page} onBack={() => { window.location.hash = "department"; }} /><TimelineSheet /></>;
   }
 
   if (page === "watch") {

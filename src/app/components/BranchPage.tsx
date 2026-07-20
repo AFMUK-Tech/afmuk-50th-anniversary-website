@@ -17,8 +17,8 @@ import Ireland from "../../imports/Ireland/index";
 import Glasgow from "../../imports/Glasgow/index";
 import Leicester from "../../imports/Leicester/index";
 import Spain from "../../imports/Spain/index";
-import Bristol from "../../imports/Bristol/index";
 import Denmark from "../../imports/Demark/index";
+import BristolCardiff from "../../imports/Bristol/index";
 
 const DESIGN_WIDTH  = SITE_DESIGN_WIDTH; // 1440 — re-exported from SiteHeader, kept as a local alias so the rest of this file doesn't need renaming
 const DESIGN_HEIGHT = 1920;
@@ -260,8 +260,8 @@ export function BranchPage({ branch, onBack }: { branch: string; onBack: () => v
   if (branch === "spain") {
     return <ResponsiveBranchPage onBack={onBack} Canvas={Spain} Mobile={Spain} />;
   }
-   if (branch === "bristol") {
-    return <ResponsiveBranchPage onBack={onBack} Canvas={Bristol} Mobile={Bristol} />;
+   if (branch === "bristolcardiff") {
+    return <ResponsiveBranchPage onBack={onBack} Canvas={BristolCardiff} Mobile={BristolCardiff}/>;
   }
   
   return <PlaceholderBranchPage city={branch} onBack={onBack} />;

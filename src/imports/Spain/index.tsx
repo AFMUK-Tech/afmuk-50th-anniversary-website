@@ -97,7 +97,7 @@ function StorySection() {
           <h2 className="text-[clamp(38px,5vw,54px)] leading-none tracking-[-0.025em] text-[#192441]">
             Few But Zealous
           </h2>
-          <div className="mt-8 space-y-7 text-[17px] leading-[1.55] text-[#38362d] sm:text-[18px] sm:leading-[1.6]">
+          <div className="mt-8 space-y-7 text-[18px] leading-[32px] text-[#38362d]">
             <p className="hidden md:block">
               The Spain fellowship began in 2005 as a house fellowship in Murcia, gathered by Brother Yaya Bobo and Brother Femi's family, and has remained small in the two decades since — a genuine and ongoing evangelistic challenge in a community not easily reached.
             </p>
