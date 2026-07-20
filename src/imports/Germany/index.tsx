@@ -98,7 +98,7 @@ function StorySection() {
           <h2 className="text-[clamp(38px,5vw,54px)] leading-none tracking-[-0.025em] text-[#192441]">
             Tenfold Growth in Three Years
           </h2>
-          <div className="mt-8 space-y-7 text-[17px] leading-[1.55] text-[#38362d] sm:text-[18px] sm:leading-[1.6]">
+          <div className="mt-8 space-y-7 text-[18px] leading-[32px] text-[#38362d]">
             <p className="hidden md:block">
               The German work began in 2010 in the home of Brother Stephen Ogbodo, and for years remained largely a single family's faithful witness. That changed with the arrival of the Oyedokun family in 2018 and the Abioye family in 2021, and changed again in April 2023, when a new cluster launched in Konstanz with just eight members.
             </p>

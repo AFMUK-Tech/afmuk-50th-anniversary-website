@@ -123,7 +123,7 @@ function StorySection() {
           <h2 className="text-[clamp(38px,5vw,54px)] leading-none tracking-[-0.025em] text-[#192441]">
             The First Home God Gave Us
           </h2>
-          <div className="mt-8 space-y-7 text-[17px] leading-[1.55] text-[#38362d] sm:text-[18px] sm:leading-[1.6]">
+          <div className="mt-8 space-y-7 text-[18px] leading-[32px] text-[#38362d]">
             <p className="hidden md:block">
               From the first Sunday school lesson in a Brixton lounge in 1976, the young Apostolic Faith fellowship in London settled at 95 Fenham Road, Peckham, in 1982 — the first dedicated Apostolic Faith Church building in the UK, and the only one for eighteen years. Through the seasons since, Peckham has weathered a pandemic and come out stronger: when lockdown closed the doors, the church carried worship, Bible study, and pastoral care online, and later folded what it learned into hybrid meetings that lifted midweek attendance by more than 60%.
             </p>

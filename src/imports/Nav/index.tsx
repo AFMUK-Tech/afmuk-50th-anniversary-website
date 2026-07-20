@@ -37,6 +37,7 @@ const BRANCH_GROUPS = [
       { label: "Italy", slug: "italy" },
       { label: "Denmark", slug: "denmark" },
       { label: "Spain", slug: "spain" },
+      { label: "Bristol & Cardiff", slug: "bristolcardiff" },
     ],
   },
 ];
@@ -110,7 +111,7 @@ export default function Nav() {
                 className="whitespace-nowrap cursor-pointer hover:opacity-60 transition-opacity"
                 onClick={() => { window.location.hash = "#founder"; }}
               >
-                Founder
+                Pioneer Pastor
               </p>
 
               {/* Branches dropdown */}

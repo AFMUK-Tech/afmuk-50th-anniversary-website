@@ -98,7 +98,7 @@ function StorySection() {
           <h2 className="text-[clamp(38px,5vw,54px)] leading-none tracking-[-0.025em] text-[#192441]">
             A Family's Move, Two Congregations
           </h2>
-          <div className="mt-8 space-y-7 text-[17px] leading-[1.55] text-[#38362d] sm:text-[18px] sm:leading-[1.6]">
+          <div className="mt-8 space-y-7 text-[18px] leading-[32px] text-[#38362d]">
             <p className="hidden md:block">
               The Adeyemi family's relocation from London to Dublin in 2000 planted the seed of what became, from 2006, a Sunday house fellowship alongside the Oduwole and Okunowo families. By April 2009 the growing congregation had found a permanent home in a school owned by the Anglican Church of Ireland, where it still meets. Every 17 March — St Patrick's Day, a public holiday across the Republic — the congregation takes to the streets for its annual Gospel Campaign, and every December, a Christmas Carol Service opens the church's doors to the wider community.
             </p>

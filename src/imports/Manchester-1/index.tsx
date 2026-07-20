@@ -123,7 +123,7 @@ function StorySection() {
           <h2 className="text-[clamp(38px,5vw,54px)] leading-none tracking-[-0.025em] text-[#192441]">
             A Food Bank That Became a Doorway
           </h2>
-          <div className="mt-8 space-y-7 text-[17px] leading-[1.55] text-[#38362d] sm:text-[18px] sm:leading-[1.6]">
+          <div className="mt-8 space-y-7 text-[18px] leading-[32px] text-[#38362d]">
             <p className="hidden md:block">
               Since Brother Toyin Emitola became pastor on 7 January 2018, Manchester's weekly attendance has grown from around thirty to a consistent 150–180, and the number of ordained ministers serving the congregation has grown from two to around eleven. Through the pandemic, the church used the enforced pause to renovate its building inside and out; since then, Christmas has become a season of visible community outreach — carol visits to care homes, litter-picking, Christmas cookies handed to neighbours and passers-by, and a hot chocolate stand outside the church door. A food bank has since grown out of that same spirit of hospitality, serving both members in need and the wider community, and quietly becoming one of the church's clearest doorways for newcomers.
             </p>

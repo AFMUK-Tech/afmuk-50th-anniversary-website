@@ -125,12 +125,12 @@ function StorySection() {
           <h2 className="text-[clamp(38px,5vw,54px)] leading-none tracking-[-0.025em] text-[#192441]">
             Home to the David Academy
           </h2>
-          <div className="mt-8 space-y-7 text-[17px] leading-[1.55] text-[#38362d] sm:text-[18px] sm:leading-[1.6]">
+          <div className="mt-8 space-y-7 text-[18px] leading-[32px] text-[#38362d]">
             <p className="hidden md:block">
               Birmingham's story began in September 2002 with a small Bible study in a living room, led by Sister Eunice Bolade. The congregation moved through a succession of rented halls — including years in a community centre where members faced real hostility from the surrounding area — before God provided a permanent home in September 2010, dedicated the following February. Today it is the largest Apostolic Faith facility in Western Europe, hosting national Singles', Women's, and Couples' conferences, and averaging around 110 worshippers each week under the leadership of Bro Lazarus Simbanegavi. Three satellite Bible Study Centres now serve members across Tipton, West Bromwich, and Ward End.
             </p>
             <p>
-              In April 2026, the church formally launched the David Academy — a Christ-centred music education initiative for ages four to forty, led by Principal Bro Ebenezer Amusa, standing in the tradition of founder Rev Victor Okusanya's own Salem Academy in Peckham. It is a fitting Golden Jubilee flagship: a new generation of musicians, trained in the same spirit of consecrated service that shaped the church's very first years.
+              In April 2026, the church formally launched the David Academy — a Christ-centred music education initiative for ages four to forty, led by Principal Bro Ebenezer Amusa, standing in the tradition of Pioneer Pastor Rev Victor Okusanya's own Salem Academy in Peckham. It is a fitting Golden Jubilee flagship: a new generation of musicians, trained in the same spirit of consecrated service that shaped the church's very first years.
             </p>
           </div>
         </article>

@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import type { ReactElement } from "react";
 import { SiteHeader, useSiteScale, useIsMobile, DESIGN_WIDTH } from "./SiteHeader";
+import deptCrestImg from "../../assets/department-crest.png";
 
 // Font FAMILY is controlled globally (fonts.css / globals.css) via
 // var(--font-heading) on h1-h6/.site-heading and var(--font-body) on
@@ -14,6 +15,8 @@ const DESIGN_HEIGHT = 1120;
 interface DepartmentCard {
   title: string;
   description: string;
+  ctaHref: string;
+  slug: string;
 }
 
 const DEPARTMENT_CARDS: DepartmentCard[] = [
@@ -21,61 +24,55 @@ const DEPARTMENT_CARDS: DepartmentCard[] = [
     title: "Music & the David Academy",
     description:
       "From a single organ in the earliest Peckham services to Birmingham's David Academy, launched April 2026 — training musicians aged four to forty in the spirit of consecrated service.",
+    ctaHref: "#dept-music",
+    slug: "dept-music",
   },
   {
     title: "Choir & Orchestra",
     description:
       "Carrying the Gospel to audiences a sermon alone might never reach — from Italy's Christmas Concerts to annual concerts across Peckham, Bexley, Manchester, Birmingham, and Aberdeen.",
+    ctaHref: "#dept-choir",
+    slug: "dept-choir",
   },
   {
     title: "Sunday School & Elementary",
     description:
       "Every branch runs its own children's department on a shared UK-wide calendar — because the children God has added to this church are part of it today, not just tomorrow.",
+    ctaHref: "#dept-sunday-school",
+    slug: "dept-sunday-school",
   },
   {
     title: "Youth Ministry",
     description:
       "Born in 2004 as a single May bank holiday camp, Youth Camp now draws 240 young people from across the UK, Western Europe, and beyond each year.",
+    ctaHref: "#dept-youth",
+    slug: "dept-youth",
   },
   {
     title: "Ushering",
     description:
       "Serving since Howbury Mission in the early 1980s — the quiet ministry of arranging chairs, welcoming strangers, and making room for one more.",
+    ctaHref: "#dept-ushering",
+    slug: "dept-ushering",
   },
   {
     title: "Welfare",
     description:
       "Twenty-five years of turning faith into action — God's Love Day, Health Awareness Month, and the Jehovah Jireh Food Outreach, which supported over sixty-five families in 2025.",
+    ctaHref: "#dept-welfare",
+    slug: "dept-welfare",
   },
 ];
-
-function CrestIcon({ size = 90 }: { size?: number }): ReactElement {
-  const h = (size * 104) / 90;
-  return (
-    <svg width={size} height={h} viewBox="0 0 90 104" fill="none" xmlns="http://www.w3.org/2000/svg" style={{ display: "block" }}>
-      <path d="M8 20 C 20 6, 70 6, 82 20" stroke="#192441" strokeWidth="1.4" fill="none" />
-      <text x="45" y="16" textAnchor="middle" fontSize="8" fontFamily="var(--font-body)" letterSpacing="1" fill="#192441">
-        AFC 1976
-      </text>
-      <path d="M18 24 H72 V58 C72 78, 56 92, 45 98 C34 92, 18 78, 18 58 Z" stroke="#192441" strokeWidth="1.6" fill="none" />
-      <circle cx="45" cy="44" r="13" stroke="#192441" strokeWidth="1.1" fill="none" />
-      <ellipse cx="45" cy="44" rx="6" ry="13" stroke="#192441" strokeWidth="0.8" fill="none" />
-      <line x1="32" y1="44" x2="58" y2="44" stroke="#192441" strokeWidth="0.8" />
-      <line x1="34" y1="37" x2="56" y2="37" stroke="#192441" strokeWidth="0.6" />
-      <line x1="34" y1="51" x2="56" y2="51" stroke="#192441" strokeWidth="0.6" />
-      <g transform="translate(0,60)">
-        <path d="M38 0 L45 -8 L52 0 V22 H38 Z" stroke="#192441" strokeWidth="1.1" fill="none" />
-        <line x1="41" y1="4" x2="41" y2="18" stroke="#192441" strokeWidth="0.7" />
-        <line x1="49" y1="4" x2="49" y2="18" stroke="#192441" strokeWidth="0.7" />
-        <line x1="45" y1="0" x2="45" y2="22" stroke="#192441" strokeWidth="0.7" />
-      </g>
-    </svg>
-  );
-}
 
 function DepartmentCardView({ card }: { card: DepartmentCard }): ReactElement {
   return (
     <div
+      role="link"
+      tabIndex={0}
+      onClick={() => { window.location.hash = card.slug; }}
+      onKeyDown={(e) => {
+        if (e.key === "Enter" || e.key === " ") window.location.hash = card.slug;
+      }}
       style={{
         background: "#ffffff",
         boxShadow: "0px 2px 10px 0px rgba(0,0,0,0.06)",
@@ -84,6 +81,7 @@ function DepartmentCardView({ card }: { card: DepartmentCard }): ReactElement {
         flexDirection: "column",
         alignItems: "center",
         textAlign: "center",
+        cursor: "pointer",
         transition: "transform 0.2s ease, box-shadow 0.2s ease",
       }}
       onMouseEnter={(e) => {
@@ -95,8 +93,8 @@ function DepartmentCardView({ card }: { card: DepartmentCard }): ReactElement {
         e.currentTarget.style.boxShadow = "0px 2px 10px 0px rgba(0,0,0,0.06)";
       }}
     >
-      <div style={{ marginBottom: 22 }}>
-        <CrestIcon />
+      <div style={{ marginBottom: 22, width: "100%", display: "flex", justifyContent: "center" }}>
+        <img src={deptCrestImg} alt="" style={{ width: "50%", maxWidth: 220, minWidth: 140, height: "auto", display: "block" }} />
       </div>
       <p
         role="heading"
@@ -105,14 +103,32 @@ function DepartmentCardView({ card }: { card: DepartmentCard }): ReactElement {
       >
         {card.title}
       </p>
-      <p style={{ ...BODY_STYLE, fontSize: "clamp(11px, 0.83vw, 12px)", lineHeight: 1.6, color: "#6b6b6b", margin: 0 }}>
+      <p style={{ ...BODY_STYLE, color: "#6b6b6b", margin: 0 }}>
         {card.description}
       </p>
+      <a
+        href={card.ctaHref}
+        style={{
+          display: "inline-block",
+          background: "#192441",
+          color: "#fff",
+          fontFamily: "'Futura PT', sans-serif",
+          fontSize: 11,
+          letterSpacing: "0.03em",
+          padding: "10px 22px",
+          borderRadius: 999,
+          cursor: "pointer",
+          marginTop: 18,
+          textDecoration: "none",
+        }}
+      >
+        Join a Ministry
+      </a>
     </div>
   );
 }
 
-function DepartmentWatermark(): ReactElement {
+export function DepartmentWatermark(): ReactElement {
   return (
     <svg className="absolute inset-0" style={{ width: "100%", height: "100%", zIndex: 0, pointerEvents: "none" }} xmlns="http://www.w3.org/2000/svg">
       <defs>
@@ -187,6 +203,12 @@ function DepartmentMobile(): ReactElement {
           {DEPARTMENT_CARDS.map((card, i) => (
             <div
               key={i}
+              role="link"
+              tabIndex={0}
+              onClick={() => { window.location.hash = card.slug; }}
+              onKeyDown={(e) => {
+                if (e.key === "Enter" || e.key === " ") window.location.hash = card.slug;
+              }}
               style={{
                 background: "#ffffff",
                 boxShadow: "0px 2px 10px 0px rgba(0,0,0,0.06)",
@@ -195,10 +217,11 @@ function DepartmentMobile(): ReactElement {
                 flexDirection: "column",
                 alignItems: "center",
                 textAlign: "center",
+                cursor: "pointer",
               }}
             >
-              <div style={{ marginBottom: 16 }}>
-                <CrestIcon size={64} />
+              <div style={{ marginBottom: 16, width: "100%", display: "flex", justifyContent: "center" }}>
+                <img src={deptCrestImg} alt="" style={{ width: "45%", maxWidth: 200, minWidth: 130, height: "auto", display: "block" }} />
               </div>
               <p
                 role="heading"
@@ -207,9 +230,27 @@ function DepartmentMobile(): ReactElement {
               >
                 {card.title}
               </p>
-              <p style={{ ...BODY_STYLE, fontSize: 13.5, lineHeight: 1.6, color: "#6b6b6b", margin: 0 }}>
+              <p style={{ ...BODY_STYLE, color: "#6b6b6b", margin: 0 }}>
                 {card.description}
               </p>
+              <a
+                href={card.ctaHref}
+                style={{
+                  display: "inline-block",
+                  background: "#192441",
+                  color: "#fff",
+                  fontFamily: "'Futura PT', sans-serif",
+                  fontSize: 12,
+                  letterSpacing: "0.03em",
+                  padding: "10px 24px",
+                  borderRadius: 999,
+                  cursor: "pointer",
+                  marginTop: 16,
+                  textDecoration: "none",
+                }}
+              >
+                Join a Ministry
+              </a>
             </div>
           ))}
         </div>

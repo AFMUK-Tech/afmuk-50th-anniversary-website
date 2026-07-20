@@ -96,7 +96,7 @@ function StorySection() {
           <h2 className="text-[clamp(38px,5vw,54px)] leading-none tracking-[-0.025em] text-[#192441]">
             Nearly Four Decades of French-Language Ministry
           </h2>
-          <div className="mt-8 space-y-7 text-[17px] leading-[1.55] text-[#38362d] sm:text-[18px] sm:leading-[1.6]">
+          <div className="mt-8 space-y-7 text-[18px] leading-[32px] text-[#38362d]">
             <p className="hidden md:block">
               The Apostolic Faith work in France has grown steadily under a succession of dedicated leaders, from Sister Suzanne Vimadje in the 2000s to Brother Mathieu Bobo's long pastorate. In 2018, a Translation Department was established to carry devotionals, tracts, and teaching materials into French — work that by 2023 had grown to include translating the church's own hymn book. A Youth Department followed in 2019, and an Evangelism Department more recently, led by Olivier Vimadge.
             </p>

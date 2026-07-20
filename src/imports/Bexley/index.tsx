@@ -124,7 +124,7 @@ function StorySection() {
           <h2 className="text-[clamp(38px,5vw,54px)] leading-none tracking-[-0.025em] text-[#192441]">
             Western Europe Headquarters
           </h2>
-          <div className="mt-8 space-y-7 text-[17px] leading-[1.55] text-[#38362d] sm:text-[18px] sm:leading-[1.6]">
+          <div className="mt-8 space-y-7 text-[18px] leading-[32px] text-[#38362d]">
             <p className="hidden md:block">
               Bexley's story began with an ordinary newspaper advert in 2007 — God's provision arriving in an unremarkable envelope — and the church dedicated in February 2011 has since grown to become the Headquarters of the Western Europe District, overseeing churches and Bible study groups across the UK and mainland Europe.
             </p>

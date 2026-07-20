@@ -99,7 +99,7 @@ function StorySection() {
           <h2 className="text-[clamp(38px,5vw,54px)] leading-none tracking-[-0.025em] text-[#192441]">
             From Dormancy to Relaunch
           </h2>
-          <div className="mt-8 space-y-7 text-[17px] leading-[1.55] text-[#38362d] sm:text-[18px] sm:leading-[1.6]">
+          <div className="mt-8 space-y-7 text-[18px] leading-[32px] text-[#38362d]">
             <p className="hidden md:block">
               Italy's story began in 1991, when Brother Sylvester Obidinma wrote to the church's Portland headquarters seeking the Gospel, and grew over the following decades into a ministry known especially for its Christmas Concerts — public, native-Italian-language musical evangelism events held annually from 2002. When Brother Sylvester relocated to the UK, the church entered a season of dormancy that lasted from 2018 to 2025.
             </p>

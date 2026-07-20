@@ -57,7 +57,8 @@ export const TIMELINE_DATA = [
   { year: 1976, title: "A Fellowship on the Move",     text: "The young fellowship moves to Kintyre Court, Brixton, then to 10 Waller Road, New Cross, as attendance grows." },
   { year: 1979, title: "The First UK Pastor",          text: "Brother Victor Okusanya is ordained in Lagos and becomes the UK's first pastor." },
   { year: 1982, title: "A Building of Our Own",        text: "The congregation settles at 95 Fenham Road, Peckham — the UK's first dedicated Apostolic Faith church building." },
-  { year: 2000, title: "A New Pastor Installed",       text: "Rev Victor Okusanya retires after 24 years; Brother Isaac Adigun is installed as UK pastor, 30 April 2000. The Welfare Ministry is founded under Sister Stella Adigun." },
+  { year: 2000, title: "A New Pastor Installed",       text: "Rev Victor Okusanya retires after 24 years; Brother Isaac Adigun is installed as UK pastor, 30 April 2000." },
+  { year: 2000, title: "The Welfare Ministry Founded", text: "The Welfare Ministry is founded under Sister Stella Adigun." },
   { year: 2001, title: "The First Camp Meeting",       text: "The first UK Camp Meeting is held, beginning an annual tradition of gathering, prayer, and renewal." },
   { year: 2002, title: "Music as Evangelism",          text: "The first Italy Christmas Concert is held in Treviglio — the start of a lasting musical evangelism tradition." },
   { year: 2003, title: "A New Work in Birmingham",     text: "The Apostolic Faith work begins in Birmingham, later home to the largest AFC facility in Western Europe." },
@@ -531,8 +532,12 @@ function StartedFeature() {
           <h2 className={`${HEADER_FONT} text-[clamp(38px,5vw,52px)] leading-[1.05]`}>
             Where it all started
           </h2>
-          <p className={`${BODY_COPY} mt-7 max-w-155 text-[17px] leading-[1.6] text-white/90 sm:text-[19px]`}>
-            Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut.
+          <p className={`${BODY_COPY} mt-7 max-w-155 text-white/90`}>
+           On Sunday, 11 April 1976, Brother Victor Okusanya — a young music student newly arrived from Nigeria
+— gathered three believers in a Brixton lounge for the very first Apostolic Faith Sunday school lesson in
+the UK. From that single meeting, God has built a family of churches now spanning Scotland, England,
+Wales, Ireland, and seven countries across mainland Europe. Fifty years on, we remain committed to
+the same three words that have guided us from the start: Pray, Preach, Publish.
           </p>
           <a
             href="#timeline"
@@ -755,17 +760,19 @@ export function PreTimelineSection() {
           <div className="relative z-10 flex w-full max-w-180 flex-col items-center text-center">
             <JubileeLockup />
             <h1 className={`${HEADER_FONT} mt-8 text-[clamp(48px,15vw,76px)] leading-[0.9] text-[#0f1421]`}>
-              Praise God
+             Fifty Years of 
               <br />
-              With US!
+              God’s Faithfulness
             </h1>
-            <p className={`${BODY_COPY} mt-8 max-w-155 text-[17px] leading-[1.65] text-[#0f1421] sm:text-[20px]`}>
-              Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.
+            <p className={`${BODY_COPY} mt-8 max-w-155 text-[#0f1421]`}>
+             We are the Apostolic Faith Church — a Bible-believing, Spirit-filled family of churches across the UK and Western 
+Europe, built on prayer, holiness, and the Gospel of Jesus Christ. In 2026 we celebrate fifty years since our first UK 
+meeting in a Brixton lounge in 1976. Earnestly contend for the faith.
             </p>
           </div>
         </section>
 
-        <div className="h-svh w-full">
+        <div className="min-h-svh w-full">
           <StartedFeature />
         </div>
 
@@ -784,12 +791,14 @@ export function PreTimelineSection() {
           <div className="relative z-10 flex w-full max-w-250 flex-col items-center px-8 text-center">
             <JubileeLockup />
             <h1 className={`${HEADER_FONT} mt-12 text-[128px] leading-[0.86] text-[#0f1421]`}>
-              Praise God
+              Fifty Years of 
               <br />
-              With US!
+              God’s Faithfulness
             </h1>
-            <p className={`${BODY_COPY} mt-12 max-w-190 text-[24px] leading-[1.45] text-[#0f1421]`}>
-              Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.
+            <p className={`${BODY_COPY} mt-12 max-w-190 text-[#0f1421]`}>
+             We are the Apostolic Faith Church — a Bible-believing, Spirit-filled family of churches across the UK and Western 
+Europe, built on prayer, holiness, and the Gospel of Jesus Christ. In 2026 we celebrate fifty years since our first UK 
+meeting in a Brixton lounge in 1976. Earnestly contend for the faith.
             </p>
           </div>
         </section>
@@ -1081,21 +1090,21 @@ export function PostTimelineSection() {
 const STORIES = [
   {
     img: imgImage1,
-    title: "A Church Planted in Amsterdam",
-    text: "From a small gathering of six believers, a thriving congregation emerged that continues to shape the city today.",
-    tag: "1971",
+    title: "A Lounge in Brixton",
+    text: "Three believers gathered for the very first Apostolic Faith Sunday school lesson in the UK — the small beginning from which this entire fifty-year story grew.",
+    tag: "1976",
   },
   {
     img: imgImage8,
-    title: "The European Leadership Summit",
-    text: "In 1987, pastors from twelve nations gathered for the first time, forging bonds that would define the mission's next chapter.",
-    tag: "1987",
+    title: "A Testimony of God's Faithfulness",
+    text: "When a Birmingham family's three-year-old daughter faced a life-threatening medical emergency, the whole church stood in prayer — and watched God do what doctors could not explain. (Full story on the Watch & Listen page.)",
+    tag: "2022",
   },
   {
     img: imgImage11,
-    title: "50 Years of Youth Ministry",
-    text: "Young people have always been at the heart of AFM Western Europe — the next generation carrying the torch of faithful witness.",
-    tag: "2007",
+    title: "The David Academy",
+    text: "Fifty years after Rev Victor Okusanya first gave his music to the church alone, Birmingham's David Academy carries that same conviction to a new generation of musicians, aged four to forty.",
+    tag: "2026",
   },
 ];
 export const STORIES_MIN_H = 920;
@@ -1114,7 +1123,7 @@ export function StoriesSection() {
           <h2 className={`${HEADER_FONT} mt-5 text-[clamp(42px,5vw,66px)] leading-[1.02] text-[#192441]`}>
             Voices of the Journey
           </h2>
-          <p className={`${BODY_COPY} mt-7 text-[16px] leading-[1.6] text-[#192441]/55 sm:text-[18px]`}>
+          <p className={`${BODY_COPY} mt-7 text-[#192441]/55`}>
             Across five decades, the Gospel has transformed lives throughout Western Europe.
           </p>
         </header>
@@ -1136,7 +1145,7 @@ export function StoriesSection() {
               <h3 className={`${HEADER_FONT} mt-3 text-[24px] leading-[1.1] text-[#192441] sm:text-[26px]`}>
                 {story.title}
               </h3>
-              <p className={`${BODY_COPY} mt-4 text-[16px] leading-[1.55] text-[#192441]/60 sm:text-[18px]`}>
+              <p className={`${BODY_COPY} mt-4 text-[#192441]/60`}>
                 {story.text}
               </p>
             </article>

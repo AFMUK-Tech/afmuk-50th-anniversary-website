@@ -8,7 +8,7 @@ const BRANCH_ADDRESS = "Westerhailes, Edinburgh";
 const GALLERY_IMAGES = Array.from({ length: 12 }, () => imgGallery);
 const FACTS = [
   { label: "Founded", value: "September 2017" },
-  { label: "Leader", value: "Sis Debbie Olorunsaiye" },
+  { label: "Leader", value: "Sis Debbie Olorunsaiye (since October 2019)" },
   { label: "Membership", value: "~43, average attendance 32" },
 ];
 
@@ -97,9 +97,15 @@ function StorySection() {
           <h2 className="text-[clamp(38px,5vw,54px)] leading-none tracking-[-0.025em] text-[#192441]">
             Three Families, Ten Believers, a Sitting Room
           </h2>
-          <div className="mt-8 space-y-7 text-[17px] leading-[1.55] text-[#38362d] sm:text-[18px] sm:leading-[1.6]">
+          <div className="mt-8 space-y-7 text-[18px] leading-[32px] text-[#38362d]">
             <p className="hidden md:block">
-              In September 2017, the Apostolic Faith Mission in Edinburgh began in the sitting room of Brother and Sister Olorunsaiye, with three families and ten brethren, led by Brother Tunbosun Oyedokun. The fellowship soon moved to a rented classroom at Westerhailes, where it has built a steady tradition of street evangelism, literature distribution, and an annual Christmas concert held together with choristers from across the UK — the first, in October 2019, drew 97 people. Sis Debbie Olorunsaiye became the leader of the group when Bro Tunbosun moved to Glasgow in October 2019.
+             In September 2017, the Apostolic Faith Mission in Edinburgh began in the sitting room of Brother and
+Sister Olorunsaiye, with three families and ten brethren, led by Brother Tunbosun Oyedokun. The
+fellowship soon moved to a rented classroom at Westerhailes, where it has built a steady tradition of
+street evangelism, literature distribution, and an annual Christmas concert held together with choristers
+from across the UK — the first, in October 2019, drew 97 people. That same month, Sister Debbie
+Olorunsaiye became the group’s leader, as Brother Tunbosun relocated to Glasgow to serve the
+fellowship there.
             </p>
             <p>
               Growth since 2023 has come largely through an influx of students and skilled workers arriving in the UK, and the congregation today numbers around forty-three, with an average Sunday attendance of thirty-two and five babies dedicated in the past three years. In April 2024, District Superintendent Reverend Mark Mfandarahwa worshipped with Edinburgh for the first time in a combined service with Glasgow; in August that year, Superintendent General Reverend Sola Adesope and his family visited — a widening circle of fellowship around a congregation that started with just ten.
