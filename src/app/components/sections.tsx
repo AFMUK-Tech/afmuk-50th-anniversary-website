@@ -156,9 +156,23 @@ export function Section1({
   const fireworksActive = logoOpacity > 0.4 && anniversaryInView;
   const [soundEnabled, setSoundEnabled] = React.useState(true);
   const themeAudioRef = React.useRef<HTMLAudioElement | null>(null);
-  const themeAudioUnlockedRef = React.useRef(false);
   const audioRef = React.useRef<HTMLAudioElement | null>(null);
-  const audioUnlockedRef = React.useRef(false);
+  const hasInteractedRef = React.useRef(false);
+
+  // Mirrors of the latest desired-play state, kept live via refs so the
+  // one-time interaction listener below (attached once on mount) always
+  // reads what SHOULD be playing right now, not whatever was true when the
+  // listener happened to be attached. That stale-closure gap was why the
+  // music was inconsistent: attaching/detaching a fresh listener every time
+  // openingAudioActive/fireworksActive changed meant a gesture could arrive
+  // while no listener existed yet, or after a stale one had already
+  // decided sound was "unlocked" from an outdated state.
+  const openingAudioActiveRef = React.useRef(openingAudioActive);
+  const fireworksActiveRef = React.useRef(fireworksActive);
+  const soundEnabledRef = React.useRef(soundEnabled);
+  React.useEffect(() => { openingAudioActiveRef.current = openingAudioActive; }, [openingAudioActive]);
+  React.useEffect(() => { fireworksActiveRef.current = fireworksActive; }, [fireworksActive]);
+  React.useEffect(() => { soundEnabledRef.current = soundEnabled; }, [soundEnabled]);
 
   const sectionRef = React.useRef<HTMLDivElement>(null);
   const [dims, setDims] = React.useState({ width: 1440, height: 977 });
@@ -197,16 +211,6 @@ export function Section1({
     return themeAudioRef.current;
   }, []);
 
-  const startThemeAudio = React.useCallback(async () => {
-    const audio = getThemeAudio();
-    try {
-      await audio.play();
-      themeAudioUnlockedRef.current = true;
-    } catch {
-      // Browsers may block sound until the user's first interaction.
-    }
-  }, [getThemeAudio]);
-
   const getFireworksAudio = React.useCallback(() => {
     if (!audioRef.current) {
       const audio = new Audio(fireworksSoundSrc);
@@ -218,71 +222,49 @@ export function Section1({
     return audioRef.current;
   }, []);
 
-  const startFireworksAudio = React.useCallback(async () => {
+  // Checking `audio.paused` before calling play()/pause() (instead of just
+  // always issuing the call) avoids firing a redundant play() on top of one
+  // already in flight — which is what was making playback flaky: React
+  // effects re-running with the same net desired state (e.g. scroll
+  // jitter flipping a boolean back and forth near a threshold) would call
+  // .pause() while a .play() promise was still pending, which rejects that
+  // promise and can leave the element in an unpredictable state.
+  const syncThemeAudio = React.useCallback(() => {
+    const audio = getThemeAudio();
+    if (openingAudioActiveRef.current) {
+      if (audio.paused) void audio.play().catch(() => {});
+    } else if (!audio.paused) {
+      audio.pause();
+      audio.currentTime = 0;
+    }
+  }, [getThemeAudio]);
+
+  const syncFireworksAudio = React.useCallback(() => {
     const audio = getFireworksAudio();
-    audio.muted = false;
-    try {
-      await audio.play();
-      audioUnlockedRef.current = true;
-    } catch {
-      // Browsers may block sound until the user's first interaction.
+    if (soundEnabledRef.current && fireworksActiveRef.current) {
+      audio.muted = false;
+      if (audio.paused) void audio.play().catch(() => {});
+    } else if (!audio.paused) {
+      audio.pause();
+      if (!fireworksActiveRef.current) audio.currentTime = 0;
     }
   }, [getFireworksAudio]);
 
+  React.useEffect(() => { syncThemeAudio(); }, [openingAudioActive, syncThemeAudio]);
+  React.useEffect(() => { syncFireworksAudio(); }, [fireworksActive, soundEnabled, syncFireworksAudio]);
+
+  // Browsers block audio.play() outright until the page has seen a genuine
+  // user gesture (click/key/touch — NOT wheel/scroll, which doesn't count
+  // toward "user activation"). This listens for the page's very first
+  // gesture, once, and then: starts whichever track should currently be
+  // playing, and "primes" the other one (a silent play-then-pause) so that
+  // a later programmatic play() — e.g. when the fireworks kick in mid-
+  // scroll — no longer needs its own gesture. Attached unconditionally on
+  // mount so it can never miss an early interaction the way the old
+  // per-state-dependent listeners could.
   React.useEffect(() => {
-    const audio = getThemeAudio();
-    if (openingAudioActive) {
-      void startThemeAudio();
-      return;
-    }
-
-    audio.pause();
-    audio.currentTime = 0;
-  }, [getThemeAudio, openingAudioActive, startThemeAudio]);
-
-  React.useEffect(() => {
-    if (!openingAudioActive || themeAudioUnlockedRef.current) return;
-
-    const unlockThemeAudio = () => {
-      if (!themeAudioUnlockedRef.current) void startThemeAudio();
-    };
-
-    window.addEventListener("pointerdown", unlockThemeAudio);
-    window.addEventListener("keydown", unlockThemeAudio);
-    window.addEventListener("touchstart", unlockThemeAudio, { passive: true });
-    window.addEventListener("wheel", unlockThemeAudio, { passive: true });
-
-    return () => {
-      window.removeEventListener("pointerdown", unlockThemeAudio);
-      window.removeEventListener("keydown", unlockThemeAudio);
-      window.removeEventListener("touchstart", unlockThemeAudio);
-      window.removeEventListener("wheel", unlockThemeAudio);
-    };
-  }, [openingAudioActive, startThemeAudio]);
-
-  React.useEffect(() => {
-    const audio = getFireworksAudio();
-    if (soundEnabled && fireworksActive) {
-      void startFireworksAudio();
-      return;
-    }
-
-    audio.pause();
-    if (!fireworksActive) audio.currentTime = 0;
-  }, [fireworksActive, getFireworksAudio, soundEnabled, startFireworksAudio]);
-
-  React.useEffect(() => {
-    if (!soundEnabled || audioUnlockedRef.current) return;
-
-    const unlockAudio = () => {
-      if (audioUnlockedRef.current) return;
-      const audio = getFireworksAudio();
-
-      if (fireworksActive) {
-        void startFireworksAudio();
-        return;
-      }
-
+    const prime = (audio: HTMLAudioElement) => {
+      if (!audio.paused) return;
       const previousVolume = audio.volume;
       audio.muted = false;
       audio.volume = 0;
@@ -290,24 +272,32 @@ export function Section1({
         audio.pause();
         audio.currentTime = 0;
         audio.volume = previousVolume;
-        audioUnlockedRef.current = true;
       }).catch(() => {
         audio.volume = previousVolume;
       });
     };
 
-    window.addEventListener("pointerdown", unlockAudio);
-    window.addEventListener("keydown", unlockAudio);
-    window.addEventListener("touchstart", unlockAudio, { passive: true });
-    window.addEventListener("wheel", unlockAudio, { passive: true });
+    const unlock = () => {
+      if (hasInteractedRef.current) return;
+      hasInteractedRef.current = true;
+
+      if (openingAudioActiveRef.current) syncThemeAudio();
+      else prime(getThemeAudio());
+
+      if (soundEnabledRef.current && fireworksActiveRef.current) syncFireworksAudio();
+      else prime(getFireworksAudio());
+    };
+
+    window.addEventListener("pointerdown", unlock);
+    window.addEventListener("keydown", unlock);
+    window.addEventListener("touchstart", unlock, { passive: true });
 
     return () => {
-      window.removeEventListener("pointerdown", unlockAudio);
-      window.removeEventListener("keydown", unlockAudio);
-      window.removeEventListener("touchstart", unlockAudio);
-      window.removeEventListener("wheel", unlockAudio);
+      window.removeEventListener("pointerdown", unlock);
+      window.removeEventListener("keydown", unlock);
+      window.removeEventListener("touchstart", unlock);
     };
-  }, [fireworksActive, getFireworksAudio, soundEnabled, startFireworksAudio]);
+  }, [getFireworksAudio, getThemeAudio, syncFireworksAudio, syncThemeAudio]);
 
   React.useEffect(() => {
     return () => {
@@ -328,16 +318,8 @@ export function Section1({
     };
   }, []);
 
-  const toggleFireworksSound = async () => {
-    const audio = getFireworksAudio();
-    if (soundEnabled) {
-      setSoundEnabled(false);
-      audio.pause();
-      return;
-    }
-
-    setSoundEnabled(true);
-    if (fireworksActive) await startFireworksAudio();
+  const toggleFireworksSound = () => {
+    setSoundEnabled((enabled) => !enabled);
   };
 
   return (
@@ -418,7 +400,7 @@ export function Section1({
           aria-label={soundEnabled ? "Mute fireworks sound" : "Play fireworks sound"}
           aria-pressed={soundEnabled}
           className="absolute right-5 top-[max(20px,env(safe-area-inset-top))] z-30 flex size-11 items-center justify-center rounded-full border border-white/55 bg-[#0f1421]/55 text-white backdrop-blur-sm transition-colors hover:bg-white/15 sm:right-8 sm:top-8"
-          onClick={() => void toggleFireworksSound()}
+          onClick={toggleFireworksSound}
           style={{ opacity: logoOpacity }}
           title={soundEnabled ? "Mute fireworks sound" : "Play fireworks sound"}
           type="button"
@@ -474,36 +456,54 @@ function JubileeLockup() {
 }
 
 function VideoPlayer() {
-  const [playing, setPlaying] = React.useState(false);
+  const videoRef = React.useRef<HTMLVideoElement | null>(null);
+  // Starts muted because browsers block autoplay-with-sound outright until
+  // the visitor has interacted with the page — this lets it autoplay on
+  // scroll-into-view while offering a one-click way to turn sound on.
+  const [muted, setMuted] = React.useState(true);
 
-  if (playing) {
-    return (
-      <div className="relative size-full overflow-hidden bg-black">
-        <video
-          src={videoSrcPlaceholder}
-          controls
-          autoPlay
-          className="absolute inset-0 size-full object-cover"
-          style={{ height: "100%" }}
-        />
-      </div>
+  // Autoplay only while the video is actually on screen — pausing on
+  // scroll-away avoids audio/CPU running for a video the visitor can't see.
+  React.useEffect(() => {
+    const el = videoRef.current;
+    if (!el) return;
+
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        if (entry.isIntersecting) {
+          el.play().catch(() => {});
+        } else {
+          el.pause();
+        }
+      },
+      { threshold: 0.4 }
     );
-  }
+    observer.observe(el);
+    return () => observer.disconnect();
+  }, []);
 
   return (
-    <button
-      type="button"
-      onClick={() => setPlaying(true)}
-      aria-label="Play video"
-      className="relative block size-full cursor-pointer overflow-hidden border-0 bg-black p-0"
-    >
-      <img
-        alt=""
-        className="absolute inset-0 size-full max-w-none object-cover"
-        src={imgVideoPoster}
-        style={{ height: "100%", maxWidth: "none" }}
+    <div className="relative size-full overflow-hidden bg-black">
+      <video
+        ref={videoRef}
+        src={videoSrcPlaceholder}
+        poster={imgVideoPoster}
+        muted={muted}
+        playsInline
+        controls
+        className="absolute inset-0 size-full object-cover"
+        style={{ height: "100%" }}
       />
-    </button>
+      <button
+        type="button"
+        onClick={() => setMuted((m) => !m)}
+        aria-label={muted ? "Unmute video" : "Mute video"}
+        aria-pressed={!muted}
+        className="absolute right-4 top-4 z-10 flex size-10 items-center justify-center rounded-full bg-black/60 text-white transition-colors hover:bg-black/80"
+      >
+        {muted ? <VolumeX size={18} /> : <Volume2 size={18} />}
+      </button>
+    </div>
   );
 }
 
