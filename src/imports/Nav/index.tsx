@@ -210,7 +210,10 @@ export default function Nav() {
             {/* AFC UK button */}
             <div className="relative shrink-0 justify-self-end">
               <div className="relative flex items-center">
-                <div className="bg-[#192441] content-stretch flex h-[37.867px] items-center justify-center px-[18.933px] relative rounded-[66.267px] shrink-0 cursor-pointer">
+                <a
+                  href="https://apostolicfaith.org.uk"
+                  className="bg-[#192441] content-stretch flex h-[37.867px] items-center justify-center px-[18.933px] relative rounded-[66.267px] shrink-0 cursor-pointer"
+                >
                   {/* <p> inherits var(--font-body) directly, no inline fontFamily needed */}
                   <p
                     style={{ fontWeight: 400, lineHeight: "13.253px", letterSpacing: "0.0552px" }}
@@ -218,7 +221,7 @@ export default function Nav() {
                   >
                     AFC UK
                   </p>
-                </div>
+                </a>
               </div>
             </div>
 
