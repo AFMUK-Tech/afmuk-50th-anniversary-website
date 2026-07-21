@@ -58,7 +58,7 @@ export function Footer() {
 
         {/* CTA pill — visible at every breakpoint, just shrinks */}
         <a
-          href="https://www.afm-uk.com"
+          href="https://www.apostolicfaith.org.uk"
           target="_blank"
           rel="noreferrer"
           className={`inline-flex shrink-0 items-center justify-center whitespace-nowrap rounded-full border border-[#d9c7a8]/30 bg-[#d9c7a8]/10 px-7 py-3 ${BODY_COPY} text-[12px] leading-none tracking-[0.02em] text-[#d9c7a8] transition-colors hover:bg-[#d9c7a8]/15 lg:text-[13px]`}
