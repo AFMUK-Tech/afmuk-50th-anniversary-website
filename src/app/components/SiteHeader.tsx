@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import Nav from "../../imports/Nav/index";
 import MobileNav from "./MobileNav";
 
@@ -50,6 +50,32 @@ export function useIsMobile() {
     return () => window.removeEventListener("resize", update);
   }, []);
   return isMobile;
+}
+
+// Measures the natural (unscaled) height of a "design canvas" content div via
+// ResizeObserver, so its scaled wrapper can size to actual content instead of
+// a hardcoded DESIGN_HEIGHT guess — a fixed height + overflow:hidden clips
+// content and breaks scrolling whenever real content runs longer than the
+// guess (e.g. a card grid where one card's text wraps an extra line). Shared
+// by every page that uses this canvas+scale pattern with variable-height content.
+export function useContentHeight<T extends HTMLElement>() {
+  const ref = useRef<T | null>(null);
+  const [height, setHeight] = useState(0);
+
+  useEffect(() => {
+    if (!ref.current) return;
+    const el = ref.current;
+    const observer = new ResizeObserver((entries) => {
+      for (const entry of entries) {
+        setHeight(entry.contentRect.height);
+      }
+    });
+    observer.observe(el);
+    setHeight(el.getBoundingClientRect().height);
+    return () => observer.disconnect();
+  }, []);
+
+  return [ref, height] as const;
 }
 
 // Renders the nav bar identically on every page. Mobile gets MobileNav

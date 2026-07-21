@@ -51,7 +51,7 @@ function BranchIntro() {
         <div className="flex min-w-0 flex-col items-center justify-center md:flex-row md:justify-start">
           <img
             src={imgCrest}
-            alt="Bexley branch crest"
+            alt="Peckham branch crest"
             className="h-[108px] w-[108px] shrink-0 object-contain sm:h-[132px] sm:w-[132px] lg:h-[150px] lg:w-[150px]"
           />
           <div className="min-w-0 text-center md:text-left">

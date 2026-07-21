@@ -1,6 +1,6 @@
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useState } from "react";
 import type { ReactElement } from "react";
-import { SiteHeader, useSiteScale, useIsMobile, DESIGN_WIDTH } from "./SiteHeader";
+import { SiteHeader, useSiteScale, useIsMobile, useContentHeight, DESIGN_WIDTH } from "./SiteHeader";
 import { DepartmentWatermark } from "./department";
 import { DEPARTMENT_DETAILS, type DepartmentDetail } from "../data/departmentContent";
 import deptCrestImg from "../../assets/department-crest.png";
@@ -9,26 +9,6 @@ import deptCrestImg from "../../assets/department-crest.png";
 // var(--font-heading) on h1-h6/.site-heading and var(--font-body) on
 // p/li/label/blockquote/figcaption — see department.tsx for the full note.
 import { BODY_STYLE, headingSize } from "../../styles/typography";
-
-function useContentHeight<T extends HTMLElement>() {
-  const ref = useRef<T | null>(null);
-  const [height, setHeight] = useState(0);
-
-  useEffect(() => {
-    if (!ref.current) return;
-    const el = ref.current;
-    const observer = new ResizeObserver((entries) => {
-      for (const entry of entries) {
-        setHeight(entry.contentRect.height);
-      }
-    });
-    observer.observe(el);
-    setHeight(el.getBoundingClientRect().height);
-    return () => observer.disconnect();
-  }, []);
-
-  return [ref, height] as const;
-}
 
 function BackLink({ onBack }: { onBack: () => void }): ReactElement {
   return (
