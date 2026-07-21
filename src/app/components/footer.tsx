@@ -86,7 +86,7 @@ export function Footer() {
           © 2026 Apostolic Faith Mission Western Europe. All rights reserved.
         </p>
         <p className={`${BODY_COPY} text-[10px] tracking-[0.02em] text-[#D9C7A8]/45 lg:text-[11px]`}>
-          Celebrating 50 years of faithful ministry
+          Celebrating 50 years of faithful ministry.
         </p>
       </div>
     </footer>
