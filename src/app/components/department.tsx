@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import type { ReactElement } from "react";
-import { SiteHeader, useSiteScale, useIsMobile, DESIGN_WIDTH } from "./SiteHeader";
+import { SiteHeader, useSiteScale, useIsMobile, useContentHeight, DESIGN_WIDTH } from "./SiteHeader";
 import deptCrestImg from "../../assets/department-crest.png";
 
 // Font FAMILY is controlled globally (fonts.css / globals.css) via
@@ -9,8 +9,6 @@ import deptCrestImg from "../../assets/department-crest.png";
 // helpers — it never sets fontFamily inline, since inline styles can't
 // beat the global !important tag rules anyway.
 import { BODY_STYLE, headingSize } from "../../styles/typography";
-
-const DESIGN_HEIGHT = 1120;
 
 interface DepartmentCard {
   title: string;
@@ -167,12 +165,19 @@ function DepartmentCanvas(): ReactElement {
         Every branch carries its calling through the people who serve it — voices raised in song, children discipled from their earliest years, young people gathered each May, hospitality quietly offered at the door, and real needs met with real hands. Explore the ministries that have shaped this church for fifty years, and find where you might serve.
       </p>
 
+      {/* In-flow (not absolute) so the grid's real height — which varies with
+          each card's wrapped description text — pushes this canvas's own
+          height out naturally, instead of being silently clipped by a fixed
+          DESIGN_HEIGHT guess in the parent. paddingTop keeps the same 288px
+          offset the old `top: 288` absolute positioning used. */}
       <div
-        className="absolute"
         style={{
-          left: "9.7%",
-          right: "9.7%",
-          top: 288,
+          position: "relative",
+          paddingTop: 288,
+          paddingBottom: 80,
+          paddingLeft: "9.7%",
+          paddingRight: "9.7%",
+          boxSizing: "border-box",
           display: "grid",
           gridTemplateColumns: "repeat(3, 1fr)",
           columnGap: 40,
@@ -263,6 +268,7 @@ export function DepartmentPage({ onBack: _onBack }: { onBack?: () => void } = {}
   const isMobile = useIsMobile();
   const scale = useSiteScale();
   const [fadeIn, setFadeIn] = useState(false);
+  const [contentRef, contentHeight] = useContentHeight<HTMLDivElement>();
 
   useEffect(() => {
     requestAnimationFrame(() => setFadeIn(true));
@@ -282,25 +288,32 @@ export function DepartmentPage({ onBack: _onBack }: { onBack?: () => void } = {}
         {isMobile ? (
           <DepartmentMobile />
         ) : (
-          // ── Desktop: centered with flex ──
+          // ── Desktop: centered with flex, sized to measured content height ──
           <div
             style={{
               display: "flex",
               justifyContent: "center",
               width: "100%",
-              height: DESIGN_HEIGHT * scale,
               overflow: "hidden",
             }}
           >
             <div
               style={{
-                width: DESIGN_WIDTH,
-                height: DESIGN_HEIGHT,
-                transform: `scale(${scale})`,
-                transformOrigin: "top center", // scale from the top-middle so it stays centred
+                width: DESIGN_WIDTH * scale,
+                height: contentHeight ? contentHeight * scale : undefined,
+                overflow: "hidden",
               }}
             >
-              <DepartmentCanvas />
+              <div
+                ref={contentRef}
+                style={{
+                  width: DESIGN_WIDTH,
+                  transform: `scale(${scale})`,
+                  transformOrigin: "top left",
+                }}
+              >
+                <DepartmentCanvas />
+              </div>
             </div>
           </div>
         )}

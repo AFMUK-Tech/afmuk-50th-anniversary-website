@@ -205,11 +205,27 @@ function PlaceholderBranchPage({ city, onBack: _onBack }: { city: string; onBack
 }
 
 export function BranchPage({ branch, onBack }: { branch: string; onBack: () => void }) {
+  // Manchester, Bexley, Peckham, Cranfield, Birmingham, and Aberdeen all
+  // share the same fluid, Tailwind-responsive component (see Peckham/index.tsx)
+  // — content and images differ, but the layout is identical. They must all
+  // render through the same FluidBranchPage wrapper so they actually look
+  // the same: the old ResponsiveBranchPage/ScaledBranchPage path forced
+  // these fluid components into a fixed 1440x1920 canvas with
+  // overflow:hidden, which clips content and scales it down instead of
+  // letting it flow naturally like Peckham does.
   if (branch === "manchester") {
-    return <ResponsiveBranchPage onBack={onBack} Canvas={Manchester} Mobile={Manchester} />;
+    return (
+      <FluidBranchPage onBack={onBack}>
+        <Manchester />
+      </FluidBranchPage>
+    );
   }
   if (branch === "bexley") {
-    return <ResponsiveBranchPage onBack={onBack} Canvas={Bexley} Mobile={Bexley} />;
+    return (
+      <FluidBranchPage onBack={onBack}>
+        <Bexley />
+      </FluidBranchPage>
+    );
   }
   if (branch === "peckham") {
     return (
@@ -219,13 +235,25 @@ export function BranchPage({ branch, onBack }: { branch: string; onBack: () => v
     );
   }
   if (branch === "cranfield") {
-    return <ResponsiveBranchPage onBack={onBack} Canvas={Cranfield} Mobile={Cranfield} />;
+    return (
+      <FluidBranchPage onBack={onBack}>
+        <Cranfield />
+      </FluidBranchPage>
+    );
   }
   if (branch === "birmingham") {
-    return <ResponsiveBranchPage onBack={onBack} Canvas={Birmingham} Mobile={Birmingham} />;
+    return (
+      <FluidBranchPage onBack={onBack}>
+        <Birmingham />
+      </FluidBranchPage>
+    );
   }
- if (branch === "aberdeen") {
-    return <ResponsiveBranchPage onBack={onBack} Canvas={Aberdeen} Mobile={Aberdeen} />;
+  if (branch === "aberdeen") {
+    return (
+      <FluidBranchPage onBack={onBack}>
+        <Aberdeen />
+      </FluidBranchPage>
+    );
   }
   if (branch === "italy") {
     return <ResponsiveBranchPage onBack={onBack} Canvas={Italy} Mobile={Italy} />;
