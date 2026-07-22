@@ -20,101 +20,7 @@ import Spain from "../../imports/Spain/index";
 import Denmark from "../../imports/Demark/index";
 import BristolCardiff from "../../imports/Bristol/index";
 
-const DESIGN_WIDTH  = SITE_DESIGN_WIDTH; // 1440 — re-exported from SiteHeader, kept as a local alias so the rest of this file doesn't need renaming
-const DESIGN_HEIGHT = 1920;
-
-// Shared clearance for the fixed mobile nav (SiteHeader renders MobileNav
-// with position: "fixed" on mobile, which reserves zero space in normal
-// flow). Every mobile branch-page wrapper below must pad by this exact
-// amount or content renders underneath/misaligned with the nav. Both
-// ScaledBranchPage and MobileBranchPage now read from this single constant
-// instead of each hardcoding (or, previously, omitting) their own value.
 const MOBILE_NAV_CLEARANCE = 96;
-
-function ScaledBranchPage({ children }: { children: React.ReactNode; onBack?: () => void }) {
-  const scale = useSiteScale();
-  const isMobile = useIsMobile();
-  const [fadeIn, setFadeIn] = useState(false);
-
-  useEffect(() => {
-    requestAnimationFrame(() => {
-      setFadeIn(true);
-    });
-  }, []);
-
-  return (
-    <div style={{
-      width: "100%",
-      minHeight: "100vh",
-      background: "#f4f1ea",
-      position: "relative",
-    }}>
-      <div style={{
-        opacity: fadeIn ? 1 : 0,
-        transform: fadeIn ? "scale(1)" : "scale(0.98)",
-        transition: "opacity 0.9s cubic-bezier(0.4, 0, 0.2, 1) 0.1s, transform 0.9s cubic-bezier(0.4, 0, 0.2, 1) 0.1s",
-      }}>
-        <div style={{
-          width: "100%",
-          display: "flex",
-          justifyContent: "center",
-          overflowX: "hidden",
-          paddingTop: isMobile ? MOBILE_NAV_CLEARANCE : 0,
-        }}>
-          <div style={{
-            width: DESIGN_WIDTH * scale,
-            height: isMobile ? (DESIGN_HEIGHT - NAV_H) * scale : DESIGN_HEIGHT * scale,
-            overflow: "hidden",
-          }}>
-            <div
-              style={{
-                width: DESIGN_WIDTH,
-                height: DESIGN_HEIGHT,
-                transform: isMobile
-                  ? `translateY(-${NAV_H}px) scale(${scale})`
-                  : `scale(${scale})`,
-                transformOrigin: "top left",
-              }}
-            >
-              {children}
-            </div>
-          </div>
-        </div>
-      </div>
-
-      <SiteHeader />
-    </div>
-  );
-}
-
-function MobileBranchPage({ children }: { children: React.ReactNode; onBack?: () => void }) {
-  const [fadeIn, setFadeIn] = useState(false);
-
-  useEffect(() => {
-    requestAnimationFrame(() => setFadeIn(true));
-  }, []);
-
-  return (
-    <div style={{ width: "100%", minHeight: "100vh", background: "#fcf9f2", position: "relative" }}>
-      <SiteHeader />
-
-      {/* Fixed nav reserves no flow space — this padding is the only
-          thing preventing content from rendering underneath it. This
-          was previously missing entirely, which is what caused the
-          inconsistent gap you were seeing on mobile branch pages. */}
-      <div
-        style={{
-          paddingTop: MOBILE_NAV_CLEARANCE,
-          opacity: fadeIn ? 1 : 0,
-          transform: fadeIn ? "scale(1)" : "scale(0.98)",
-          transition: "opacity 0.9s cubic-bezier(0.4, 0, 0.2, 1) 0.1s, transform 0.9s cubic-bezier(0.4, 0, 0.2, 1) 0.1s",
-        }}
-      >
-        {children}
-      </div>
-    </div>
-  );
-}
 
 function FluidBranchPage({ children }: { children: React.ReactNode; onBack?: () => void }) {
   const scale = useSiteScale();
@@ -139,32 +45,6 @@ function FluidBranchPage({ children }: { children: React.ReactNode; onBack?: () 
         {children}
       </div>
     </div>
-  );
-}
-
-function ResponsiveBranchPage({
-  onBack,
-  Canvas,
-  Mobile,
-}: {
-  onBack: () => void;
-  Canvas: React.ComponentType;
-  Mobile?: React.ComponentType;
-}) {
-  const isMobile = useIsMobile();
-
-  if (isMobile && Mobile) {
-    return (
-      <MobileBranchPage onBack={onBack}>
-        <Mobile />
-      </MobileBranchPage>
-    );
-  }
-
-  return (
-    <ScaledBranchPage onBack={onBack}>
-      <Canvas />
-    </ScaledBranchPage>
   );
 }
 
@@ -205,14 +85,11 @@ function PlaceholderBranchPage({ city, onBack: _onBack }: { city: string; onBack
 }
 
 export function BranchPage({ branch, onBack }: { branch: string; onBack: () => void }) {
-  // Manchester, Bexley, Peckham, Cranfield, Birmingham, and Aberdeen all
-  // share the same fluid, Tailwind-responsive component (see Peckham/index.tsx)
-  // — content and images differ, but the layout is identical. They must all
-  // render through the same FluidBranchPage wrapper so they actually look
-  // the same: the old ResponsiveBranchPage/ScaledBranchPage path forced
-  // these fluid components into a fixed 1440x1920 canvas with
-  // overflow:hidden, which clips content and scales it down instead of
-  // letting it flow naturally like Peckham does.
+  // All branches now render through the same FluidBranchPage wrapper —
+  // natural flow, no fixed 1440x1920 canvas, no overflow:hidden clipping,
+  // no transform:scale(). Every branch component is expected to be
+  // responsive via its own Tailwind breakpoints (see Peckham/index.tsx
+  // as the reference implementation).
   if (branch === "manchester") {
     return (
       <FluidBranchPage onBack={onBack}>
@@ -256,41 +133,89 @@ export function BranchPage({ branch, onBack }: { branch: string; onBack: () => v
     );
   }
   if (branch === "italy") {
-    return <ResponsiveBranchPage onBack={onBack} Canvas={Italy} Mobile={Italy} />;
+    return (
+      <FluidBranchPage onBack={onBack}>
+        <Italy />
+      </FluidBranchPage>
+    );
   }
   if (branch === "germany") {
-    return <ResponsiveBranchPage onBack={onBack} Canvas={Germany} Mobile={Germany} />;
+    return (
+      <FluidBranchPage onBack={onBack}>
+        <Germany />
+      </FluidBranchPage>
+    );
   }
   if (branch === "sussex") {
-    return <ResponsiveBranchPage onBack={onBack} Canvas={Sussex} Mobile={Sussex} />;
+    return (
+      <FluidBranchPage onBack={onBack}>
+        <Sussex />
+      </FluidBranchPage>
+    );
   }
   if (branch === "coventry") {
-    return <ResponsiveBranchPage onBack={onBack} Canvas={Coventry} Mobile={Coventry} />;
+    return (
+      <FluidBranchPage onBack={onBack}>
+        <Coventry />
+      </FluidBranchPage>
+    );
   }
   if (branch === "denmark") {
-    return <ResponsiveBranchPage onBack={onBack} Canvas={Denmark} Mobile={Denmark} />;
+    return (
+      <FluidBranchPage onBack={onBack}>
+        <Denmark />
+      </FluidBranchPage>
+    );
   }
   if (branch === "edinburgh") {
-    return <ResponsiveBranchPage onBack={onBack} Canvas={Edinburgh} Mobile={Edinburgh} />;
+    return (
+      <FluidBranchPage onBack={onBack}>
+        <Edinburgh />
+      </FluidBranchPage>
+    );
   }
   if (branch === "france") {
-    return <ResponsiveBranchPage onBack={onBack} Canvas={France} Mobile={France} />;
+    return (
+      <FluidBranchPage onBack={onBack}>
+        <France />
+      </FluidBranchPage>
+    );
   }
   if (branch === "ireland") {
-    return <ResponsiveBranchPage onBack={onBack} Canvas={Ireland} Mobile={Ireland} />;
+    return (
+      <FluidBranchPage onBack={onBack}>
+        <Ireland />
+      </FluidBranchPage>
+    );
   }
   if (branch === "glasgow") {
-    return <ResponsiveBranchPage onBack={onBack} Canvas={Glasgow} Mobile={Glasgow} />;
+    return (
+      <FluidBranchPage onBack={onBack}>
+        <Glasgow />
+      </FluidBranchPage>
+    );
   }
   if (branch === "leicester") {
-    return <ResponsiveBranchPage onBack={onBack} Canvas={Leicester} Mobile={Leicester} />;
+    return (
+      <FluidBranchPage onBack={onBack}>
+        <Leicester />
+      </FluidBranchPage>
+    );
   }
   if (branch === "spain") {
-    return <ResponsiveBranchPage onBack={onBack} Canvas={Spain} Mobile={Spain} />;
+    return (
+      <FluidBranchPage onBack={onBack}>
+        <Spain />
+      </FluidBranchPage>
+    );
   }
-   if (branch === "bristolcardiff") {
-    return <ResponsiveBranchPage onBack={onBack} Canvas={BristolCardiff} Mobile={BristolCardiff}/>;
+  if (branch === "bristolcardiff") {
+    return (
+      <FluidBranchPage onBack={onBack}>
+        <BristolCardiff />
+      </FluidBranchPage>
+    );
   }
-  
+
   return <PlaceholderBranchPage city={branch} onBack={onBack} />;
 }

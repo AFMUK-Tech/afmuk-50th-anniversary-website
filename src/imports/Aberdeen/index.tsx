@@ -1,7 +1,7 @@
 import { useEffect, useRef, useState } from "react";
 import imgCrest from "./0cce19fd4acc08db680fdccec6c96c1b9ad2b1e8.png";
-import imgHero from "./da3529783d02f20216c63bb9f6bf68b91cb518b5.png";
-import imgMobileHero from "./4986cb0ca9480b3dc025830e0fd805d9e9f8b29c.png";
+import imgHero from "./abredeen.jpeg";
+import imgMobileHero from "./abredeen.jpeg";
 import imgGallery from "./00906276d94a619afd9053d491e72ee53b2c84f7.png";
 
 const BRANCH_ADDRESS = "Kingswells Parish Church, Aberdeen";
@@ -80,12 +80,12 @@ function BranchIntro() {
 
 function HeroImage() {
   return (
-    <figure className="m-0 h-[44vw] min-h-[180px] max-h-[230px] w-full overflow-hidden bg-[#e9e7e0] md:h-[clamp(360px,48vw,580px)] md:max-h-none">
+    <figure className="m-0 aspect-[2834/2256] w-full overflow-hidden bg-[#e9e7e0] md:aspect-auto md:h-[clamp(360px,48vw,580px)] md:max-h-none">
       <img
         src={imgMobileHero}
         alt="Aberdeen church building exterior"
         className="block md:hidden"
-        style={{ width: "100%", height: "100%", objectFit: "cover", objectPosition: "center 27%" }}
+        style={{ width: "100%", height: "100%", objectFit: "cover", objectPosition: "center" }}
         fetchPriority="high"
       />
       <img
