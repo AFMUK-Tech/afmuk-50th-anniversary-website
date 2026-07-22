@@ -10,7 +10,7 @@ const FACTS = [
   { label: "Founded", value: "1999" },
   { label: "Independent since", value: "2023" },
   { label: "Venue", value: "Barley Croft Community Centre, Leicester" },
-  { label: "Leader", value: "Bro Stanislau Nyakuhwa" },
+  { label: "Leader", value: "Bro Stanislaus Nyakuhwa" },
 ];
 
 function ChevronIcon({ className = "" }: { className?: string }) {
@@ -100,7 +100,7 @@ function StorySection() {
           </h2>
           <div className="mt-8 space-y-7 text-[18px] leading-[32px] text-[#38362d]">
             <p className="hidden md:block">
-              Leicester's story began in 1999, when Stanislau Nyakuhwa arrived from Zimbabwe as a student and was personally commissioned by Pioneer Pastor Rev Victor Okusanya to plant the work wherever he found himself. Bro Thomas Moyo led the young congregation through the early 2000s, before a long season of shared worship with Birmingham gave the group room to grow without the weight of running its own building. In 2023, Leicester re-established itself as an independent congregation at Barley Croft Community Centre, once again under the leadership of the same Stanislau Nyakuhwa who had planted the seed twenty-four years earlier.
+              Leicester's story began in 1999, when Stanislaus Nyakuhwa arrived from Zimbabwe as a student and was personally commissioned by Pioneer Pastor Rev Victor Okusanya to plant the work wherever he found himself. Bro Thomas Moyo led the young congregation through the early 2000s, before a long season of shared worship with Birmingham gave the group room to grow without the weight of running its own building. In 2023, Leicester re-established itself as an independent congregation at Barley Croft Community Centre, once again under the leadership of the same Stanislaus Nyakuhwa who had planted the seed twenty-four years earlier.
             </p>
             <p>
               What has grown since is a small but determined church: a choir of around thirty built almost from nothing, culminating in Leicester's first entirely home-grown Christmas concert in December 2023; a youth ministry that has grown from two campers in 2023 to fifteen in 2026; and a steady programme of tract distribution, care home visits, and community outreach across four counties of dispersed membership.

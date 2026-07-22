@@ -80,12 +80,12 @@ function BranchIntro() {
 
 function HeroImage() {
   return (
-    <figure className="m-0 h-[44vw] min-h-[180px] max-h-[230px] w-full overflow-hidden bg-[#e9e7e0] md:h-[clamp(360px,48vw,580px)] md:max-h-none">
+    <figure className="m-0 aspect-[1000/1500] w-full overflow-hidden bg-[#e9e7e0] md:aspect-auto md:h-[clamp(360px,48vw,580px)] md:max-h-none">
       <img
         src={imgMobileHero}
         alt="Bexley church building exterior"
         className="block md:hidden"
-        style={{ width: "100%", height: "100%", objectFit: "cover", objectPosition: "center 27%" }}
+        style={{ width: "100%", height: "100%", objectFit: "cover", objectPosition: "center" }}
         fetchPriority="high"
       />
       <img
