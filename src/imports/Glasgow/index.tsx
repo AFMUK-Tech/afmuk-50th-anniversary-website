@@ -54,8 +54,8 @@ function BranchIntro() {
               Group
             </p>
             <h1 className="mt-2 text-[56px] leading-[0.86] tracking-[-0.035em] text-[#38362d] sm:text-[64px] md:text-[clamp(42px,6vw,72px)]">
-              <span className="md:hidden">Glasgow</span>
-              <span className="hidden md:inline">Glasgow</span>
+              <span className="md:hidden">Glasgow & Paisley</span>
+              <span className="hidden md:inline">Glasgow & Paisley</span>
             </h1>
           </div>
         </div>
