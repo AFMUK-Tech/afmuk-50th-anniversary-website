@@ -1,5 +1,5 @@
 import { useEffect, useRef, useState } from "react";
-import imgCrest from "./0cce19fd4acc08db680fdccec6c96c1b9ad2b1e8.png";
+import imgCrest from "./BR.png";
 import imgHero from "./da3529783d02f20216c63bb9f6bf68b91cb518b5.png";
 import imgMobileHero from "./4986cb0ca9480b3dc025830e0fd805d9e9f8b29c.png";
 import imgGallery from "./00906276d94a619afd9053d491e72ee53b2c84f7.png";
@@ -60,7 +60,7 @@ function BranchIntro() {
               Branch
             </p>
             <h1 className="mt-2 text-[56px] leading-[0.86] tracking-[-0.035em] text-[#38362d] sm:text-[64px] md:text-[clamp(42px,6vw,72px)]">
-              <span className="md:hidden">Birmingham</span>
+              <span className="md:hidden">BIRMINGHAM</span>
               <span className="hidden md:inline">BIRMINGHAM</span>
             </h1>
           </div>
