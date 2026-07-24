@@ -72,7 +72,7 @@ function PlaceholderBranchPage({ city, onBack: _onBack }: { city: string; onBack
       }}>
         <div style={{ textAlign: "center", maxWidth: 560, padding: "0 24px" }}>
           <p style={{ fontFamily: "'Futura PT', sans-serif", fontSize: "clamp(11px, 2.2vw, 12px)", letterSpacing: "0.18em", textTransform: "uppercase", color: "#8b7f6a", marginBottom: 16 }}>
-            AFC UK & Western Europe — Branch
+            AFM UK & Western Europe — Branch
           </p>
           <h1 style={{ fontFamily: "'CRONDE', serif", fontSize: "clamp(40px, 8vw, 96px)", color: "#192441", lineHeight: 1, marginBottom: 48 }}>
             {city}

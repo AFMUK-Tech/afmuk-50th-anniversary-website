@@ -207,7 +207,7 @@ export default function Nav() {
               </p>
             </div>
 
-            {/* AFC UK button */}
+            {/* AFM UK button */}
             <div className="relative shrink-0 justify-self-end">
               <div className="relative flex items-center">
                 <a
@@ -219,7 +219,7 @@ export default function Nav() {
                     style={{ fontWeight: 400, lineHeight: "13.253px", letterSpacing: "0.0552px" }}
                     className="text-[10.729px] text-center text-white whitespace-nowrap"
                   >
-                    AFC UK
+                    AFM UK
                   </p>
                 </a>
               </div>

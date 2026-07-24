@@ -32,7 +32,7 @@ const SLIDES: Slide[] = [
   { label: "Golden Jubilee 2026", center: image14, topRight: image16, left: image15, centerLeft: image17, right: image18 },
   { label: "Annual Convention 2018", center: image15, topRight: image18, left: image17, centerLeft: image16, right: image14 },
   { label: "Camp Meeting Memories", center: image16, topRight: image15, left: image14, centerLeft: image18, right: image17 },
-  { label: "AFC UK Gathering 2020", center: image18, topRight: image17, left: image16, centerLeft: image14, right: image15 },
+  { label: "AFM UK Gathering 2020", center: image18, topRight: image17, left: image16, centerLeft: image14, right: image15 },
 ];
 
 interface CardImgProps {

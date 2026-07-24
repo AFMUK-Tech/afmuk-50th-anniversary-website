@@ -345,7 +345,7 @@ export function Section1({
       >
         <img
           src={logoImg}
-          alt="50th Anniversary — AFC UK & Western Europe"
+          alt="50th Anniversary — AFM UK & Western Europe"
           className="h-auto object-contain"
           style={{ width: "min(82vw, 560px)" }}
         />
