@@ -43,7 +43,7 @@ const NAV_H             = 80;
 const PRE_H              = PRE_H_TOTAL;
 
 const TIMELINE_STEPS    = TIMELINE_DATA.length;
-const SCROLL_PER_STEP   = 120;
+const SCROLL_PER_STEP   = 240;
 const TIMELINE_SCROLL_H = TIMELINE_STEPS * SCROLL_PER_STEP;
 
 const POST_H   = 860;
