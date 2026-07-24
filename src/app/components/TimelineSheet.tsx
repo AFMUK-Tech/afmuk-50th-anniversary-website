@@ -3,7 +3,7 @@ import { TimelineSection, TIMELINE_DATA } from "./sections";
 
 const DESIGN_WIDTH = 1440;
 const MOBILE_TIMELINE_BREAKPOINT = 1024;
-const SCROLL_PER_STEP = 120;
+const SCROLL_PER_STEP = 240;
 const TIMELINE_STEPS = TIMELINE_DATA.length;
 
 export function TimelineSheet() {
