@@ -42,7 +42,7 @@ export function ShopPage({ onBack: _onBack }: { onBack: () => void }) {
             marginBottom: 16,
           }}
         >
-          AFC UK & Western Europe — Golden Jubilee
+          AFM UK & Western Europe — Golden Jubilee
         </p>
         {/* Real <h1> so var(--font-heading) applies via the global h1-h6 rule */}
         <h1 style={{ ...headingSize(50, { fontWeight: 400 }), color: "#192441", margin: 0, marginBottom: 24 }}>
