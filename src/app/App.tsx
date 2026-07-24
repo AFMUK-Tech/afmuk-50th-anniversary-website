@@ -34,7 +34,13 @@ type DepartmentSlug = typeof DEPARTMENT_SLUGS[number];
 const DESIGN_WIDTH      = 1440;
 const S1_HEIGHT         = 977;
 const P1_END            = 0.5;
-const S1_SCROLL_H       = Math.round(S1_HEIGHT * 1.5); // 1465
+// ~2.25× viewport gives the bible → anniversary → exit sequence enough
+// travel that a normal wheel/swipe doesn't race through the whole intro.
+const S1_SCROLL_H       = Math.round(S1_HEIGHT * 2.25);
+const HERO_SCROLL_VH    = 2.25;
+// Keep opening audio/fireworks alive until the hero is mostly scrolled away
+// (previously cut at 15%, which killed sound while the logo was still on screen).
+const ANNIVERSARY_AUDIO_UNTIL = 0.85;
 
 const NAV_H             = 80;
 
@@ -81,6 +87,12 @@ function ScaledBlock({
   );
 }
 
+function getDeviceType(width = window.innerWidth): DeviceType {
+  if (width < BREAKPOINTS.mobile) return "mobile";
+  if (width < BREAKPOINTS.tablet) return "tablet";
+  return "desktop";
+}
+
 export default function App() {
   const [page, setPage] = useState<"home" | "gallery" | "pictures" | "founder" | "department" | "watch" | "shop" | BranchSlug | DepartmentSlug>(() => {
     const h = window.location.hash.replace("#", "") as string;
@@ -95,18 +107,19 @@ export default function App() {
     if ((DEPARTMENT_SLUGS as readonly string[]).includes(h)) return h as DepartmentSlug;
     return "home";
   });
-  const [scale, setScale]                    = useState(1);
-  const [vh, setVh]                          = useState(900);
-  const [device, setDevice]                  = useState<DeviceType>('desktop');
-  const [s1Progress, setS1Progress]          = useState(0);
-  const [activeYearIndex, setActiveIdx]      = useState(0);
+  const [scale, setScale] = useState(() => Math.min(window.innerWidth / DESIGN_WIDTH, MAX_SCALE));
+  const [vh, setVh] = useState(() => window.innerHeight);
+  const [device, setDevice] = useState<DeviceType>(() => getDeviceType());
+  const [s1Progress, setS1Progress] = useState(0);
+  const [activeYearIndex, setActiveIdx] = useState(0);
   const [fadeIn, setFadeIn] = useState(false);
   const [showMobileNav, setShowMobileNav] = useState(false);
   const timelineScrollRef = useRef<HTMLDivElement>(null);
   const preTimelineRef = useRef<HTMLElement>(null);
-  const heroScrollDistance = device === 'desktop'
+  const lastYearIdxRef = useRef(0);
+  const heroScrollDistance = device === "desktop"
     ? S1_SCROLL_H * scale
-    : vh * 1.5;
+    : vh * HERO_SCROLL_VH;
 
   useEffect(() => {
     const onHash = () => {
@@ -145,30 +158,36 @@ export default function App() {
 
   useEffect(() => {
     const update = () => {
-      const rawScale = window.innerWidth / DESIGN_WIDTH;
-      setScale(Math.min(rawScale, MAX_SCALE));
+      const width = window.innerWidth;
+      setScale(Math.min(width / DESIGN_WIDTH, MAX_SCALE));
       setVh(window.innerHeight);
-      if (window.innerWidth < BREAKPOINTS.mobile) setDevice('mobile');
-      else if (window.innerWidth < BREAKPOINTS.tablet) setDevice('tablet');
-      else setDevice('desktop');
+      setDevice(getDeviceType(width));
     };
     update();
     window.addEventListener("resize", update);
-    return () => window.removeEventListener("resize", update);
+    window.addEventListener("orientationchange", update);
+    return () => {
+      window.removeEventListener("resize", update);
+      window.removeEventListener("orientationchange", update);
+    };
   }, []);
 
   useEffect(() => {
     const s1End = heroScrollDistance;
+    let rafId = 0;
 
-    const onScroll = () => {
+    const updateFromScroll = () => {
+      rafId = 0;
       const sy = window.scrollY;
       if (s1End <= 0) return;
 
       const rawS1 = sy / s1End;
-      setS1Progress(Number.isFinite(rawS1) ? Math.min(Math.max(rawS1, 0), 1) : 0);
+      const nextProgress = Number.isFinite(rawS1) ? Math.min(Math.max(rawS1, 0), 1) : 0;
+      setS1Progress((prev) => (Math.abs(prev - nextProgress) < 0.0008 ? prev : nextProgress));
 
-      if (device !== 'desktop') {
-        setShowMobileNav(rawS1 > 0.75);
+      if (device !== "desktop") {
+        const showNav = nextProgress > 0.75;
+        setShowMobileNav((prev) => (prev === showNav ? prev : showNav));
       }
 
       const timeline = timelineScrollRef.current;
@@ -176,35 +195,50 @@ export default function App() {
         const rect = timeline.getBoundingClientRect();
         const scrollDistance = Math.max(1, rect.height - vh);
         const progress = Math.min(Math.max(-rect.top / scrollDistance, 0), 1);
-        setActiveIdx(Math.min(Math.floor(progress * TIMELINE_STEPS), TIMELINE_STEPS - 1));
+        const nextIdx = Math.min(Math.floor(progress * TIMELINE_STEPS), TIMELINE_STEPS - 1);
+        if (nextIdx !== lastYearIdxRef.current) {
+          lastYearIdxRef.current = nextIdx;
+          setActiveIdx(nextIdx);
+        }
       }
     };
 
+    const onScroll = () => {
+      if (rafId) return;
+      rafId = requestAnimationFrame(updateFromScroll);
+    };
+
     window.addEventListener("scroll", onScroll, { passive: true });
-    onScroll();
-    return () => window.removeEventListener("scroll", onScroll);
+    updateFromScroll();
+    return () => {
+      window.removeEventListener("scroll", onScroll);
+      if (rafId) cancelAnimationFrame(rafId);
+    };
   }, [heroScrollDistance, vh, device]);
 
   const safeProgress   = Number.isFinite(s1Progress) ? s1Progress : 0;
   const phase1         = Math.min(safeProgress / P1_END, 1);
   const phase2         = Math.min(Math.max((safeProgress - P1_END) / (1 - P1_END), 0), 1);
   const heroTranslateY = -(phase2 * vh);
+  const anniversaryInView = phase2 < ANNIVERSARY_AUDIO_UNTIL;
 
   const navOpacity    = phase2;
   const navTranslateY = (1 - phase2) * -NAV_H * scale;
 
   const navigateHome = () => { window.location.hash = ""; };
+  // bible → midpoint (logo reveal); anniversary → end of hero spacer (content enters).
+  // Never scroll backwards from a later stage — advance forward instead.
   const scrollHeroForward = (stage: "bible" | "anniversary") => {
-    if (stage === "anniversary" && preTimelineRef.current) {
-      const targetTop = preTimelineRef.current.getBoundingClientRect().top + window.scrollY;
-      window.scrollTo({ top: targetTop, behavior: "smooth" });
-      return;
-    }
+    const bibleTarget = heroScrollDistance * P1_END;
+    const endTarget = heroScrollDistance;
+    const current = window.scrollY;
+    const target =
+      stage === "bible" && current < bibleTarget - 12
+        ? bibleTarget
+        : endTarget;
 
-    window.scrollTo({
-      top: stage === "bible" ? heroScrollDistance * P1_END : heroScrollDistance,
-      behavior: "smooth",
-    });
+    if (Math.abs(current - target) < 8) return;
+    window.scrollTo({ top: target, behavior: "smooth" });
   };
 
   if (page === "gallery") {
@@ -299,7 +333,7 @@ export default function App() {
             pointerEvents: heroTranslateY <= -vh ? "none" : "auto",
           }}
         >
-          <Section1 anniversaryInView={phase2 < 0.15} onScrollDown={scrollHeroForward} scrollProgress={phase1} />
+          <Section1 anniversaryInView={anniversaryInView} onScrollDown={scrollHeroForward} scrollProgress={phase1} />
         </div>
       </div>
     );
@@ -363,7 +397,7 @@ export default function App() {
           height: "100%",
         }}>
           <div style={{ position: "absolute", inset: 0, width: "100%", height: "100%" }}>
-            <Section1 anniversaryInView={phase2 < 0.15} onScrollDown={scrollHeroForward} scrollProgress={phase1} />
+            <Section1 anniversaryInView={anniversaryInView} onScrollDown={scrollHeroForward} scrollProgress={phase1} />
           </div>
         </div>
       </div>

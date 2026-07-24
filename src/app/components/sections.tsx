@@ -153,20 +153,38 @@ export function Section1({
 
   const logoOpacity = clamp((sp - 0.25) / 0.55, 0, 1);
   const openingAudioActive = anniversaryInView;
-  const fireworksActive = logoOpacity > 0.4 && anniversaryInView;
+
   const [soundEnabled, setSoundEnabled] = React.useState(true);
+  // Assume a gesture is needed until play() succeeds — clearer on mobile Safari.
+  const [needsGesture, setNeedsGesture] = React.useState(true);
+  const [fireworksLatched, setFireworksLatched] = React.useState(false);
+
+  // Hysteresis keeps fireworks from chattering on/off as scroll jitters
+  // around the logo reveal threshold.
+  React.useEffect(() => {
+    if (!anniversaryInView) {
+      setFireworksLatched(false);
+      return;
+    }
+    if (logoOpacity > 0.42) setFireworksLatched(true);
+    else if (logoOpacity < 0.28) setFireworksLatched(false);
+  }, [anniversaryInView, logoOpacity]);
+
+  const fireworksActive = anniversaryInView && fireworksLatched;
+
   const themeAudioRef = React.useRef<HTMLAudioElement | null>(null);
   const audioRef = React.useRef<HTMLAudioElement | null>(null);
   const hasInteractedRef = React.useRef(false);
+  const themePlayPromiseRef = React.useRef<Promise<void> | null>(null);
+  const fireworksPlayPromiseRef = React.useRef<Promise<void> | null>(null);
+  const themeFadeRafRef = React.useRef<number | null>(null);
+  const fireworksFadeRafRef = React.useRef<number | null>(null);
+  const pageVisibleRef = React.useRef(!document.hidden);
 
-  // Mirrors of the latest desired-play state, kept live via refs so the
-  // one-time interaction listener below (attached once on mount) always
-  // reads what SHOULD be playing right now, not whatever was true when the
-  // listener happened to be attached. That stale-closure gap was why the
-  // music was inconsistent: attaching/detaching a fresh listener every time
-  // openingAudioActive/fireworksActive changed meant a gesture could arrive
-  // while no listener existed yet, or after a stale one had already
-  // decided sound was "unlocked" from an outdated state.
+  const THEME_VOL = 0.55;
+  const FIREWORKS_VOL = 0.2;
+
+  // Live mirrors so the one-shot unlock listener always reads current intent.
   const openingAudioActiveRef = React.useRef(openingAudioActive);
   const fireworksActiveRef = React.useRef(fireworksActive);
   const soundEnabledRef = React.useRef(soundEnabled);
@@ -200,92 +218,197 @@ export function Section1({
     };
   }, []);
 
+  const createAudio = React.useCallback((src: string, volume: number) => {
+    const audio = new Audio(src);
+    audio.loop = true;
+    audio.preload = "auto";
+    audio.volume = volume;
+    // Helps iOS treat this as inline media rather than taking over the session.
+    audio.setAttribute("playsinline", "true");
+    audio.setAttribute("webkit-playsinline", "true");
+    return audio;
+  }, []);
+
   const getThemeAudio = React.useCallback(() => {
     if (!themeAudioRef.current) {
-      const audio = new Audio(anniversaryThemeSrc);
-      audio.loop = true;
-      audio.preload = "auto";
-      audio.volume = 0.55;
-      themeAudioRef.current = audio;
+      themeAudioRef.current = createAudio(anniversaryThemeSrc, THEME_VOL);
     }
     return themeAudioRef.current;
-  }, []);
+  }, [createAudio]);
 
   const getFireworksAudio = React.useCallback(() => {
     if (!audioRef.current) {
-      const audio = new Audio(fireworksSoundSrc);
-      audio.loop = true;
-      audio.preload = "auto";
-      audio.volume = 0.2;
-      audioRef.current = audio;
+      audioRef.current = createAudio(fireworksSoundSrc, FIREWORKS_VOL);
     }
     return audioRef.current;
+  }, [createAudio]);
+
+  const cancelFade = React.useCallback((rafRef: React.MutableRefObject<number | null>) => {
+    if (rafRef.current != null) {
+      cancelAnimationFrame(rafRef.current);
+      rafRef.current = null;
+    }
   }, []);
 
-  // Checking `audio.paused` before calling play()/pause() (instead of just
-  // always issuing the call) avoids firing a redundant play() on top of one
-  // already in flight — which is what was making playback flaky: React
-  // effects re-running with the same net desired state (e.g. scroll
-  // jitter flipping a boolean back and forth near a threshold) would call
-  // .pause() while a .play() promise was still pending, which rejects that
-  // promise and can leave the element in an unpredictable state.
+  const fadeVolume = React.useCallback((
+    audio: HTMLAudioElement,
+    target: number,
+    durationMs: number,
+    rafRef: React.MutableRefObject<number | null>,
+    onComplete?: () => void,
+  ) => {
+    cancelFade(rafRef);
+    const from = audio.volume;
+    if (Math.abs(from - target) < 0.01) {
+      audio.volume = target;
+      onComplete?.();
+      return;
+    }
+    const start = performance.now();
+    const step = (now: number) => {
+      const t = Math.min(1, (now - start) / durationMs);
+      // Ease-out so stop/start feels soft rather than linear.
+      const eased = 1 - (1 - t) * (1 - t);
+      audio.volume = from + (target - from) * eased;
+      if (t < 1) {
+        rafRef.current = requestAnimationFrame(step);
+      } else {
+        rafRef.current = null;
+        audio.volume = target;
+        onComplete?.();
+      }
+    };
+    rafRef.current = requestAnimationFrame(step);
+  }, [cancelFade]);
+
+  const awaitPlay = React.useCallback(async (pending: React.MutableRefObject<Promise<void> | null>) => {
+    if (!pending.current) return;
+    try {
+      await pending.current;
+    } catch {
+      // Autoplay rejection is expected until a gesture unlocks audio.
+    } finally {
+      pending.current = null;
+    }
+  }, []);
+
+  const safePlay = React.useCallback((
+    audio: HTMLAudioElement,
+    pending: React.MutableRefObject<Promise<void> | null>,
+    targetVolume: number,
+    fadeRaf: React.MutableRefObject<number | null>,
+  ) => {
+    audio.muted = false;
+    const startFadeIn = () => {
+      setNeedsGesture(false);
+      if (audio.volume < targetVolume * 0.9) {
+        audio.volume = 0;
+        fadeVolume(audio, targetVolume, 450, fadeRaf);
+      } else {
+        audio.volume = targetVolume;
+      }
+    };
+
+    if (!audio.paused) {
+      startFadeIn();
+      return;
+    }
+
+    const playAttempt = audio.play();
+    pending.current = playAttempt.then(() => undefined);
+    void playAttempt.then(() => {
+      startFadeIn();
+    }).catch(() => {
+      // Blocked until user gesture — surface a clear enable control.
+      setNeedsGesture(true);
+    });
+  }, [fadeVolume]);
+
+  const safeStop = React.useCallback(async (
+    audio: HTMLAudioElement,
+    pending: React.MutableRefObject<Promise<void> | null>,
+    fadeRaf: React.MutableRefObject<number | null>,
+    reset: boolean,
+  ) => {
+    await awaitPlay(pending);
+    if (audio.paused) {
+      if (reset) audio.currentTime = 0;
+      return;
+    }
+    fadeVolume(audio, 0, 320, fadeRaf, () => {
+      audio.pause();
+      if (reset) audio.currentTime = 0;
+    });
+  }, [awaitPlay, fadeVolume]);
+
   const syncThemeAudio = React.useCallback(() => {
     const audio = getThemeAudio();
-    if (openingAudioActiveRef.current) {
-      if (audio.paused) void audio.play().catch(() => {});
-    } else if (!audio.paused) {
-      audio.pause();
-      audio.currentTime = 0;
+    const shouldPlay =
+      pageVisibleRef.current &&
+      soundEnabledRef.current &&
+      openingAudioActiveRef.current;
+    if (shouldPlay) {
+      safePlay(audio, themePlayPromiseRef, THEME_VOL, themeFadeRafRef);
+    } else {
+      void safeStop(audio, themePlayPromiseRef, themeFadeRafRef, !openingAudioActiveRef.current);
     }
-  }, [getThemeAudio]);
+  }, [getThemeAudio, safePlay, safeStop]);
 
   const syncFireworksAudio = React.useCallback(() => {
     const audio = getFireworksAudio();
-    if (soundEnabledRef.current && fireworksActiveRef.current) {
-      audio.muted = false;
-      if (audio.paused) void audio.play().catch(() => {});
-    } else if (!audio.paused) {
-      audio.pause();
-      if (!fireworksActiveRef.current) audio.currentTime = 0;
+    const shouldPlay =
+      pageVisibleRef.current &&
+      soundEnabledRef.current &&
+      fireworksActiveRef.current;
+    if (shouldPlay) {
+      safePlay(audio, fireworksPlayPromiseRef, FIREWORKS_VOL, fireworksFadeRafRef);
+    } else {
+      void safeStop(audio, fireworksPlayPromiseRef, fireworksFadeRafRef, !fireworksActiveRef.current);
     }
-  }, [getFireworksAudio]);
+  }, [getFireworksAudio, safePlay, safeStop]);
 
-  React.useEffect(() => { syncThemeAudio(); }, [openingAudioActive, syncThemeAudio]);
+  React.useEffect(() => { syncThemeAudio(); }, [openingAudioActive, soundEnabled, syncThemeAudio]);
   React.useEffect(() => { syncFireworksAudio(); }, [fireworksActive, soundEnabled, syncFireworksAudio]);
 
-  // Browsers block audio.play() outright until the page has seen a genuine
-  // user gesture (click/key/touch — NOT wheel/scroll, which doesn't count
-  // toward "user activation"). This listens for the page's very first
-  // gesture, once, and then: starts whichever track should currently be
-  // playing, and "primes" the other one (a silent play-then-pause) so that
-  // a later programmatic play() — e.g. when the fireworks kick in mid-
-  // scroll — no longer needs its own gesture. Attached unconditionally on
-  // mount so it can never miss an early interaction the way the old
-  // per-state-dependent listeners could.
+  // Pause cleanly when the tab is backgrounded; resume when it returns.
   React.useEffect(() => {
-    const prime = (audio: HTMLAudioElement) => {
+    const onVisibility = () => {
+      pageVisibleRef.current = !document.hidden;
+      syncThemeAudio();
+      syncFireworksAudio();
+    };
+    document.addEventListener("visibilitychange", onVisibility);
+    return () => document.removeEventListener("visibilitychange", onVisibility);
+  }, [syncFireworksAudio, syncThemeAudio]);
+
+  // Browsers block audio.play() until a genuine user gesture (click/key/touch —
+  // NOT wheel/scroll). Unlock once, then start / prime both tracks.
+  React.useEffect(() => {
+    const prime = (audio: HTMLAudioElement, targetVolume: number) => {
       if (!audio.paused) return;
-      const previousVolume = audio.volume;
-      audio.muted = false;
+      audio.muted = true;
       audio.volume = 0;
       void audio.play().then(() => {
         audio.pause();
         audio.currentTime = 0;
-        audio.volume = previousVolume;
+        audio.muted = false;
+        audio.volume = targetVolume;
       }).catch(() => {
-        audio.volume = previousVolume;
+        audio.muted = false;
+        audio.volume = targetVolume;
       });
     };
 
     const unlock = () => {
       if (hasInteractedRef.current) return;
       hasInteractedRef.current = true;
+      setNeedsGesture(false);
 
-      if (openingAudioActiveRef.current) syncThemeAudio();
-      else prime(getThemeAudio());
+      if (soundEnabledRef.current && openingAudioActiveRef.current) syncThemeAudio();
+      else prime(getThemeAudio(), THEME_VOL);
 
       if (soundEnabledRef.current && fireworksActiveRef.current) syncFireworksAudio();
-      else prime(getFireworksAudio());
+      else prime(getFireworksAudio(), FIREWORKS_VOL);
     };
 
     window.addEventListener("pointerdown", unlock);
@@ -301,6 +424,9 @@ export function Section1({
 
   React.useEffect(() => {
     return () => {
+      cancelFade(themeFadeRafRef);
+      cancelFade(fireworksFadeRafRef);
+
       const themeAudio = themeAudioRef.current;
       if (themeAudio) {
         themeAudio.pause();
@@ -310,17 +436,41 @@ export function Section1({
       }
 
       const audio = audioRef.current;
-      if (!audio) return;
-      audio.pause();
-      audio.removeAttribute("src");
-      audio.load();
-      audioRef.current = null;
+      if (audio) {
+        audio.pause();
+        audio.removeAttribute("src");
+        audio.load();
+        audioRef.current = null;
+      }
     };
-  }, []);
+  }, [cancelFade]);
 
-  const toggleFireworksSound = () => {
-    setSoundEnabled((enabled) => !enabled);
+  const toggleSound = () => {
+    hasInteractedRef.current = true;
+
+    // If playback is blocked, this tap only unlocks — don't flip mute off.
+    if (needsGesture && soundEnabled) {
+      setNeedsGesture(false);
+      soundEnabledRef.current = true;
+      syncThemeAudio();
+      syncFireworksAudio();
+      return;
+    }
+
+    setSoundEnabled((enabled) => {
+      const next = !enabled;
+      soundEnabledRef.current = next;
+      setNeedsGesture(false);
+      return next;
+    });
   };
+
+  const soundControlVisible = anniversaryInView;
+  const soundLabel = !soundEnabled
+    ? "Unmute sound"
+    : needsGesture
+      ? "Tap to enable sound"
+      : "Mute sound";
 
   return (
     <div
@@ -384,28 +534,38 @@ export function Section1({
       </div>
 
       <ScrollDownControl
-        className="absolute left-1/2 top-[60%] z-20 -translate-x-1/2"
-        onClick={() => onScrollDown?.("anniversary")}
+        className="absolute left-1/2 top-[min(58%,calc(100%-9.5rem))] z-20 -translate-x-1/2 sm:top-[60%]"
+        onClick={() => onScrollDown?.("bible")}
         opacity={textOpacity}
       />
 
       <ScrollDownControl
-        className="absolute bottom-[max(36px,8svh)] left-1/2 z-20 -translate-x-1/2"
+        className="absolute bottom-[max(36px,calc(8svh+env(safe-area-inset-bottom)))] left-1/2 z-20 -translate-x-1/2"
         onClick={() => onScrollDown?.("anniversary")}
         opacity={logoOpacity}
       />
 
-      {logoOpacity > 0.35 && (
+      {soundControlVisible && (
         <button
-          aria-label={soundEnabled ? "Mute fireworks sound" : "Play fireworks sound"}
-          aria-pressed={soundEnabled}
-          className="absolute right-5 top-[max(20px,env(safe-area-inset-top))] z-30 flex size-11 items-center justify-center rounded-full border border-white/55 bg-[#0f1421]/55 text-white backdrop-blur-sm transition-colors hover:bg-white/15 sm:right-8 sm:top-8"
-          onClick={toggleFireworksSound}
-          style={{ opacity: logoOpacity }}
-          title={soundEnabled ? "Mute fireworks sound" : "Play fireworks sound"}
+          aria-label={soundLabel}
+          aria-pressed={soundEnabled && !needsGesture}
+          className={`absolute right-4 top-[max(16px,env(safe-area-inset-top))] z-30 flex items-center gap-2 rounded-full border border-white/55 bg-[#0f1421]/60 text-white backdrop-blur-sm transition-[background-color,box-shadow,opacity] duration-300 hover:bg-white/15 sm:right-8 sm:top-8 ${
+            needsGesture && soundEnabled
+              ? "px-3.5 py-2.5 shadow-[0_0_0_1px_rgba(217,199,168,0.55)]"
+              : "size-11 justify-center"
+          }`}
+          onClick={toggleSound}
+          title={soundLabel}
           type="button"
         >
-          {soundEnabled ? <Volume2 aria-hidden="true" size={22} /> : <VolumeX aria-hidden="true" size={22} />}
+          {soundEnabled && !needsGesture
+            ? <Volume2 aria-hidden="true" size={22} />
+            : <VolumeX aria-hidden="true" size={22} />}
+          {needsGesture && soundEnabled && (
+            <span className={`${BODY_COPY} text-[12px] leading-none tracking-[0.02em] whitespace-nowrap`}>
+              Tap for sound
+            </span>
+          )}
         </button>
       )}
     </div>
